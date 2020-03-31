@@ -1,0 +1,27 @@
+{
+	"name" : "srag/asq/Test",
+	"description" : "Assessment Test",
+	"type" : "library",
+	"keywords" : [
+		"ILIAS",
+		"AssessmentQuestion",
+		"Test"
+	],
+	"homepage" : "https://github.com/studer-raimann/srAssessmentTest",
+	"license" : "GPL v3",
+	"require" : {
+		"php" : ">=7.2",
+		"ramsey/uuid" : "~4.0",
+		"srag/asq" : "1"
+	},
+	"autoload" : {
+		"psr-4" : {
+			"srag\\asq\\Test" : "src/"
+		}
+	},
+	"config" : {
+		"classmap-authoritative" : true,
+		"optimize-autoloader" : true,
+		"sort-packages" : true
+	}
+}
