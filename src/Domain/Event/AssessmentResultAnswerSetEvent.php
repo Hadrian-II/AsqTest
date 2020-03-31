@@ -1,6 +1,6 @@
 <?php
 
-namespace srag\asq\Test\Events;
+namespace srag\asq\Test\Domain\Event;
 
 use ilDateTime;
 use srag\CQRS\Aggregate\AbstractValueObject;

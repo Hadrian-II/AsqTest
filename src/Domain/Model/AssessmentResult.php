@@ -1,6 +1,6 @@
 <?php
 
-namespace srag\asq\Test\DomainModel;
+namespace srag\asq\Test\Domain\Model;
 
 use ilDateTime;
 use srag\CQRS\Aggregate\AbstractEventSourcedAggregateRoot;
@@ -8,8 +8,8 @@ use srag\CQRS\Aggregate\DomainObjectId;
 use srag\CQRS\Event\Standard\AggregateCreatedEvent;
 use srag\asq\Application\Exception\AsqException;
 use srag\asq\Domain\Model\Answer\Answer;
-use srag\asq\Test\Events\AssessmentResultAnswerSetEvent;
-use srag\asq\Test\Events\AssessmentResultInitiatedEvent;
+use srag\asq\Test\Domain\Event\AssessmentResultAnswerSetEvent;
+use srag\asq\Test\Domain\Event\AssessmentResultInitiatedEvent;
 
 /**
  * Class AssessmentResult

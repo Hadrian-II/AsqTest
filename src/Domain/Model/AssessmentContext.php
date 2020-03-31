@@ -1,6 +1,6 @@
 <?php
 
-namespace srag\asq\Test\DomainModel;
+namespace srag\asq\Test\Domain\Model;
 
 use srag\CQRS\Aggregate\AbstractValueObject;
 

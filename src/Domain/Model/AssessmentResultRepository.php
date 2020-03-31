@@ -1,12 +1,12 @@
 <?php
 
-namespace srag\asq\Test\DomainModel;
+namespace srag\asq\Test\Domain\Model;
 
 use srag\CQRS\Aggregate\AbstractEventSourcedAggregateRepository;
 use srag\CQRS\Aggregate\AggregateRoot;
 use srag\CQRS\Event\DomainEvents;
 use srag\CQRS\Event\EventStore;
-use srag\asq\Test\Persistence\AssessmentResultEventStore;
+use srag\asq\Test\Infrastructure\Persistence\AssessmentResultEventStore;
 
 /**
  * Class AssessmentResultRepository

@@ -1,6 +1,6 @@
 <?php
 
-namespace srag\asq\Test\Command;
+namespace srag\asq\Test\Application\Command;
 
 use srag\CQRS\Command\CommandContract;
 use srag\CQRS\Command\CommandHandlerContract;

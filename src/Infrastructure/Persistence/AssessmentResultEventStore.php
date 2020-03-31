@@ -1,6 +1,6 @@
 <?php
 
-namespace srag\asq\Test\Persistence;
+namespace srag\asq\Test\Infrastructure\Persistence;
 
 use srag\CQRS\Aggregate\DomainObjectId;
 use srag\CQRS\Event\AbstractDomainEvent;

@@ -1,16 +1,16 @@
 <?php
 
-namespace srag\asq\Test\PublicApi;
+namespace srag\asq\Test\Application\Service;
 
 use srag\CQRS\Aggregate\DomainObjectId;
 use srag\CQRS\Aggregate\Guid;
 use srag\CQRS\Command\CommandBusBuilder;
 use srag\asq\Application\Service\ASQService;
 use srag\asq\Domain\Model\Answer\Answer;
-use srag\asq\Test\Command\AddAnswerCommand;
-use srag\asq\Test\Command\StartAssessmentCommand;
-use srag\asq\Test\DomainModel\AssessmentContext;
-use srag\asq\Test\DomainModel\AssessmentResultRepository;
+use srag\asq\Test\Application\Command\AddAnswerCommand;
+use srag\asq\Test\Application\Command\StartAssessmentCommand;
+use srag\asq\Test\Domain\Model\AssessmentContext;
+use srag\asq\Test\Domain\Model\AssessmentResultRepository;
 
 
 /**
