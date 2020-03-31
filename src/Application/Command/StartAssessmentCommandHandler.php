@@ -5,8 +5,8 @@ namespace srag\asq\Test\Application\Command;
 use srag\CQRS\Aggregate\DomainObjectId;
 use srag\CQRS\Command\CommandContract;
 use srag\CQRS\Command\CommandHandlerContract;
-use srag\asq\Test\DomainModel\AssessmentResult;
-use srag\asq\Test\DomainModel\AssessmentResultRepository;
+use srag\asq\Test\Domain\Model\AssessmentResult;
+use srag\asq\Test\Domain\Model\AssessmentResultRepository;
 
 /**
  * Class StartAssessmentCommandHandler

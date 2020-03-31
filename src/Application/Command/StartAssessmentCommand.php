@@ -3,7 +3,7 @@
 namespace srag\asq\Test\Application\Command;
 
 use srag\CQRS\Command\AbstractCommand;
-use srag\asq\Test\DomainModel\AssessmentContext;
+use srag\asq\Test\Domain\Model\AssessmentContext;
 
 /**
  * Class StartAssessmentCommand
