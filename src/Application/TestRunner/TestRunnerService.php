@@ -1,29 +1,28 @@
 <?php
 
-namespace srag\asq\Test\Application\Service;
+namespace srag\asq\Test\Application\TestRunner;
 
 use srag\CQRS\Aggregate\DomainObjectId;
 use srag\CQRS\Aggregate\Guid;
 use srag\CQRS\Command\CommandBusBuilder;
 use srag\asq\Application\Service\ASQService;
 use srag\asq\Domain\Model\Answer\Answer;
-use srag\asq\Test\Application\Command\AddAnswerCommand;
-use srag\asq\Test\Application\Command\StartAssessmentCommand;
-use srag\asq\Test\Domain\Model\AssessmentContext;
-use srag\asq\Test\Domain\Model\AssessmentResultRepository;
+use srag\asq\Test\Application\TestRunner\Command\AddAnswerCommand;
+use srag\asq\Test\Application\TestRunner\Command\StartAssessmentCommand;
+use srag\asq\Test\Domain\Result\Model\AssessmentResultContext;
+use srag\asq\Test\Domain\Result\Model\AssessmentResultRepository;
 
 
 /**
- * Class AssessmentContext
+ * Class TestRunnerService
  *
  * @package srag\asq\Test
  *
- * @author studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
 
-class TestService extends ASQService {
-    public function createTestRun(AssessmentContext $context, array $question_ids) : string {
+class TestRunnerService extends ASQService {
+    public function createTestRun(AssessmentResultContext $context, array $question_ids) : string {
         $uuid = Guid::create();
         
         // CreateQuestion.png

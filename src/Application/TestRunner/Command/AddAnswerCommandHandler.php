@@ -1,19 +1,18 @@
 <?php
 
-namespace srag\asq\Test\Application\Command;
+namespace srag\asq\Test\Application\TestRunner\Command;
 
 use srag\CQRS\Aggregate\DomainObjectId;
 use srag\CQRS\Command\CommandContract;
 use srag\CQRS\Command\CommandHandlerContract;
-use srag\asq\Test\Domain\Model\AssessmentResult;
-use srag\asq\Test\Domain\Model\AssessmentResultRepository;
+use srag\asq\Test\Domain\Result\Model\AssessmentResult;
+use srag\asq\Test\Domain\Result\Model\AssessmentResultRepository;
 
 /**
  * Class AddAnswerCommandHandler
  *
  * @package srag\asq\Test
  *
- * @author studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
 class AddAnswerCommandHandler implements CommandHandlerContract {

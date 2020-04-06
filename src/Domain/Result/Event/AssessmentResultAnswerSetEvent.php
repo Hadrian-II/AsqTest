@@ -1,6 +1,6 @@
 <?php
 
-namespace srag\asq\Test\Domain\Event;
+namespace srag\asq\Test\Domain\Result\Event;
 
 use ilDateTime;
 use srag\CQRS\Aggregate\AbstractValueObject;
@@ -13,7 +13,6 @@ use srag\asq\Domain\Model\Answer\Answer;
  *
  * @package srag\asq\Test
  *
- * @author studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
 class AssessmentResultAnswerSetEvent extends AbstractDomainEvent {

@@ -1,19 +1,18 @@
 <?php
 
-namespace srag\asq\Test\Domain\Event;
+namespace srag\asq\Test\Domain\Result\Event;
 
 use ilDateTime;
 use srag\CQRS\Aggregate\AbstractValueObject;
 use srag\CQRS\Aggregate\DomainObjectId;
 use srag\CQRS\Event\AbstractDomainEvent;
-use srag\asq\Test\Domain\Model\AssessmentContext;
+use srag\asq\Test\Domain\Result\Model\AssessmentResultContext;
 
 /**
  * Class AssessmentResultInitiatedEvent
  *
  * @package srag\asq\Test
  *
- * @author studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
 class AssessmentResultInitiatedEvent extends AbstractDomainEvent {
@@ -21,7 +20,7 @@ class AssessmentResultInitiatedEvent extends AbstractDomainEvent {
     const KEY_QUESTIONS = 'questions';
     
     /**
-     * @var AssessmentContext
+     * @var AssessmentResultContext
      */
     protected $context;
 
@@ -33,14 +32,15 @@ class AssessmentResultInitiatedEvent extends AbstractDomainEvent {
     /**
      * @param DomainObjectId $aggregate_id
      * @param int $initiating_user_id
-     * @param AssessmentContext $context
+     * @param AssessmentResultContext $context
      * @param array $questions
      */
-    public function __construct(DomainObjectId $aggregate_id, 
-                                ilDateTime $occured_on, 
-                                int $initiating_user_id, 
-                                AssessmentContext $context = null, 
-                                array $questions = null)
+    public function __construct(
+        DomainObjectId $aggregate_id, 
+        ilDateTime $occured_on, 
+        int $initiating_user_id, 
+        AssessmentResultContext $context = null, 
+        array $questions = null)
     {
         $this->context = $context;
         $this->questions = $questions;
@@ -48,7 +48,7 @@ class AssessmentResultInitiatedEvent extends AbstractDomainEvent {
     }
 
     /**
-     * @return AssessmentContext
+     * @return AssessmentResultContext
      */
     public function getContext()
     {

@@ -1,6 +1,6 @@
 <?php
 
-namespace srag\asq\Test\Domain\Model;
+namespace srag\asq\Test\Domain\Result\Model;
 
 use ilDateTime;
 use srag\CQRS\Aggregate\AbstractEventSourcedAggregateRoot;
@@ -8,20 +8,19 @@ use srag\CQRS\Aggregate\DomainObjectId;
 use srag\CQRS\Event\Standard\AggregateCreatedEvent;
 use srag\asq\Application\Exception\AsqException;
 use srag\asq\Domain\Model\Answer\Answer;
-use srag\asq\Test\Domain\Event\AssessmentResultAnswerSetEvent;
-use srag\asq\Test\Domain\Event\AssessmentResultInitiatedEvent;
+use srag\asq\Test\Domain\Result\Event\AssessmentResultAnswerSetEvent;
+use srag\asq\Test\Domain\Result\Event\AssessmentResultInitiatedEvent;
 
 /**
  * Class AssessmentResult
  *
  * @package srag\asq\Test
  *
- * @author studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
 class AssessmentResult extends AbstractEventSourcedAggregateRoot{
     /**
-     * @var AssessmentContext
+     * @var AssessmentResultContext
      */
     protected $context;
     
@@ -30,7 +29,7 @@ class AssessmentResult extends AbstractEventSourcedAggregateRoot{
      */
     protected $questions;
     
-    public static function create(DomainObjectId $id, AssessmentContext $context, array $question_ids, int $user_id) : AssessmentResult {
+    public static function create(DomainObjectId $id, AssessmentResultContext $context, array $question_ids, int $user_id) : AssessmentResult {
         $result = new AssessmentResult();
         $occured_on = new ilDateTime(time(), IL_CAL_UNIX);
         $result->ExecuteEvent(
@@ -62,7 +61,7 @@ class AssessmentResult extends AbstractEventSourcedAggregateRoot{
         $this->questions[$event->getQuestionId()] = $event->getAnswer();
     }
     
-    public function getContext() : AssessmentContext {
+    public function getContext() : AssessmentResultContext {
         return $this->context;
     }
     

@@ -3,8 +3,8 @@
 use srag\asq\AsqGateway;
 use srag\asq\Application\Exception\AsqException;
 use srag\asq\Domain\QuestionDto;
-use srag\asq\Test\Application\Service\TestService;
-use srag\asq\Test\Domain\Model\AssessmentResult;
+use srag\asq\Test\Domain\Result\Model\AssessmentResult;
+use srag\asq\Test\Application\TestRunner\TestRunnerService;
 
 /**
  * Class TestPlayerGUI
@@ -32,14 +32,14 @@ class TestPlayerGUI {
     private $question;
     
     /**
-     * @var TestService
+     * @var TestRunnerService
      */
     private $test_service;
     
     public function __construct() {
         global $DIC;
         
-        $this->test_service = new TestService();
+        $this->test_service = new TestRunnerService();
         $DIC->language()->loadLanguageModule('asqt');
         
         $this->result_id = $_GET[self::PARAM_CURRENT_RESULT];

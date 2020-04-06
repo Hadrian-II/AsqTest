@@ -1,6 +1,6 @@
 <?php
 
-namespace srag\asq\Test\Infrastructure\Persistence;
+namespace srag\asq\Test\Domain\Section\Persistence;
 
 use srag\CQRS\Aggregate\DomainObjectId;
 use srag\CQRS\Event\AbstractDomainEvent;
@@ -10,23 +10,23 @@ use srag\CQRS\Event\EventID;
 use srag\CQRS\Event\EventStore;
 use srag\asq\Application\Exception\AsqException;
 use ilDateTime;
+use srag\asq\Test\Domain\Section\Persistence\AssessmentSectionEventStoreAr;
 
 /**
- * Class AssessmentResultEventStore
+ * Class AssessmentSectionEventStore
  *
  * @package srag\asq\Test
  *
- * @author studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
-class AssessmentResultEventStore extends EventStore {
+class AssessmentSectionEventStore extends EventStore {
     /**
      * @param DomainEvents $events
      */
     public function commit(DomainEvents $events)
     {		/** @var DomainEvent $event */
         foreach ($events->getEvents() as $event) {
-            $stored_event = new AssessmentResultEventStoreAr();
+            $stored_event = new AssessmentSectionEventStoreAr();
             
             $stored_event->setEventData(
                 new EventID(),
@@ -49,7 +49,7 @@ class AssessmentResultEventStore extends EventStore {
     public function getAggregateHistoryFor(DomainObjectId $id): DomainEvents {
         global $DIC;
         
-        $sql = "SELECT * FROM " . AssessmentResultEventStoreAr::STORAGE_NAME . " where aggregate_id = " . $DIC->database()->quote($id->getId(),'string');
+        $sql = "SELECT * FROM " . AssessmentSectionEventStoreAr::STORAGE_NAME . " where aggregate_id = " . $DIC->database()->quote($id->getId(),'string');
         $res = $DIC->database()->query($sql);
         
         if ($res->rowCount() === 0) {
@@ -71,7 +71,7 @@ class AssessmentResultEventStore extends EventStore {
         
         return $event_stream;
     }
-
+    
     public function getEventStream(?EventID $from_position): DomainEvents
     {}
 }

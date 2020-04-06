@@ -1,19 +1,18 @@
 <?php
 
-namespace srag\asq\Test\Domain\Model;
+namespace srag\asq\Test\Domain\Result\Model;
 
 use srag\CQRS\Aggregate\AbstractEventSourcedAggregateRepository;
 use srag\CQRS\Aggregate\AggregateRoot;
 use srag\CQRS\Event\DomainEvents;
 use srag\CQRS\Event\EventStore;
-use srag\asq\Test\Infrastructure\Persistence\AssessmentResultEventStore;
+use srag\asq\Test\Domain\Result\Persistence\AssessmentResultEventStore;
 
 /**
  * Class AssessmentResultRepository
  *
  * @package srag\asq\Test
  *
- * @author studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
 class AssessmentResultRepository extends AbstractEventSourcedAggregateRepository {
@@ -29,11 +28,7 @@ class AssessmentResultRepository extends AbstractEventSourcedAggregateRepository
         parent::__construct();
         $this->event_store = new AssessmentResultEventStore();
     }
-    
-    public function getResultByName(string $name, int $user_id) : AssessmentResult {
-        return null;
-    }
-    
+
     /**
      * @return EventStore
      */

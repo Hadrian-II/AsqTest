@@ -1,18 +1,17 @@
 <?php
 
-namespace srag\asq\Test\Domain\Model;
+namespace srag\asq\Test\Domain\Result\Model;
 
 use srag\CQRS\Aggregate\AbstractValueObject;
 
 /**
- * Class AssessmentContext
+ * Class AssessmentResultContext
  *
  * @package srag\asq\Test
  *
- * @author studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
-class AssessmentContext extends AbstractValueObject {
+class AssessmentResultContext extends AbstractValueObject {
     /**
      * @var int
      */
@@ -34,13 +33,14 @@ class AssessmentContext extends AbstractValueObject {
      */
     protected $assessment_revision;
     
-    public static function create(int $user_id, 
-                                  string $assessment_name, 
-                                  int $run = 1, 
-                                  ?string $assessment_id = null, 
-                                  ?string $assessment_revision = null) : AssessmentContext
+    public static function create(
+        int $user_id, 
+        string $assessment_name, 
+        int $run = 1, 
+        ?string $assessment_id = null, 
+        ?string $assessment_revision = null) : AssessmentResultContext
     {
-        $object = new AssessmentContext();
+        $object = new AssessmentResultContext();
         $object->user_id = $user_id;
         $object->assessment_name = $assessment_name;
         $object->run = $run;

@@ -1,6 +1,6 @@
 <?php
 
-namespace srag\asq\Test\Application\Command;
+namespace srag\asq\Test\Application\TestRunner\Command;
 
 use srag\CQRS\Command\CommandContract;
 use srag\CQRS\Command\CommandHandlerContract;
@@ -10,7 +10,6 @@ use srag\CQRS\Command\CommandHandlerContract;
  *
  * @package srag\asq\Test
  *
- * @author studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
 class SubmitAssessmentCommandHandler implements CommandHandlerContract {
