@@ -2,16 +2,21 @@
 
 namespace srag\asq\Test\Application\Section;
 
+use srag\CQRS\Aggregate\DomainObjectId;
 use srag\CQRS\Aggregate\Guid;
-use srag\CQRS\Command\CommandBusBuilder;
+use srag\CQRS\Command\CommandBus;
+use srag\CQRS\Command\CommandConfiguration;
+use srag\CQRS\Command\Access\OpenAccess;
 use srag\asq\Application\Service\ASQService;
-use srag\asq\Test\Application\Section\Command\CreateSectionCommand;
 use srag\asq\Test\Application\Section\Command\AddItemCommand;
-use srag\asq\Test\Domain\Section\Model\SectionPart;
+use srag\asq\Test\Application\Section\Command\AddItemCommandHandler;
+use srag\asq\Test\Application\Section\Command\CreateSectionCommand;
+use srag\asq\Test\Application\Section\Command\CreateSectionCommandHandler;
 use srag\asq\Test\Application\Section\Command\RemoveItemCommand;
+use srag\asq\Test\Application\Section\Command\RemoveItemCommandHandler;
 use srag\asq\Test\Domain\Section\Model\AssessmentSectionDto;
 use srag\asq\Test\Domain\Section\Model\AssessmentSectionRepository;
-use srag\CQRS\Aggregate\DomainObjectId;
+use srag\asq\Test\Domain\Section\Model\SectionPart;
 
 /**
  * Class SectionService
@@ -23,16 +28,46 @@ use srag\CQRS\Aggregate\DomainObjectId;
 
 class SectionService extends ASQService {
     /**
+     * @var CommandBus
+     */
+    private $command_bus;
+    
+    private function getCommandBus() : CommandBus {
+        if (is_null($this->command_bus)) {
+            $this->command_bus = new CommandBus();
+            
+            $this->command_bus->registerCommand(new CommandConfiguration(
+                AddItemCommand::class,
+                new AddItemCommandHandler(),
+                new OpenAccess()));
+            
+            $this->command_bus->registerCommand(new CommandConfiguration(
+                CreateSectionCommand::class,
+                new CreateSectionCommandHandler(),
+                new OpenAccess()));
+            
+            $this->command_bus->registerCommand(new CommandConfiguration(
+                RemoveItemCommand::class,
+                new RemoveItemCommandHandler(),
+                new OpenAccess()));
+        }
+        
+        return $this->command_bus;
+    }
+    
+    /**
      * @return string
      */
     public function createSection() : string {
         $uuid = Guid::create();
         
         // CreateQuestion.png
-        CommandBusBuilder::getCommandBus()->handle(
+        $this->getCommandBus()->handle(
             new CreateSectionCommand(
                 $uuid,
-                $this->getActiveUser()));
+                $this->getActiveUser()
+            )
+        );
         
         return $uuid;
     }
@@ -43,7 +78,7 @@ class SectionService extends ASQService {
      * @param string $question_revision
      */
     public function addQuestion(string $section_id, string $question_id, ?string $question_revision = null) {
-        CommandBusBuilder::getCommandBus()->handle(
+        $this->getCommandBus()->handle(
             new AddItemCommand(
                 $section_id, 
                 $this->getActiveUser(), 
@@ -52,7 +87,8 @@ class SectionService extends ASQService {
                     $question_id,
                     $question_revision
                 )
-            ));
+            )
+        );
     }
     
     /**
@@ -61,7 +97,7 @@ class SectionService extends ASQService {
      * @param string $question_revision
      */
     public function removeQuestion(string $section_id, string $question_id, ?string $question_revision = null) {
-        CommandBusBuilder::getCommandBus()->handle(
+        $this->getCommandBus()->handle(
             new RemoveItemCommand(
                 $section_id,
                 $this->getActiveUser(), 
@@ -69,8 +105,9 @@ class SectionService extends ASQService {
                     SectionPart::TYPE_QUESTION,
                     $question_id,
                     $question_revision
-                    )
-                ));
+                )
+            )
+        );
     }
     
     /**

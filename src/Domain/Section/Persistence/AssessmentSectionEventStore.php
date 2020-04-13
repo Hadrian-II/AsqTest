@@ -2,6 +2,7 @@
 
 namespace srag\asq\Test\Domain\Section\Persistence;
 
+use ilDateTime;
 use srag\CQRS\Aggregate\DomainObjectId;
 use srag\CQRS\Event\AbstractDomainEvent;
 use srag\CQRS\Event\DomainEvent;
@@ -9,8 +10,6 @@ use srag\CQRS\Event\DomainEvents;
 use srag\CQRS\Event\EventID;
 use srag\CQRS\Event\EventStore;
 use srag\asq\Application\Exception\AsqException;
-use ilDateTime;
-use srag\asq\Test\Domain\Section\Persistence\AssessmentSectionEventStoreAr;
 
 /**
  * Class AssessmentSectionEventStore

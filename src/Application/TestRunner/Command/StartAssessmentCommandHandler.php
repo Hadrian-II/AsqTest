@@ -7,6 +7,8 @@ use srag\CQRS\Command\CommandContract;
 use srag\CQRS\Command\CommandHandlerContract;
 use srag\asq\Test\Domain\Result\Model\AssessmentResult;
 use srag\asq\Test\Domain\Result\Model\AssessmentResultRepository;
+use ILIAS\Data\Result;
+use ILIAS\Data\Result\Ok;
 
 /**
  * Class StartAssessmentCommandHandler
@@ -19,7 +21,7 @@ class StartAssessmentCommandHandler implements CommandHandlerContract {
     /**
      * @param $command StartAssessmentCommand
      */
-    public function handle(CommandContract $command)
+    public function handle(CommandContract $command) : Result
     {
         $assessment_result = AssessmentResult::create(
             new DomainObjectId($command->getUuid()),
@@ -28,5 +30,7 @@ class StartAssessmentCommandHandler implements CommandHandlerContract {
             $command->getIssuingUserId());
         
         AssessmentResultRepository::getInstance()->save($assessment_result);
+        
+        return new Ok(null);
     }
 }

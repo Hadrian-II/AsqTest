@@ -7,6 +7,8 @@ use srag\CQRS\Command\CommandContract;
 use srag\CQRS\Command\CommandHandlerContract;
 use srag\asq\Test\Domain\Section\Model\AssessmentSection;
 use srag\asq\Test\Domain\Section\Model\AssessmentSectionRepository;
+use ILIAS\Data\Result;
+use ILIAS\Data\Result\Ok;
 
 /**
  * Class StartAssessmentCommandHandler
@@ -19,7 +21,7 @@ class CreateSectionCommandHandler implements CommandHandlerContract {
     /**
      * @param $command CreateSectionCommand
      */
-    public function handle(CommandContract $command)
+    public function handle(CommandContract $command) : Result
     {
         $section = AssessmentSection::create(
             new DomainObjectId($command->getId()),
@@ -27,5 +29,7 @@ class CreateSectionCommandHandler implements CommandHandlerContract {
         );
         
         AssessmentSectionRepository::getInstance()->save($section);
+        
+        return new Ok(null);
     }
 }

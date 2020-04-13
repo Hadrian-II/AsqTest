@@ -4,11 +4,17 @@ namespace srag\asq\Test\Application\TestRunner;
 
 use srag\CQRS\Aggregate\DomainObjectId;
 use srag\CQRS\Aggregate\Guid;
-use srag\CQRS\Command\CommandBusBuilder;
+use srag\CQRS\Command\CommandBus;
+use srag\CQRS\Command\CommandConfiguration;
+use srag\CQRS\Command\Access\OpenAccess;
 use srag\asq\Application\Service\ASQService;
 use srag\asq\Domain\Model\Answer\Answer;
 use srag\asq\Test\Application\TestRunner\Command\AddAnswerCommand;
+use srag\asq\Test\Application\TestRunner\Command\AddAnswerCommandHandler;
 use srag\asq\Test\Application\TestRunner\Command\StartAssessmentCommand;
+use srag\asq\Test\Application\TestRunner\Command\StartAssessmentCommandHandler;
+use srag\asq\Test\Application\TestRunner\Command\SubmitAssessmentCommand;
+use srag\asq\Test\Application\TestRunner\Command\SubmitAssessmentCommandHandler;
 use srag\asq\Test\Domain\Result\Model\AssessmentResultContext;
 use srag\asq\Test\Domain\Result\Model\AssessmentResultRepository;
 
@@ -22,11 +28,42 @@ use srag\asq\Test\Domain\Result\Model\AssessmentResultRepository;
  */
 
 class TestRunnerService extends ASQService {
+    /**
+     * @var CommandBus
+     */
+    private $command_bus;
+    
+    private function getCommandBus() : CommandBus {
+        if (is_null($this->command_bus)) {
+            $this->command_bus = new CommandBus();
+            
+            $this->command_bus->registerCommand(new CommandConfiguration(
+                AddAnswerCommand::class,
+                new AddAnswerCommandHandler(),
+                new OpenAccess()
+                ));
+            
+            $this->command_bus->registerCommand(new CommandConfiguration(
+                StartAssessmentCommand::class,
+                new StartAssessmentCommandHandler(),
+                new OpenAccess()
+                ));
+            
+            $this->command_bus->registerCommand(new CommandConfiguration(
+                SubmitAssessmentCommand::class,
+                new SubmitAssessmentCommandHandler(),
+                new OpenAccess()
+                ));
+        }
+        
+        return $this->command_bus;
+    }
+    
     public function createTestRun(AssessmentResultContext $context, array $question_ids) : string {
         $uuid = Guid::create();
         
         // CreateQuestion.png
-        CommandBusBuilder::getCommandBus()->handle(
+        $this->getCommandBus()->handle(
             new StartAssessmentCommand(
                 $uuid,
                 $this->getActiveUser(),
@@ -37,7 +74,7 @@ class TestRunnerService extends ASQService {
     }
     
     public function addAnswer(string $uuid, string $question_id, Answer $answer) {
-        CommandBusBuilder::getCommandBus()->handle(
+        $this->getCommandBus()->getCommandBus()->handle(
             new AddAnswerCommand(
                 $uuid, 
                 $this->getActiveUser(), 

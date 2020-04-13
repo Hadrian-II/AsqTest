@@ -2,6 +2,7 @@
 
 namespace srag\asq\Test\Application\TestRunner\Command;
 
+use ILIAS\Data\Result;
 use srag\CQRS\Command\CommandContract;
 use srag\CQRS\Command\CommandHandlerContract;
 
@@ -16,7 +17,7 @@ class SubmitAssessmentCommandHandler implements CommandHandlerContract {
     /**
      * @param $command SubmitAssessmentCommand
      */
-    public function handle(CommandContract $command)
+    public function handle(CommandContract $command) : Result
     {
         
     }
