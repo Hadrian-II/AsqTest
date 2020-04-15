@@ -18,4 +18,11 @@ class SetupAsqTestDatabase
         AssessmentResultEventStoreAr::updateDB();
         AssessmentSectionEventStoreAr::updateDB();
     }
+    
+    public static function uninstall() : void {
+        global $DIC;
+        
+        $DIC->database()->dropTable(AssessmentResultEventStoreAr::STORAGE_NAME, false);
+        $DIC->database()->dropTable(AssessmentSectionEventStoreAr::STORAGE_NAME, false);
+    }
 }
