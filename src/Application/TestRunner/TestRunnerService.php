@@ -9,14 +9,17 @@ use srag\CQRS\Command\CommandConfiguration;
 use srag\CQRS\Command\Access\OpenAccess;
 use srag\asq\Application\Service\ASQService;
 use srag\asq\Domain\Model\Answer\Answer;
+use srag\asq\Domain\Model\Hint\QuestionHint;
 use srag\asq\Test\Application\TestRunner\Command\AddAnswerCommand;
 use srag\asq\Test\Application\TestRunner\Command\AddAnswerCommandHandler;
+use srag\asq\Test\Application\TestRunner\Command\HintReceivedCommand;
 use srag\asq\Test\Application\TestRunner\Command\StartAssessmentCommand;
 use srag\asq\Test\Application\TestRunner\Command\StartAssessmentCommandHandler;
 use srag\asq\Test\Application\TestRunner\Command\SubmitAssessmentCommand;
 use srag\asq\Test\Application\TestRunner\Command\SubmitAssessmentCommandHandler;
 use srag\asq\Test\Domain\Result\Model\AssessmentResultContext;
 use srag\asq\Test\Domain\Result\Model\AssessmentResultRepository;
+use srag\asq\Test\Application\TestRunner\Command\HintReceivedCommandHandler;
 
 
 /**
@@ -33,6 +36,9 @@ class TestRunnerService extends ASQService {
      */
     private $command_bus;
     
+    /**
+     * @return CommandBus
+     */
     private function getCommandBus() : CommandBus {
         if (is_null($this->command_bus)) {
             $this->command_bus = new CommandBus();
@@ -40,25 +46,32 @@ class TestRunnerService extends ASQService {
             $this->command_bus->registerCommand(new CommandConfiguration(
                 AddAnswerCommand::class,
                 new AddAnswerCommandHandler(),
-                new OpenAccess()
-                ));
+                new OpenAccess()));
             
             $this->command_bus->registerCommand(new CommandConfiguration(
                 StartAssessmentCommand::class,
                 new StartAssessmentCommandHandler(),
-                new OpenAccess()
-                ));
+                new OpenAccess()));
             
             $this->command_bus->registerCommand(new CommandConfiguration(
                 SubmitAssessmentCommand::class,
                 new SubmitAssessmentCommandHandler(),
-                new OpenAccess()
-                ));
+                new OpenAccess()));
+            
+            $this->command_bus->registerCommand(new CommandConfiguration(
+                HintReceivedCommand::class,
+                new HintReceivedCommandHandler(),
+                new OpenAccess()));
         }
         
         return $this->command_bus;
     }
     
+    /**
+     * @param AssessmentResultContext $context
+     * @param array $question_ids
+     * @return string
+     */
     public function createTestRun(AssessmentResultContext $context, array $question_ids) : string {
         $uuid = Guid::create();
         
@@ -73,6 +86,11 @@ class TestRunnerService extends ASQService {
         return $uuid;
     }
     
+    /**
+     * @param string $uuid
+     * @param string $question_id
+     * @param Answer $answer
+     */
     public function addAnswer(string $uuid, string $question_id, Answer $answer) {
         $this->getCommandBus()->getCommandBus()->handle(
             new AddAnswerCommand(
@@ -82,18 +100,46 @@ class TestRunnerService extends ASQService {
                 $answer));
     }
     
+    /**
+     * @param string $uuid
+     * @param string $question_id
+     * @param QuestionHint $hint
+     */
+    public function hintRecieved(string $uuid, string $question_id, QuestionHint $hint) {
+        $this->getCommandBus()->getCommandBus()->handle(
+            new HintReceivedCommand(
+                $uuid,
+                $this->getActiveUser(),
+                $question_id,
+                $hint));
+    }
+    
+    /**
+     * @param string $uuid
+     * @param string $question_id
+     * @return Answer|NULL
+     */
     public function getAnswer(string $uuid, string $question_id) : ?Answer {
         $assessment_result = AssessmentResultRepository::getInstance()->getAggregateRootById(new DomainObjectId($uuid));
         
         return $assessment_result->getAnswer($question_id);
     }
     
+    /**
+     * @param string $uuid
+     * @return string
+     */
     public function getFirstQuestionId(string $uuid) : string {
         $assessment_result = AssessmentResultRepository::getInstance()->getAggregateRootById(new DomainObjectId($uuid));
         
         return $assessment_result->getQuestions()[0];
     }
     
+    /**
+     * @param string $uuid
+     * @param string $question_id
+     * @return string|NULL
+     */
     public function getPreviousQuestionId(string $uuid, string $question_id) : ?string{
         $questions = AssessmentResultRepository::getInstance()->getAggregateRootById(new DomainObjectId($uuid))->getQuestions();
         
@@ -107,6 +153,11 @@ class TestRunnerService extends ASQService {
         }
     }
     
+    /**
+     * @param string $uuid
+     * @param string $question_id
+     * @return string|NULL
+     */
     public function getNextQuestionId(string $uuid, string $question_id) : ?string {
         $questions = AssessmentResultRepository::getInstance()->getAggregateRootById(new DomainObjectId($uuid))->getQuestions();
         
@@ -119,11 +170,11 @@ class TestRunnerService extends ASQService {
             return null;
         }
     }
-    
+
     public function submitTestRun(string $name) {
         
     }
-    
+
     public function getTestResult(string $name) {
         
     }
