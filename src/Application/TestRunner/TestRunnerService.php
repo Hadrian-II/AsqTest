@@ -20,6 +20,7 @@ use srag\asq\Test\Application\TestRunner\Command\SubmitAssessmentCommandHandler;
 use srag\asq\Test\Domain\Result\Model\AssessmentResultContext;
 use srag\asq\Test\Domain\Result\Model\AssessmentResultRepository;
 use srag\asq\Test\Application\TestRunner\Command\HintReceivedCommandHandler;
+use srag\asq\Test\Domain\Result\Model\ItemResult;
 
 
 /**
@@ -92,7 +93,7 @@ class TestRunnerService extends ASQService {
      * @param Answer $answer
      */
     public function addAnswer(string $uuid, string $question_id, Answer $answer) {
-        $this->getCommandBus()->getCommandBus()->handle(
+        $this->getCommandBus()->handle(
             new AddAnswerCommand(
                 $uuid, 
                 $this->getActiveUser(), 
@@ -106,7 +107,7 @@ class TestRunnerService extends ASQService {
      * @param QuestionHint $hint
      */
     public function hintRecieved(string $uuid, string $question_id, QuestionHint $hint) {
-        $this->getCommandBus()->getCommandBus()->handle(
+        $this->getCommandBus()->handle(
             new HintReceivedCommand(
                 $uuid,
                 $this->getActiveUser(),
@@ -117,12 +118,12 @@ class TestRunnerService extends ASQService {
     /**
      * @param string $uuid
      * @param string $question_id
-     * @return Answer|NULL
+     * @return ItemResult|NULL
      */
-    public function getAnswer(string $uuid, string $question_id) : ?Answer {
+    public function getItemResult(string $uuid, string $question_id) : ?ItemResult {
         $assessment_result = AssessmentResultRepository::getInstance()->getAggregateRootById(new DomainObjectId($uuid));
         
-        return $assessment_result->getAnswer($question_id);
+        return $assessment_result->getItemResult($question_id);
     }
     
     /**

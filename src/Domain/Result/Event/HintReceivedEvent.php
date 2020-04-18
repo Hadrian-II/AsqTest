@@ -35,7 +35,7 @@ class HintReceivedEvent extends AbstractDomainEvent {
      * @param string $question_id
      * @param QuestionHint $hint
      */
-    public function __construct(DomainObjectId $aggregate_id, ilDateTime $occured_on, int $initiating_user_id, string $question_id = null, QuestionHint $hint) {
+    public function __construct(DomainObjectId $aggregate_id, ilDateTime $occured_on, int $initiating_user_id, string $question_id = null, QuestionHint $hint = null) {
         $this->question_id = $question_id;
         $this->hint = $hint;
         parent::__construct($aggregate_id, $occured_on, $initiating_user_id);
@@ -77,6 +77,6 @@ class HintReceivedEvent extends AbstractDomainEvent {
     {
         $body = json_decode($event_body, true);
         $this->question_id = $body[self::KEY_QUESTION_ID];
-        $this->hint = QuestionHint::createFromArray($body[self::KEY_ANSWER]);
+        $this->hint = QuestionHint::createFromArray($body[self::KEY_HINT]);
     }
 }

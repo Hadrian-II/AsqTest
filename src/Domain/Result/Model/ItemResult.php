@@ -7,6 +7,7 @@ use srag\CQRS\Aggregate\AbstractValueObject;
 use srag\asq\Domain\Model\Answer\Answer;
 use srag\asq\Domain\Model\Hint\QuestionHint;
 use srag\asq\Application\Exception\AsqException;
+use srag\asq\Domain\Model\Hint\QuestionHints;
 
 /**
  * Class ItemResult
@@ -37,12 +38,12 @@ class ItemResult extends AbstractValueObject {
     protected $session_status;
     
     /**
-     * @var Answer
+     * @var ?Answer
      */
     protected $answer;
     
     /**
-     * @var QuestionHint[]
+     * @var QuestionHints
      */
     protected $hints;
     
@@ -61,8 +62,8 @@ class ItemResult extends AbstractValueObject {
         $object->question_id = $question_id;
         $object->sequence_index = $sequence_index;
         $object->session_status = SessionStatus::INITIAL;
-        $object->datestamp = ilDateTime(time(), IL_CAL_UNIX);
-        $object->hints = [];
+        $object->datestamp = new ilDateTime(time(), IL_CAL_UNIX);
+        $object->hints = QuestionHints::create([]);
         return $object;
     }
     
@@ -70,7 +71,7 @@ class ItemResult extends AbstractValueObject {
      * @param Answer $answer
      * @return ItemResult
      */
-    public function withValue(Answer $answer) {
+    public function withAnswer(Answer $answer) {
         $clone = clone $this;
         $clone->answer = $answer;
         $clone->session_status = SessionStatus::PENDING_SUBMISSION;
@@ -83,7 +84,9 @@ class ItemResult extends AbstractValueObject {
      */
     public function withAddedHint(QuestionHint $hint) : ItemResult {
         $clone = clone $this;
-        $clone->hints[] = $hint;
+        $hints = $this->hints->getHints();
+        $hints[] = $hint;
+        $clone->hints = Questionhints::create($hints);
         return $clone;
     }
     
@@ -146,19 +149,27 @@ class ItemResult extends AbstractValueObject {
     /**
      * @return Answer
      */
-    public function getAnswer() : Answer
+    public function getAnswer() : ?Answer
     {
         return $this->answer;
     }
 
     /**
-     * @return QuestionHint[]
+     * @return QuestionHints
      */
-    public function getHints() : array
+    public function getHints() : QuestionHints
     {
         return $this->hints;
     }
 
+    /**
+     * @return bool
+     */
+    public function hasHints() : bool
+    {
+        return count($this->hints->getHints()) > 0;
+    }
+    
     /**
      * @return string
      */

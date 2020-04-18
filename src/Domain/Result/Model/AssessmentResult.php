@@ -97,11 +97,11 @@ class AssessmentResult extends AbstractEventSourcedAggregateRoot{
     /**
      * @param string $question_id
      * @throws AsqException
-     * @return Answer|NULL
+     * @return ItemResult|NULL
      */
-    public function getAnswer(string $question_id) : ?Answer {
-        if (array_key_exists($question_id, $this->questions)) {
-            return $this->questions[$question_id];
+    public function getItemResult(string $question_id) : ?ItemResult {
+        if (array_key_exists($question_id, $this->results)) {
+            return $this->results[$question_id];
         }
         else 
         {
@@ -116,7 +116,7 @@ class AssessmentResult extends AbstractEventSourcedAggregateRoot{
      * @throws AsqException
      */
     public function setAnswer(string $question_id, Answer $answer, int $initiating_user_id) {
-        if (array_key_exists($question_id, $this->questions)) {
+        if (array_key_exists($question_id, $this->results)) {
             $this->ExecuteEvent(new AnswerSetEvent(
                 $this->getAggregateId(), new ilDateTime(time(), IL_CAL_UNIX), $initiating_user_id, $question_id, $answer));
         }
@@ -133,7 +133,7 @@ class AssessmentResult extends AbstractEventSourcedAggregateRoot{
      * @throws AsqException
      */
     public function addHint(string $question_id, QuestionHint $hint, int $initiating_user_id) {
-        if (array_key_exists($question_id, $this->questions)) {
+        if (array_key_exists($question_id, $this->results)) {
             $this->ExecuteEvent(
                 new HintReceivedEvent(
                     $this->getAggregateId(), new ilDateTime(time(), IL_CAL_UNIX), 
@@ -151,6 +151,6 @@ class AssessmentResult extends AbstractEventSourcedAggregateRoot{
      * @return array
      */
     public function getQuestions() : array {
-        return array_keys($this->questions);
+        return array_keys($this->results);
     }
 }
