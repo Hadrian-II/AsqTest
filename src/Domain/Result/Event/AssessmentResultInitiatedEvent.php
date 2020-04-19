@@ -71,10 +71,22 @@ class AssessmentResultInitiatedEvent extends AbstractDomainEvent {
         return json_encode($body);
     }
 
+    /**
+     * @param string $event_body
+     */
     protected function restoreEventBody(string $event_body): void
     {
         $body = json_decode($event_body, true);
         $this->questions = $body[self::KEY_QUESTIONS];
         $this->context = AbstractValueObject::createFromArray($body[self::KEY_CONTEXT]);
+    }
+    
+    /**
+     * @return int
+     */
+    public static function getEventVersion(): int
+    {
+        // initial version 1
+        return 1;
     }
 }

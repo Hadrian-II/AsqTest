@@ -60,4 +60,13 @@ class AssessmentSectionItemAddedEvent extends AbstractDomainEvent {
     {
         $this->item = SectionPart::deserialize($event_body);
     }
+    
+    /**
+     * @return int
+     */
+    public static function getEventVersion(): int
+    {
+        // initial version 1
+        return 1;
+    }
 }

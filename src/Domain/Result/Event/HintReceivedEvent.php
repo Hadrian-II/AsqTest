@@ -79,4 +79,13 @@ class HintReceivedEvent extends AbstractDomainEvent {
         $this->question_id = $body[self::KEY_QUESTION_ID];
         $this->hint = QuestionHint::createFromArray($body[self::KEY_HINT]);
     }
+    
+    /**
+     * @return int
+     */
+    public static function getEventVersion(): int
+    {
+        // initial version 1
+        return 1;
+    }
 }

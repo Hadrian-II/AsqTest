@@ -79,4 +79,13 @@ class AnswerSetEvent extends AbstractDomainEvent {
         $this->question_id = $body[self::KEY_QUESTION_ID];
         $this->answer = Answer::createFromArray($body[self::KEY_ANSWER]);
     }
+    
+    /**
+     * @return int
+     */
+    public static function getEventVersion(): int
+    {
+        // initial version 1
+        return 1;
+    }
 }
