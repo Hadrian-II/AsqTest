@@ -43,6 +43,11 @@ class ItemResult extends AbstractValueObject {
     protected $answer;
     
     /**
+     * @var ItemScore
+     */
+    protected $score;
+    
+    /**
      * @var QuestionHints
      */
     protected $hints;
@@ -75,6 +80,17 @@ class ItemResult extends AbstractValueObject {
         $clone = clone $this;
         $clone->answer = $answer;
         $clone->session_status = SessionStatus::PENDING_SUBMISSION;
+        return $clone;
+    }
+
+    /**
+     * @param ItemScore $answer
+     * @return ItemResult
+     */
+    public function withScore(ItemScore $score) {
+        $clone = clone $this;
+        $clone->score = $score;
+        $clone->session_status = SessionStatus::FINAL;
         return $clone;
     }
     
@@ -152,6 +168,14 @@ class ItemResult extends AbstractValueObject {
     public function getAnswer() : ?Answer
     {
         return $this->answer;
+    }
+    
+    /**
+     * @return ItemScore|NULL
+     */
+    public function getScore() : ?ItemScore
+    {
+        return $this->score;
     }
 
     /**

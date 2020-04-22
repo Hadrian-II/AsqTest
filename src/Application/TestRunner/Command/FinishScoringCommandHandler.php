@@ -11,22 +11,22 @@ use srag\asq\Test\Domain\Result\Model\AssessmentResultRepository;
 use ILIAS\Data\Result\Ok;
 
 /**
- * Class SubmitAssessmentCommandHandler
+ * Class FinishScoringCommandHandler
  *
  * @package srag\asq\Test
  *
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
-class SubmitAssessmentCommandHandler implements CommandHandlerContract {
+class FinishScoringCommandHandler implements CommandHandlerContract {
     /**
-     * @param $command SubmitAssessmentCommand
+     * @param $command FinishScoringCommand
      */
     public function handle(CommandContract $command) : Result
-    {
+    {        
         /** @var $assessment_result AssessmentResult */
         $assessment_result = AssessmentResultRepository::getInstance()->getAggregateRootById(new DomainObjectId($command->getResultUuid()));
-
-        $assessment_result->submitResult($command->getIssuingUserId());
+        
+        $assessment_result->finishScoring($command->getIssuingUserId());
         
         AssessmentResultRepository::getInstance()->save($assessment_result);
         

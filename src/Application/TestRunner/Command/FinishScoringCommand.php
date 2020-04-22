@@ -5,13 +5,13 @@ namespace srag\asq\Test\Application\TestRunner\Command;
 use srag\CQRS\Command\AbstractCommand;
 
 /**
- * Class SubmitAssessmentCommand
+ * Class FinishScoringCommand
  *
  * @package srag\asq\Test
  *
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
-class SubmitAssessmentCommand extends AbstractCommand {
+class FinishScoringCommand extends AbstractCommand {
     /**
      * @var string
      */
