@@ -3,7 +3,6 @@
 namespace srag\asq\Test\Domain\Result\Event;
 
 use ilDateTime;
-use srag\CQRS\Aggregate\DomainObjectId;
 use srag\CQRS\Event\AbstractDomainEvent;
 use srag\asq\Domain\Model\Answer\Answer;
 
@@ -17,30 +16,30 @@ use srag\asq\Domain\Model\Answer\Answer;
 class AnswerSetEvent extends AbstractDomainEvent {
     const KEY_QUESTION_ID = 'quid';
     const KEY_ANSWER = 'answer';
-    
+
     /**
      * @var string
      */
     protected $question_id;
-    
+
     /**
      * @var Answer
      */
     protected $answer;
-    
+
     /**
-     * @param DomainObjectId $aggregate_id
+     * @param string $aggregate_id
      * @param ilDateTime $occured_on
      * @param int $initiating_user_id
      * @param string $question_id
      * @param Answer $answer
      */
-    public function __construct(DomainObjectId $aggregate_id, ilDateTime $occured_on, int $initiating_user_id, string $question_id = null, Answer $answer = null) {
+    public function __construct(string $aggregate_id, ilDateTime $occured_on, int $initiating_user_id, string $question_id = null, Answer $answer = null) {
         $this->question_id = $question_id;
         $this->answer = $answer;
         parent::__construct($aggregate_id, $occured_on, $initiating_user_id);
     }
-    
+
     /**
      * @return string
      */
@@ -79,7 +78,7 @@ class AnswerSetEvent extends AbstractDomainEvent {
         $this->question_id = $body[self::KEY_QUESTION_ID];
         $this->answer = Answer::createFromArray($body[self::KEY_ANSWER]);
     }
-    
+
     /**
      * @return int
      */

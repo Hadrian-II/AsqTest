@@ -4,7 +4,6 @@ namespace srag\asq\Test\Domain\Result\Event;
 
 use ilDateTime;
 use srag\CQRS\Aggregate\AbstractValueObject;
-use srag\CQRS\Aggregate\DomainObjectId;
 use srag\CQRS\Event\AbstractDomainEvent;
 use srag\asq\Test\Domain\Result\Model\AssessmentResultContext;
 
@@ -18,7 +17,7 @@ use srag\asq\Test\Domain\Result\Model\AssessmentResultContext;
 class AssessmentResultInitiatedEvent extends AbstractDomainEvent {
     const KEY_CONTEXT = 'context';
     const KEY_QUESTIONS = 'questions';
-    
+
     /**
      * @var AssessmentResultContext
      */
@@ -30,16 +29,16 @@ class AssessmentResultInitiatedEvent extends AbstractDomainEvent {
     protected $questions;
 
     /**
-     * @param DomainObjectId $aggregate_id
+     * @param string $aggregate_id
      * @param int $initiating_user_id
      * @param AssessmentResultContext $context
      * @param array $questions
      */
     public function __construct(
-        DomainObjectId $aggregate_id, 
-        ilDateTime $occured_on, 
-        int $initiating_user_id, 
-        AssessmentResultContext $context = null, 
+        string $aggregate_id,
+        ilDateTime $occured_on,
+        int $initiating_user_id,
+        AssessmentResultContext $context = null,
         array $questions = null)
     {
         $this->context = $context;
@@ -80,7 +79,7 @@ class AssessmentResultInitiatedEvent extends AbstractDomainEvent {
         $this->questions = $body[self::KEY_QUESTIONS];
         $this->context = AbstractValueObject::createFromArray($body[self::KEY_CONTEXT]);
     }
-    
+
     /**
      * @return int
      */

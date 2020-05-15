@@ -2,7 +2,6 @@
 
 namespace srag\asq\Test\Application\Section\Command;
 
-use srag\CQRS\Aggregate\DomainObjectId;
 use srag\CQRS\Command\CommandContract;
 use srag\CQRS\Command\CommandHandlerContract;
 use srag\asq\Test\Domain\Section\Model\AssessmentSection;
@@ -23,13 +22,12 @@ class CreateSectionCommandHandler implements CommandHandlerContract {
      */
     public function handle(CommandContract $command) : Result
     {
-        $section = AssessmentSection::create(
-            new DomainObjectId($command->getId()),
+        $section = AssessmentSection::create($command->getId(),
             $command->getIssuingUserId()
         );
-        
+
         AssessmentSectionRepository::getInstance()->save($section);
-        
+
         return new Ok(null);
     }
 }

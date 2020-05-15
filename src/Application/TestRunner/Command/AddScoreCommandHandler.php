@@ -3,7 +3,6 @@
 namespace srag\asq\Test\Application\TestRunner\Command;
 
 use ILIAS\Data\Result;
-use srag\CQRS\Aggregate\DomainObjectId;
 use srag\CQRS\Command\CommandContract;
 use srag\CQRS\Command\CommandHandlerContract;
 use srag\asq\Test\Domain\Result\Model\AssessmentResult;
@@ -24,12 +23,12 @@ class AddScoreCommandHandler implements CommandHandlerContract {
     public function handle(CommandContract $command) : Result
     {
         /** @var $assessment_result AssessmentResult */
-        $assessment_result = AssessmentResultRepository::getInstance()->getAggregateRootById(new DomainObjectId($command->getResultUuid()));
-        
+        $assessment_result = AssessmentResultRepository::getInstance()->getAggregateRootById($command->getResultUuid());
+
         $assessment_result->setScore($command->getQuestionId(), $command->getScore(), $command->getIssuingUserId());
-        
+
         AssessmentResultRepository::getInstance()->save($assessment_result);
-        
+
         return new Ok(null);
     }
 }

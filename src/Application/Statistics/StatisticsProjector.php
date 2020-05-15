@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace srag\asq\Statistics;
 
 use Exception;
-use srag\CQRS\Aggregate\DomainObjectId;
 use srag\CQRS\Projection\ProjectionEventHandler;
 use srag\CQRS\Projection\Persistence\ilDBPositionLedger;
 use srag\CQRS\Projection\ValueObjects\ProjectorPosition;
@@ -66,7 +65,7 @@ class StatisticsProjector
     protected function whenScoreSetEvent(ScoreSetEvent $event)
     {
         /** @var $result AssessmentResult */
-        $result = AssessmentResultRepository::getInstance()->getAggregateRootById(new DomainObjectId($event->getAggregateId()));
+        $result = AssessmentResultRepository::getInstance()->getAggregateRootById($event->getAggregateId());
 
         AsqGateway::get()->statistics()->registerScore(
             $event->getQuestionId(),

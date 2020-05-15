@@ -6,7 +6,6 @@ use srag\CQRS\Command\CommandContract;
 use srag\CQRS\Command\CommandHandlerContract;
 use srag\asq\Test\Domain\Section\Model\AssessmentSection;
 use srag\asq\Test\Domain\Section\Model\AssessmentSectionRepository;
-use srag\CQRS\Aggregate\DomainObjectId;
 use ILIAS\Data\Result;
 use ILIAS\Data\Result\Ok;
 
@@ -24,14 +23,12 @@ class AddItemCommandHandler implements CommandHandlerContract {
     public function handle(CommandContract $command) : Result
     {
         /** @var $section AssessmentSection */
-        $section = AssessmentSectionRepository::getInstance()->getAggregateRootById(
-            new DomainObjectId($command->getSectionId())
-        );
-        
+        $section = AssessmentSectionRepository::getInstance()->getAggregateRootById($command->getSectionId());
+
         $section->addItem($command->getItem(), $command->getIssuingUserId());
-        
+
         AssessmentSectionRepository::getInstance()->save($section);
-        
+
         return new Ok(null);
     }
 }
