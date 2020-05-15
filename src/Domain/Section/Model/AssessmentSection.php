@@ -2,7 +2,7 @@
 
 namespace srag\asq\Test\Domain\Section\Model;
 
-use srag\CQRS\Aggregate\AbstractEventSourcedAggregateRoot;
+use srag\CQRS\Aggregate\AbstractAggregateRoot;
 use srag\asq\Test\Domain\Section\Event\AssessmentSectionDataSetEvent;
 use ilDateTime;
 use srag\CQRS\Event\Standard\AggregateCreatedEvent;
@@ -16,7 +16,7 @@ use srag\asq\Test\Domain\Section\Event\AssessmentSectionItemRemovedEvent;
  *
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
-class AssessmentSection extends AbstractEventSourcedAggregateRoot {
+class AssessmentSection extends AbstractAggregateRoot {
     /**
      * @var ?AssessmentSectionData
      */

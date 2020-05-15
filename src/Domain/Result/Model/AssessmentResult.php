@@ -3,7 +3,7 @@
 namespace srag\asq\Test\Domain\Result\Model;
 
 use ilDateTime;
-use srag\CQRS\Aggregate\AbstractEventSourcedAggregateRoot;
+use srag\CQRS\Aggregate\AbstractAggregateRoot;
 use srag\CQRS\Event\Standard\AggregateCreatedEvent;
 use srag\asq\Application\Exception\AsqException;
 use srag\asq\Domain\Model\Answer\Answer;
@@ -22,7 +22,7 @@ use srag\asq\Test\Domain\Result\Event\ScoringFinishedEvent;
  *
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
-class AssessmentResult extends AbstractEventSourcedAggregateRoot{
+class AssessmentResult extends AbstractAggregateRoot{
     /**
      * @var AssessmentResultContext
      */

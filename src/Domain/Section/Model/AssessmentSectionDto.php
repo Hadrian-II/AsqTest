@@ -14,12 +14,12 @@ class AssessmentSectionDto {
      * @var string
      */
     protected $id;
-    
+
     /**
      * @var AssessmentSectionData
      */
     protected $data;
-    
+
     /**
      * @var SectionPart[]
      */
@@ -31,26 +31,26 @@ class AssessmentSectionDto {
      */
     public static function Create(AssessmentSection $section) : AssessmentSectionDto {
         $object = new AssessmentSectionDto();
-        $object->id = $section->getAggregateId()->getId();
+        $object->id = $section->getAggregateId();
         $object->data = $section->getData();
         $object->items = $section->getItems();
         return $object;
     }
-    
+
     /**
      * @return string
      */
     public function getId() {
         return $this->id;
     }
-    
+
     /**
      * @return AssessmentSectionData
      */
     public function getData() : ?AssessmentSectionData {
         return $this->data;
     }
-    
+
     /**
      * @return array
      */
@@ -58,4 +58,3 @@ class AssessmentSectionDto {
         return $this->items;
     }
 }
-    

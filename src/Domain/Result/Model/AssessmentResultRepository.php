@@ -2,8 +2,8 @@
 
 namespace srag\asq\Test\Domain\Result\Model;
 
-use srag\CQRS\Aggregate\AbstractEventSourcedAggregateRepository;
-use srag\CQRS\Aggregate\AggregateRoot;
+use srag\CQRS\Aggregate\AbstractAggregateRepository;
+use srag\CQRS\Aggregate\AbstractAggregateRoot;
 use srag\CQRS\Event\DomainEvents;
 use srag\CQRS\Event\EventStore;
 use srag\asq\Test\Domain\Result\Persistence\AssessmentResultEventStore;
@@ -15,12 +15,12 @@ use srag\asq\Test\Domain\Result\Persistence\AssessmentResultEventStore;
  *
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
-class AssessmentResultRepository extends AbstractEventSourcedAggregateRepository {
+class AssessmentResultRepository extends AbstractAggregateRepository {
     /**
      * @var EventStore
      */
     private $event_store;
-    
+
     /**
      * QuestionRepository constructor.
      */
@@ -38,9 +38,9 @@ class AssessmentResultRepository extends AbstractEventSourcedAggregateRepository
     /**
      * @param DomainEvents $event_history
      *
-     * @return AggregateRoot
+     * @return AbstractAggregateRoot
      */
-    protected function reconstituteAggregate(DomainEvents $event_history): AggregateRoot {
+    protected function reconstituteAggregate(DomainEvents $event_history): AbstractAggregateRoot {
         return AssessmentResult::reconstitute($event_history);
     }
 }
