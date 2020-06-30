@@ -16,13 +16,15 @@ use ILIAS\Data\Result\Ok;
  *
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
-class CreateSectionCommandHandler implements CommandHandlerContract {
+class CreateSectionCommandHandler implements CommandHandlerContract
+{
     /**
      * @param $command CreateSectionCommand
      */
     public function handle(CommandContract $command) : Result
     {
-        $section = AssessmentSection::create($command->getId(),
+        $section = AssessmentSection::create(
+            $command->getId(),
             $command->getIssuingUserId()
         );
 

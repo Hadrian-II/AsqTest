@@ -16,7 +16,8 @@ use srag\asq\Test\Domain\Section\Event\AssessmentSectionItemRemovedEvent;
  *
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
-class AssessmentSection extends AbstractAggregateRoot {
+class AssessmentSection extends AbstractAggregateRoot
+{
     /**
      * @var ?AssessmentSectionData
      */
@@ -32,14 +33,17 @@ class AssessmentSection extends AbstractAggregateRoot {
      * @param int $user_id
      * @return AssessmentSection
      */
-    public static function create(string $id, int $user_id) : AssessmentSection {
+    public static function create(string $id, int $user_id) : AssessmentSection
+    {
         $object = new AssessmentSection();
 
         $object->ExecuteEvent(
             new AggregateCreatedEvent(
                 $id,
                 new ilDateTime(time(), IL_CAL_UNIX),
-                $user_id));
+                $user_id
+            )
+        );
 
         return $object;
     }
@@ -47,7 +51,8 @@ class AssessmentSection extends AbstractAggregateRoot {
     /**
      * @return ?AssessmentSectionData
      */
-    public function getData(): ?AssessmentSectionData {
+    public function getData() : ?AssessmentSectionData
+    {
         return $this->data;
     }
 
@@ -55,14 +60,17 @@ class AssessmentSection extends AbstractAggregateRoot {
      * @param ?AssessmentSectionData $data
      * @param int $user_id
      */
-    public function setData(?AssessmentSectionData $data, int $user_id) {
-        if (! AssessmentSectionData::isNullableEqual($data, $this->data)) {
+    public function setData(?AssessmentSectionData $data, int $user_id)
+    {
+        if (!AssessmentSectionData::isNullableEqual($data, $this->data)) {
             $this->ExecuteEvent(
                 new AssessmentSectionDataSetEvent(
                     $this->aggregate_id,
                     new ilDateTime(time(), IL_CAL_UNIX),
                     $user_id,
-                    $data));
+                    $data
+                )
+            );
         }
     }
 
@@ -70,13 +78,15 @@ class AssessmentSection extends AbstractAggregateRoot {
      * @param SectionPart $item
      * @param int $user_id
      */
-    public function addItem(SectionPart $item, int $user_id) {
+    public function addItem(SectionPart $item, int $user_id)
+    {
         if (!array_key_exists($item->getKey(), $this->items)) {
             $this->ExecuteEvent(new AssessmentSectionItemAddedEvent(
                 $this->aggregate_id,
                 new ilDateTime(time(), IL_CAL_UNIX),
                 $user_id,
-                $item));
+                $item
+            ));
         } else {
             //TODO throw exception?
         }
@@ -85,7 +95,8 @@ class AssessmentSection extends AbstractAggregateRoot {
     /**
      * @param AssessmentSectionItemAddedEvent $event
      */
-    protected function applyAssessmentSectionItemAddedEvent(AssessmentSectionItemAddedEvent $event) {
+    protected function applyAssessmentSectionItemAddedEvent(AssessmentSectionItemAddedEvent $event)
+    {
         $this->items[$event->getItem()->getKey()] = $event->getItem();
     }
 
@@ -93,13 +104,15 @@ class AssessmentSection extends AbstractAggregateRoot {
      * @param SectionPart $item
      * @param int $user_id
      */
-    public function removeItem(SectionPart $item, int $user_id) {
+    public function removeItem(SectionPart $item, int $user_id)
+    {
         if (array_key_exists($item->getKey(), $this->items)) {
             $this->ExecuteEvent(new AssessmentSectionItemRemovedEvent(
                 $this->aggregate_id,
                 new ilDateTime(time(), IL_CAL_UNIX),
                 $user_id,
-                $item));
+                $item
+            ));
         } else {
             //TODO throw exception?
         }
@@ -108,14 +121,16 @@ class AssessmentSection extends AbstractAggregateRoot {
     /**
      * @param AssessmentSectionItemRemovedEvent $event
      */
-    protected function applyAssessmentSectionItemRemovedEvent(AssessmentSectionItemRemovedEvent $event) {
+    protected function applyAssessmentSectionItemRemovedEvent(AssessmentSectionItemRemovedEvent $event)
+    {
         unset($this->items[$event->getItem()->getKey()]);
     }
 
     /**
      * @return array
      */
-    public function getItems(): ?array {
+    public function getItems() : ?array
+    {
         return $this->items;
     }
 }

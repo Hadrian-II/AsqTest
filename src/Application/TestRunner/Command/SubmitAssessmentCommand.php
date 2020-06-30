@@ -11,7 +11,8 @@ use srag\CQRS\Command\AbstractCommand;
  *
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
-class SubmitAssessmentCommand extends AbstractCommand {
+class SubmitAssessmentCommand extends AbstractCommand
+{
     /**
      * @var string
      */
@@ -21,7 +22,8 @@ class SubmitAssessmentCommand extends AbstractCommand {
      * @param string $result_uuid
      * @param int $user_id
      */
-    public function __construct(string $result_uuid, int $user_id) {
+    public function __construct(string $result_uuid, int $user_id)
+    {
         $this->result_uuid = $result_uuid;
         parent::__construct($user_id);
     }

@@ -16,7 +16,8 @@ use ILIAS\Data\Result\Ok;
  *
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
-class StartAssessmentCommandHandler implements CommandHandlerContract {
+class StartAssessmentCommandHandler implements CommandHandlerContract
+{
     /**
      * @param $command StartAssessmentCommand
      */
@@ -26,7 +27,8 @@ class StartAssessmentCommandHandler implements CommandHandlerContract {
             $command->getUuid(),
             $command->getContext(),
             $command->getQuestionIds(),
-            $command->getIssuingUserId());
+            $command->getIssuingUserId()
+        );
 
         AssessmentResultRepository::getInstance()->save($assessment_result);
 

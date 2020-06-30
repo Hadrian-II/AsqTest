@@ -11,13 +11,15 @@ use srag\CQRS\Event\AbstractStoredEvent;
  *
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
-class AssessmentSectionEventStoreAr extends AbstractStoredEvent {
+class AssessmentSectionEventStoreAr extends AbstractStoredEvent
+{
     const STORAGE_NAME = "asq_section_es";
     
     /**
      * @return string
      */
-    public static function returnDbTableName() {
+    public static function returnDbTableName()
+    {
         return self::STORAGE_NAME;
     }
 }

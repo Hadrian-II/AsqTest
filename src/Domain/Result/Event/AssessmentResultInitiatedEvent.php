@@ -14,7 +14,8 @@ use srag\asq\Test\Domain\Result\Model\AssessmentResultContext;
  *
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
-class AssessmentResultInitiatedEvent extends AbstractDomainEvent {
+class AssessmentResultInitiatedEvent extends AbstractDomainEvent
+{
     const KEY_CONTEXT = 'context';
     const KEY_QUESTIONS = 'questions';
 
@@ -39,8 +40,8 @@ class AssessmentResultInitiatedEvent extends AbstractDomainEvent {
         ilDateTime $occured_on,
         int $initiating_user_id,
         AssessmentResultContext $context = null,
-        array $questions = null)
-    {
+        array $questions = null
+    ) {
         $this->context = $context;
         $this->questions = $questions;
         parent::__construct($aggregate_id, $occured_on, $initiating_user_id);
@@ -62,7 +63,7 @@ class AssessmentResultInitiatedEvent extends AbstractDomainEvent {
         return $this->questions;
     }
 
-    public function getEventBody(): string
+    public function getEventBody() : string
     {
         $body = [];
         $body[self::KEY_CONTEXT] = $this->context;
@@ -73,7 +74,7 @@ class AssessmentResultInitiatedEvent extends AbstractDomainEvent {
     /**
      * @param string $event_body
      */
-    protected function restoreEventBody(string $event_body): void
+    protected function restoreEventBody(string $event_body) : void
     {
         $body = json_decode($event_body, true);
         $this->questions = $body[self::KEY_QUESTIONS];
@@ -83,7 +84,7 @@ class AssessmentResultInitiatedEvent extends AbstractDomainEvent {
     /**
      * @return int
      */
-    public static function getEventVersion(): int
+    public static function getEventVersion() : int
     {
         // initial version 1
         return 1;

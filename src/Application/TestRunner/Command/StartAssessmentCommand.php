@@ -12,7 +12,8 @@ use srag\asq\Test\Domain\Result\Model\AssessmentResultContext;
  *
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
-class StartAssessmentCommand extends AbstractCommand {    
+class StartAssessmentCommand extends AbstractCommand
+{
     /**
      * @var AssessmentResultContext
      */
@@ -33,14 +34,16 @@ class StartAssessmentCommand extends AbstractCommand {
      * @param AssessmentResultContext $context
      * @param array $question_ids
      */
-    public function __construct(string $uuid, int $user_id, AssessmentResultContext $context, array $question_ids) {
+    public function __construct(string $uuid, int $user_id, AssessmentResultContext $context, array $question_ids)
+    {
         $this->uuid = $uuid;
         $this->context = $context;
         $this->question_ids = $question_ids;
         parent::__construct($user_id);
     }
    
-    public function getUuid() : string {
+    public function getUuid() : string
+    {
         return $this->uuid;
     }
     
@@ -53,7 +56,7 @@ class StartAssessmentCommand extends AbstractCommand {
     }
 
     /**
-     * @return string[] 
+     * @return string[]
      */
     public function getQuestionIds() : array
     {

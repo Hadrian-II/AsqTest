@@ -16,7 +16,8 @@ use ILIAS\Data\Result;
  *
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
-class RemoveItemCommandHandler implements CommandHandlerContract {
+class RemoveItemCommandHandler implements CommandHandlerContract
+{
     /**
      * @param $command RemoveItemCommand
      */

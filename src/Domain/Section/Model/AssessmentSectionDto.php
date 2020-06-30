@@ -9,7 +9,8 @@ namespace srag\asq\Test\Domain\Section\Model;
  *
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
-class AssessmentSectionDto {
+class AssessmentSectionDto
+{
     /**
      * @var string
      */
@@ -29,7 +30,8 @@ class AssessmentSectionDto {
      * @param AssessmentSection $section
      * @return AssessmentSectionDto
      */
-    public static function Create(AssessmentSection $section) : AssessmentSectionDto {
+    public static function Create(AssessmentSection $section) : AssessmentSectionDto
+    {
         $object = new AssessmentSectionDto();
         $object->id = $section->getAggregateId();
         $object->data = $section->getData();
@@ -40,21 +42,24 @@ class AssessmentSectionDto {
     /**
      * @return string
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
     /**
      * @return AssessmentSectionData
      */
-    public function getData() : ?AssessmentSectionData {
+    public function getData() : ?AssessmentSectionData
+    {
         return $this->data;
     }
 
     /**
      * @return array
      */
-    public function getItems(): ?array {
+    public function getItems() : ?array
+    {
         return $this->items;
     }
 }

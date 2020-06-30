@@ -16,7 +16,8 @@ use ILIAS\Data\Result\Ok;
  *
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
-class HintReceivedCommandHandler implements CommandHandlerContract {
+class HintReceivedCommandHandler implements CommandHandlerContract
+{
     /**
      * @param $command HintReceivedCommand
      */

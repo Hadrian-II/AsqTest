@@ -13,7 +13,8 @@ use srag\asq\UserInterface\Web\Component\Hint\HintComponent;
  *
  * @author studer + raimann ag - Adrian Lüthi <al@studer-raimann.ch>
  */
-class TestPlayerGUI {
+class TestPlayerGUI
+{
     const LANG_TEST = 'test';
     
     const CMD_PREVIOUS_QUESTION = 'previousQuestion';
@@ -47,7 +48,8 @@ class TestPlayerGUI {
     /**
      * @throws AsqException
      */
-    public function __construct() {
+    public function __construct()
+    {
         global $DIC;
         
         $this->test_service = new TestRunnerService();
@@ -79,7 +81,8 @@ class TestPlayerGUI {
         $this->{$cmd}();
     }
     
-    private function runTest() {
+    private function runTest()
+    {
         global $DIC;
 
         $component = AsqGateway::get()->ui()->getQuestionComponent($this->question);
@@ -105,22 +108,26 @@ class TestPlayerGUI {
         $DIC->ui()->mainTemplate()->setContent($tpl->get());
     }
     
-    private function previousQuestion() {
+    private function previousQuestion()
+    {
         $this->redirectToQuestion($this->test_service->getPreviousQuestionId($this->result_id, $this->question->getId()));
     }
     
-    private function nextQuestion() {
+    private function nextQuestion()
+    {
         $this->redirectToQuestion($this->test_service->getNextQuestionId($this->result_id, $this->question->getId()));
     }
     
-    private function redirectToQuestion(string $question_id) {
+    private function redirectToQuestion(string $question_id)
+    {
         global $DIC;
         
         $DIC->ctrl()->setParameter($this, self::PARAM_CURRENT_QUESTION, $question_id);
         $DIC->ctrl()->redirectToURL($DIC->ctrl()->getLinkTarget($this, self::CMD_RUN_TEST, "", false, false));
     }
     
-    private function getHint() {
+    private function getHint()
+    {
         $this->item_result = $this->test_service->getItemResult($this->result_id, $this->question->getId());
         
         foreach ($this->question->getQuestionHints()->getHints() as $question_hint) {
@@ -132,7 +139,8 @@ class TestPlayerGUI {
         $this->runTest();
     }
     
-    private function showResults() {
+    private function showResults()
+    {
         global $DIC;
         
         $html = '';
@@ -141,29 +149,32 @@ class TestPlayerGUI {
         do {
             $question = AsqGateway::get()->question()->getQuestionByQuestionId($question_id);
             $result = $this->test_service->getItemResult($this->result_id, $question_id);
-            $hint_value = array_reduce($result->getHints()->getHints(), function($sum, $hint) {
+            $hint_value = array_reduce($result->getHints()->getHints(), function ($sum, $hint) {
                 return $sum += $hint->getPointDeduction();
             }, 0);
             
             $html .= sprintf(
-                '<div>Question: %s Score: %s Max Score: %s</div>', 
+                '<div>Question: %s Score: %s Max Score: %s</div>',
                 $question_id,
                 AsqGateway::get()->answer()->getScore($question, $result->getAnswer()) - $hint_value,
-                AsqGateway::get()->answer()->getMaxScore($question));
+                AsqGateway::get()->answer()->getMaxScore($question)
+            );
             $question_id = $this->test_service->getNextQuestionId($this->result_id, $question_id);
         } while (!is_null($question_id));
         
         $DIC->ui()->mainTemplate()->setContent($html);
     }
     
-    private function storeAnswer() {
+    private function storeAnswer()
+    {
         $this->loadQuestion();
         $component = AsqGateway::get()->ui()->getQuestionComponent($this->question);
         $answer = $component->readAnswer();
         $this->test_service->addAnswer($this->result_id, $this->question->getId(), $answer);
     }
     
-    private function loadQuestion() {
+    private function loadQuestion()
+    {
         global $DIC;
         
         $question_id = $_GET[self::PARAM_CURRENT_QUESTION];
@@ -176,7 +187,8 @@ class TestPlayerGUI {
         $this->question = AsqGateway::get()->question()->getQuestionByQuestionId($question_id);
     }
     
-    private function createButtons() : string {
+    private function createButtons() : string
+    {
         global $DIC;
         
         $buttons = [];
@@ -214,7 +226,7 @@ class TestPlayerGUI {
         $show_results->setCommand(self::CMD_SHOW_RESULTS);
         $buttons[] = $show_results;
         
-        return array_reduce($buttons, function(string $carry, ilSubmitButton $button) {
+        return array_reduce($buttons, function (string $carry, ilSubmitButton $button) {
             return $carry . "&nbsp;" . $button->render();
         }, '');
     }
@@ -222,8 +234,9 @@ class TestPlayerGUI {
     /**
      * @return bool
      */
-    private function areHintsAvailable() : bool {
-        return $this->question->hasHints() 
+    private function areHintsAvailable() : bool
+    {
+        return $this->question->hasHints()
             && count($this->question->getQuestionHints()->getHints()) > count($this->item_result->getHints()->getHints());
     }
 }

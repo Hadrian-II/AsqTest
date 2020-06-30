@@ -11,12 +11,13 @@ use srag\CQRS\Event\AbstractDomainEvent;
  *
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
-class AssessmentResultSubmittedEvent extends AbstractDomainEvent {
+class AssessmentResultSubmittedEvent extends AbstractDomainEvent
+{
     /**
      * {@inheritDoc}
      * @see \srag\CQRS\Event\AbstractDomainEvent::getEventBody()
      */
-    public function getEventBody(): string
+    public function getEventBody() : string
     {
         //No Event body
         return '';
@@ -26,7 +27,7 @@ class AssessmentResultSubmittedEvent extends AbstractDomainEvent {
      * {@inheritDoc}
      * @see \srag\CQRS\Event\AbstractDomainEvent::restoreEventBody()
      */
-    protected function restoreEventBody(string $event_body): void
+    protected function restoreEventBody(string $event_body) : void
     {
         //No Event body
     }
@@ -34,7 +35,7 @@ class AssessmentResultSubmittedEvent extends AbstractDomainEvent {
     /**
      * @return int
      */
-    public static function getEventVersion(): int
+    public static function getEventVersion() : int
     {
         // initial version 1
         return 1;

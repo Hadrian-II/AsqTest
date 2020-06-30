@@ -73,6 +73,7 @@ class StatisticsProjector
             $result->getContext()->getAssessmentName(),
             $event->getInitiatingUserId(),
             $event->getScore(),
-            $event->getOccurredOn());
+            $event->getOccurredOn()
+        );
     }
 }

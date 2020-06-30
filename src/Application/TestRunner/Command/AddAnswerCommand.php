@@ -12,7 +12,8 @@ use srag\asq\Domain\Model\Answer\Answer;
  *
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
-class AddAnswerCommand extends AbstractCommand {
+class AddAnswerCommand extends AbstractCommand
+{
     /**
      * @var string
      */
@@ -33,7 +34,8 @@ class AddAnswerCommand extends AbstractCommand {
      * @param string $question_id
      * @param Answer $answer
      */
-    public function __construct(string $result_uuid, int $user_id, string $question_id, Answer $answer) {
+    public function __construct(string $result_uuid, int $user_id, string $question_id, Answer $answer)
+    {
         $this->result_uuid = $result_uuid;
         $this->question_id = $question_id;
         $this->answer = $answer;

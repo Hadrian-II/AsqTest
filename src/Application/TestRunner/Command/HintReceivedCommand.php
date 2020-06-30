@@ -12,7 +12,8 @@ use srag\asq\Domain\Model\Hint\QuestionHint;
  *
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
-class HintReceivedCommand extends AbstractCommand {
+class HintReceivedCommand extends AbstractCommand
+{
     /**
      * @var string
      */
@@ -33,7 +34,8 @@ class HintReceivedCommand extends AbstractCommand {
      * @param string $question_id
      * @param QuestionHint $answer
      */
-    public function __construct(string $result_uuid, int $user_id, string $question_id, QuestionHint $hint) {
+    public function __construct(string $result_uuid, int $user_id, string $question_id, QuestionHint $hint)
+    {
         $this->result_uuid = $result_uuid;
         $this->question_id = $question_id;
         $this->hint = $hint;

@@ -11,12 +11,13 @@ use srag\CQRS\Event\EventStore;
  *
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
-class AssessmentSectionEventStore extends EventStore {
+class AssessmentSectionEventStore extends EventStore
+{
     /**
      * {@inheritDoc}
      * @see \srag\CQRS\Event\EventStore::getEventArClass()
      */
-    protected function getEventArClass(): string
+    protected function getEventArClass() : string
     {
         return AssessmentSectionEventStoreAr::class;
     }

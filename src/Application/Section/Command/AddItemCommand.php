@@ -13,7 +13,8 @@ use srag\asq\Test\Domain\Section\Model\SectionPart;
  *
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
-class AddItemCommand extends AbstractCommand {
+class AddItemCommand extends AbstractCommand
+{
     /**
      * @var string
      */
@@ -29,7 +30,8 @@ class AddItemCommand extends AbstractCommand {
      * @param string $question_id
      * @param Answer $answer
      */
-    public function __construct(string $section_id, int $user_id, SectionPart $item) {
+    public function __construct(string $section_id, int $user_id, SectionPart $item)
+    {
         $this->section_id = $section_id;
         $this->item = $item;
         parent::__construct($user_id);
@@ -38,7 +40,8 @@ class AddItemCommand extends AbstractCommand {
     /**
      * @return string
      */
-    public function getSectionId(): string {
+    public function getSectionId() : string
+    {
         return $this->section_id;
     }
     

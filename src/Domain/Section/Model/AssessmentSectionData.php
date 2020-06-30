@@ -11,7 +11,8 @@ use srag\CQRS\Aggregate\AbstractValueObject;
  *
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
-class AssessmentSectionData extends AbstractValueObject {
+class AssessmentSectionData extends AbstractValueObject
+{
     /**
      * @var string
      */
@@ -50,8 +51,8 @@ class AssessmentSectionData extends AbstractValueObject {
         bool $visible = true,
         bool $required = false,
         bool $fixed = false,
-        bool $keep_together = true) : AssessmentSectionData 
-    {
+        bool $keep_together = true
+    ) : AssessmentSectionData {
         $object = new AssessmentSectionData();
         $object->title = $title;
         $object->visible = $visible;

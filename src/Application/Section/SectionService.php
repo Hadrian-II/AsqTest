@@ -25,30 +25,35 @@ use ILIAS\Data\UUID\Factory;
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
 
-class SectionService extends ASQService {
+class SectionService extends ASQService
+{
     /**
      * @var CommandBus
      */
     private $command_bus;
 
-    private function getCommandBus() : CommandBus {
+    private function getCommandBus() : CommandBus
+    {
         if (is_null($this->command_bus)) {
             $this->command_bus = new CommandBus();
 
             $this->command_bus->registerCommand(new CommandConfiguration(
                 AddItemCommand::class,
                 new AddItemCommandHandler(),
-                new OpenAccess()));
+                new OpenAccess()
+            ));
 
             $this->command_bus->registerCommand(new CommandConfiguration(
                 CreateSectionCommand::class,
                 new CreateSectionCommandHandler(),
-                new OpenAccess()));
+                new OpenAccess()
+            ));
 
             $this->command_bus->registerCommand(new CommandConfiguration(
                 RemoveItemCommand::class,
                 new RemoveItemCommandHandler(),
-                new OpenAccess()));
+                new OpenAccess()
+            ));
         }
 
         return $this->command_bus;
@@ -57,7 +62,8 @@ class SectionService extends ASQService {
     /**
      * @return string
      */
-    public function createSection() : string {
+    public function createSection() : string
+    {
         $uuid_factory = new Factory();
         $uuid = $uuid_factory->uuid4AsString();
 
@@ -77,7 +83,8 @@ class SectionService extends ASQService {
      * @param string $question_id
      * @param string $question_revision
      */
-    public function addQuestion(string $section_id, string $question_id, ?string $question_revision = null) {
+    public function addQuestion(string $section_id, string $question_id, ?string $question_revision = null)
+    {
         $this->getCommandBus()->handle(
             new AddItemCommand(
                 $section_id,
@@ -96,7 +103,8 @@ class SectionService extends ASQService {
      * @param string $question_id
      * @param string $question_revision
      */
-    public function removeQuestion(string $section_id, string $question_id, ?string $question_revision = null) {
+    public function removeQuestion(string $section_id, string $question_id, ?string $question_revision = null)
+    {
         $this->getCommandBus()->handle(
             new RemoveItemCommand(
                 $section_id,
@@ -114,7 +122,8 @@ class SectionService extends ASQService {
      * @param string $section_id
      * @return AssessmentSectionDto
      */
-    public function getSection(string $section_id) : AssessmentSectionDto {
+    public function getSection(string $section_id) : AssessmentSectionDto
+    {
         return AssessmentSectionDto::Create(
             AssessmentSectionRepository::getInstance()->getAggregateRootById($section_id)
         );

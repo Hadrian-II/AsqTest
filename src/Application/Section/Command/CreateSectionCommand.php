@@ -11,7 +11,8 @@ use srag\CQRS\Command\AbstractCommand;
  *
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
-class CreateSectionCommand extends AbstractCommand {    
+class CreateSectionCommand extends AbstractCommand
+{
     /**
      * @var string
      */
@@ -21,7 +22,8 @@ class CreateSectionCommand extends AbstractCommand {
      * @param string $uuid
      * @param int $user_id
      */
-    public function __construct(string $uuid, int $user_id) {
+    public function __construct(string $uuid, int $user_id)
+    {
         $this->uuid = $uuid;
         parent::__construct($user_id);
     }
@@ -29,7 +31,8 @@ class CreateSectionCommand extends AbstractCommand {
     /**
      * @return string
      */
-    public function getId(): string {
+    public function getId() : string
+    {
         return $this->uuid;
     }
 }

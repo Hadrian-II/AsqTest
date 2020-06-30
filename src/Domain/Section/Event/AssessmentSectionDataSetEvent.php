@@ -13,7 +13,8 @@ use srag\asq\Test\Domain\Section\Model\AssessmentSectionData;
  *
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
-class AssessmentSectionDataSetEvent extends AbstractDomainEvent {
+class AssessmentSectionDataSetEvent extends AbstractDomainEvent
+{
     /**
     * @var AssessmentSectionData
     */
@@ -29,8 +30,8 @@ class AssessmentSectionDataSetEvent extends AbstractDomainEvent {
         string $aggregate_id,
         ilDateTime $occured_on,
         int $initiating_user_id,
-        AssessmentSectionData $data = null)
-    {
+        AssessmentSectionData $data = null
+    ) {
         $this->section_data = $data;
         parent::__construct($aggregate_id, $occured_on, $initiating_user_id);
     }
@@ -38,7 +39,8 @@ class AssessmentSectionDataSetEvent extends AbstractDomainEvent {
     /**
      * @return AssessmentSectionData
      */
-    public function getSectionData() : AssessmentSectionData {
+    public function getSectionData() : AssessmentSectionData
+    {
         return $this->section_data;
     }
 
@@ -46,7 +48,7 @@ class AssessmentSectionDataSetEvent extends AbstractDomainEvent {
      * {@inheritDoc}
      * @see \srag\CQRS\Event\AbstractDomainEvent::getEventBody()
      */
-    public function getEventBody(): string
+    public function getEventBody() : string
     {
         return json_encode($this->section_data);
     }
@@ -55,7 +57,7 @@ class AssessmentSectionDataSetEvent extends AbstractDomainEvent {
      * {@inheritDoc}
      * @see \srag\CQRS\Event\AbstractDomainEvent::restoreEventBody()
      */
-    protected function restoreEventBody(string $event_body): void
+    protected function restoreEventBody(string $event_body) : void
     {
         $this->section_data = AssessmentSectionData::deserialize($event_body);
     }
@@ -63,7 +65,7 @@ class AssessmentSectionDataSetEvent extends AbstractDomainEvent {
     /**
      * @return int
      */
-    public static function getEventVersion(): int
+    public static function getEventVersion() : int
     {
         // initial version 1
         return 1;

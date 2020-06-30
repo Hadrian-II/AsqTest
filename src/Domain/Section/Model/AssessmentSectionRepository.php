@@ -15,7 +15,8 @@ use srag\asq\Test\Domain\Section\Persistence\AssessmentSectionEventStore;
  *
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
-class AssessmentSectionRepository extends AbstractAggregateRepository {
+class AssessmentSectionRepository extends AbstractAggregateRepository
+{
     /**
      * @var EventStore
      */
@@ -24,7 +25,8 @@ class AssessmentSectionRepository extends AbstractAggregateRepository {
     /**
      * QuestionRepository constructor.
      */
-    protected function __construct() {
+    protected function __construct()
+    {
         parent::__construct();
         $this->event_store = new AssessmentSectionEventStore();
     }
@@ -32,7 +34,8 @@ class AssessmentSectionRepository extends AbstractAggregateRepository {
     /**
      * @return EventStore
      */
-    protected function getEventStore(): EventStore {
+    protected function getEventStore() : EventStore
+    {
         return $this->event_store;
     }
 
@@ -41,7 +44,8 @@ class AssessmentSectionRepository extends AbstractAggregateRepository {
      *
      * @return AbstractAggregateRoot
      */
-    protected function reconstituteAggregate(DomainEvents $event_history): AbstractAggregateRoot {
+    protected function reconstituteAggregate(DomainEvents $event_history) : AbstractAggregateRoot
+    {
         return AssessmentSection::reconstitute($event_history);
     }
 }

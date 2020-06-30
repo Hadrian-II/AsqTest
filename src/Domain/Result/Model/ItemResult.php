@@ -16,7 +16,8 @@ use srag\asq\Domain\Model\Hint\QuestionHints;
  *
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
-class ItemResult extends AbstractValueObject {
+class ItemResult extends AbstractValueObject
+{
     /**
      * @var String
      */
@@ -62,7 +63,8 @@ class ItemResult extends AbstractValueObject {
      * @param int $sequence_index
      * @return ItemResult
      */
-    public static function create(string $question_id, int $sequence_index) : ItemResult {
+    public static function create(string $question_id, int $sequence_index) : ItemResult
+    {
         $object = new ItemResult();
         $object->question_id = $question_id;
         $object->sequence_index = $sequence_index;
@@ -76,7 +78,8 @@ class ItemResult extends AbstractValueObject {
      * @param Answer $answer
      * @return ItemResult
      */
-    public function withAnswer(Answer $answer) {
+    public function withAnswer(Answer $answer)
+    {
         $clone = clone $this;
         $clone->answer = $answer;
         $clone->session_status = SessionStatus::PENDING_SUBMISSION;
@@ -87,7 +90,8 @@ class ItemResult extends AbstractValueObject {
      * @param ItemScore $answer
      * @return ItemResult
      */
-    public function withScore(ItemScore $score) {
+    public function withScore(ItemScore $score)
+    {
         $clone = clone $this;
         $clone->score = $score;
         $clone->session_status = SessionStatus::FINAL;
@@ -98,7 +102,8 @@ class ItemResult extends AbstractValueObject {
      * @param QuestionHint $hint
      * @return ItemResult
      */
-    public function withAddedHint(QuestionHint $hint) : ItemResult {
+    public function withAddedHint(QuestionHint $hint) : ItemResult
+    {
         $clone = clone $this;
         $hints = $this->hints->getHints();
         $hints[] = $hint;
@@ -110,7 +115,8 @@ class ItemResult extends AbstractValueObject {
      * @param string $comment
      * @return ItemResult
      */
-    public function withComment(string $comment) : ItemResult {
+    public function withComment(string $comment) : ItemResult
+    {
         $clone = clone $this;
         $clone->candidate_comment = $comment;
         return $clone;
@@ -120,7 +126,8 @@ class ItemResult extends AbstractValueObject {
      * @param string $status
      * @return ItemResult
      */
-    public function withStatus(string $status) : ItemResult {
+    public function withStatus(string $status) : ItemResult
+    {
         if (SessionStatus::isValid()) {
             $clone = clone $this;
             $clone->session_status = $status;

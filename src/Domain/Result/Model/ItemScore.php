@@ -14,7 +14,8 @@ use srag\CQRS\Aggregate\AbstractValueObject;
  * @package srag\asq\Test
  * @author  Adrian Lüthi <al@studer-raimann.ch>
  */
-class ItemScore extends AbstractValueObject {
+class ItemScore extends AbstractValueObject
+{
     const AUTOMATIC_SCORING = 1;
     const MANUAL_SCORING = 2;
     

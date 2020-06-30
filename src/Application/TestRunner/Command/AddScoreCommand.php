@@ -12,7 +12,8 @@ use srag\asq\Test\Domain\Result\Model\ItemScore;
  *
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
-class AddScoreCommand extends AbstractCommand {
+class AddScoreCommand extends AbstractCommand
+{
     /**
      * @var string
      */
@@ -34,7 +35,8 @@ class AddScoreCommand extends AbstractCommand {
      * @param string $question_id
      * @param ItemScore $score
      */
-    public function __construct(string $result_uuid, int $user_id, string $question_id, ItemScore $score) {
+    public function __construct(string $result_uuid, int $user_id, string $question_id, ItemScore $score)
+    {
         $this->result_uuid = $result_uuid;
         $this->question_id = $question_id;
         $this->score = $score;

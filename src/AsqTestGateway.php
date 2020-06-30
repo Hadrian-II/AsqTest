@@ -23,12 +23,15 @@ class AsqTestGateway
      */
     private static $instance;
     
-    private function __construct() { }
+    private function __construct()
+    {
+    }
 
     /**
      * @return AsqTestGateway
      */
-    public static function get() : AsqTestGateway {
+    public static function get() : AsqTestGateway
+    {
         if (is_null(self::$instance)) {
             self::$instance = new AsqTestGateway();
         }
@@ -44,8 +47,9 @@ class AsqTestGateway
     /**
      * @return SectionService
      */
-    public function section(): SectionService {
-        if(is_null($this->section)) {
+    public function section() : SectionService
+    {
+        if (is_null($this->section)) {
             $this->section = new SectionService();
         }
         
@@ -60,7 +64,8 @@ class AsqTestGateway
     /**
      * @return TestRunnerService
      */
-    public function runner(): TestRunnerService {
+    public function runner() : TestRunnerService
+    {
         if (is_null($this->test_runner)) {
             $this->test_runner = new TestRunnerService();
         }

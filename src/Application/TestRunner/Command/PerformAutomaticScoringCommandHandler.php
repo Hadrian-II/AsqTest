@@ -18,7 +18,8 @@ use srag\asq\Test\Domain\Result\Model\ItemScore;
  *
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
-class PerformAutomaticScoringCommandHandler implements CommandHandlerContract {
+class PerformAutomaticScoringCommandHandler implements CommandHandlerContract
+{
     /**
      * @param $command PerformAutomaticScoringCommand
      */
@@ -40,7 +41,8 @@ class PerformAutomaticScoringCommandHandler implements CommandHandlerContract {
                 ItemScore::AUTOMATIC_SCORING,
                 AsqGateway::get()->answer()->getMaxScore($question),
                 AsqGateway::get()->answer()->getMinScore($question),
-                $reached_score);
+                $reached_score
+            );
 
             $assessment_result->setScore($question_id, $score, $command->getIssuingUserId());
         }

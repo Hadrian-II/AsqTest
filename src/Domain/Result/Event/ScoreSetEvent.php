@@ -13,7 +13,8 @@ use srag\asq\Test\Domain\Result\Model\ItemScore;
  *
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
-class ScoreSetEvent extends AbstractDomainEvent {
+class ScoreSetEvent extends AbstractDomainEvent
+{
     const KEY_QUESTION_ID = 'quid';
     const KEY_SCORE = 'score';
 
@@ -34,7 +35,8 @@ class ScoreSetEvent extends AbstractDomainEvent {
      * @param string $question_id
      * @param ItemScore $score
      */
-    public function __construct(string $aggregate_id, ilDateTime $occured_on, int $initiating_user_id, string $question_id = null, ItemScore $score = null) {
+    public function __construct(string $aggregate_id, ilDateTime $occured_on, int $initiating_user_id, string $question_id = null, ItemScore $score = null)
+    {
         $this->question_id = $question_id;
         $this->score = $score;
         parent::__construct($aggregate_id, $occured_on, $initiating_user_id);
@@ -60,7 +62,7 @@ class ScoreSetEvent extends AbstractDomainEvent {
      * {@inheritDoc}
      * @see \srag\CQRS\Event\AbstractDomainEvent::getEventBody()
      */
-    public function getEventBody(): string
+    public function getEventBody() : string
     {
         $body = [];
         $body[self::KEY_QUESTION_ID] = $this->question_id;
@@ -72,7 +74,7 @@ class ScoreSetEvent extends AbstractDomainEvent {
      * {@inheritDoc}
      * @see \srag\CQRS\Event\AbstractDomainEvent::restoreEventBody()
      */
-    protected function restoreEventBody(string $event_body): void
+    protected function restoreEventBody(string $event_body) : void
     {
         $body = json_decode($event_body, true);
         $this->question_id = $body[self::KEY_QUESTION_ID];
@@ -82,7 +84,7 @@ class ScoreSetEvent extends AbstractDomainEvent {
     /**
      * @return int
      */
-    public static function getEventVersion(): int
+    public static function getEventVersion() : int
     {
         // initial version 1
         return 1;

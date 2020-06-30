@@ -16,7 +16,8 @@ use ILIAS\Data\Result\Ok;
  *
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
-class AddAnswerCommandHandler implements CommandHandlerContract {
+class AddAnswerCommandHandler implements CommandHandlerContract
+{
     /**
      * @param $command AddAnswerCommand
      */

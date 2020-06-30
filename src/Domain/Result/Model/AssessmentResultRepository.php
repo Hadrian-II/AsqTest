@@ -15,7 +15,8 @@ use srag\asq\Test\Domain\Result\Persistence\AssessmentResultEventStore;
  *
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
-class AssessmentResultRepository extends AbstractAggregateRepository {
+class AssessmentResultRepository extends AbstractAggregateRepository
+{
     /**
      * @var EventStore
      */
@@ -24,7 +25,8 @@ class AssessmentResultRepository extends AbstractAggregateRepository {
     /**
      * QuestionRepository constructor.
      */
-    protected function __construct() {
+    protected function __construct()
+    {
         parent::__construct();
         $this->event_store = new AssessmentResultEventStore();
     }
@@ -32,7 +34,8 @@ class AssessmentResultRepository extends AbstractAggregateRepository {
     /**
      * @return EventStore
      */
-    protected function getEventStore(): EventStore {
+    protected function getEventStore() : EventStore
+    {
         return $this->event_store;
     }
     /**
@@ -40,7 +43,8 @@ class AssessmentResultRepository extends AbstractAggregateRepository {
      *
      * @return AbstractAggregateRoot
      */
-    protected function reconstituteAggregate(DomainEvents $event_history): AbstractAggregateRoot {
+    protected function reconstituteAggregate(DomainEvents $event_history) : AbstractAggregateRoot
+    {
         return AssessmentResult::reconstitute($event_history);
     }
 }

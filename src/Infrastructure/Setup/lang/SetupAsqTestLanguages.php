@@ -12,9 +12,8 @@ use srag\asq\Infrastructure\Setup\lang\SetupLanguages;
  */
 class SetupAsqTestLanguages extends SetupLanguages
 {
-    public function getLanguagePrefix(): string
+    public function getLanguagePrefix() : string
     {
         return "asqt";
     }
 }
-

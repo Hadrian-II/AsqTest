@@ -13,7 +13,8 @@ use srag\asq\Test\Domain\Section\Model\SectionPart;
  *
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
-class AssessmentSectionItemRemovedEvent extends AbstractDomainEvent {
+class AssessmentSectionItemRemovedEvent extends AbstractDomainEvent
+{
     /**
      * @var SectionPart
      */
@@ -29,8 +30,8 @@ class AssessmentSectionItemRemovedEvent extends AbstractDomainEvent {
         string $aggregate_id,
         ilDateTime $occured_on,
         int $initiating_user_id,
-        SectionPart $item = null)
-    {
+        SectionPart $item = null
+    ) {
         $this->item = $item;
         parent::__construct($aggregate_id, $occured_on, $initiating_user_id);
     }
@@ -38,7 +39,8 @@ class AssessmentSectionItemRemovedEvent extends AbstractDomainEvent {
     /**
      * @return string
      */
-    public function getItem() : SectionPart {
+    public function getItem() : SectionPart
+    {
         return $this->item;
     }
 
@@ -46,7 +48,7 @@ class AssessmentSectionItemRemovedEvent extends AbstractDomainEvent {
      * {@inheritDoc}
      * @see \srag\CQRS\Event\AbstractDomainEvent::getEventBody()
      */
-    public function getEventBody(): string
+    public function getEventBody() : string
     {
         return json_encode($this->item);
     }
@@ -55,7 +57,7 @@ class AssessmentSectionItemRemovedEvent extends AbstractDomainEvent {
      * {@inheritDoc}
      * @see \srag\CQRS\Event\AbstractDomainEvent::restoreEventBody()
      */
-    protected function restoreEventBody(string $event_body): void
+    protected function restoreEventBody(string $event_body) : void
     {
         $this->item = SectionPart::deserialize($event_body);
     }
@@ -63,7 +65,7 @@ class AssessmentSectionItemRemovedEvent extends AbstractDomainEvent {
     /**
      * @return int
      */
-    public static function getEventVersion(): int
+    public static function getEventVersion() : int
     {
         // initial version 1
         return 1;

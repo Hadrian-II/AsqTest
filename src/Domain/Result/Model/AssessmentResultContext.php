@@ -11,7 +11,8 @@ use srag\CQRS\Aggregate\AbstractValueObject;
  *
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
-class AssessmentResultContext extends AbstractValueObject {
+class AssessmentResultContext extends AbstractValueObject
+{
     /**
      * @var int
      */
@@ -34,12 +35,12 @@ class AssessmentResultContext extends AbstractValueObject {
     protected $assessment_revision;
     
     public static function create(
-        int $user_id, 
-        string $assessment_name, 
-        int $run = 1, 
-        ?string $assessment_id = null, 
-        ?string $assessment_revision = null) : AssessmentResultContext
-    {
+        int $user_id,
+        string $assessment_name,
+        int $run = 1,
+        ?string $assessment_id = null,
+        ?string $assessment_revision = null
+    ) : AssessmentResultContext {
         $object = new AssessmentResultContext();
         $object->user_id = $user_id;
         $object->assessment_name = $assessment_name;

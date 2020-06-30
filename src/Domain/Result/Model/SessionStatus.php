@@ -11,7 +11,8 @@ use ReflectionClass;
  *
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
-class SessionStatus {
+class SessionStatus
+{
     const FINAL = "final";
     const INITIAL = "initial";
     const PENDING_RESPONSE_PROCESSING = "pendingResponseProcessing";
@@ -21,7 +22,8 @@ class SessionStatus {
      * @param string $value
      * @return bool
      */
-    public static function isValid(string $value) : bool {
+    public static function isValid(string $value) : bool
+    {
         $class = new ReflectionClass(__CLASS__);
         return in_array($value, $class->getConstants());
     }

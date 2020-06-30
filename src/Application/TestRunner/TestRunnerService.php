@@ -25,7 +25,6 @@ use srag\asq\Test\Application\TestRunner\Command\AddScoreCommandHandler;
 use srag\asq\Test\Application\TestRunner\Command\FinishScoringCommand;
 use ILIAS\Data\UUID\Factory;
 
-
 /**
  * Class TestRunnerService
  *
@@ -34,7 +33,8 @@ use ILIAS\Data\UUID\Factory;
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
 
-class TestRunnerService extends ASQService {
+class TestRunnerService extends ASQService
+{
     /**
      * @var CommandBus
      */
@@ -43,7 +43,8 @@ class TestRunnerService extends ASQService {
     /**
      * @return CommandBus
      */
-    private function getCommandBus() : CommandBus {
+    private function getCommandBus() : CommandBus
+    {
         if (is_null($this->command_bus)) {
             $this->command_bus = $this->createCommandBus();
         }
@@ -54,33 +55,39 @@ class TestRunnerService extends ASQService {
     /**
      * @return CommandBus
      */
-    private function createCommandBus() : CommandBus {
+    private function createCommandBus() : CommandBus
+    {
         $command_bus = new CommandBus();
 
         $command_bus->registerCommand(new CommandConfiguration(
             AddAnswerCommand::class,
             new AddAnswerCommandHandler(),
-            new OpenAccess()));
+            new OpenAccess()
+        ));
 
         $command_bus->registerCommand(new CommandConfiguration(
             StartAssessmentCommand::class,
             new StartAssessmentCommandHandler(),
-            new OpenAccess()));
+            new OpenAccess()
+        ));
 
         $command_bus->registerCommand(new CommandConfiguration(
             SubmitAssessmentCommand::class,
             new SubmitAssessmentCommandHandler(),
-            new OpenAccess()));
+            new OpenAccess()
+        ));
 
         $command_bus->registerCommand(new CommandConfiguration(
             HintReceivedCommand::class,
             new HintReceivedCommandHandler(),
-            new OpenAccess()));
+            new OpenAccess()
+        ));
 
         $command_bus->registerCommand(new CommandConfiguration(
             AddScoreCommand::class,
             new AddScoreCommandHandler(),
-            new OpenAccess()));
+            new OpenAccess()
+        ));
 
         return $command_bus;
     }
@@ -90,7 +97,8 @@ class TestRunnerService extends ASQService {
      * @param array $question_ids
      * @return string
      */
-    public function createTestRun(AssessmentResultContext $context, array $question_ids) : string {
+    public function createTestRun(AssessmentResultContext $context, array $question_ids) : string
+    {
         $uuid_factory = new Factory();
 
         $uuid = $uuid_factory->uuid4AsString();
@@ -101,7 +109,9 @@ class TestRunnerService extends ASQService {
                 $uuid,
                 $this->getActiveUser(),
                 $context,
-                $question_ids));
+                $question_ids
+            )
+        );
 
         return $uuid;
     }
@@ -111,13 +121,16 @@ class TestRunnerService extends ASQService {
      * @param string $question_id
      * @param Answer $answer
      */
-    public function addAnswer(string $uuid, string $question_id, Answer $answer) {
+    public function addAnswer(string $uuid, string $question_id, Answer $answer)
+    {
         $this->getCommandBus()->handle(
             new AddAnswerCommand(
                 $uuid,
                 $this->getActiveUser(),
                 $question_id,
-                $answer));
+                $answer
+            )
+        );
     }
 
     /**
@@ -125,33 +138,42 @@ class TestRunnerService extends ASQService {
      * @param string $question_id
      * @param QuestionHint $hint
      */
-    public function hintRecieved(string $uuid, string $question_id, QuestionHint $hint) {
+    public function hintRecieved(string $uuid, string $question_id, QuestionHint $hint)
+    {
         $this->getCommandBus()->handle(
             new HintReceivedCommand(
                 $uuid,
                 $this->getActiveUser(),
                 $question_id,
-                $hint));
+                $hint
+            )
+        );
     }
 
     /**
      * @param string $uuid
      */
-    public function submitTestRun(string $uuid) {
+    public function submitTestRun(string $uuid)
+    {
         $this->getCommandBus()->handle(
             new SubmitAssessmentCommand(
                 $uuid,
-                $this->getActiveUser()));
+                $this->getActiveUser()
+            )
+        );
     }
 
     /**
      * @param string $uuid
      */
-    public function finishScoring(string $uuid) {
+    public function finishScoring(string $uuid)
+    {
         $this->getCommandBus()->handle(
             new FinishScoringCommand(
                 $uuid,
-                $this->getActiveUser()));
+                $this->getActiveUser()
+            )
+        );
     }
 
 
@@ -161,13 +183,16 @@ class TestRunnerService extends ASQService {
      * @param string $question_id
      * @param ItemScore $score
      */
-    public function addScore(string $uuid, string $question_id, ItemScore $score) {
+    public function addScore(string $uuid, string $question_id, ItemScore $score)
+    {
         $this->getCommandBus()->handle(
             new AddScoreCommand(
                 $uuid,
                 $this->getActiveUser(),
                 $question_id,
-                $score));
+                $score
+            )
+        );
     }
 
     /**
@@ -175,7 +200,8 @@ class TestRunnerService extends ASQService {
      * @param string $question_id
      * @return ItemResult|NULL
      */
-    public function getItemResult(string $uuid, string $question_id) : ?ItemResult {
+    public function getItemResult(string $uuid, string $question_id) : ?ItemResult
+    {
         $assessment_result = AssessmentResultRepository::getInstance()->getAggregateRootById($uuid);
 
         return $assessment_result->getItemResult($question_id);
@@ -185,7 +211,8 @@ class TestRunnerService extends ASQService {
      * @param string $uuid
      * @return string
      */
-    public function getFirstQuestionId(string $uuid) : string {
+    public function getFirstQuestionId(string $uuid) : string
+    {
         $assessment_result = AssessmentResultRepository::getInstance()->getAggregateRootById($uuid);
 
         return $assessment_result->getQuestions()[0];
@@ -196,15 +223,15 @@ class TestRunnerService extends ASQService {
      * @param string $question_id
      * @return string|NULL
      */
-    public function getPreviousQuestionId(string $uuid, string $question_id) : ?string{
+    public function getPreviousQuestionId(string $uuid, string $question_id) : ?string
+    {
         $questions = AssessmentResultRepository::getInstance()->getAggregateRootById($uuid)->getQuestions();
 
         $current_id = array_search($question_id, $questions);
 
         if ($current_id > 0) {
             return $questions[$current_id - 1];
-        }
-        else {
+        } else {
             return null;
         }
     }
@@ -214,20 +241,20 @@ class TestRunnerService extends ASQService {
      * @param string $question_id
      * @return string|NULL
      */
-    public function getNextQuestionId(string $uuid, string $question_id) : ?string {
+    public function getNextQuestionId(string $uuid, string $question_id) : ?string
+    {
         $questions = AssessmentResultRepository::getInstance()->getAggregateRootById($uuid)->getQuestions();
 
         $current_id = array_search($question_id, $questions);
 
         if (array_key_exists($current_id + 1, $questions)) {
             return $questions[$current_id + 1];
-        }
-        else {
+        } else {
             return null;
         }
     }
 
-    public function getTestResult(string $name) {
-
+    public function getTestResult(string $name)
+    {
     }
 }
