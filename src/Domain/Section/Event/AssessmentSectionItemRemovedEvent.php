@@ -5,6 +5,7 @@ namespace srag\asq\Test\Domain\Section\Event;
 use ilDateTime;
 use srag\CQRS\Event\AbstractDomainEvent;
 use srag\asq\Test\Domain\Section\Model\SectionPart;
+use ILIAS\Data\UUID\Uuid;
 
 /**
  * Class AssessmentSectionItemRemovedEvent
@@ -21,13 +22,13 @@ class AssessmentSectionItemRemovedEvent extends AbstractDomainEvent
     protected $item;
 
     /**
-     * @param string $aggregate_id
+     * @param Uuid $aggregate_id
      * @param ilDateTime $occured_on
      * @param int $initiating_user_id
      * @param SectionPart $item
      */
     public function __construct(
-        string $aggregate_id,
+        Uuid $aggregate_id,
         ilDateTime $occured_on,
         int $initiating_user_id,
         SectionPart $item = null

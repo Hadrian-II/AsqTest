@@ -2,8 +2,8 @@
 
 namespace srag\asq\Test\Application\Section\Command;
 
+use ILIAS\Data\UUID\Uuid;
 use srag\CQRS\Command\AbstractCommand;
-use srag\asq\Domain\Model\Answer\Answer;
 use srag\asq\Test\Domain\Section\Model\SectionPart;
 
 /**
@@ -16,35 +16,35 @@ use srag\asq\Test\Domain\Section\Model\SectionPart;
 class AddItemCommand extends AbstractCommand
 {
     /**
-     * @var string
+     * @var Uuid
      */
     public $section_id;
-    
+
     /**
      * @var SectionPart
      */
     public $item;
-    
+
     /**
-     * @param string $assessment_name
-     * @param string $question_id
-     * @param Answer $answer
+     * @param Uuid $section_id
+     * @param int $user_id
+     * @param SectionPart $item
      */
-    public function __construct(string $section_id, int $user_id, SectionPart $item)
+    public function __construct(Uuid $section_id, int $user_id, SectionPart $item)
     {
         $this->section_id = $section_id;
         $this->item = $item;
         parent::__construct($user_id);
     }
-    
+
     /**
-     * @return string
+     * @return Uuid
      */
-    public function getSectionId() : string
+    public function getSectionId() : Uuid
     {
         return $this->section_id;
     }
-    
+
     /**
      * @return SectionPart
      */

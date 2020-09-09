@@ -2,9 +2,10 @@
 
 namespace srag\asq\Test\Domain\Result\Event;
 
+use ILIAS\Data\UUID\Uuid;
 use ilDateTime;
+use srag\CQRS\Aggregate\AbstractValueObject;
 use srag\CQRS\Event\AbstractDomainEvent;
-use srag\asq\Domain\Model\Answer\Answer;
 
 /**
  * Class AnswerSetEvent
@@ -24,18 +25,18 @@ class AnswerSetEvent extends AbstractDomainEvent
     protected $question_id;
 
     /**
-     * @var Answer
+     * @var AbstractValueObject
      */
     protected $answer;
 
     /**
-     * @param string $aggregate_id
+     * @param Uuid $aggregate_id
      * @param ilDateTime $occured_on
      * @param int $initiating_user_id
      * @param string $question_id
-     * @param Answer $answer
+     * @param AbstractValueObject $answer
      */
-    public function __construct(string $aggregate_id, ilDateTime $occured_on, int $initiating_user_id, string $question_id = null, Answer $answer = null)
+    public function __construct(Uuid $aggregate_id, ilDateTime $occured_on, int $initiating_user_id, string $question_id = null, AbstractValueObject $answer = null)
     {
         $this->question_id = $question_id;
         $this->answer = $answer;
@@ -45,15 +46,15 @@ class AnswerSetEvent extends AbstractDomainEvent
     /**
      * @return string
      */
-    public function getQuestionId()
+    public function getQuestionId() : string
     {
         return $this->question_id;
     }
 
     /**
-     * @return Answer
+     * @return AbstractValueObject
      */
-    public function getAnswer()
+    public function getAnswer() : AbstractValueObject
     {
         return $this->answer;
     }
@@ -78,7 +79,7 @@ class AnswerSetEvent extends AbstractDomainEvent
     {
         $body = json_decode($event_body, true);
         $this->question_id = $body[self::KEY_QUESTION_ID];
-        $this->answer = Answer::createFromArray($body[self::KEY_ANSWER]);
+        $this->answer = AbstractValueObject::createFromArray($body[self::KEY_ANSWER]);
     }
 
     /**

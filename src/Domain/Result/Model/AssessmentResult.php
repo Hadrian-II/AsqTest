@@ -6,7 +6,6 @@ use ilDateTime;
 use srag\CQRS\Aggregate\AbstractAggregateRoot;
 use srag\CQRS\Event\Standard\AggregateCreatedEvent;
 use srag\asq\Application\Exception\AsqException;
-use srag\asq\Domain\Model\Answer\Answer;
 use srag\asq\Test\Domain\Result\Event\AnswerSetEvent;
 use srag\asq\Test\Domain\Result\Event\AssessmentResultInitiatedEvent;
 use srag\asq\Domain\Model\Hint\QuestionHint;
@@ -14,6 +13,7 @@ use srag\asq\Test\Domain\Result\Event\HintReceivedEvent;
 use srag\asq\Test\Domain\Result\Event\AssessmentResultSubmittedEvent;
 use srag\asq\Test\Domain\Result\Event\ScoreSetEvent;
 use srag\asq\Test\Domain\Result\Event\ScoringFinishedEvent;
+use srag\CQRS\Aggregate\AbstractValueObject;
 
 /**
  * Class AssessmentResult
@@ -153,11 +153,11 @@ class AssessmentResult extends AbstractAggregateRoot
 
     /**
      * @param string $question_id
-     * @param Answer $answer
+     * @param AbstractValueObject $answer
      * @param int $initiating_user_id
      * @throws AsqException
      */
-    public function setAnswer(string $question_id, Answer $answer, int $initiating_user_id)
+    public function setAnswer(string $question_id, AbstractValueObject $answer, int $initiating_user_id)
     {
         if ($this->status === SessionStatus::PENDING_RESPONSE_PROCESSING ||
             $this->status === SessionStatus::FINAL) {

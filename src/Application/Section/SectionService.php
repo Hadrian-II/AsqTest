@@ -16,6 +16,7 @@ use srag\asq\Test\Domain\Section\Model\AssessmentSectionDto;
 use srag\asq\Test\Domain\Section\Model\AssessmentSectionRepository;
 use srag\asq\Test\Domain\Section\Model\SectionPart;
 use ILIAS\Data\UUID\Factory;
+use ILIAS\Data\UUID\Uuid;
 
 /**
  * Class SectionService
@@ -62,10 +63,10 @@ class SectionService extends ASQService
     /**
      * @return string
      */
-    public function createSection() : string
+    public function createSection() : Uuid
     {
         $uuid_factory = new Factory();
-        $uuid = $uuid_factory->uuid4AsString();
+        $uuid = $uuid_factory->uuid4();
 
         // CreateQuestion.png
         $this->getCommandBus()->handle(
@@ -79,11 +80,11 @@ class SectionService extends ASQService
     }
 
     /**
-     * @param string $section_id
-     * @param string $question_id
+     * @param Uuid $section_id
+     * @param Uuid $question_id
      * @param string $question_revision
      */
-    public function addQuestion(string $section_id, string $question_id, ?string $question_revision = null)
+    public function addQuestion(Uuid $section_id, Uuid $question_id, ?string $question_revision = null) : void
     {
         $this->getCommandBus()->handle(
             new AddItemCommand(
@@ -99,11 +100,11 @@ class SectionService extends ASQService
     }
 
     /**
-     * @param string $section_id
-     * @param string $question_id
+     * @param Uuid $section_id
+     * @param Uuid $question_id
      * @param string $question_revision
      */
-    public function removeQuestion(string $section_id, string $question_id, ?string $question_revision = null)
+    public function removeQuestion(Uuid $section_id, Uuid $question_id, ?string $question_revision = null)
     {
         $this->getCommandBus()->handle(
             new RemoveItemCommand(
@@ -119,10 +120,10 @@ class SectionService extends ASQService
     }
 
     /**
-     * @param string $section_id
+     * @param Uuid $section_id
      * @return AssessmentSectionDto
      */
-    public function getSection(string $section_id) : AssessmentSectionDto
+    public function getSection(Uuid $section_id) : AssessmentSectionDto
     {
         return AssessmentSectionDto::Create(
             AssessmentSectionRepository::getInstance()->getAggregateRootById($section_id)

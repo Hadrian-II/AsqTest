@@ -4,7 +4,6 @@ namespace srag\asq\Test\Domain\Result\Model;
 
 use ilDateTime;
 use srag\CQRS\Aggregate\AbstractValueObject;
-use srag\asq\Domain\Model\Answer\Answer;
 use srag\asq\Domain\Model\Hint\QuestionHint;
 use srag\asq\Application\Exception\AsqException;
 use srag\asq\Domain\Model\Hint\QuestionHints;
@@ -22,42 +21,42 @@ class ItemResult extends AbstractValueObject
      * @var String
      */
     protected $question_id;
-    
+
     /**
      * @var int
      */
     protected $sequence_index;
-    
+
     /**
      * @var ilDateTime
      */
     protected $datestamp;
-    
+
     /**
      * @var string
      */
     protected $session_status;
-    
+
     /**
      * @var ?Answer
      */
     protected $answer;
-    
+
     /**
      * @var ItemScore
      */
     protected $score;
-    
+
     /**
      * @var QuestionHints
      */
     protected $hints;
-    
+
     /**
      * @var string
      */
     protected $candidate_comment;
-    
+
     /**
      * @param string $question_id
      * @param int $sequence_index
@@ -73,12 +72,12 @@ class ItemResult extends AbstractValueObject
         $object->hints = QuestionHints::create([]);
         return $object;
     }
-    
+
     /**
-     * @param Answer $answer
+     * @param AbstractValueObject $answer
      * @return ItemResult
      */
-    public function withAnswer(Answer $answer)
+    public function withAnswer(AbstractValueObject $answer)
     {
         $clone = clone $this;
         $clone->answer = $answer;
@@ -97,7 +96,7 @@ class ItemResult extends AbstractValueObject
         $clone->session_status = SessionStatus::FINAL;
         return $clone;
     }
-    
+
     /**
      * @param QuestionHint $hint
      * @return ItemResult
@@ -110,7 +109,7 @@ class ItemResult extends AbstractValueObject
         $clone->hints = Questionhints::create($hints);
         return $clone;
     }
-    
+
     /**
      * @param string $comment
      * @return ItemResult
@@ -121,7 +120,7 @@ class ItemResult extends AbstractValueObject
         $clone->candidate_comment = $comment;
         return $clone;
     }
-    
+
     /**
      * @param string $status
      * @return ItemResult
@@ -136,7 +135,7 @@ class ItemResult extends AbstractValueObject
             throw new AsqException(sprintf('Trying to set invalid Sessionstatus: "%s"', $status));
         }
     }
-    
+
     /**
      * @return string
      */
@@ -170,13 +169,13 @@ class ItemResult extends AbstractValueObject
     }
 
     /**
-     * @return Answer
+     * @return AbstractValueObject
      */
-    public function getAnswer() : ?Answer
+    public function getAnswer() : ?AbstractValueObject
     {
         return $this->answer;
     }
-    
+
     /**
      * @return ItemScore|NULL
      */
@@ -200,7 +199,7 @@ class ItemResult extends AbstractValueObject
     {
         return count($this->hints->getHints()) > 0;
     }
-    
+
     /**
      * @return string
      */

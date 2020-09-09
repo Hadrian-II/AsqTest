@@ -5,6 +5,7 @@ namespace srag\asq\Test\Domain\Section\Event;
 use ilDateTime;
 use srag\CQRS\Event\AbstractDomainEvent;
 use srag\asq\Test\Domain\Section\Model\AssessmentSectionData;
+use ILIAS\Data\UUID\Uuid;
 
 /**
  * Class AssessmentSectionDataSetEvent
@@ -21,13 +22,13 @@ class AssessmentSectionDataSetEvent extends AbstractDomainEvent
     protected $section_data;
 
     /**
-     * @param string $aggregate_id
+     * @param Uuid $aggregate_id
      * @param ilDateTime $occured_on
      * @param int $initiating_user_id
      * @param AssessmentSectionData $data
      */
     public function __construct(
-        string $aggregate_id,
+        Uuid $aggregate_id,
         ilDateTime $occured_on,
         int $initiating_user_id,
         AssessmentSectionData $data = null

@@ -5,6 +5,7 @@ namespace srag\asq\Test\Domain\Result\Event;
 use ilDateTime;
 use srag\CQRS\Event\AbstractDomainEvent;
 use srag\asq\Test\Domain\Result\Model\ItemScore;
+use ILIAS\Data\UUID\Uuid;
 
 /**
  * Class ScoreSetEvent
@@ -29,13 +30,13 @@ class ScoreSetEvent extends AbstractDomainEvent
     protected $score;
 
     /**
-     * @param string $aggregate_id
+     * @param Uuid $aggregate_id
      * @param ilDateTime $occured_on
      * @param int $initiating_user_id
      * @param string $question_id
      * @param ItemScore $score
      */
-    public function __construct(string $aggregate_id, ilDateTime $occured_on, int $initiating_user_id, string $question_id = null, ItemScore $score = null)
+    public function __construct(Uuid $aggregate_id, ilDateTime $occured_on, int $initiating_user_id, string $question_id = null, ItemScore $score = null)
     {
         $this->question_id = $question_id;
         $this->score = $score;

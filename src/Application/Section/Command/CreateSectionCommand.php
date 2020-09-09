@@ -2,6 +2,7 @@
 
 namespace srag\asq\Test\Application\Section\Command;
 
+use ILIAS\Data\UUID\Uuid;
 use srag\CQRS\Command\AbstractCommand;
 
 /**
@@ -14,24 +15,24 @@ use srag\CQRS\Command\AbstractCommand;
 class CreateSectionCommand extends AbstractCommand
 {
     /**
-     * @var string
+     * @var Uuid
      */
     protected $uuid;
-    
+
     /**
-     * @param string $uuid
+     * @param Uuid $uuid
      * @param int $user_id
      */
-    public function __construct(string $uuid, int $user_id)
+    public function __construct(Uuid $uuid, int $user_id)
     {
         $this->uuid = $uuid;
         parent::__construct($user_id);
     }
-    
+
     /**
-     * @return string
+     * @return Uuid
      */
-    public function getId() : string
+    public function getId() : Uuid
     {
         return $this->uuid;
     }

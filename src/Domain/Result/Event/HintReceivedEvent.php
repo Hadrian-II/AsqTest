@@ -4,6 +4,7 @@ namespace srag\asq\Test\Domain\Result\Event;
 
 use srag\CQRS\Event\AbstractDomainEvent;
 use srag\asq\Domain\Model\Hint\QuestionHint;
+use ILIAS\Data\UUID\Uuid;
 use ilDateTime;
 
 /**
@@ -29,13 +30,13 @@ class HintReceivedEvent extends AbstractDomainEvent
     protected $hint;
 
     /**
-     * @param string $aggregate_id
+     * @param Uuid $aggregate_id
      * @param ilDateTime $occured_on
      * @param int $initiating_user_id
      * @param string $question_id
      * @param QuestionHint $hint
      */
-    public function __construct(string $aggregate_id, ilDateTime $occured_on, int $initiating_user_id, string $question_id = null, QuestionHint $hint = null)
+    public function __construct(Uuid $aggregate_id, ilDateTime $occured_on, int $initiating_user_id, string $question_id = null, QuestionHint $hint = null)
     {
         $this->question_id = $question_id;
         $this->hint = $hint;

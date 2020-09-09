@@ -6,6 +6,7 @@ use ilDateTime;
 use srag\CQRS\Aggregate\AbstractValueObject;
 use srag\CQRS\Event\AbstractDomainEvent;
 use srag\asq\Test\Domain\Result\Model\AssessmentResultContext;
+use ILIAS\Data\UUID\Uuid;
 
 /**
  * Class AssessmentResultInitiatedEvent
@@ -30,13 +31,13 @@ class AssessmentResultInitiatedEvent extends AbstractDomainEvent
     protected $questions;
 
     /**
-     * @param string $aggregate_id
+     * @param Uuid $aggregate_id
      * @param int $initiating_user_id
      * @param AssessmentResultContext $context
      * @param array $questions
      */
     public function __construct(
-        string $aggregate_id,
+        Uuid $aggregate_id,
         ilDateTime $occured_on,
         int $initiating_user_id,
         AssessmentResultContext $context = null,
