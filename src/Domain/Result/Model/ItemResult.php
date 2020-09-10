@@ -7,6 +7,8 @@ use srag\CQRS\Aggregate\AbstractValueObject;
 use srag\asq\Domain\Model\Hint\QuestionHint;
 use srag\asq\Application\Exception\AsqException;
 use srag\asq\Domain\Model\Hint\QuestionHints;
+use ILIAS\Data\UUID\Uuid;
+use ILIAS\Data\UUID\Factory;
 
 /**
  * Class ItemResult
@@ -18,7 +20,7 @@ use srag\asq\Domain\Model\Hint\QuestionHints;
 class ItemResult extends AbstractValueObject
 {
     /**
-     * @var String
+     * @var Uuid
      */
     protected $question_id;
 
@@ -58,11 +60,11 @@ class ItemResult extends AbstractValueObject
     protected $candidate_comment;
 
     /**
-     * @param string $question_id
+     * @param Uuid $question_id
      * @param int $sequence_index
      * @return ItemResult
      */
-    public static function create(string $question_id, int $sequence_index) : ItemResult
+    public static function create(Uuid $question_id, int $sequence_index) : ItemResult
     {
         $object = new ItemResult();
         $object->question_id = $question_id;
@@ -137,9 +139,9 @@ class ItemResult extends AbstractValueObject
     }
 
     /**
-     * @return string
+     * @return Uuid
      */
-    public function getQuestionId() : string
+    public function getQuestionId() : Uuid
     {
         return $this->question_id;
     }
@@ -206,5 +208,21 @@ class ItemResult extends AbstractValueObject
     public function getCandidateComment() : string
     {
         return $this->candidate_comment;
+    }
+
+    /**
+     *
+     * @param string $key
+     * @param mixed $value
+     * @return \ILIAS\Data\UUID\Uuid|mixed
+     */
+    protected static function deserializeValue(string $key, $value)
+    {
+        if ($key === 'question_id') {
+            $factory = new Factory();
+            return $factory->fromString($value);
+        }
+        //virtual method
+        return $value;
     }
 }

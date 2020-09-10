@@ -3,6 +3,8 @@
 namespace srag\asq\Test\Domain\Section\Model;
 
 use srag\CQRS\Aggregate\AbstractValueObject;
+use ILIAS\Data\UUID\Uuid;
+use ILIAS\Data\UUID\Factory;
 
 /**
  * Class SectionPart
@@ -15,29 +17,29 @@ class SectionPart extends AbstractValueObject
 {
     const TYPE_QUESTION = 1;
     const TYPE_SECTION = 2;
-    
+
     /**
-     * @var string
+     * @var Uuid
      */
     protected $id;
-    
+
     /**
      * @var ?string
      */
     protected $revision_name;
-    
+
     /**
      * @var int
      */
     protected $type;
-    
+
     /**
-     * @param string $id
-     * @param string $revision_name
      * @param int $type
+     * @param Uuid $id
+     * @param string $revision_name
      * @return SectionPart
      */
-    public static function create(int $type, string $id, ?string $revision_name = null) : SectionPart
+    public static function create(int $type, Uuid $id, ?string $revision_name = null) : SectionPart
     {
         $object = new SectionPart();
         $object->id = $id;
@@ -45,15 +47,15 @@ class SectionPart extends AbstractValueObject
         $object->type = $type;
         return $object;
     }
-    
+
     /**
-     * @return string
+     * @return Uuid
      */
-    public function getId() : string
+    public function getId() : Uuid
     {
         return $this->id;
     }
-    
+
     /**
      * @return ?string
      */
@@ -61,7 +63,7 @@ class SectionPart extends AbstractValueObject
     {
         return $this->revision_name;
     }
-    
+
     /**
      * @return int
      */
@@ -69,12 +71,28 @@ class SectionPart extends AbstractValueObject
     {
         return $this->type;
     }
-    
+
     /**
      * @return string
      */
     public function getKey() : string
     {
-        return sprintf('%s_%s_%s', $this->type, $this->id, $this->revision_name);
+        return sprintf('%s_%s_%s', $this->type, $this->id->toString(), $this->revision_name);
+    }
+
+    /**
+     *
+     * @param string $key
+     * @param mixed $value
+     * @return \ILIAS\Data\UUID\Uuid|mixed
+     */
+    protected static function deserializeValue(string $key, $value)
+    {
+        if ($key === 'id') {
+            $factory = new Factory();
+            return $factory->fromString($value);
+        }
+        //virtual method
+        return $value;
     }
 }

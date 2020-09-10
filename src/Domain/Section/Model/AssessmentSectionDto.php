@@ -2,6 +2,8 @@
 
 namespace srag\asq\Test\Domain\Section\Model;
 
+use ILIAS\Data\UUID\Uuid;
+
 /**
  * Class AssessmentSectionDto
  *
@@ -12,7 +14,7 @@ namespace srag\asq\Test\Domain\Section\Model;
 class AssessmentSectionDto
 {
     /**
-     * @var string
+     * @var Uuid
      */
     protected $id;
 
@@ -40,9 +42,9 @@ class AssessmentSectionDto
     }
 
     /**
-     * @return string
+     * @return Uuid
      */
-    public function getId()
+    public function getId() : Uuid
     {
         return $this->id;
     }

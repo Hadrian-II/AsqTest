@@ -2,6 +2,7 @@
 
 namespace srag\asq\Test\Domain\Result\Model;
 
+use ILIAS\Data\UUID\Uuid;
 use ilDateTime;
 use srag\CQRS\Aggregate\AbstractAggregateRoot;
 use srag\CQRS\Event\Standard\AggregateCreatedEvent;
@@ -40,13 +41,13 @@ class AssessmentResult extends AbstractAggregateRoot
     protected $status;
 
     /**
-     * @param string $id
+     * @param Uuid $id
      * @param AssessmentResultContext $context
      * @param array $question_ids
      * @param int $user_id
      * @return AssessmentResult
      */
-    public static function create(string $id, AssessmentResultContext $context, array $question_ids, int $user_id) : AssessmentResult
+    public static function create(Uuid $id, AssessmentResultContext $context, array $question_ids, int $user_id) : AssessmentResult
     {
         $result = new AssessmentResult();
         $occured_on = new ilDateTime(time(), IL_CAL_UNIX);
@@ -81,7 +82,7 @@ class AssessmentResult extends AbstractAggregateRoot
 
         $ix = 1;
         foreach ($event->getQuestions() as $question_id) {
-            $this->results[$question_id] = ItemResult::create($question_id, $ix);
+            $this->results[$question_id->toString()] = ItemResult::create($question_id, $ix);
             $ix += 1;
         }
     }
@@ -91,8 +92,8 @@ class AssessmentResult extends AbstractAggregateRoot
      */
     protected function applyAnswerSetEvent(AnswerSetEvent $event)
     {
-        $result = $this->results[$event->getQuestionId()];
-        $this->results[$event->getQuestionId()] = $result->withAnswer($event->getAnswer());
+        $result = $this->results[$event->getQuestionId()->toString()];
+        $this->results[$event->getQuestionId()->toString()] = $result->withAnswer($event->getAnswer());
     }
 
     /**
@@ -100,8 +101,8 @@ class AssessmentResult extends AbstractAggregateRoot
      */
     protected function applyHintReceivedEvent(HintReceivedEvent $event)
     {
-        $result = $this->results[$event->getQuestionId()];
-        $this->results[$event->getQuestionId()] = $result->withAddedHint($event->getHint());
+        $result = $this->results[$event->getQuestionId()->toString()];
+        $this->results[$event->getQuestionId()->toString()] = $result->withAddedHint($event->getHint());
     }
 
     /**
@@ -117,8 +118,8 @@ class AssessmentResult extends AbstractAggregateRoot
      */
     protected function applyScoreSetEvent(ScoreSetEvent $event)
     {
-        $result = $this->results[$event->getQuestionId()];
-        $this->results[$event->getQuestionId()] = $result->withScore($event->getScore());
+        $result = $this->results[$event->getQuestionId()->toString()];
+        $this->results[$event->getQuestionId()->toString()] = $result->withScore($event->getScore());
     }
 
     /**
@@ -138,14 +139,14 @@ class AssessmentResult extends AbstractAggregateRoot
     }
 
     /**
-     * @param string $question_id
+     * @param Uuid $question_id
      * @throws AsqException
      * @return ItemResult|NULL
      */
-    public function getItemResult(string $question_id) : ?ItemResult
+    public function getItemResult(Uuid $question_id) : ?ItemResult
     {
-        if (array_key_exists($question_id, $this->results)) {
-            return $this->results[$question_id];
+        if (array_key_exists($question_id->toString(), $this->results)) {
+            return $this->results[$question_id->toString()];
         } else {
             throw new AsqException('Question is not part of current Assesment');
         }
@@ -164,7 +165,7 @@ class AssessmentResult extends AbstractAggregateRoot
             throw new AsqException('Cant change Answer on Submitted AssessmentResult');
         }
 
-        if (array_key_exists($question_id, $this->results)) {
+        if (array_key_exists($question_id->toString(), $this->results)) {
             $this->ExecuteEvent(new AnswerSetEvent(
                 $this->getAggregateId(),
                 new ilDateTime(time(), IL_CAL_UNIX),
@@ -189,7 +190,7 @@ class AssessmentResult extends AbstractAggregateRoot
             throw new AsqException('Scoring only possible on submitted result with unfinished scoring');
         }
 
-        if (array_key_exists($question_id, $this->results)) {
+        if (array_key_exists($question_id->toString(), $this->results)) {
             $this->ExecuteEvent(new ScoreSetEvent(
                 $this->getAggregateId(),
                 new ilDateTime(time(), IL_CAL_UNIX),
@@ -215,7 +216,7 @@ class AssessmentResult extends AbstractAggregateRoot
             throw new AsqException('Cant add Hint to Submitted AssessmentResult');
         }
 
-        if (array_key_exists($question_id, $this->results)) {
+        if (array_key_exists($question_id->toString(), $this->results)) {
             $this->ExecuteEvent(
                 new HintReceivedEvent(
                     $this->getAggregateId(),

@@ -3,6 +3,7 @@
 namespace srag\asq\Test\Domain\Result\Model;
 
 use srag\CQRS\Aggregate\AbstractValueObject;
+use ILIAS\Data\UUID\Uuid;
 
 /**
  * Class AssessmentResultContext
@@ -18,7 +19,7 @@ class AssessmentResultContext extends AbstractValueObject
      */
     protected $user_id;
     /**
-     * @var string
+     * @var Uuid
      */
     protected $assessment_name;
     /**
@@ -33,12 +34,12 @@ class AssessmentResultContext extends AbstractValueObject
      * @var ?string
      */
     protected $assessment_revision;
-    
+
     public static function create(
         int $user_id,
         string $assessment_name,
         int $run = 1,
-        ?string $assessment_id = null,
+        ?Uuid $assessment_id = null,
         ?string $assessment_revision = null
     ) : AssessmentResultContext {
         $object = new AssessmentResultContext();
@@ -49,11 +50,11 @@ class AssessmentResultContext extends AbstractValueObject
         $object->assessment_revision = $assessment_revision;
         return $object;
     }
-    
+
     /**
      * @return int
      */
-    public function getUser_id()
+    public function getUser_id() : int
     {
         return $this->user_id;
     }
@@ -61,23 +62,23 @@ class AssessmentResultContext extends AbstractValueObject
     /**
      * @return string
      */
-    public function getAssessment_name()
+    public function getAssessment_name() : string
     {
         return $this->assessment_name;
     }
 
     /**
-     * @return number
+     * @return int
      */
-    public function getRun()
+    public function getRun() : int
     {
         return $this->run;
     }
 
     /**
-     * @return ?string
+     * @return ?Uuid
      */
-    public function getAssessment_id()
+    public function getAssessment_id() : ?Uuid
     {
         return $this->assessment_id;
     }
@@ -85,7 +86,7 @@ class AssessmentResultContext extends AbstractValueObject
     /**
      * @return ?string
      */
-    public function getAssessment_revision()
+    public function getAssessmentRevision()
     {
         return $this->assessment_revision;
     }

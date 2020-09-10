@@ -8,6 +8,7 @@ use ilDateTime;
 use srag\CQRS\Event\Standard\AggregateCreatedEvent;
 use srag\asq\Test\Domain\Section\Event\AssessmentSectionItemAddedEvent;
 use srag\asq\Test\Domain\Section\Event\AssessmentSectionItemRemovedEvent;
+use ILIAS\Data\UUID\Uuid;
 
 /**
  * Class AssessmentSection
@@ -29,11 +30,11 @@ class AssessmentSection extends AbstractAggregateRoot
     protected $items = [];
 
     /**
-     * @param string $id
+     * @param Uuid $id
      * @param int $user_id
      * @return AssessmentSection
      */
-    public static function create(string $id, int $user_id) : AssessmentSection
+    public static function create(Uuid $id, int $user_id) : AssessmentSection
     {
         $object = new AssessmentSection();
 

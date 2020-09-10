@@ -4,6 +4,7 @@ namespace srag\asq\Test\Application\TestRunner\Command;
 
 use srag\CQRS\Command\AbstractCommand;
 use srag\asq\Test\Domain\Result\Model\AssessmentResultContext;
+use ILIAS\Data\UUID\Uuid;
 
 /**
  * Class StartAssessmentCommand
@@ -18,35 +19,36 @@ class StartAssessmentCommand extends AbstractCommand
      * @var AssessmentResultContext
      */
     protected $context;
-    
+
     /**
-     * @var string[]
+     * @var Uuid[]
      */
     protected $question_ids;
 
     /**
-     * @var string
+     * @var Uuid
      */
     protected $uuid;
-    
+
     /**
+     * @param Uuid $uuid
      * @param int $user_id
      * @param AssessmentResultContext $context
      * @param array $question_ids
      */
-    public function __construct(string $uuid, int $user_id, AssessmentResultContext $context, array $question_ids)
+    public function __construct(Uuid $uuid, int $user_id, AssessmentResultContext $context, array $question_ids)
     {
         $this->uuid = $uuid;
         $this->context = $context;
         $this->question_ids = $question_ids;
         parent::__construct($user_id);
     }
-   
-    public function getUuid() : string
+
+    public function getUuid() : Uuid
     {
         return $this->uuid;
     }
-    
+
     /**
      * @return AssessmentResultContext
      */
@@ -56,7 +58,7 @@ class StartAssessmentCommand extends AbstractCommand
     }
 
     /**
-     * @return string[]
+     * @return Uuid[]
      */
     public function getQuestionIds() : array
     {

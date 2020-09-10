@@ -2,6 +2,7 @@
 
 namespace srag\asq\Test\Application\TestRunner\Command;
 
+use ILIAS\Data\UUID\Uuid;
 use srag\CQRS\Command\AbstractCommand;
 
 /**
@@ -14,24 +15,24 @@ use srag\CQRS\Command\AbstractCommand;
 class FinishScoringCommand extends AbstractCommand
 {
     /**
-     * @var string
+     * @var Uuid
      */
     public $result_uuid;
-    
+
     /**
-     * @param string $result_uuid
+     * @param Uuid $result_uuid
      * @param int $user_id
      */
-    public function __construct(string $result_uuid, int $user_id)
+    public function __construct(Uuid $result_uuid, int $user_id)
     {
         $this->result_uuid = $result_uuid;
         parent::__construct($user_id);
     }
-    
+
     /**
-     * @return string
+     * @return Uuid
      */
-    public function getResultUuid() : string
+    public function getResultUuid() : Uuid
     {
         return $this->result_uuid;
     }
