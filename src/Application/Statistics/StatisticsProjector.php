@@ -7,7 +7,6 @@ use Exception;
 use srag\CQRS\Projection\ProjectionEventHandler;
 use srag\CQRS\Projection\Persistence\ilDBPositionLedger;
 use srag\CQRS\Projection\ValueObjects\ProjectorPosition;
-use srag\asq\AsqGateway;
 use srag\asq\Test\Domain\Result\Event\ScoreSetEvent;
 use srag\asq\Test\Domain\Result\Model\AssessmentResult;
 use srag\asq\Test\Domain\Result\Model\AssessmentResultRepository;
@@ -64,10 +63,12 @@ class StatisticsProjector
 
     protected function whenScoreSetEvent(ScoreSetEvent $event)
     {
+        global $ASQDIC;
+
         /** @var $result AssessmentResult */
         $result = AssessmentResultRepository::getInstance()->getAggregateRootById($event->getAggregateId());
 
-        AsqGateway::get()->statistics()->registerScore(
+        $ASQDIC->asq()->statistics()->registerScore(
             $event->getQuestionId(),
             '',
             $result->getContext()->getAssessmentName(),

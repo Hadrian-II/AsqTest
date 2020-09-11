@@ -8,7 +8,6 @@ use srag\CQRS\Command\CommandHandlerContract;
 use srag\asq\Test\Domain\Result\Model\AssessmentResult;
 use srag\asq\Test\Domain\Result\Model\AssessmentResultRepository;
 use ILIAS\Data\Result\Ok;
-use srag\asq\AsqGateway;
 use srag\asq\Test\Domain\Result\Model\ItemScore;
 
 /**
@@ -25,22 +24,24 @@ class PerformAutomaticScoringCommandHandler implements CommandHandlerContract
      */
     public function handle(CommandContract $command) : Result
     {
+        global $ASQDIC;
+
         /** @var $assessment_result AssessmentResult */
         $assessment_result = AssessmentResultRepository::getInstance()->getAggregateRootById($command->getResultUuid());
 
         foreach ($assessment_result->getQuestions() as $question_id) {
-            $question = AsqGateway::get()->question()->getQuestionByQuestionId($question_id);
+            $question = $ASQDIC->asq()->question()->getQuestionByQuestionId($question_id);
             $result = $assessment_result->getItemResult($question_id);
 
             $reached_score = 0.0;
             if (!is_null($result->getAnswer())) {
-                $reached_score = AsqGateway::get()->answer()->getScore($question, $result->getScore());
+                $reached_score = $ASQDIC->asq()->answer()->getScore($question, $result->getScore());
             }
 
             $score = ItemScore::create(
                 ItemScore::AUTOMATIC_SCORING,
-                AsqGateway::get()->answer()->getMaxScore($question),
-                AsqGateway::get()->answer()->getMinScore($question),
+                $ASQDIC->asq()->answer()->getMaxScore($question),
+                $ASQDIC->asq()->answer()->getMinScore($question),
                 $reached_score
             );
 

@@ -1,6 +1,5 @@
 <?php
 
-use srag\asq\AsqGateway;
 use srag\asq\PathHelper;
 use srag\asq\Application\Exception\AsqException;
 use srag\asq\Domain\QuestionDto;
@@ -93,9 +92,9 @@ class TestPlayerGUI
 
     private function runTest()
     {
-        global $DIC;
+        global $DIC, $ASQDIC;
 
-        $component = AsqGateway::get()->ui()->getQuestionComponent($this->question);
+        $component = $ASQDIC->asq()->ui()->getQuestionComponent($this->question);
 
         $this->item_result = $this->test_service->getItemResult($this->result_id, $this->question->getId());
         if (!is_null($this->item_result) && !is_null($this->item_result->getAnswer())) {
@@ -151,13 +150,13 @@ class TestPlayerGUI
 
     private function showResults()
     {
-        global $DIC;
+        global $DIC, $ASQDIC;
 
         $html = '';
         $question_id = $this->test_service->getFirstQuestionId($this->result_id);
 
         do {
-            $question = AsqGateway::get()->question()->getQuestionByQuestionId($question_id);
+            $question = $ASQDIC->asq()->question()->getQuestionByQuestionId($question_id);
             $result = $this->test_service->getItemResult($this->result_id, $question_id);
             $hint_value = array_reduce($result->getHints()->getHints(), function ($sum, $hint) {
                 return $sum += $hint->getPointDeduction();
@@ -166,8 +165,8 @@ class TestPlayerGUI
             $html .= sprintf(
                 '<div>Question: %s Score: %s Max Score: %s</div>',
                 $question_id,
-                AsqGateway::get()->answer()->getScore($question, $result->getAnswer()) - $hint_value,
-                AsqGateway::get()->answer()->getMaxScore($question)
+                $ASQDIC->asq()->answer()->getScore($question, $result->getAnswer()) - $hint_value,
+                $ASQDIC->asq()->answer()->getMaxScore($question)
             );
             $question_id = $this->test_service->getNextQuestionId($this->result_id, $question_id);
         } while (!is_null($question_id));
@@ -177,15 +176,17 @@ class TestPlayerGUI
 
     private function storeAnswer()
     {
+        global $ASQDIC;
+
         $this->loadQuestion();
-        $component = AsqGateway::get()->ui()->getQuestionComponent($this->question);
+        $component = $ASQDIC->asq()->ui()->getQuestionComponent($this->question);
         $answer = $component->readAnswer();
         $this->test_service->addAnswer($this->result_id, $this->question->getId(), $answer);
     }
 
     private function loadQuestion()
     {
-        global $DIC;
+        global $DIC, $ASQDIC;
 
         $question_id = $_GET[self::PARAM_CURRENT_QUESTION];
 
@@ -194,7 +195,7 @@ class TestPlayerGUI
         }
 
         $DIC->ctrl()->setParameter($this, self::PARAM_CURRENT_QUESTION, $question_id);
-        $this->question = AsqGateway::get()->question()->getQuestionByQuestionId($question_id);
+        $this->question = $ASQDIC->asq()->question()->getQuestionByQuestionId($question_id);
     }
 
     private function createButtons() : string
