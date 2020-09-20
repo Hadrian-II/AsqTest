@@ -6,6 +6,7 @@ use ILIAS\Data\UUID\Uuid;
 use ilDateTime;
 use srag\CQRS\Aggregate\AbstractValueObject;
 use srag\CQRS\Event\AbstractDomainEvent;
+use ILIAS\Data\UUID\Factory;
 
 /**
  * Class AnswerSetEvent
@@ -20,7 +21,7 @@ class AnswerSetEvent extends AbstractDomainEvent
     const KEY_ANSWER = 'answer';
 
     /**
-     * @var string
+     * @var Uuid
      */
     protected $question_id;
 
@@ -36,7 +37,7 @@ class AnswerSetEvent extends AbstractDomainEvent
      * @param string $question_id
      * @param AbstractValueObject $answer
      */
-    public function __construct(Uuid $aggregate_id, ilDateTime $occured_on, int $initiating_user_id, string $question_id = null, AbstractValueObject $answer = null)
+    public function __construct(Uuid $aggregate_id, ilDateTime $occured_on, int $initiating_user_id, Uuid $question_id = null, AbstractValueObject $answer = null)
     {
         $this->question_id = $question_id;
         $this->answer = $answer;
@@ -44,9 +45,9 @@ class AnswerSetEvent extends AbstractDomainEvent
     }
 
     /**
-     * @return string
+     * @return Uuid
      */
-    public function getQuestionId() : string
+    public function getQuestionId() : Uuid
     {
         return $this->question_id;
     }
@@ -66,7 +67,7 @@ class AnswerSetEvent extends AbstractDomainEvent
     public function getEventBody() : string
     {
         $body = [];
-        $body[self::KEY_QUESTION_ID] = $this->question_id;
+        $body[self::KEY_QUESTION_ID] = $this->question_id->toString();
         $body[self::KEY_ANSWER] = $this->answer;
         return json_encode($body);
     }
@@ -77,8 +78,10 @@ class AnswerSetEvent extends AbstractDomainEvent
      */
     protected function restoreEventBody(string $event_body) : void
     {
+        $factory = new Factory();
+
         $body = json_decode($event_body, true);
-        $this->question_id = $body[self::KEY_QUESTION_ID];
+        $this->question_id = $factory->fromString($body[self::KEY_QUESTION_ID]);
         $this->answer = AbstractValueObject::createFromArray($body[self::KEY_ANSWER]);
     }
 

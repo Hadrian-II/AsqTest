@@ -65,7 +65,7 @@ class TestPlayerGUI
         $DIC->language()->loadLanguageModule('asqt');
 
         $this->result_id = $this->factory->fromString($_GET[self::PARAM_CURRENT_RESULT]);
-        $DIC->ctrl()->setParameter($this, self::PARAM_CURRENT_RESULT, $this->result_id);
+        $DIC->ctrl()->setParameter($this, self::PARAM_CURRENT_RESULT, $this->result_id->toString());
 
         if (is_null($this->result_id) || empty($this->result_id)) {
             throw new AsqException('AssessmentResult id not set (PARAM_CURRENT_RESULT)');
@@ -98,18 +98,18 @@ class TestPlayerGUI
 
         $this->item_result = $this->test_service->getItemResult($this->result_id, $this->question->getId());
         if (!is_null($this->item_result) && !is_null($this->item_result->getAnswer())) {
-            $component->setAnswer($this->item_result->getAnswer());
+            $component = $component->withAnswer($this->item_result->getAnswer());
         }
 
         $tpl = new ilTemplate($this->getBasePath(__DIR__) . 'templates/default/tpl.test_player.html', true, true);
         $tpl->setVariable('FORM_ACTION', $DIC->ctrl()->getFormAction($this, self::CMD_RUN_TEST));
-        $tpl->setVariable('QUESTION_COMPONENT', $component->renderHtml());
+        $tpl->setVariable('QUESTION_COMPONENT', $DIC->ui()->renderer()->render($component));
 
         if ($this->item_result->hasHints()) {
             $hint_component = new HintComponent($this->item_result->getHints());
 
             $tpl->setCurrentBlock('hints');
-            $tpl->setVariable('HINTS', $hint_component->getHtml());
+            $tpl->setVariable('HINTS', $DIC->ui()->renderer()->render($hint_component));
             $tpl->parseCurrentBlock();
         }
 
@@ -127,11 +127,11 @@ class TestPlayerGUI
         $this->redirectToQuestion($this->test_service->getNextQuestionId($this->result_id, $this->question->getId()));
     }
 
-    private function redirectToQuestion(string $question_id)
+    private function redirectToQuestion(Uuid $question_id)
     {
         global $DIC;
 
-        $DIC->ctrl()->setParameter($this, self::PARAM_CURRENT_QUESTION, $question_id);
+        $DIC->ctrl()->setParameter($this, self::PARAM_CURRENT_QUESTION, $question_id->toString());
         $DIC->ctrl()->redirectToURL($DIC->ctrl()->getLinkTarget($this, self::CMD_RUN_TEST, "", false, false));
     }
 
@@ -158,16 +158,21 @@ class TestPlayerGUI
         do {
             $question = $ASQDIC->asq()->question()->getQuestionByQuestionId($question_id);
             $result = $this->test_service->getItemResult($this->result_id, $question_id);
+
             $hint_value = array_reduce($result->getHints()->getHints(), function ($sum, $hint) {
                 return $sum += $hint->getPointDeduction();
             }, 0);
 
-            $html .= sprintf(
-                '<div>Question: %s Score: %s Max Score: %s</div>',
-                $question_id,
-                $ASQDIC->asq()->answer()->getScore($question, $result->getAnswer()) - $hint_value,
-                $ASQDIC->asq()->answer()->getMaxScore($question)
-            );
+            try {
+                $html .= sprintf(
+                    '<div>Question: %s Score: %s Max Score: %s</div>',
+                    $question_id->toString(),
+                    $ASQDIC->asq()->answer()->getScore($question, $result->getAnswer()) - $hint_value,
+                    $ASQDIC->asq()->answer()->getMaxScore($question)
+                );
+            } catch (Exception $e) {
+
+            }
             $question_id = $this->test_service->getNextQuestionId($this->result_id, $question_id);
         } while (!is_null($question_id));
 
@@ -179,8 +184,8 @@ class TestPlayerGUI
         global $ASQDIC;
 
         $this->loadQuestion();
-        $component = $ASQDIC->asq()->ui()->getQuestionComponent($this->question);
-        $answer = $component->readAnswer();
+        $component = $ASQDIC->asq()->ui()->getQuestionComponent($this->question)->withAnswerFromPost();
+        $answer = $component->getAnswer();
         $this->test_service->addAnswer($this->result_id, $this->question->getId(), $answer);
     }
 
@@ -188,13 +193,16 @@ class TestPlayerGUI
     {
         global $DIC, $ASQDIC;
 
-        $question_id = $_GET[self::PARAM_CURRENT_QUESTION];
+        $query_question_id = $_GET[self::PARAM_CURRENT_QUESTION];
 
-        if (is_null($question_id) || empty($question_id)) {
+        if (is_null($query_question_id) || empty($query_question_id)) {
             $question_id = $this->test_service->getFirstQuestionId($this->result_id);
+        } else {
+            $factory = new Factory();
+            $question_id = $factory->fromString($query_question_id);
         }
 
-        $DIC->ctrl()->setParameter($this, self::PARAM_CURRENT_QUESTION, $question_id);
+        $DIC->ctrl()->setParameter($this, self::PARAM_CURRENT_QUESTION, $question_id->toString());
         $this->question = $ASQDIC->asq()->question()->getQuestionByQuestionId($question_id);
     }
 

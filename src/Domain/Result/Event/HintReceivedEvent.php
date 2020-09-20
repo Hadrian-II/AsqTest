@@ -6,6 +6,7 @@ use srag\CQRS\Event\AbstractDomainEvent;
 use srag\asq\Domain\Model\Hint\QuestionHint;
 use ILIAS\Data\UUID\Uuid;
 use ilDateTime;
+use ILIAS\Data\UUID\Factory;
 
 /**
  * Class HintReceivedEvent
@@ -20,7 +21,7 @@ class HintReceivedEvent extends AbstractDomainEvent
     const KEY_HINT = 'hint';
 
     /**
-     * @var string
+     * @var Uuid
      */
     protected $question_id;
 
@@ -33,10 +34,10 @@ class HintReceivedEvent extends AbstractDomainEvent
      * @param Uuid $aggregate_id
      * @param ilDateTime $occured_on
      * @param int $initiating_user_id
-     * @param string $question_id
+     * @param Uuid $question_id
      * @param QuestionHint $hint
      */
-    public function __construct(Uuid $aggregate_id, ilDateTime $occured_on, int $initiating_user_id, string $question_id = null, QuestionHint $hint = null)
+    public function __construct(Uuid $aggregate_id, ilDateTime $occured_on, int $initiating_user_id, Uuid $question_id = null, QuestionHint $hint = null)
     {
         $this->question_id = $question_id;
         $this->hint = $hint;
@@ -44,9 +45,9 @@ class HintReceivedEvent extends AbstractDomainEvent
     }
 
     /**
-     * @return string
+     * @return Uuid
      */
-    public function getQuestionId()
+    public function getQuestionId() : Uuid
     {
         return $this->question_id;
     }
@@ -54,7 +55,7 @@ class HintReceivedEvent extends AbstractDomainEvent
     /**
      * @return QuestionHint
      */
-    public function getHint()
+    public function getHint() : QuestionHint
     {
         return $this->hint;
     }
@@ -66,7 +67,7 @@ class HintReceivedEvent extends AbstractDomainEvent
     public function getEventBody() : string
     {
         $body = [];
-        $body[self::KEY_QUESTION_ID] = $this->question_id;
+        $body[self::KEY_QUESTION_ID] = $this->question_id->toString();
         $body[self::KEY_HINT] = $this->hint;
         return json_encode($body);
     }
@@ -77,8 +78,10 @@ class HintReceivedEvent extends AbstractDomainEvent
      */
     protected function restoreEventBody(string $event_body) : void
     {
+        $factory = new Factory();
+
         $body = json_decode($event_body, true);
-        $this->question_id = $body[self::KEY_QUESTION_ID];
+        $this->question_id = $factory->fromString($body[self::KEY_QUESTION_ID]);
         $this->hint = QuestionHint::createFromArray($body[self::KEY_HINT]);
     }
 

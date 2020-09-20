@@ -228,7 +228,7 @@ class TestRunnerService extends ASQService
     {
         $questions = AssessmentResultRepository::getInstance()->getAggregateRootById($uuid)->getQuestions();
 
-        $current_id = array_search($question_id->toString(), $questions);
+        $current_id = array_search($question_id, $questions);
 
         if ($current_id > 0) {
             return $questions[$current_id - 1];
@@ -246,7 +246,7 @@ class TestRunnerService extends ASQService
     {
         $questions = AssessmentResultRepository::getInstance()->getAggregateRootById($uuid)->getQuestions();
 
-        $current_id = array_search($question_id->toString(), $questions);
+        $current_id = array_search($question_id, $questions);
 
         if (array_key_exists($current_id + 1, $questions)) {
             return $questions[$current_id + 1];

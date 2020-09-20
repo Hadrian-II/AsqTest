@@ -15,6 +15,7 @@ use srag\asq\Test\Domain\Result\Event\AssessmentResultSubmittedEvent;
 use srag\asq\Test\Domain\Result\Event\ScoreSetEvent;
 use srag\asq\Test\Domain\Result\Event\ScoringFinishedEvent;
 use srag\CQRS\Aggregate\AbstractValueObject;
+use ILIAS\Data\UUID\Factory;
 
 /**
  * Class AssessmentResult
@@ -153,12 +154,12 @@ class AssessmentResult extends AbstractAggregateRoot
     }
 
     /**
-     * @param string $question_id
+     * @param Uuid $question_id
      * @param AbstractValueObject $answer
      * @param int $initiating_user_id
      * @throws AsqException
      */
-    public function setAnswer(string $question_id, AbstractValueObject $answer, int $initiating_user_id)
+    public function setAnswer(Uuid $question_id, AbstractValueObject $answer, int $initiating_user_id)
     {
         if ($this->status === SessionStatus::PENDING_RESPONSE_PROCESSING ||
             $this->status === SessionStatus::FINAL) {
@@ -179,12 +180,12 @@ class AssessmentResult extends AbstractAggregateRoot
     }
 
     /**
-     * @param string $question_id
+     * @param Uuid $question_id
      * @param ItemScore $score
      * @param int $initiating_user_id
      * @throws AsqException
      */
-    public function setScore(string $question_id, ItemScore $score, int $initiating_user_id)
+    public function setScore(Uuid $question_id, ItemScore $score, int $initiating_user_id)
     {
         if ($this->status !== SessionStatus::PENDING_RESPONSE_PROCESSING) {
             throw new AsqException('Scoring only possible on submitted result with unfinished scoring');
@@ -204,12 +205,12 @@ class AssessmentResult extends AbstractAggregateRoot
     }
 
     /**
-     * @param string $question_id
+     * @param Uuid $question_id
      * @param QuestionHint $hint
      * @param int $initiating_user_id
      * @throws AsqException
      */
-    public function addHint(string $question_id, QuestionHint $hint, int $initiating_user_id)
+    public function addHint(Uuid $question_id, QuestionHint $hint, int $initiating_user_id)
     {
         if ($this->status === SessionStatus::PENDING_RESPONSE_PROCESSING ||
             $this->status === SessionStatus::FINAL) {
@@ -267,10 +268,14 @@ class AssessmentResult extends AbstractAggregateRoot
     }
 
     /**
-     * @return array
+     * @return Uuid[]
      */
     public function getQuestions() : array
     {
-        return array_keys($this->results);
+        $factory = new Factory();
+
+        return array_map(function($id) use ($factory) {
+            return $factory->fromString($id);
+        }, array_keys($this->results));
     }
 }

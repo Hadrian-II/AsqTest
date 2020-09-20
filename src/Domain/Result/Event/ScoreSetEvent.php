@@ -6,6 +6,7 @@ use ilDateTime;
 use srag\CQRS\Event\AbstractDomainEvent;
 use srag\asq\Test\Domain\Result\Model\ItemScore;
 use ILIAS\Data\UUID\Uuid;
+use ILIAS\Data\UUID\Factory;
 
 /**
  * Class ScoreSetEvent
@@ -20,7 +21,7 @@ class ScoreSetEvent extends AbstractDomainEvent
     const KEY_SCORE = 'score';
 
     /**
-     * @var string
+     * @var Uuid
      */
     protected $question_id;
 
@@ -33,10 +34,10 @@ class ScoreSetEvent extends AbstractDomainEvent
      * @param Uuid $aggregate_id
      * @param ilDateTime $occured_on
      * @param int $initiating_user_id
-     * @param string $question_id
+     * @param Uuid $question_id
      * @param ItemScore $score
      */
-    public function __construct(Uuid $aggregate_id, ilDateTime $occured_on, int $initiating_user_id, string $question_id = null, ItemScore $score = null)
+    public function __construct(Uuid $aggregate_id, ilDateTime $occured_on, int $initiating_user_id, Uuid $question_id = null, ItemScore $score = null)
     {
         $this->question_id = $question_id;
         $this->score = $score;
@@ -44,9 +45,9 @@ class ScoreSetEvent extends AbstractDomainEvent
     }
 
     /**
-     * @return string
+     * @return Uuid
      */
-    public function getQuestionId()
+    public function getQuestionId() : Uuid
     {
         return $this->question_id;
     }
@@ -54,7 +55,7 @@ class ScoreSetEvent extends AbstractDomainEvent
     /**
      * @return ItemScore
      */
-    public function getScore()
+    public function getScore() : ItemScore
     {
         return $this->score;
     }
@@ -66,7 +67,7 @@ class ScoreSetEvent extends AbstractDomainEvent
     public function getEventBody() : string
     {
         $body = [];
-        $body[self::KEY_QUESTION_ID] = $this->question_id;
+        $body[self::KEY_QUESTION_ID] = $this->question_id->toString();
         $body[self::KEY_SCORE] = $this->score;
         return json_encode($body);
     }
@@ -77,8 +78,10 @@ class ScoreSetEvent extends AbstractDomainEvent
      */
     protected function restoreEventBody(string $event_body) : void
     {
+        $factory = new Factory();
+
         $body = json_decode($event_body, true);
-        $this->question_id = $body[self::KEY_QUESTION_ID];
+        $this->question_id = $factory->fromString($body[self::KEY_QUESTION_ID]);
         $this->answer = ItemScore::createFromArray($body[self::KEY_SCORE]);
     }
 

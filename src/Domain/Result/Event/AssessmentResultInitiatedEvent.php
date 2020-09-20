@@ -7,6 +7,7 @@ use srag\CQRS\Aggregate\AbstractValueObject;
 use srag\CQRS\Event\AbstractDomainEvent;
 use srag\asq\Test\Domain\Result\Model\AssessmentResultContext;
 use ILIAS\Data\UUID\Uuid;
+use ILIAS\Data\UUID\Factory;
 
 /**
  * Class AssessmentResultInitiatedEvent
@@ -26,7 +27,7 @@ class AssessmentResultInitiatedEvent extends AbstractDomainEvent
     protected $context;
 
     /**
-     * @var string[]
+     * @var Uuid[]
      */
     protected $questions;
 
@@ -57,7 +58,7 @@ class AssessmentResultInitiatedEvent extends AbstractDomainEvent
     }
 
     /**
-     * @return string[]
+     * @return Uuid[]
      */
     public function getQuestions()
     {
@@ -68,7 +69,9 @@ class AssessmentResultInitiatedEvent extends AbstractDomainEvent
     {
         $body = [];
         $body[self::KEY_CONTEXT] = $this->context;
-        $body[self::KEY_QUESTIONS] = $this->questions;
+        $body[self::KEY_QUESTIONS] = array_map(function($question_id) {
+            return $question_id->toString();
+        }, $this->questions);
         return json_encode($body);
     }
 
@@ -77,8 +80,12 @@ class AssessmentResultInitiatedEvent extends AbstractDomainEvent
      */
     protected function restoreEventBody(string $event_body) : void
     {
+        $factory = new Factory();
+
         $body = json_decode($event_body, true);
-        $this->questions = $body[self::KEY_QUESTIONS];
+        $this->questions = array_map(function($question_id) use ($factory) {
+            return $factory->fromString($question_id);
+        }, $body[self::KEY_QUESTIONS]);
         $this->context = AbstractValueObject::createFromArray($body[self::KEY_CONTEXT]);
     }
 
