@@ -214,7 +214,7 @@ class TestPlayerGUI
 
         if ($this->areHintsAvailable()) {
             $get_hint = ilSubmitButton::getInstance();
-            $get_hint->setCaption($DIC->language()->txt('asqt_get_hint'), false);
+            $get_hint->setCaption($DIC->language()->txt('asqt_test_get_hint'), false);
             $get_hint->setCommand(self::CMD_GET_HINT);
             $buttons[] = $get_hint;
         }
