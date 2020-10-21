@@ -1,13 +1,13 @@
 <?php
 
-use srag\asq\PathHelper;
+use ILIAS\Data\UUID\Factory;
+use ILIAS\Data\UUID\Uuid;
 use srag\asq\Application\Exception\AsqException;
 use srag\asq\Domain\QuestionDto;
+use srag\asq\Infrastructure\Helpers\PathHelper;
 use srag\asq\Test\Application\TestRunner\TestRunnerService;
 use srag\asq\Test\Domain\Result\Model\ItemResult;
 use srag\asq\UserInterface\Web\Component\Hint\HintComponent;
-use ILIAS\Data\UUID\Uuid;
-use ILIAS\Data\UUID\Factory;
 
 /**
  * Class TestPlayerGUI
