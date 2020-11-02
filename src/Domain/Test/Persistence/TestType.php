@@ -41,10 +41,30 @@ class TestType extends ActiveRecord
      *
      * @con_has_field  true
      * @con_fieldtype  text
+     * @con_length     255
+     * @con_is_notnull true
+     */
+    protected $description;
+
+    /**
+     * @var string
+     *
+     * @con_has_field  true
+     * @con_fieldtype  text
      * @con_length     128
      * @con_is_notnull true
      */
     protected $icon;
+
+    /**
+     * @var string
+     *
+     * @con_has_field  true
+     * @con_fieldtype  text
+     * @con_length     128
+     * @con_is_notnull true
+     */
+    protected $main_class;
 
     /**
      * @var string
@@ -86,17 +106,21 @@ class TestType extends ActiveRecord
      */
     public static function create(
         string $key,
+        string $description,
         string $icon,
         string $access,
         string $player,
-        string $scoring) : TestType
+        string $scoring,
+        string $main) : TestType
     {
         $object = new TestType();
         $object->key = $key;
+        $object->description = $description;
         $object->icon = $icon;
         $object->access_class = $access;
         $object->player_class = $player;
         $object->scoring_class = $scoring;
+        $object->main_class = $main;
         return $object;
     }
 
@@ -106,6 +130,14 @@ class TestType extends ActiveRecord
     public function getKey() : string
     {
         return $this->key;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription() : string
+    {
+        return $this->description;
     }
 
     /**
@@ -138,5 +170,13 @@ class TestType extends ActiveRecord
     public function getScoringClass() : string
     {
         return $this->scoring_class;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMainClass() : string
+    {
+        return $this->main_class;
     }
 }
