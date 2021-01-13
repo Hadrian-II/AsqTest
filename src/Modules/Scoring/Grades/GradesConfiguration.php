@@ -20,13 +20,10 @@ class GradesConfiguration extends AbstractValueObject
 
     /**
      * @param ?GradeDefinition[] $grades
-     * @return GradesConfiguration
      */
-    public static function create(?array $grades) : GradesConfiguration
+    public function __construct(?array $grades)
     {
-        $object = new GradesConfiguration();
-        $object->grades = $grades;
-        return $object;
+        $this->grades = $grades;
     }
 
     /**

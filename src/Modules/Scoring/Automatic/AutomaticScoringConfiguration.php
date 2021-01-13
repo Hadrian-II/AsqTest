@@ -29,17 +29,13 @@ class AutomaticScoringConfiguration extends AbstractValueObject
     /**
      * @param string $scoring_mode
      * @param bool $allow_negative
-     * @return AutomaticScoringConfiguration
      */
-    public static function create(
+    public function __construct(
         ?string $scoring_mode,
         ?bool $allow_negative
-        ) : AutomaticScoringConfiguration
-    {
-        $object = new AutomaticScoringConfiguration();
-        $object->scoring_mode = $scoring_mode;
-        $object->allow_negative = $allow_negative;
-        return $object;
+    ) {
+        $this->scoring_mode = $scoring_mode;
+        $this->allow_negative = $allow_negative;
     }
     /**
      * @return ?string

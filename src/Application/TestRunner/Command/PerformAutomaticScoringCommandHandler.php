@@ -38,7 +38,7 @@ class PerformAutomaticScoringCommandHandler implements CommandHandlerContract
                 $reached_score = $ASQDIC->asq()->answer()->getScore($question, $result->getScore());
             }
 
-            $score = ItemScore::create(
+            $score = new ItemScore(
                 ItemScore::AUTOMATIC_SCORING,
                 $ASQDIC->asq()->answer()->getMaxScore($question),
                 $ASQDIC->asq()->answer()->getMinScore($question),

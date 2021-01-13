@@ -37,15 +37,12 @@ class SectionPart extends AbstractValueObject
      * @param int $type
      * @param Uuid $id
      * @param string $revision_name
-     * @return SectionPart
      */
-    public static function create(int $type, Uuid $id, ?string $revision_name = null) : SectionPart
+    public function __construct(int $type = null, Uuid $id = null, ?string $revision_name = null)
     {
-        $object = new SectionPart();
-        $object->id = $id;
-        $object->revision_name = $revision_name;
-        $object->type = $type;
-        return $object;
+        $this->id = $id;
+        $this->revision_name = $revision_name;
+        $this->type = $type;
     }
 
     /**

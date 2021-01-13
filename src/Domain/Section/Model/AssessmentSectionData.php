@@ -17,22 +17,22 @@ class AssessmentSectionData extends AbstractValueObject
      * @var string
      */
     protected $title;
-    
+
     /**
      * @var bool
      */
     protected $required;
-    
+
     /**
      * @var bool
      */
     protected $fixed;
-    
+
     /**
      * @var bool
      */
     protected $visible;
-    
+
     /**
      * @var bool
      */
@@ -44,24 +44,21 @@ class AssessmentSectionData extends AbstractValueObject
      * @param bool $required
      * @param bool $fixed
      * @param bool $keep_together
-     * @return AssessmentSectionData
      */
-    public static function create(
-        string $title,
+    public function __construct(
+        string $title = '',
         bool $visible = true,
         bool $required = false,
         bool $fixed = false,
         bool $keep_together = true
-    ) : AssessmentSectionData {
-        $object = new AssessmentSectionData();
-        $object->title = $title;
-        $object->visible = $visible;
-        $object->required = $required;
-        $object->fixed = $fixed;
-        $object->keep_together = $keep_together;
-        return $object;
+    ) {
+        $this->title = $title;
+        $this->visible = $visible;
+        $this->required = $required;
+        $this->fixed = $fixed;
+        $this->keep_together = $keep_together;
     }
-    
+
     /**
      * @return string
      */
@@ -69,7 +66,7 @@ class AssessmentSectionData extends AbstractValueObject
     {
         return $this->title;
     }
-    
+
     /**
      * @return bool
      */
@@ -77,7 +74,7 @@ class AssessmentSectionData extends AbstractValueObject
     {
         return $this->required;
     }
-    
+
     /**
      * @return bool
      */
@@ -85,7 +82,7 @@ class AssessmentSectionData extends AbstractValueObject
     {
         return $this->fixed;
     }
-    
+
     /**
      * @return bool
      */
@@ -93,7 +90,7 @@ class AssessmentSectionData extends AbstractValueObject
     {
         return $this->visible;
     }
-    
+
     /**
      * @return bool
      */

@@ -83,7 +83,7 @@ class AssessmentResult extends AbstractAggregateRoot
 
         $ix = 1;
         foreach ($event->getQuestions() as $question_id) {
-            $this->results[$question_id->toString()] = ItemResult::create($question_id, $ix);
+            $this->results[$question_id->toString()] = new ItemResult($question_id, $ix);
             $ix += 1;
         }
     }

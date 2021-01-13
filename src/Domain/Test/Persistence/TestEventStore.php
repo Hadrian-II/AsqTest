@@ -3,7 +3,6 @@
 namespace srag\asq\Test\Domain\Test\Persistence;
 
 use srag\CQRS\Event\EventStore;
-use srag\asq\Test\Domain\Test\Persistence\TestEventStoreAr;
 
 /**
  * Class TestEventStore

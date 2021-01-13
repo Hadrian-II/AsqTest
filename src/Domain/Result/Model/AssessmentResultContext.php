@@ -35,20 +35,25 @@ class AssessmentResultContext extends AbstractValueObject
      */
     protected $assessment_revision;
 
-    public static function create(
-        int $user_id,
-        string $assessment_name,
+    /**
+     * @param int $user_id
+     * @param string $assessment_name
+     * @param int $run
+     * @param Uuid $assessment_id
+     * @param string $assessment_revision
+     */
+    public function __construct(
+        int $user_id = null,
+        string $assessment_name = null,
         int $run = 1,
         ?Uuid $assessment_id = null,
         ?string $assessment_revision = null
-    ) : AssessmentResultContext {
-        $object = new AssessmentResultContext();
-        $object->user_id = $user_id;
-        $object->assessment_name = $assessment_name;
-        $object->run = $run;
-        $object->assessment_id = $assessment_id;
-        $object->assessment_revision = $assessment_revision;
-        return $object;
+    ) {
+        $this->user_id = $user_id;
+        $this->assessment_name = $assessment_name;
+        $this->run = $run;
+        $this->assessment_id = $assessment_id;
+        $this->assessment_revision = $assessment_revision;
     }
 
     /**

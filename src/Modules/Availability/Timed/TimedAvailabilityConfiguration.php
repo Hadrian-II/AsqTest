@@ -27,17 +27,14 @@ class TimedAvailabilityConfiguration extends AbstractValueObject
     /**
      * @param ilDateTime $available_from
      * @param ilDateTime $available_to
-     * @return TimedAvailabilityConfiguration
      */
-    public static function create(
+    public function __construct(
         ?ilDateTime $available_from,
         ?ilDateTime $available_to
-        ) : TimedAvailabilityConfiguration
+        )
     {
-        $object = new TimedAvailabilityConfiguration();
-        $object->available_from = $available_from;
-        $object->available_to = $available_to;
-        return $object;
+        $this->available_from = $available_from;
+        $this->available_to = $available_to;
     }
     /**
      * @return ?ilDateTime

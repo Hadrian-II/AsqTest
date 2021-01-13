@@ -62,17 +62,14 @@ class ItemResult extends AbstractValueObject
     /**
      * @param Uuid $question_id
      * @param int $sequence_index
-     * @return ItemResult
      */
-    public static function create(Uuid $question_id, int $sequence_index) : ItemResult
+    public function __construct(Uuid $question_id = null, int $sequence_index = null)
     {
-        $object = new ItemResult();
-        $object->question_id = $question_id;
-        $object->sequence_index = $sequence_index;
-        $object->session_status = SessionStatus::INITIAL;
-        $object->datestamp = new ilDateTime(time(), IL_CAL_UNIX);
-        $object->hints = QuestionHints::create([]);
-        return $object;
+        $this->question_id = $question_id;
+        $this->sequence_index = $sequence_index;
+        $this->session_status = SessionStatus::INITIAL;
+        $this->datestamp = new ilDateTime(time(), IL_CAL_UNIX);
+        $this->hints = new QuestionHints();
     }
 
     /**
@@ -108,7 +105,7 @@ class ItemResult extends AbstractValueObject
         $clone = clone $this;
         $hints = $this->hints->getHints();
         $hints[] = $hint;
-        $clone->hints = Questionhints::create($hints);
+        $clone->hints = new Questionhints($hints);
         return $clone;
     }
 

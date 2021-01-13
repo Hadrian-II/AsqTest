@@ -31,17 +31,13 @@ class QuestionSelectionConfiguration extends AbstractValueObject
     /**
      * @param string $selection_type
      * @param int $random_amount
-     * @return QuestionSelectionConfiguration
      */
-    public static function create(
+    public function __construct(
         ?string $selection_type,
         ?int $random_amount
-        ) : QuestionSelectionConfiguration
-    {
-        $object = new QuestionSelectionConfiguration();
-        $object->selection_type = $selection_type;
-        $object->random_amount = $random_amount;
-        return $object;
+    ) {
+        $this->selection_type = $selection_type;
+        $this->random_amount = $random_amount;
     }
     /**
      * @return ?string

@@ -24,13 +24,10 @@ class QuestionDisplayConfiguration extends AbstractValueObject
 
     /**
      * @param string $header
-     * @return QuestionDisplayConfiguration
      */
-    public static function create(?string $header_display_mode) : QuestionDisplayConfiguration
+    public function __construct(?string $header_display_mode)
     {
-        $object = new QuestionDisplayConfiguration();
-        $object->header_display_mode = $header_display_mode;
-        return $object;
+        $this->header_display_mode = $header_display_mode;
     }
 
     /**

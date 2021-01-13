@@ -15,6 +15,6 @@ class LeipzigTest
 {
     public function getTestType() : TestType
     {
-        return TestType::create('aqtl', 'Test für Leipzig', '', '', '', '', self::class);
+        return new TestType('aqtl', 'Test für Leipzig', '', '', '', '', self::class);
     }
 }

@@ -24,16 +24,13 @@ class TestData extends AbstractValueObject
     protected $description;
 
     /**
-     * @param ?string $title
-     * @param ?string $description
-     * @return TestData
+     * @param string $title
+     * @param string $description
      */
-    public static function create(?string $title, ?string $description) : TestData
+    public function __construct(?string $title = null, ?string $description = null)
     {
-        $object = new TestData();
-        $object->title = $title;
-        $object->description = $description;
-        return $object;
+        $this->title = $title;
+        $this->description = $description;
     }
 
     /**

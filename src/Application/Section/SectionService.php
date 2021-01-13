@@ -90,7 +90,7 @@ class SectionService extends ASQService
             new AddItemCommand(
                 $section_id,
                 $this->getActiveUser(),
-                SectionPart::create(
+                new SectionPart(
                     SectionPart::TYPE_QUESTION,
                     $question_id,
                     $question_revision
@@ -110,7 +110,7 @@ class SectionService extends ASQService
             new RemoveItemCommand(
                 $section_id,
                 $this->getActiveUser(),
-                SectionPart::create(
+                new SectionPart(
                     SectionPart::TYPE_QUESTION,
                     $question_id,
                     $question_revision

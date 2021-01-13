@@ -38,20 +38,17 @@ class GradeDefinition extends AbstractValueObject
      * @param string $official_text
      * @param float $percentage
      * @param bool $passing
-     * @return GradeDefinition
      */
-    public static function create(
+    public function __construct(
         ?string $short_text,
         ?string $official_text,
         ?float $percentage,
-        ?bool $passing) : GradeDefinition
-    {
-        $object = new GradeDefinition();
-        $object->short_text = $short_text;
-        $object->official_text = $official_text;
-        $object->percentage = $percentage;
-        $object->passing = $passing;
-        return $object;
+        ?bool $passing
+    ) {
+        $this->short_text = $short_text;
+        $this->official_text = $official_text;
+        $this->percentage = $percentage;
+        $this->passing = $passing;
     }
     /**
      * @return ?string

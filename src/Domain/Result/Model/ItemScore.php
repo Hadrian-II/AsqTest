@@ -18,22 +18,22 @@ class ItemScore extends AbstractValueObject
 {
     const AUTOMATIC_SCORING = 1;
     const MANUAL_SCORING = 2;
-    
+
     /**
      * @var int
      */
     protected $scoring_type;
-    
+
     /**
      * @var float
      */
     protected $normal_maximum;
-    
+
     /**
      * @var float
      */
     protected $normal_minimum;
-    
+
     /**
      * @var float
      */
@@ -44,18 +44,15 @@ class ItemScore extends AbstractValueObject
      * @param float $max
      * @param float $min
      * @param float $score
-     * @return ItemScore
      */
-    public static function create(int $type, float $max, float $min, float $score) : ItemScore
+    public function __construct(int $type = null, float $max = null, float $min = null, float $score = null)
     {
-        $object = new ItemScore();
-        $object->scoring_type = $type;
-        $object->normal_maximum = $max;
-        $object->normal_minimum = $min;
-        $object->reached_score = $score;
-        return $object;
+        $this->scoring_type = $type;
+        $this->normal_maximum = $max;
+        $this->normal_minimum = $min;
+        $this->reached_score = $score;
     }
-    
+
     /**
      * @return int
      */
@@ -63,7 +60,7 @@ class ItemScore extends AbstractValueObject
     {
         return $this->scoring_type;
     }
-    
+
     /**
      * @return int
      */
@@ -71,7 +68,7 @@ class ItemScore extends AbstractValueObject
     {
         return $this->normal_maximum;
     }
-    
+
     /**
      * @return int
      */
@@ -79,7 +76,7 @@ class ItemScore extends AbstractValueObject
     {
         return $this->normal_minimum;
     }
-    
+
     /**
      * @return int
      */

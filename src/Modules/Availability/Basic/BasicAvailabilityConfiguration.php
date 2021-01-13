@@ -20,13 +20,10 @@ class BasicAvailabilityConfiguration extends AbstractValueObject
 
     /**
      * @param bool $visible_if_unavailable
-     * @return BasicAvailabilityConfiguration
      */
-    public static function create(?bool $visible_if_unavailable) : BasicAvailabilityConfiguration
+    public function __construct(?bool $visible_if_unavailable)
     {
-        $object = new BasicAvailabilityConfiguration();
-        $object->visible_if_unavailable = $visible_if_unavailable;
-        return $object;
+        $this->visible_if_unavailable = $visible_if_unavailable;
     }
 
     /**

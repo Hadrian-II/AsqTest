@@ -26,17 +26,13 @@ class TextualInOutConfiguration extends AbstractValueObject
     /**
      * @param string $intro_text
      * @param string $outro_text
-     * @return TextualInOutConfiguration
      */
-    public static function create(
+    public function __construct(
         ?string $intro_text,
         ?string $outro_text
-        ) : TextualInOutConfiguration
-    {
-        $object = new TextualInOutConfiguration();
-        $object->intro_text = $intro_text;
-        $object->outro_text = $outro_text;
-        return $object;
+    ) {
+        $this->intro_text = $intro_text;
+        $this->outro_text = $outro_text;
     }
     /**
      * @return ?string
