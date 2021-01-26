@@ -1,6 +1,6 @@
 <?php
 
-namespace srag\asq\Test\Modules\Scoring\Grades;
+namespace srag\asq\Test\Modules\Result\Grades;
 
 use srag\CQRS\Aggregate\AbstractValueObject;
 

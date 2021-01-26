@@ -2,6 +2,7 @@
 
 namespace srag\asq\Test\Leipzig;
 
+use srag\asq\Test\Domain\Test\Model\ITestModule;
 use srag\asq\Test\Domain\Test\Persistence\TestType;
 
 /**
@@ -13,8 +14,21 @@ use srag\asq\Test\Domain\Test\Persistence\TestType;
  */
 class LeipzigTest
 {
+    /**
+     * @return TestType
+     */
     public function getTestType() : TestType
     {
-        return new TestType('aqtl', 'Test für Leipzig', '', '', '', '', self::class);
+        return new TestType('aqtl', 'Test für Leipzig', self::class);
+    }
+
+    /**
+     * @return ITestModule[]
+     */
+    public function getModules() : array
+    {
+        return [
+
+        ];
     }
 }

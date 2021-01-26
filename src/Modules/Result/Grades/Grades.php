@@ -1,17 +1,17 @@
 <?php
 
-namespace srag\asq\Test\Modules\Questions\Sources\FixedSource;
+namespace srag\asq\Test\Modules\Result\Grades;
 
 use srag\asq\Test\Domain\Test\Model\AbstractTestModule;
 use srag\asq\Test\Domain\Test\Model\ITestModule;
 /**
- * Class FixedSource
+ * Class Grades
  *
  * @package srag\asq\Test
  *
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
-class FixedSource extends AbstractTestModule
+class Grades extends AbstractTestModule
 {
     /**
      * {@inheritDoc}
@@ -19,6 +19,15 @@ class FixedSource extends AbstractTestModule
      */
     public function getType(): int
     {
-        return ITestModule::TYPE_QUESTION_SOURCE;
+        return ITestModule::TYPE_RESULT;
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see \srag\asq\Test\Domain\Test\Model\AbstractTestModule::getConfigClass()
+     */
+    public function getConfigClass() : ?string
+    {
+        return GradesConfiguration::class;
     }
 }
