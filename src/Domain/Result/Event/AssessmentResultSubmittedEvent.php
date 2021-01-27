@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 
 namespace srag\asq\Test\Domain\Result\Event;
 
@@ -22,7 +23,7 @@ class AssessmentResultSubmittedEvent extends AbstractDomainEvent
         //No Event body
         return '';
     }
-    
+
     /**
      * {@inheritDoc}
      * @see \srag\CQRS\Event\AbstractDomainEvent::restoreEventBody()
@@ -31,7 +32,7 @@ class AssessmentResultSubmittedEvent extends AbstractDomainEvent
     {
         //No Event body
     }
-    
+
     /**
      * @return int
      */

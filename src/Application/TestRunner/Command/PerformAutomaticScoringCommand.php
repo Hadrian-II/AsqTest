@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 
 namespace srag\asq\Test\Application\TestRunner\Command;
 
@@ -17,7 +18,7 @@ class PerformAutomaticScoringCommand extends AbstractCommand
      * @var string
      */
     public $result_uuid;
-    
+
     /**
      * @param string $result_uuid
      * @param int $user_id
@@ -27,7 +28,7 @@ class PerformAutomaticScoringCommand extends AbstractCommand
         $this->result_uuid = $result_uuid;
         parent::__construct($user_id);
     }
-    
+
     /**
      * @return string
      */

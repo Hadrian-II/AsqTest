@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 
 namespace srag\asq\Test\Modules\Player\QuestionDisplay;
 
@@ -13,9 +14,9 @@ use srag\CQRS\Aggregate\AbstractValueObject;
  */
 class QuestionDisplayConfiguration extends AbstractValueObject
 {
-    const SHOW_HEADER_WITH_POINTS = 'header_with_points';
-    const SHOW_HEADER = 'header';
-    const SHOW_NOTHING = 'nothing';
+    const SHOW_HEADER_WITH_POINTS = 1;
+    const SHOW_HEADER = 2;
+    const SHOW_NOTHING = 3;
 
     /**
      * @var ?string
@@ -25,7 +26,7 @@ class QuestionDisplayConfiguration extends AbstractValueObject
     /**
      * @param string $header
      */
-    public function __construct(?string $header_display_mode)
+    public function __construct(?int $header_display_mode)
     {
         $this->header_display_mode = $header_display_mode;
     }
@@ -33,7 +34,7 @@ class QuestionDisplayConfiguration extends AbstractValueObject
     /**
      * @return ?string
      */
-    public function getHeaderDisplayMode() : ?string
+    public function getHeaderDisplayMode() : ?int
     {
         return $this->header_display_mode;
     }

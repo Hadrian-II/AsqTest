@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 
 namespace srag\asq\Test\Modules\Availability\Timed;
 
@@ -31,8 +32,7 @@ class TimedAvailabilityConfiguration extends AbstractValueObject
     public function __construct(
         ?ilDateTime $available_from,
         ?ilDateTime $available_to
-        )
-    {
+    ) {
         $this->available_from = $available_from;
         $this->available_to = $available_to;
     }

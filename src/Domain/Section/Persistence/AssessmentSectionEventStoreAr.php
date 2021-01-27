@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 
 namespace srag\asq\Test\Domain\Section\Persistence;
 
@@ -14,7 +15,7 @@ use srag\CQRS\Event\AbstractStoredEvent;
 class AssessmentSectionEventStoreAr extends AbstractStoredEvent
 {
     const STORAGE_NAME = "asq_section_es";
-    
+
     /**
      * @return string
      */

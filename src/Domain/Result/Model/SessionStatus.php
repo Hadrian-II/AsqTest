@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 
 namespace srag\asq\Test\Domain\Result\Model;
 
@@ -17,7 +18,7 @@ class SessionStatus
     const INITIAL = "initial";
     const PENDING_RESPONSE_PROCESSING = "pendingResponseProcessing";
     const PENDING_SUBMISSION = "pendingSubmission";
-    
+
     /**
      * @param string $value
      * @return bool

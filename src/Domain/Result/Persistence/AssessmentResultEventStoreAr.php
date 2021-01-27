@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 
 namespace srag\asq\Test\Domain\Result\Persistence;
 
@@ -14,7 +15,7 @@ use srag\CQRS\Event\AbstractStoredEvent;
 class AssessmentResultEventStoreAr extends AbstractStoredEvent
 {
     const STORAGE_NAME = "asq_result_event_store";
-    
+
     /**
      * @return string
      */
