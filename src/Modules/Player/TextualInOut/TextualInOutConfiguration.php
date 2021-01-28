@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace srag\asq\Test\Modules\UI\TextualInOut;
+namespace srag\asq\Test\Modules\Player\TextualInOut;
 
 use srag\CQRS\Aggregate\AbstractValueObject;
 

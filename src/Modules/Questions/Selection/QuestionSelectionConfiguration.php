@@ -14,13 +14,12 @@ use srag\CQRS\Aggregate\AbstractValueObject;
  */
 class QuestionSelectionConfiguration extends AbstractValueObject
 {
-    const ALL_QUESTIONS = 'all_questions';
-    const SELECTED_QUESTIONS = 'selected_questions';
-    const RANDOM_QUESTIONS = 'random_questions';
-    const RANDOM_POINTS = 'random_points';
+    const ALL_QUESTIONS = 1;
+    const SELECTED_QUESTIONS = 2;
+    const RANDOM_QUESTIONS = 3;
 
     /**
-     * @var ?string
+     * @var ?int
      */
     protected $selection_type;
 
@@ -34,7 +33,7 @@ class QuestionSelectionConfiguration extends AbstractValueObject
      * @param int $random_amount
      */
     public function __construct(
-        ?string $selection_type,
+        ?int $selection_type,
         ?int $random_amount
     ) {
         $this->selection_type = $selection_type;
@@ -43,7 +42,7 @@ class QuestionSelectionConfiguration extends AbstractValueObject
     /**
      * @return ?string
      */
-    public function getSelectionType() : ?string
+    public function getSelectionType() : ?int
     {
         return $this->selection_type;
     }

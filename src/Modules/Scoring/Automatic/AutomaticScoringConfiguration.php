@@ -14,8 +14,8 @@ use srag\CQRS\Aggregate\AbstractValueObject;
  */
 class AutomaticScoringConfiguration extends AbstractValueObject
 {
-    const SCORING_ALL_OR_NOTHING = 'all_or_nothing';
-    const SCORING_PARTIAL_ANSWERS = 'partial';
+    const SCORING_ALL_OR_NOTHING = 1;
+    const SCORING_PARTIAL_RESULTS = 2;
 
     /**
      * @var ?string
@@ -28,11 +28,11 @@ class AutomaticScoringConfiguration extends AbstractValueObject
     protected $allow_negative;
 
     /**
-     * @param string $scoring_mode
+     * @param int $scoring_mode
      * @param bool $allow_negative
      */
     public function __construct(
-        ?string $scoring_mode,
+        ?int $scoring_mode,
         ?bool $allow_negative
     ) {
         $this->scoring_mode = $scoring_mode;
@@ -41,7 +41,7 @@ class AutomaticScoringConfiguration extends AbstractValueObject
     /**
      * @return ?string
      */
-    public function getScoringMode() : ?string
+    public function getScoringMode() : ?int
     {
         return $this->scoring_mode;
     }
