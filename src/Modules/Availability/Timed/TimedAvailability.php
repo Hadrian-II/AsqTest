@@ -3,8 +3,10 @@ declare(strict_types = 1);
 
 namespace srag\asq\Test\Modules\Availability\Timed;
 
-use srag\asq\Test\Domain\Test\Model\AbstractTestModule;
-use srag\asq\Test\Domain\Test\Model\ITestModule;
+use srag\asq\Test\Domain\Test\Modules\AbstractTestModule;
+use srag\asq\Test\Domain\Test\Modules\IAvailabilityModule;
+use srag\asq\Test\Domain\Test\Modules\ITestModule;
+
 /**
  * Class TimedAvailability
  *
@@ -12,11 +14,11 @@ use srag\asq\Test\Domain\Test\Model\ITestModule;
  *
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
-class TimedAvailability extends AbstractTestModule
+class TimedAvailability extends AbstractTestModule implements IAvailabilityModule
 {
     /**
      * {@inheritDoc}
-     * @see \srag\asq\Test\Domain\Test\Model\ITestModule::getType()
+     * @see ITestModule::getType()
      */
     public function getType(): int
     {
@@ -25,10 +27,18 @@ class TimedAvailability extends AbstractTestModule
 
     /**
      * {@inheritDoc}
-     * @see \srag\asq\Test\Domain\Test\Model\ITestModule::getConfigClass()
+     * @see ITestModule::getConfigClass()
      */
     public function getConfigClass() : ?string
     {
         return TimedAvailabilityConfiguration::class;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAvailable(): bool
+    {
+
     }
 }

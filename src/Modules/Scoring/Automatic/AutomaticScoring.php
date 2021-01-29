@@ -3,8 +3,10 @@ declare(strict_types = 1);
 
 namespace srag\asq\Test\Modules\Scoring\Automatic;
 
-use srag\asq\Test\Domain\Test\Model\AbstractTestModule;
-use srag\asq\Test\Domain\Test\Model\ITestModule;
+use srag\asq\Test\Domain\Test\Modules\AbstractTestModule;
+use srag\asq\Test\Domain\Test\Modules\ITestModule;
+use srag\asq\Test\Domain\Test\Modules\IScoringModule;
+
 /**
  * Class AutomaticScoring
  *
@@ -12,11 +14,11 @@ use srag\asq\Test\Domain\Test\Model\ITestModule;
  *
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
-class AutomaticScoring extends AbstractTestModule
+class AutomaticScoring extends AbstractTestModule implements IScoringModule
 {
     /**
      * {@inheritDoc}
-     * @see \srag\asq\Test\Domain\Test\Model\ITestModule::getType()
+     * @see ITestModule::getType()
      */
     public function getType(): int
     {
@@ -25,7 +27,7 @@ class AutomaticScoring extends AbstractTestModule
 
     /**
      * {@inheritDoc}
-     * @see \srag\asq\Test\Domain\Test\Model\AbstractTestModule::getConfigClass()
+     * @see ITestModule::getConfigClass()
      */
     public function getConfigClass() : ?string
     {

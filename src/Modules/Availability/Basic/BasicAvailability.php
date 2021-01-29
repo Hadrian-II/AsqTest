@@ -3,8 +3,11 @@ declare(strict_types = 1);
 
 namespace srag\asq\Test\Modules\Availability\Basic;
 
-use srag\asq\Test\Domain\Test\Model\AbstractTestModule;
-use srag\asq\Test\Domain\Test\Model\ITestModule;
+use ILIAS\Data\Result;
+use srag\asq\Test\Domain\Test\Modules\AbstractTestModule;
+use srag\asq\Test\Domain\Test\Modules\IAvailabilityModule;
+use srag\asq\Test\Domain\Test\Modules\ITestModule;
+
 /**
  * Class BasicAvailability
  *
@@ -12,11 +15,11 @@ use srag\asq\Test\Domain\Test\Model\ITestModule;
  *
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
-class BasicAvailability extends AbstractTestModule
+class BasicAvailability extends AbstractTestModule implements IAvailabilityModule
 {
     /**
      * {@inheritDoc}
-     * @see \srag\asq\Test\Domain\Test\Model\ITestModule::getType()
+     * @see ITestModule::getType()
      */
     public function getType(): int
     {
@@ -25,10 +28,19 @@ class BasicAvailability extends AbstractTestModule
 
     /**
      * {@inheritDoc}
-     * @see \srag\asq\Test\Domain\Test\Model\ITestModule::getConfigClass()
+     * @see ITestModule::getConfigClass()
      */
     public function getConfigClass() : ?string
     {
         return BasicAvailabilityConfiguration::class;
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see \srag\asq\Test\Domain\Test\Modules\IAvailabilityModule::isAvailable()
+     */
+    public function isAvailable(): bool
+    {
+
     }
 }

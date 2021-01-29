@@ -3,8 +3,10 @@ declare(strict_types = 1);
 
 namespace srag\asq\Test\Modules\Result\Grades;
 
-use srag\asq\Test\Domain\Test\Model\AbstractTestModule;
-use srag\asq\Test\Domain\Test\Model\ITestModule;
+use srag\asq\Test\Domain\Test\Modules\AbstractTestModule;
+use srag\asq\Test\Domain\Test\Modules\ITestModule;
+use srag\asq\Test\Domain\Test\Modules\IResultModule;
+
 /**
  * Class Grades
  *
@@ -12,11 +14,11 @@ use srag\asq\Test\Domain\Test\Model\ITestModule;
  *
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
-class Grades extends AbstractTestModule
+class Grades extends AbstractTestModule implements IResultModule
 {
     /**
      * {@inheritDoc}
-     * @see \srag\asq\Test\Domain\Test\Model\ITestModule::getType()
+     * @see ITestModule::getType()
      */
     public function getType(): int
     {
@@ -25,7 +27,7 @@ class Grades extends AbstractTestModule
 
     /**
      * {@inheritDoc}
-     * @see \srag\asq\Test\Domain\Test\Model\AbstractTestModule::getConfigClass()
+     * @see AbstractTestModule::getConfigClass()
      */
     public function getConfigClass() : ?string
     {

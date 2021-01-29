@@ -1,9 +1,11 @@
 <?php
 declare(strict_types = 1);
 
-namespace srag\asq\Test\Domain\Test\Model;
+namespace srag\asq\Test\Domain\omain;
 
+use srag\asq\Test\Domain\Test\Modules\ITestModule;
 use srag\asq\Test\Domain\Test\Persistence\TestType;
+use ILIAS\Data\Result;
 
 /**
  * Interface Test
@@ -27,4 +29,19 @@ interface ITest
      * @return ITestModule[]
      */
     public function getModules() : array;
+
+    /**
+     * @return Result
+     */
+    public function onBeforeEvent() : Result;
+
+    /**
+     * @return Result
+     */
+    public function onEvent() : Result;
+
+    /**
+     * @return Result
+     */
+    public function onPostEvent() : Result;
 }

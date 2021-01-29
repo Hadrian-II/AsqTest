@@ -3,8 +3,9 @@ declare(strict_types = 1);
 
 namespace srag\asq\Test\Modules\Questions\Selection;
 
-use srag\asq\Test\Domain\Test\Model\AbstractTestModule;
-use srag\asq\Test\Domain\Test\Model\ITestModule;
+use srag\asq\Test\Domain\Test\Modules\AbstractTestModule;
+use srag\asq\Test\Domain\Test\Modules\ITestModule;
+use srag\asq\Test\Domain\Test\Modules\IQuestionModule;
 /**
  * Class QuestionSelection
  *
@@ -12,11 +13,11 @@ use srag\asq\Test\Domain\Test\Model\ITestModule;
  *
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
-class QuestionSelection extends AbstractTestModule
+class QuestionSelection extends AbstractTestModule implements IQuestionModule
 {
     /**
      * {@inheritDoc}
-     * @see \srag\asq\Test\Domain\Test\Model\ITestModule::getType()
+     * @see ITestModule::getType()
      */
     public function getType(): int
     {
@@ -25,10 +26,19 @@ class QuestionSelection extends AbstractTestModule
 
     /**
      * {@inheritDoc}
-     * @see \srag\asq\Test\Domain\Test\Model\ITestModule::getConfigClass()
+     * @see ITestModule::getConfigClass()
      */
     public function getConfigClass() : ?string
     {
         return QuestionSelectionConfiguration::class;
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see \srag\asq\Test\Domain\Test\Modules\IQuestionModule::getQuestions()
+     */
+    public function getQuestions(): array
+    {
+
     }
 }

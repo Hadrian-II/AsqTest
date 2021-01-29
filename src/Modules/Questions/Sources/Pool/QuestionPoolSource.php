@@ -3,8 +3,10 @@ declare(strict_types = 1);
 
 namespace srag\asq\Test\Modules\Questions\Sources\Pool;
 
-use srag\asq\Test\Domain\Test\Model\AbstractTestModule;
-use srag\asq\Test\Domain\Test\Model\ITestModule;
+use srag\asq\Test\Domain\Test\Modules\AbstractTestModule;
+use srag\asq\Test\Domain\Test\Modules\ITestModule;
+use srag\asq\Test\Domain\Test\Modules\IQuestionModule;
+
 /**
  * Class QuestionPoolSource
  *
@@ -12,14 +14,22 @@ use srag\asq\Test\Domain\Test\Model\ITestModule;
  *
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
-class QuestionPoolSource extends AbstractTestModule
+class QuestionPoolSource extends AbstractTestModule implements IQuestionModule
 {
     /**
      * {@inheritDoc}
-     * @see \srag\asq\Test\Domain\Test\Model\ITestModule::getType()
+     * @see ITestModule::getType()
      */
     public function getType(): int
     {
         return ITestModule::TYPE_QUESTION_SOURCE;
+    }
+
+    /**
+     * @return array
+     */
+    public function getQuestions(): array
+    {
+
     }
 }

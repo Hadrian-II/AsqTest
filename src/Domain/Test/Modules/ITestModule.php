@@ -1,7 +1,9 @@
 <?php
 declare(strict_types = 1);
 
-namespace srag\asq\Test\Domain\Test\Model;
+namespace srag\asq\Test\Domain\Test\Modules;
+
+use ILIAS\Data\Result;
 
 /**
  * Interface TestModule
@@ -39,4 +41,17 @@ interface ITestModule
      * @return string
      */
     public function getConfigType() : ?string;
+
+    /**
+     * @param object $event
+     * @return Result
+     */
+    public function processEvent(object $event) : Result;
+
+    /**
+     * Raise an event that is triggered from that module
+     *
+     * @return object
+     */
+    public function raiseEvent() : object;
 }

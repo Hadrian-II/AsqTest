@@ -3,8 +3,8 @@ declare(strict_types = 1);
 
 namespace srag\asq\Test\Modules\Player\TextualInOut;
 
-use srag\asq\Test\Domain\Test\Model\AbstractTestModule;
-use srag\asq\Test\Domain\Test\Model\ITestModule;
+use srag\asq\Test\Domain\Test\Modules\AbstractTestModule;
+use srag\asq\Test\Domain\Test\Modules\ITestModule;
 
 /**
  * Class TextualInOut
@@ -17,7 +17,7 @@ class TextualInOut extends AbstractTestModule
 {
     /**
      * {@inheritDoc}
-     * @see \srag\asq\Test\Domain\Test\Model\ITestModule::getType()
+     * @see ITestModule::getType()
      */
     public function getType(): int
     {
@@ -26,7 +26,7 @@ class TextualInOut extends AbstractTestModule
 
     /**
      * {@inheritDoc}
-     * @see \srag\asq\Test\Domain\Test\Model\AbstractTestModule::getConfigClass()
+     * @see AbstractTestModule::getConfigClass()
      */
     public function getConfigClass() : ?string
     {
