@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace srag\asq\Test\Modules\Questions\Sources\FixedSource;
+namespace srag\asq\Test\Modules\Questions\Sources\Fixed;
 
 use srag\asq\Test\Domain\Test\Modules\AbstractTestModule;
 use srag\asq\Test\Domain\Test\Modules\ITestModule;

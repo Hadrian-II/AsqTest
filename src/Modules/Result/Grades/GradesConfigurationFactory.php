@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace srag\asq\Test\Modules\Questions\Selection;
+namespace srag\asq\Test\Modules\Result\Grades;
 
 use srag\CQRS\Aggregate\AbstractValueObject;
 use srag\asq\UserInterface\Web\Form\Factory\AbstractObjectFactory;
