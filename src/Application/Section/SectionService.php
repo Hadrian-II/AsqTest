@@ -34,31 +34,34 @@ class SectionService extends ASQService
      */
     private $command_bus;
 
-    private function getCommandBus() : CommandBus
+    /**
+     * @var AssessmentSectionRepository
+     */
+    private $repo;
+
+    public function __construct()
     {
-        if (is_null($this->command_bus)) {
-            $this->command_bus = new CommandBus();
+        $this->command_bus = new CommandBus();
 
-            $this->command_bus->registerCommand(new CommandConfiguration(
-                AddItemCommand::class,
-                new AddItemCommandHandler(),
-                new OpenAccess()
-            ));
+        $this->command_bus->registerCommand(new CommandConfiguration(
+            AddItemCommand::class,
+            new AddItemCommandHandler(),
+            new OpenAccess()
+        ));
 
-            $this->command_bus->registerCommand(new CommandConfiguration(
-                CreateSectionCommand::class,
-                new CreateSectionCommandHandler(),
-                new OpenAccess()
-            ));
+        $this->command_bus->registerCommand(new CommandConfiguration(
+            CreateSectionCommand::class,
+            new CreateSectionCommandHandler(),
+            new OpenAccess()
+        ));
 
-            $this->command_bus->registerCommand(new CommandConfiguration(
-                RemoveItemCommand::class,
-                new RemoveItemCommandHandler(),
-                new OpenAccess()
-            ));
-        }
+        $this->command_bus->registerCommand(new CommandConfiguration(
+            RemoveItemCommand::class,
+            new RemoveItemCommandHandler(),
+            new OpenAccess()
+        ));
 
-        return $this->command_bus;
+        $this->repo = new AssessmentSectionRepository();
     }
 
     /**
@@ -70,7 +73,7 @@ class SectionService extends ASQService
         $uuid = $uuid_factory->uuid4();
 
         // CreateQuestion.png
-        $this->getCommandBus()->handle(
+        $this->command_bus->handle(
             new CreateSectionCommand(
                 $uuid,
                 $this->getActiveUser()
@@ -87,7 +90,7 @@ class SectionService extends ASQService
      */
     public function addQuestion(Uuid $section_id, Uuid $question_id, ?string $question_revision = null) : void
     {
-        $this->getCommandBus()->handle(
+        $this->command_bus->handle(
             new AddItemCommand(
                 $section_id,
                 $this->getActiveUser(),
@@ -107,7 +110,7 @@ class SectionService extends ASQService
      */
     public function removeQuestion(Uuid $section_id, Uuid $question_id, ?string $question_revision = null)
     {
-        $this->getCommandBus()->handle(
+        $this->command_bus->handle(
             new RemoveItemCommand(
                 $section_id,
                 $this->getActiveUser(),
@@ -127,7 +130,7 @@ class SectionService extends ASQService
     public function getSection(Uuid $section_id) : AssessmentSectionDto
     {
         return AssessmentSectionDto::Create(
-            AssessmentSectionRepository::getInstance()->getAggregateRootById($section_id)
+            $this->repo->getAggregateRootById($section_id)
         );
     }
 }

@@ -31,25 +31,28 @@ class TestService extends ASQService
      */
     private $command_bus;
 
-    private function getCommandBus() : CommandBus
+    /**
+     * @var AssessmentTestRepository
+     */
+    private $repo;
+
+    private function __construct()
     {
-        if (is_null($this->command_bus)) {
-            $this->command_bus = new CommandBus();
+        $this->command_bus = new CommandBus();
 
-            $this->command_bus->registerCommand(new CommandConfiguration(
-                AddSectionCommand::class,
-                new AddSectionCommandHandler(),
-                new OpenAccess()
-            ));
+        $this->command_bus->registerCommand(new CommandConfiguration(
+            AddSectionCommand::class,
+            new AddSectionCommandHandler(),
+            new OpenAccess()
+        ));
 
-            $this->command_bus->registerCommand(new CommandConfiguration(
-                CreateTestCommand::class,
-                new CreateTestCommandHandler(),
-                new OpenAccess()
-            ));
-        }
+        $this->command_bus->registerCommand(new CommandConfiguration(
+            CreateTestCommand::class,
+            new CreateTestCommandHandler(),
+            new OpenAccess()
+        ));
 
-        return $this->command_bus;
+        $this->repo = new AssessmentTestRepository();
     }
 
     /**
