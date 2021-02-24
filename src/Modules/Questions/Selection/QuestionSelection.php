@@ -30,7 +30,7 @@ class QuestionSelection extends AbstractTestModule implements IQuestionModule
      */
     public function getConfigClass() : ?string
     {
-        return QuestionSelectionConfiguration::class;
+        return QuestionSelectionConfigurationFactory::class;
     }
 
     /**

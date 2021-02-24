@@ -3,7 +3,6 @@ declare(strict_types = 1);
 
 namespace srag\asq\Test\Modules\Availability\Basic;
 
-use ILIAS\Data\Result;
 use srag\asq\Test\Domain\Test\Modules\AbstractTestModule;
 use srag\asq\Test\Domain\Test\Modules\IAvailabilityModule;
 use srag\asq\Test\Domain\Test\Modules\ITestModule;
@@ -32,7 +31,7 @@ class BasicAvailability extends AbstractTestModule implements IAvailabilityModul
      */
     public function getConfigClass() : ?string
     {
-        return BasicAvailabilityConfiguration::class;
+        return BasicAvailabilityConfigurationFactory::class;
     }
 
     /**

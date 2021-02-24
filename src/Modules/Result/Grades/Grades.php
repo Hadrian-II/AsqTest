@@ -31,6 +31,6 @@ class Grades extends AbstractTestModule implements IResultModule
      */
     public function getConfigClass() : ?string
     {
-        return GradesConfiguration::class;
+        return GradesConfigurationFactory::class;
     }
 }

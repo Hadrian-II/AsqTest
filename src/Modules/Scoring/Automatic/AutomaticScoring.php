@@ -31,6 +31,6 @@ class AutomaticScoring extends AbstractTestModule implements IScoringModule
      */
     public function getConfigClass() : ?string
     {
-        return AutomaticScoringConfiguration::class;
+        return AutomaticScoringConfigurationFactory::class;
     }
 }

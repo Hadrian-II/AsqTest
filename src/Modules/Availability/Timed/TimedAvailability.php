@@ -31,7 +31,7 @@ class TimedAvailability extends AbstractTestModule implements IAvailabilityModul
      */
     public function getConfigClass() : ?string
     {
-        return TimedAvailabilityConfiguration::class;
+        return TimedAvailabilityConfigurationFactory::class;
     }
 
     /**

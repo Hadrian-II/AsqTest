@@ -32,7 +32,7 @@ class QuestionDisplay extends AbstractTestModule implements IPlayerModule
      */
     public function getConfigClass() : ?string
     {
-        return QuestionDisplayConfiguration::class;
+        return QuestionDisplayConfigurationFactory::class;
     }
 
     /**

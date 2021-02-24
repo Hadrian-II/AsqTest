@@ -30,6 +30,6 @@ class TextualInOut extends AbstractTestModule
      */
     public function getConfigClass() : ?string
     {
-        return TextualInOutConfiguration::class;
+        return TextualInOutConfigurationFactory::class;
     }
 }
