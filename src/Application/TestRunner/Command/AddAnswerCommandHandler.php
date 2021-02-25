@@ -29,7 +29,8 @@ class AddAnswerCommandHandler implements CommandHandlerContract
 
         $assessment_result->setAnswer($command->getQuestionId(), $command->getAnswer(), $command->getIssuingUserId());
 
-        AssessmentResultRepository::getInstance()->save($assessment_result);
+        $repo = new AssessmentResultRepository();
+        $repo->save($assessment_result);
 
         return new Ok(null);
     }

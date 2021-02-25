@@ -29,7 +29,8 @@ class HintReceivedCommandHandler implements CommandHandlerContract
 
         $assessment_result->addHint($command->getQuestionId(), $command->getHint(), $command->getIssuingUserId());
 
-        AssessmentResultRepository::getInstance()->save($assessment_result);
+        $repo = new AssessmentResultRepository();
+        $repo->save($assessment_result);
 
         return new Ok(null);
     }

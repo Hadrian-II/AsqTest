@@ -15,6 +15,9 @@ use srag\asq\Test\Application\Test\Command\CreateTestCommand;
 use srag\asq\Test\Application\Test\Command\CreateTestCommandHandler;
 use srag\asq\Test\Domain\Test\Model\AssessmentTest;
 use srag\asq\Test\Domain\Test\Model\AssessmentTestRepository;
+use srag\asq\Test\Domain\Test\Model\AssessmentTestDto;
+use srag\asq\Test\Domain\Test\Model\TestData;
+use srag\CQRS\Aggregate\AbstractValueObject;
 
 /**
  * Class TestService
@@ -36,7 +39,7 @@ class TestService extends ASQService
      */
     private $repo;
 
-    private function __construct()
+    public function __construct()
     {
         $this->command_bus = new CommandBus();
 
@@ -64,7 +67,7 @@ class TestService extends ASQService
         $uuid = $uuid_factory->uuid4();
 
         // CreateQuestion.png
-        $this->getCommandBus()->handle(
+        $this->command_bus->handle(
             new CreateTestCommand(
                 $uuid,
                 $this->getActiveUser()
@@ -80,7 +83,7 @@ class TestService extends ASQService
      */
     public function addSection(Uuid $id, Uuid $section_id) : void
     {
-        $this->getCommandBus()->handle(
+        $this->command_bus->handle(
             new AddSectionCommand(
                 $id,
                 $section_id,
@@ -91,20 +94,43 @@ class TestService extends ASQService
 
     /**
      * @param Uuid $test_id
-     * @return AssessmentTest
+     * @return AssessmentTestDto
      */
-    public function getTest(Uuid $test_id) : array
+    public function getTest(Uuid $test_id) : AssessmentTestDto
     {
-        AssessmentTestRepository::getInstance()->getAggregateRootById($test_id);
+        return new AssessmentTestDto(
+            $this->repo->getAggregateRootById($test_id)
+        );
     }
 
     /**
      * @param AssessmentTest $test
      */
-    public function saveTest(AssessmentTest $test) : void
+    public function saveTest(AssessmentTestDto $test) : void
     {
-        if (count($test->getRecordedEvents()->getEvents()) > 0) {
-            AssessmentTestRepository::getInstance()->save($test);
+        /** @var $stored AssessmentTest */
+        $stored = $this->repo->getAggregateRootById($test->getId());
+
+        if (!TestData::isNullableEqual($test->getTestData(), $stored->getTestData())) {
+            $stored->setTestData($test->getTestData(), $this->getActiveUser());
+        }
+
+        foreach ($test->getConfigurations() as $configuration_for => $configuration) {
+            if (!AbstractValueObject::isNullableEqual($stored->getConfiguration($configuration_for), $configuration)) {
+                $stored->setConfiguration($configuration, $configuration_for, $this->getActiveUser());
+            }
+        }
+
+        foreach (array_diff($test->getSections(), $stored->getSections()) as $new_section) {
+            $stored->addSection($new_section, $this->getActiveUser());
+        }
+
+        foreach (array_diff($stored->getSections(), $test->getSections()) as $removed_section) {
+            $stored->removeSection($removed_section, $this->getActiveUser());
+        }
+
+        if (count($stored->getRecordedEvents()->getEvents()) > 0) {
+            $this->repo->save($stored);
         }
     }
 }

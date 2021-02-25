@@ -22,6 +22,8 @@ class AddSectionCommandHandler implements CommandHandlerContract
      */
     public function handle(CommandContract $command) : Result
     {
+
+
         return new Ok(null);
     }
 }

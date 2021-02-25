@@ -6,13 +6,13 @@ namespace srag\asq\Test\Domain\Test\Persistence;
 use srag\CQRS\Event\EventStore;
 
 /**
- * Class TestEventStore
+ * Class AssessmentTestEventStore
  *
  * @package srag\asq\Test
  *
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
-class TestEventStore extends EventStore
+class AssessmentTestEventStore extends EventStore
 {
     /**
      * {@inheritDoc}
@@ -20,6 +20,6 @@ class TestEventStore extends EventStore
      */
     protected function getEventArClass() : string
     {
-        return TestEventStoreAr::class;
+        return AssessmentTestEventStoreAr::class;
     }
 }

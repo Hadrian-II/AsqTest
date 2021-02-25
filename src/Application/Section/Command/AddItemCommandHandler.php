@@ -24,12 +24,14 @@ class AddItemCommandHandler implements CommandHandlerContract
      */
     public function handle(CommandContract $command) : Result
     {
+        $repo = new AssessmentSectionRepository();
+
         /** @var $section AssessmentSection */
-        $section = AssessmentSectionRepository::getInstance()->getAggregateRootById($command->getSectionId());
+        $section = $repo->getAggregateRootById($command->getSectionId());
 
         $section->addItem($command->getItem(), $command->getIssuingUserId());
 
-        AssessmentSectionRepository::getInstance()->save($section);
+        $repo->save($section);
 
         return new Ok(null);
     }

@@ -24,12 +24,14 @@ class RemoveItemCommandHandler implements CommandHandlerContract
      */
     public function handle(CommandContract $command) : Result
     {
-        /** @var $section AssessmentSection */
-        $section = AssessmentSectionRepository::getInstance()->getAggregateRootById($command->getSectionId());
+        $repo = new AssessmentSectionRepository();
 
+        /** @var $section AssessmentSection */
+        $section = $repo->getAggregateRootById($command->getSectionId());
         $section->removeItem($command->getItem(), $command->getIssuingUserId());
 
-        AssessmentSectionRepository::getInstance()->save($section);
+
+        $repo->save($section);
 
         return new Ok(null);
     }

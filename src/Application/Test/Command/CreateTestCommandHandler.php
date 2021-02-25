@@ -7,6 +7,8 @@ use srag\CQRS\Command\CommandContract;
 use srag\CQRS\Command\CommandHandlerContract;
 use ILIAS\Data\Result;
 use ILIAS\Data\Result\Ok;
+use srag\asq\Test\Domain\Test\Model\AssessmentTest;
+use srag\asq\Test\Domain\Test\Model\AssessmentTestRepository;
 
 /**
  * Class CreateTestCommandHandler
@@ -22,6 +24,14 @@ class CreateTestCommandHandler implements CommandHandlerContract
      */
     public function handle(CommandContract $command) : Result
     {
+        $question = AssessmentTest::createNewTest(
+            $command->getId(),
+            $command->getIssuingUserId(),
+        );
+
+        $repo = new AssessmentTestRepository();
+        $repo->save($question);
+
         return new Ok(null);
     }
 }

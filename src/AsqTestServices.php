@@ -5,9 +5,10 @@ namespace srag\asq\Test;
 
 use srag\asq\Test\Application\Section\SectionService;
 use srag\asq\Test\Application\TestRunner\TestRunnerService;
+use srag\asq\Test\Application\Test\TestService;
 
 /**
- * Class AsqGateway
+ * Class AsqTestServices
  *
  * @license Extended GPL, see docs/LICENSE
  * @copyright 1998-2020 ILIAS open source
@@ -16,34 +17,34 @@ use srag\asq\Test\Application\TestRunner\TestRunnerService;
  * @author  Adrian Lüthi <al@studer-raimann.ch>
  * @author  Martin Studer <ms@studer-raimann.ch>
  */
-class AsqTestGateway
+class AsqTestServices
 {
     /**
-     * @var AsqTestGateway
+     * @var AsqTestServices
      */
     private static $instance;
-    
+
     private function __construct()
     {
     }
 
     /**
-     * @return AsqTestGateway
+     * @return AsqTestServices
      */
-    public static function get() : AsqTestGateway
+    public static function get() : AsqTestServices
     {
         if (is_null(self::$instance)) {
-            self::$instance = new AsqTestGateway();
+            self::$instance = new AsqTestServices();
         }
-        
+
         return self::$instance;
     }
-    
+
     /**
      * @var SectionService
      */
     private $section;
-    
+
     /**
      * @return SectionService
      */
@@ -52,15 +53,15 @@ class AsqTestGateway
         if (is_null($this->section)) {
             $this->section = new SectionService();
         }
-        
+
         return $this->section;
     }
-    
+
     /**
      * @var TestRunnerService
      */
     private $test_runner;
-    
+
     /**
      * @return TestRunnerService
      */
@@ -69,7 +70,21 @@ class AsqTestGateway
         if (is_null($this->test_runner)) {
             $this->test_runner = new TestRunnerService();
         }
-        
+
         return $this->test_runner;
+    }
+
+    /**
+     * @var TestService
+     */
+    private $test;
+
+    public function test() : TestService
+    {
+        if (is_null($this->test)) {
+            $this->test = new TestService();
+        }
+
+        return $this->test;
     }
 }

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace srag\asq\Test\Domain\omain;
+namespace srag\asq\Test\Domain\Test;
 
 use srag\asq\Test\Domain\Test\Modules\ITestModule;
 use srag\asq\Test\Domain\Test\Persistence\TestType;

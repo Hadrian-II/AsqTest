@@ -29,7 +29,8 @@ class FinishScoringCommandHandler implements CommandHandlerContract
 
         $assessment_result->finishScoring($command->getIssuingUserId());
 
-        AssessmentResultRepository::getInstance()->save($assessment_result);
+        $repo = new AssessmentResultRepository();
+        $repo->save($assessment_result);
 
         return new Ok(null);
     }

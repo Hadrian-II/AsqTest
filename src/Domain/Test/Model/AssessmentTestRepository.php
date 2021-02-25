@@ -7,7 +7,7 @@ use srag\CQRS\Aggregate\AbstractAggregateRepository;
 use srag\CQRS\Aggregate\AbstractAggregateRoot;
 use srag\CQRS\Event\DomainEvents;
 use srag\CQRS\Event\EventStore;
-use srag\asq\Test\Domain\Test\Persistence\TestEventStore;
+use srag\asq\Test\Domain\Test\Persistence\AssessmentTestEventStore;
 
 /**
  * Class AssessmentTestRepository
@@ -26,10 +26,10 @@ class AssessmentTestRepository extends AbstractAggregateRepository
     /**
      * QuestionRepository constructor.
      */
-    protected function __construct()
+    public function __construct()
     {
         parent::__construct();
-        $this->event_store = new TestEventStore();
+        $this->event_store = new AssessmentTestEventStore();
     }
 
     /**

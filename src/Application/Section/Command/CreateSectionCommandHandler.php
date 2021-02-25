@@ -29,7 +29,8 @@ class CreateSectionCommandHandler implements CommandHandlerContract
             $command->getIssuingUserId()
         );
 
-        AssessmentSectionRepository::getInstance()->save($section);
+        $repo = new AssessmentSectionRepository();
+        $repo->save($section);
 
         return new Ok(null);
     }
