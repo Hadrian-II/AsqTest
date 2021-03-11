@@ -26,7 +26,7 @@ class AssessmentResultRepository extends AbstractAggregateRepository
     /**
      * QuestionRepository constructor.
      */
-    protected function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->event_store = new AssessmentResultEventStore();

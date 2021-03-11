@@ -4,6 +4,8 @@ declare(strict_types = 1);
 namespace srag\asq\Test\Domain\Test\Model;
 
 use srag\CQRS\Aggregate\AbstractValueObject;
+use srag\asq\Test\Domain\Test\ITest;
+use srag\asq\Test\Leipzig\LeipzigTest;
 
 /**
  * Class TestDefinition
@@ -23,6 +25,13 @@ class TestData extends AbstractValueObject
      * @var ?string
      */
     protected $description;
+
+    /**
+     * TODO implement TestType loading/saving
+     *
+     * @var string
+     */
+    protected $type = LeipzigTest::class;
 
     /**
      * @param string $title
@@ -48,5 +57,10 @@ class TestData extends AbstractValueObject
     public function getDescription() : ?string
     {
         return $this->description;
+    }
+
+    public function getTest() : ITest
+    {
+        return new $this->type();
     }
 }

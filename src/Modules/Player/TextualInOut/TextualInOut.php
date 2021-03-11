@@ -19,7 +19,7 @@ class TextualInOut extends AbstractTestModule
      * {@inheritDoc}
      * @see ITestModule::getType()
      */
-    public function getType(): int
+    public function getType(): string
     {
         return ITestModule::TYPE_PLAYER;
     }

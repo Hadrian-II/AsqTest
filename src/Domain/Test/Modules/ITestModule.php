@@ -14,17 +14,17 @@ use ILIAS\Data\Result;
  */
 interface ITestModule
 {
-    const TYPE_AVAILABILITY = 1;
-    const TYPE_PLAYER = 2;
-    const TYPE_QUESTION_SOURCE = 3;
-    const TYPE_QUESTION_SELECTION = 4;
-    const TYPE_SCORING = 5;
-    const TYPE_RESULT = 6;
+    const TYPE_AVAILABILITY = 'availability';
+    const TYPE_PLAYER = 'player';
+    const TYPE_QUESTION_SOURCE = 'source';
+    const TYPE_QUESTION_SELECTION = 'selection';
+    const TYPE_SCORING = 'scoring';
+    const TYPE_RESULT = 'result';
 
     /**
      * Return the type of a test module
      */
-    public function getType() : int;
+    public function getType() : string;
 
     /**
      * Return the class holding the configuration
@@ -33,14 +33,6 @@ interface ITestModule
      * @return string|NULL
      */
     public function getConfigClass() : ?string;
-
-    /**
-     * Return a text key if it should display settings in a subtab in the TestSettings
-     * If no key is returned, default is used
-     *
-     * @return string
-     */
-    public function getConfigType() : ?string;
 
     /**
      * @param object $event

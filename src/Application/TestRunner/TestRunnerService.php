@@ -26,7 +26,6 @@ use srag\asq\Test\Domain\Result\Model\AssessmentResultContext;
 use srag\asq\Test\Domain\Result\Model\AssessmentResultRepository;
 use srag\asq\Test\Domain\Result\Model\ItemResult;
 use srag\asq\Test\Domain\Result\Model\ItemScore;
-use srag\asq\Test\Domain\Test\Model\AssessmentTestRepository;
 
 /**
  * Class TestRunnerService
@@ -83,7 +82,7 @@ class TestRunnerService extends ASQService
             new OpenAccess()
         ));
 
-        $this->repo = new AssessmentTestRepository();
+        $this->repo = new AssessmentResultRepository();
     }
 
     /**

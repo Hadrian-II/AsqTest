@@ -20,7 +20,7 @@ class TimedAvailability extends AbstractTestModule implements IAvailabilityModul
      * {@inheritDoc}
      * @see ITestModule::getType()
      */
-    public function getType(): int
+    public function getType(): string
     {
         return ITestModule::TYPE_AVAILABILITY;
     }

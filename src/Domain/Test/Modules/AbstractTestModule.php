@@ -16,15 +16,6 @@ abstract class AbstractTestModule implements  ITestModule
 {
     /**
      * {@inheritDoc}
-     * @see ITestModule::getConfigType()
-     */
-    public function getConfigType() : ?string
-    {
-        return null;
-    }
-
-    /**
-     * {@inheritDoc}
      * @see ITestModule::getConfigClass()
      */
     public function getConfigClass() : ?string

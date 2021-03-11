@@ -61,7 +61,7 @@ class TestDataSetEvent extends AbstractDomainEvent
      */
     protected function restoreEventBody(string $event_body) : void
     {
-        $this->section_data = TestData::deserialize($event_body);
+        $this->test_data = TestData::deserialize($event_body);
     }
 
     /**

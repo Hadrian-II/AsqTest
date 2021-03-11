@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace srag\asq\Test\Leipzig;
 
+use srag\asq\Test\Domain\Test\AbstractTest;
 use srag\asq\Test\Domain\Test\Modules\ITestModule;
 use srag\asq\Test\Domain\Test\Persistence\TestType;
 use srag\asq\Test\Modules\Availability\Basic\BasicAvailability;
@@ -20,8 +21,26 @@ use srag\asq\Test\Modules\Scoring\Automatic\AutomaticScoring;
  *
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
-class LeipzigTest
+class LeipzigTest extends AbstractTest
 {
+    /**
+     * @var ITestModule[]
+     */
+    private $modules;
+
+    public function __construct()
+    {
+        $this->modules = [
+            new BasicAvailability(),
+            new TimedAvailability(),
+            new QuestionDisplay(),
+            new TextualInOut(),
+            new QuestionSelection(),
+            new FixedSource(),
+            new AutomaticScoring()
+        ];
+    }
+
     /**
      * @return TestType
      */
@@ -35,14 +54,6 @@ class LeipzigTest
      */
     public function getModules() : array
     {
-        return [
-            BasicAvailability::class,
-            TimedAvailability::class,
-            QuestionDisplay::class,
-            TextualInOut::class,
-            QuestionSelection::class,
-            FixedSource::class,
-            AutomaticScoring::class
-        ];
+        return $this->modules;
     }
 }

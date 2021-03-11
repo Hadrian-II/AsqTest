@@ -20,7 +20,7 @@ class Grades extends AbstractTestModule implements IResultModule
      * {@inheritDoc}
      * @see ITestModule::getType()
      */
-    public function getType(): int
+    public function getType(): string
     {
         return ITestModule::TYPE_RESULT;
     }

@@ -20,7 +20,7 @@ class AutomaticScoring extends AbstractTestModule implements IScoringModule
      * {@inheritDoc}
      * @see ITestModule::getType()
      */
-    public function getType(): int
+    public function getType(): string
     {
         return ITestModule::TYPE_SCORING;
     }

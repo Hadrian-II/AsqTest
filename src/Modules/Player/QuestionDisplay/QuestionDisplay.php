@@ -21,7 +21,7 @@ class QuestionDisplay extends AbstractTestModule implements IPlayerModule
      * {@inheritDoc}
      * @see ITestModule::getType()
      */
-    public function getType(): int
+    public function getType(): string
     {
         return ITestModule::TYPE_PLAYER;
     }

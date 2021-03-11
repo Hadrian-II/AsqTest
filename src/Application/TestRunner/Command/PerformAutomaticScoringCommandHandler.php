@@ -4,11 +4,10 @@ declare(strict_types = 1);
 namespace srag\asq\Test\Application\TestRunner\Command;
 
 use ILIAS\Data\Result;
+use ILIAS\Data\Result\Ok;
 use srag\CQRS\Command\CommandContract;
 use srag\CQRS\Command\CommandHandlerContract;
-use srag\asq\Test\Domain\Result\Model\AssessmentResult;
 use srag\asq\Test\Domain\Result\Model\AssessmentResultRepository;
-use ILIAS\Data\Result\Ok;
 use srag\asq\Test\Domain\Result\Model\ItemScore;
 
 /**
@@ -27,8 +26,9 @@ class PerformAutomaticScoringCommandHandler implements CommandHandlerContract
     {
         global $ASQDIC;
 
-        /** @var $assessment_result AssessmentResult */
-        $assessment_result = AssessmentResultRepository::getInstance()->getAggregateRootById($command->getResultUuid());
+        $repo = new AssessmentResultRepository();
+
+        $assessment_result = $repo->getAggregateRootById($command->getResultUuid());
 
         foreach ($assessment_result->getQuestions() as $question_id) {
             $question = $ASQDIC->asq()->question()->getQuestionByQuestionId($question_id);
@@ -51,7 +51,6 @@ class PerformAutomaticScoringCommandHandler implements CommandHandlerContract
 
         $assessment_result->finishScoring($command->getIssuingUserId());
 
-        $repo = new AssessmentResultRepository();
         $repo->save($assessment_result);
 
         return new Ok(null);
