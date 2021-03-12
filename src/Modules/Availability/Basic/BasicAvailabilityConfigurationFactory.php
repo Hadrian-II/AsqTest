@@ -40,7 +40,7 @@ class BasicAvailabilityConfigurationFactory extends AbstractObjectFactory
      */
     public function readObjectFromPost(array $postdata): AbstractValueObject
     {
-        return new BasicAvailabilityConfiguration($this->readBool($postdata[self::VAR_VISIBLE_IF_UNAVAILABLE]));
+        return new BasicAvailabilityConfiguration($postdata[self::VAR_VISIBLE_IF_UNAVAILABLE]);
     }
 
     /**

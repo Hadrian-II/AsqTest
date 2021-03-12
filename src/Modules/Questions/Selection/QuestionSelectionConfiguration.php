@@ -33,8 +33,8 @@ class QuestionSelectionConfiguration extends AbstractValueObject
      * @param int $random_amount
      */
     public function __construct(
-        ?int $selection_type,
-        ?int $random_amount
+        ?int $selection_type = null,
+        ?int $random_amount = null
     ) {
         $this->selection_type = $selection_type;
         $this->random_amount = $random_amount;

@@ -26,7 +26,7 @@ class QuestionDisplayConfiguration extends AbstractValueObject
     /**
      * @param string $header
      */
-    public function __construct(?int $header_display_mode)
+    public function __construct(?int $header_display_mode = null)
     {
         $this->header_display_mode = $header_display_mode;
     }

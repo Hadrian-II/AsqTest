@@ -53,7 +53,7 @@ class AutomaticScoringConfigurationFactory extends AbstractObjectFactory
     {
         return new AutomaticScoringConfiguration(
             $this->readInt($postdata[self::VAR_SCORING_MODE]),
-            $this->readBool($postdata[self::VAR_ALLOW_NEGATIVE])
+            $postdata[self::VAR_ALLOW_NEGATIVE]
         );
     }
 

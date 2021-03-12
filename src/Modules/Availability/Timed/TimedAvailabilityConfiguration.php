@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace srag\asq\Test\Modules\Availability\Timed;
 
 use srag\CQRS\Aggregate\AbstractValueObject;
-use ilDateTime;
+use DateTimeImmutable;
 
 /**
  * Class TimedAvailabilityConfiguration
@@ -26,12 +26,12 @@ class TimedAvailabilityConfiguration extends AbstractValueObject
     protected $available_to;
 
     /**
-     * @param ilDateTime $available_from
-     * @param ilDateTime $available_to
+     * @param DateTimeImmutable $available_from
+     * @param DateTimeImmutable $available_to
      */
     public function __construct(
-        ?ilDateTime $available_from,
-        ?ilDateTime $available_to
+        ?DateTimeImmutable $available_from = null,
+        ?DateTimeImmutable $available_to = null
     ) {
         $this->available_from = $available_from;
         $this->available_to = $available_to;
@@ -39,7 +39,7 @@ class TimedAvailabilityConfiguration extends AbstractValueObject
     /**
      * @return ?ilDateTime
      */
-    public function getAvailableFrom() : ?ilDateTime
+    public function getAvailableFrom() : ?DateTimeImmutable
     {
         return $this->available_from;
     }
@@ -47,7 +47,7 @@ class TimedAvailabilityConfiguration extends AbstractValueObject
     /**
      * @return ?ilDateTime
      */
-    public function getAvailableTo() : ?ilDateTime
+    public function getAvailableTo() : ?DateTimeImmutable
     {
         return $this->available_to;
     }

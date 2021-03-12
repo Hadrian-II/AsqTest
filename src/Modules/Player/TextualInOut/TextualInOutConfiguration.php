@@ -29,8 +29,8 @@ class TextualInOutConfiguration extends AbstractValueObject
      * @param string $outro_text
      */
     public function __construct(
-        ?string $intro_text,
-        ?string $outro_text
+        ?string $intro_text = null,
+        ?string $outro_text = null
     ) {
         $this->intro_text = $intro_text;
         $this->outro_text = $outro_text;

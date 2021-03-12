@@ -69,8 +69,8 @@ class QuestionSelectionConfigurationFactory extends AbstractObjectFactory
     public function readObjectFromPost(array $postdata): AbstractValueObject
     {
         return new QuestionSelectionConfiguration(
-            $this->readInt($postdata[self::VAR_SELECTION_TYPE]),
-            $this->readInt($postdata[self::VAR_RANDOM_POINTS])
+            $this->readInt($postdata[self::VAR_SELECTION_TYPE][0]),
+            $this->readInt($postdata[self::VAR_SELECTION_TYPE][1][self::VAR_RANDOM_POINTS])
         );
     }
 

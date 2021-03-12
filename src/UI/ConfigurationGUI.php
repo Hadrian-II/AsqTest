@@ -11,6 +11,7 @@ use ILIAS\UI\Component\Input\Container\Form\Form;
 use ILIAS\DI\UIServices;
 use srag\asq\UserInterface\Web\Form\Factory\IObjectFactory;
 use ilLanguage;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Class AsqTestServices
@@ -70,6 +71,11 @@ class ConfigurationGUI
     private $language;
 
     /**
+     * @var ServerRequestInterface
+     */
+    private $request;
+
+    /**
      * @param AssessmentTestDto $test
      */
     public function __construct(AssessmentTestDto $test)
@@ -78,12 +84,13 @@ class ConfigurationGUI
         $this->ui = $DIC->ui();
         $this->language = $DIC->language();
         $this->asq_ui = $ASQDIC->asq()->ui();
+        $this->request = $DIC->http()->request();
 
         $this->test = $test;
         $this->test_module = $test->getTestData()->getTest();
         $current = $_GET[self::CURRENT_CONFIG] ?? reset($this->test_module->getModules())->getType();
         $this->factories = $this->getCurrentFactories($current);
-        $this->initiateForm($url);
+        $this->initiateForm();
     }
 
     /**
@@ -130,7 +137,8 @@ class ConfigurationGUI
     /**
      * @return array
      */
-    public function getSubTabs() : array {
+    public function getSubTabs() : array
+    {
         $subtabs = [];
 
         foreach ($this->test_module->getModules() as $module) {
@@ -143,9 +151,20 @@ class ConfigurationGUI
         return $subtabs;
     }
 
-    public function save() : void
+    public function getEditedTest() : AssessmentTestDto
     {
+        $this->form = $this->form->withRequest($this->request);
 
+        $postdata = array_reduce($this->form->getData(), function($all_values, $section_values) {
+            return array_merge($all_values, $section_values);
+        }, []);
+
+        foreach ($this->factories as $module => $factory) {
+            $data = $factory->readObjectFromPost($postdata);
+            $this->test->setConfiguration($module, $data);
+        }
+
+        return $this->test;
     }
 
     /**

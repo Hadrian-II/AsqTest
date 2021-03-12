@@ -32,8 +32,8 @@ class AutomaticScoringConfiguration extends AbstractValueObject
      * @param bool $allow_negative
      */
     public function __construct(
-        ?int $scoring_mode,
-        ?bool $allow_negative
+        ?int $scoring_mode = null,
+        ?bool $allow_negative = null
     ) {
         $this->scoring_mode = $scoring_mode;
         $this->allow_negative = $allow_negative;
