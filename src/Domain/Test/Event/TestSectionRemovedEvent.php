@@ -62,7 +62,7 @@ class TestSectionRemovedEvent extends AbstractDomainEvent
     protected function restoreEventBody(string $event_body) : void
     {
         $factory = new Factory();
-        $this->section_data = $factory->fromString($event_body);
+        $this->section_id = $factory->fromString($event_body);
     }
 
     /**
