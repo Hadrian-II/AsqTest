@@ -24,24 +24,9 @@ interface ITest
     public function getTestType() : TestType;
 
     /**
-     * Gets all Modules used by the Test
+     * Gets testModule of given Class
      *
-     * @return ITestModule[]
+     * @return ITestModule
      */
-    public function getModules() : array;
-
-    /**
-     * @return Result
-     */
-    public function onBeforeEvent() : Result;
-
-    /**
-     * @return Result
-     */
-    public function onEvent() : Result;
-
-    /**
-     * @return Result
-     */
-    public function onPostEvent() : Result;
+    public function getModule(string $class) : ITestModule;
 }

@@ -23,22 +23,15 @@ use srag\asq\Test\Modules\Scoring\Automatic\AutomaticScoring;
  */
 class LeipzigTest extends AbstractTest
 {
-    /**
-     * @var ITestModule[]
-     */
-    private $modules;
-
     public function __construct()
     {
-        $this->modules = [
-            new BasicAvailability(),
-            new TimedAvailability(),
-            new QuestionDisplay(),
-            new TextualInOut(),
-            new QuestionSelection(),
-            new FixedSource(),
-            new AutomaticScoring()
-        ];
+        $this->addModule(new BasicAvailability());
+        $this->addModule(new TimedAvailability());
+        $this->addModule(new QuestionDisplay());
+        $this->addModule(new TextualInOut());
+        $this->addModule(new QuestionSelection());
+        $this->addModule(new FixedSource());
+        $this->addModule(new AutomaticScoring());
     }
 
     /**
@@ -46,14 +39,6 @@ class LeipzigTest extends AbstractTest
      */
     public function getTestType() : TestType
     {
-        return new TestType('aqtl', 'Test für Leipzig', self::class);
-    }
-
-    /**
-     * @return ITestModule[]
-     */
-    public function getModules() : array
-    {
-        return $this->modules;
+        return TestType::createType('aqtl', 'Test für Leipzig', self::class);
     }
 }

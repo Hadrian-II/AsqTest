@@ -4,6 +4,8 @@ declare(strict_types = 1);
 namespace srag\asq\Test\Domain\Test;
 
 use ILIAS\Data\Result;
+use srag\asq\Test\Domain\Test\Modules\ITestModule;
+use srag\asq\Test\Lib\Event\EventQueue;
 
 /**
  * Interface Test
@@ -14,18 +16,25 @@ use ILIAS\Data\Result;
  */
 abstract class AbstractTest implements ITest
 {
-    public function onBeforeEvent(): Result
+    protected EventQueue $eventQueue;
+
+    /**
+     * @var ITestModule[]
+     */
+    protected array $modules;
+
+    public function __construct()
     {
-        return null;
+        $this->eventQueue = new EventQueue();
     }
 
-    public function onPostEvent(): Result
-    {
-        return null;
+    protected function addModule(ITestModule $module) : void {
+        $this->modules[get_class($module)] = $module;
+        $this->eventQueue->addUser($module);
     }
 
-    public function onEvent(): Result
+    public function getModule(string $class) : ITestModule
     {
-        return null;
+        return $this->modules[$class];
     }
 }

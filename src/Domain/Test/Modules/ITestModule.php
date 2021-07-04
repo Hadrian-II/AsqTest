@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace srag\asq\Test\Domain\Test\Modules;
 
 use ILIAS\Data\Result;
+use srag\asq\Test\Lib\Event\IEventUser;
 
 /**
  * Interface TestModule
@@ -12,7 +13,7 @@ use ILIAS\Data\Result;
  *
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
-interface ITestModule
+interface ITestModule extends IEventUser
 {
     const TYPE_AVAILABILITY = 'availability';
     const TYPE_PLAYER = 'player';

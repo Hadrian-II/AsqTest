@@ -72,10 +72,6 @@ class TestPlayerGUI
         }
     }
 
-    /**
-     *
-     * @param string $cmd
-     */
     public function executeCommand()/*: void*/
     {
         global $DIC;

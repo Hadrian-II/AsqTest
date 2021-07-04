@@ -69,13 +69,12 @@ class TestType extends ActiveRecord
 
     /**
      * @param string $key
+     * @param string $description
      * @param string $icon
-     * @param string $access
-     * @param string $player
-     * @param string $scoring
+     * @param string $class
      * @return TestType
      */
-    public static function create(
+    public static function createType(
         string $key,
         string $description,
         string $icon,
