@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace srag\asq\Test\Domain\Test\Modules;
 
-use ILIAS\Data\Result;
+use srag\asq\Test\Lib\Event\Event;
 use srag\asq\Test\Lib\Event\IEventUser;
 
 /**
@@ -36,15 +36,24 @@ interface ITestModule extends IEventUser
     public function getConfigClass() : ?string;
 
     /**
-     * @param object $event
-     * @return Result
+     * returns all commands provided by the module
+     *
+     * @return string[]
      */
-    public function processEvent(object $event) : Result;
+    public function getCommands() : array;
 
     /**
-     * Raise an event that is triggered from that module
+     * executes a command in the module
      *
-     * @return object
+     * @param string $command
+     * @return string
      */
-    public function raiseEvent() : object;
+    public function executeCommand(string $command): string;
+
+    /**
+     * Raises an event through the Test event queue
+     *
+     * @param Event $event
+     */
+    public function raiseEvent(Event $event) : void;
 }

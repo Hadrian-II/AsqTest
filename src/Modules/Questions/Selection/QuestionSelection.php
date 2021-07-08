@@ -4,8 +4,9 @@ declare(strict_types = 1);
 namespace srag\asq\Test\Modules\Questions\Selection;
 
 use srag\asq\Test\Domain\Test\Modules\AbstractTestModule;
+use srag\asq\Test\Domain\Test\Modules\IQuestionSelectionModule;
 use srag\asq\Test\Domain\Test\Modules\ITestModule;
-use srag\asq\Test\Domain\Test\Modules\IQuestionModule;
+
 /**
  * Class QuestionSelection
  *
@@ -13,7 +14,7 @@ use srag\asq\Test\Domain\Test\Modules\IQuestionModule;
  *
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
-class QuestionSelection extends AbstractTestModule implements IQuestionModule
+class QuestionSelection extends AbstractTestModule implements IQuestionSelectionModule
 {
     /**
      * {@inheritDoc}
@@ -35,10 +36,15 @@ class QuestionSelection extends AbstractTestModule implements IQuestionModule
 
     /**
      * {@inheritDoc}
-     * @see \srag\asq\Test\Domain\Test\Modules\IQuestionModule::getQuestions()
+     * @see \srag\asq\Test\Domain\Test\Modules\IQuestionSourceModule::getQuestions()
      */
     public function getQuestions(): array
     {
 
+    }
+
+    public function getInitializationCommand(): string
+    {
+        // TODO: Implement getInitializationCommand() method.
     }
 }

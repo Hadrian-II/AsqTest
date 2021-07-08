@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace srag\asq\Test\Leipzig;
 
 use srag\asq\Test\Domain\Test\AbstractTest;
-use srag\asq\Test\Domain\Test\Modules\ITestModule;
+use srag\asq\Test\Domain\Test\Model\AssessmentTestDto;
 use srag\asq\Test\Domain\Test\Persistence\TestType;
 use srag\asq\Test\Modules\Availability\Basic\BasicAvailability;
 use srag\asq\Test\Modules\Availability\Timed\TimedAvailability;
@@ -12,6 +12,7 @@ use srag\asq\Test\Modules\Player\QuestionDisplay\QuestionDisplay;
 use srag\asq\Test\Modules\Player\TextualInOut\TextualInOut;
 use srag\asq\Test\Modules\Questions\Selection\QuestionSelection;
 use srag\asq\Test\Modules\Questions\Sources\Fixed\FixedSource;
+use srag\asq\Test\Modules\Questions\Sources\Pool\QuestionPoolSource;
 use srag\asq\Test\Modules\Scoring\Automatic\AutomaticScoring;
 
 /**
@@ -23,15 +24,18 @@ use srag\asq\Test\Modules\Scoring\Automatic\AutomaticScoring;
  */
 class LeipzigTest extends AbstractTest
 {
-    public function __construct()
+    public function __construct(AssessmentTestDto $test_data)
     {
-        $this->addModule(new BasicAvailability());
-        $this->addModule(new TimedAvailability());
-        $this->addModule(new QuestionDisplay());
-        $this->addModule(new TextualInOut());
-        $this->addModule(new QuestionSelection());
-        $this->addModule(new FixedSource());
-        $this->addModule(new AutomaticScoring());
+        parent::__construct($test_data);
+
+        $this->addModule(new BasicAvailability($this->event_queue));
+        $this->addModule(new TimedAvailability($this->event_queue));
+        $this->addModule(new QuestionDisplay($this->event_queue));
+        $this->addModule(new TextualInOut($this->event_queue));
+        $this->addModule(new QuestionSelection($this->event_queue));
+        $this->addModule(new FixedSource($this->event_queue));
+        $this->addModule(new QuestionPoolSource($this->event_queue));
+        $this->addModule(new AutomaticScoring($this->event_queue));
     }
 
     /**

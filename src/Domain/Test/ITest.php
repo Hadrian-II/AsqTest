@@ -29,4 +29,11 @@ interface ITest
      * @return ITestModule
      */
     public function getModule(string $class) : ITestModule;
+
+    /**
+     * Executes a command in the test
+     *
+     * @param string $command
+     */
+    public function executeCommand(string $command) : string;
 }

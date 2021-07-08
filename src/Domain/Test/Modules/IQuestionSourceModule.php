@@ -6,16 +6,23 @@ namespace srag\asq\Test\Domain\Test\Modules;
 use srag\asq\Domain\QuestionDto;
 
 /**
- * Interface IQuestionModule
+ * Interface IQuestionSourceModule
  *
  * @package srag\asq\Test
  *
  * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
  */
-interface IQuestionModule
+interface IQuestionSourceModule extends ITestModule
 {
     /**
      * @return QuestionDto[]
      */
     public function getQuestions() : array;
+
+    /**
+     * Gets the command that is executed to create a new QuestionSource
+     *
+     * @return string
+     */
+    public function getInitializationCommand() : string;
 }
