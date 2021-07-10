@@ -7,6 +7,8 @@ use ILIAS\Data\Result;
 use srag\asq\Test\Domain\Test\Model\AssessmentTestDto;
 use srag\asq\Test\Domain\Test\Modules\ITestModule;
 use srag\asq\Test\Lib\Event\EventQueue;
+use srag\asq\Test\UI\System\ITestUI;
+use srag\asq\Test\UI\System\TestUI;
 
 /**
  * Interface Test
@@ -26,6 +28,8 @@ abstract class AbstractTest implements ITest
 
     protected AssessmentTestDto $test_data;
 
+    protected TestUI $ui;
+
     /**
      * @var ITestModule[]
      */
@@ -35,6 +39,8 @@ abstract class AbstractTest implements ITest
     {
         $this->test_data = $test_data;
         $this->event_queue = new EventQueue();
+        $this->ui = new TestUI();
+        $this->event_queue->addUser($this->ui);
     }
 
     protected function addModule(ITestModule $module) : void {
@@ -70,5 +76,10 @@ abstract class AbstractTest implements ITest
         if (array_key_exists($command, $this->commands)) {
             return $this->commands[$command]->executeCommand($command);
         }
+    }
+
+    public function ui() : ITestUI
+    {
+
     }
 }

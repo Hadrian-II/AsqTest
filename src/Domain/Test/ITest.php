@@ -6,6 +6,7 @@ namespace srag\asq\Test\Domain\Test;
 use srag\asq\Test\Domain\Test\Modules\ITestModule;
 use srag\asq\Test\Domain\Test\Persistence\TestType;
 use ILIAS\Data\Result;
+use srag\asq\Test\UI\System\ITestUI;
 
 /**
  * Interface Test
@@ -36,4 +37,11 @@ interface ITest
      * @param string $command
      */
     public function executeCommand(string $command) : string;
+
+    /**
+     * Gets access to the ui modcule of the test
+     *
+     * @return ITestUI
+     */
+    public function ui() : ITestUI;
 }
