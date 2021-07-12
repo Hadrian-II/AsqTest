@@ -16,9 +16,9 @@ class Event
 {
     private IEventUser $sender;
 
-    private AbstractValueObject $data;
+    private $data;
 
-    public function __construct(IEventUser $sender, AbstractValueObject $data) {
+    public function __construct(IEventUser $sender, $data) {
         $this->sender = $sender;
         $this->data = $data;
     }
@@ -28,7 +28,7 @@ class Event
         return $this->sender;
     }
 
-    public function getData() : AbstractValueObject
+    public function getData()
     {
         return $this->data;
     }

@@ -21,6 +21,7 @@ interface ITestModule extends IEventUser
     const TYPE_QUESTION_SELECTION = 'selection';
     const TYPE_SCORING = 'scoring';
     const TYPE_RESULT = 'result';
+    const TYPE_PAGE = 'page';
 
     /**
      * Return the type of a test module
@@ -46,9 +47,8 @@ interface ITestModule extends IEventUser
      * executes a command in the module
      *
      * @param string $command
-     * @return string
      */
-    public function executeCommand(string $command): string;
+    public function executeCommand(string $command): void;
 
     /**
      * Raises an event through the Test event queue

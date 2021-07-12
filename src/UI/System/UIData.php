@@ -3,9 +3,6 @@ declare(strict_types = 1);
 
 namespace srag\asq\Test\UI\System;
 
-use srag\asq\Test\Lib\Event\Event;
-use srag\CQRS\Aggregate\AbstractValueObject;
-
 /**
  * Class UIData
  *
@@ -13,34 +10,25 @@ use srag\CQRS\Aggregate\AbstractValueObject;
  *
  * @author Fluxlabs AG <adi@fluxlabs.ch>
  */
-class UIData extends AbstractValueObject {
+class UIData {
     private ?string $title;
 
     private ?string $description;
 
-    private ?array $tabs;
-
-    private ?array $alerts;
-
     private ?string $content;
 
+    private ?array $toolbar;
+
     public function __construct(
-        string $title = null,
-        string $description = null,
-        array $tabs = null,
-        array $alerts = null,
-        string $content = null)
-    {
+        ?string $title = null,
+        ?string $content = null,
+        ?string $description = null,
+        ?array $toolbar = null
+    ) {
         $this->title = $title;
         $this->description = $description;
-        $this->tabs = $tabs;
-        $this->alerts = $alerts;
         $this->content = $content;
-    }
-
-    public function getTabs(): ?array
-    {
-        return $this->tabs;
+        $this->toolbar = $toolbar;
     }
 
     public function getTitle(): ?string
@@ -53,13 +41,13 @@ class UIData extends AbstractValueObject {
         return $this->description;
     }
 
-    public function getAlerts(): ?array
-    {
-        return $this->alerts;
-    }
-
     public function getContent(): ?string
     {
         return $this->content;
+    }
+
+    public function getToolbar() : ?array
+    {
+        return $this->toolbar;
     }
 }

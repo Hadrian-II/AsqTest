@@ -36,7 +36,7 @@ interface ITest
      *
      * @param string $command
      */
-    public function executeCommand(string $command) : string;
+    public function executeCommand(string $command) : void;
 
     /**
      * Gets access to the ui modcule of the test

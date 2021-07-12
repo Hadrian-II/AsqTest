@@ -15,25 +15,21 @@ use srag\asq\Test\Lib\Event\IEventUser;
  */
 class TestUI implements ITestUI, IEventUser
 {
-    private string $title;
+    private string $title = '';
 
-    private string $description;
+    private string $description = '';
 
-    private array $tabs;
+    private array $tabs = [];
 
-    private array $alerts;
+    private string $content = '';
 
-    private string $content;
+    private array $toolbar =[];
 
     function processEvent(Event $event): void
     {
         if (get_class($event) === SetUIEvent::class) {
             /** @var $data UIData */
             $data = $event->getData();
-
-            if ($data->getAlerts() !== null) {
-                $this->alerts[] = $data->getAlerts();
-            }
 
             if ($data->getContent() !== null) {
                 $this->content = $data->getContent();
@@ -43,13 +39,19 @@ class TestUI implements ITestUI, IEventUser
                 $this->description = $data->getDescription();
             }
 
-            if ($data->getTabs() !== null) {
-                $this->tabs = $data->getTabs();
-            }
-
             if ($data->getTitle() !== null) {
                 $this->title = $data->getTitle();
             }
+
+            if ($data->getToolbar() !== null) {
+                foreach ($data->getToolbar() as $tool) {
+                    $this->toolbar[] = $tool;
+                }
+            }
+        }
+
+        if (get_class($event) === AddTabEvent::class) {
+            $this->tabs[] = $event->getData();
         }
     }
 
@@ -68,13 +70,13 @@ class TestUI implements ITestUI, IEventUser
         return $this->description;
     }
 
-    public function getAlerts(): array
-    {
-        return $this->alerts;
-    }
-
     public function getContent(): string
     {
         return $this->content;
+    }
+
+    public function getToolbar(): array
+    {
+        return $this->toolbar;
     }
 }

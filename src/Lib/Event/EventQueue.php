@@ -22,7 +22,7 @@ class EventQueue implements IEventQueue
      */
     private array $events;
 
-    private bool $lock;
+    private bool $lock = false;
 
     public function __construct() {
         $this->users = [];
@@ -40,6 +40,7 @@ class EventQueue implements IEventQueue
 
         if ($this->lock === false)
         {
+            $this->lock = true;
             $this->processNextEvent();;
         }
     }
@@ -51,5 +52,7 @@ class EventQueue implements IEventQueue
                 $user->processEvent($event);
             }
         }
+
+        $this->lock = false;
     }
 }

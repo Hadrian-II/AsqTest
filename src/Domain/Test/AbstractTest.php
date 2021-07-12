@@ -71,15 +71,15 @@ abstract class AbstractTest implements ITest
         return $matches;
     }
 
-    public function executeCommand(string $command) : string
+    public function executeCommand(string $command) : void
     {
         if (array_key_exists($command, $this->commands)) {
-            return $this->commands[$command]->executeCommand($command);
+            $this->commands[$command]->executeCommand($command);
         }
     }
 
     public function ui() : ITestUI
     {
-
+        return $this->ui;
     }
 }

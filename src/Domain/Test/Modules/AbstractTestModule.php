@@ -52,7 +52,7 @@ abstract class AbstractTestModule implements  ITestModule
         return true;
     }
 
-    public function executeCommand(string $command): string
+    public function executeCommand(string $command): void
     {
         if (!in_array($command, $this->getCommands())) {
             throw new AsqException(
@@ -74,6 +74,6 @@ abstract class AbstractTestModule implements  ITestModule
             );
         }
 
-        return $this->{$command}();
+        $this->{$command}();
     }
 }

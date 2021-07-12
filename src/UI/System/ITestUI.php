@@ -34,16 +34,16 @@ interface ITestUI
     public function getDescription() : string;
 
     /**
-     * The alerts to display
-     *
-     * @return array
-     */
-    public function getAlerts() : array;
-
-    /**
      * The content to display
      *
      * @return string
      */
     public function getContent() : string;
+
+    /**
+     * The Toolbar items to display
+     *
+     * @return array
+     */
+    public function getToolbar() : array;
 }
