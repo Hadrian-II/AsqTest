@@ -6,13 +6,15 @@ namespace srag\asq\Test\Modules\Questions\Sources\Pool;
 use srag\asq\Test\Domain\Test\Modules\AbstractTestModule;
 use srag\asq\Test\Domain\Test\Modules\ITestModule;
 use srag\asq\Test\Domain\Test\Modules\IQuestionSourceModule;
+use srag\asq\Test\UI\System\SetUIEvent;
+use srag\asq\Test\UI\System\UIData;
 
 /**
  * Class QuestionPoolSource
  *
  * @package srag\asq\Test
  *
- * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
+ * @author Fluxlabs ag - Adrian Lüthi <adi@fluxlabs.ch>
  */
 class QuestionPoolSource extends AbstractTestModule implements IQuestionSourceModule
 {
@@ -49,11 +51,21 @@ class QuestionPoolSource extends AbstractTestModule implements IQuestionSourceMo
         return self::SHOW_POOL_SELECTION;
     }
 
-    protected function qpsCreate() : string {
+    protected function qpsCreate() : void {
+        $selection = new QuestionPoolSelection();
 
+        $this->raiseEvent(new SetUIEvent($this, new UIData(
+            'Select Question Pool',
+            $selection->render()
+        )));
     }
 
-    protected function qpsPoolSelection() : string {
-        return 'POOL SOURCE';
+    protected function qpsPoolSelection() : void {
+        $selection = new QuestionPoolSelection();
+
+        $this->raiseEvent(new SetUIEvent($this, new UIData(
+            'Select Question Pool',
+            $selection->render()
+        )));
     }
 }
