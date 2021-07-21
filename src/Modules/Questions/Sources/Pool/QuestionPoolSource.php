@@ -18,8 +18,10 @@ use srag\asq\Test\UI\System\UIData;
  */
 class QuestionPoolSource extends AbstractTestModule implements IQuestionSourceModule
 {
-   const SHOW_POOL_SELECTION = 'qpsPoolSelection';
-   const CREATE_POOL_SOURCE = 'qpsCreate';
+    const PARAM_SELECTED_POOL = 'qpsSelectedPool';
+
+    const SHOW_POOL_SELECTION = 'qpsPoolSelection';
+    const CREATE_POOL_SOURCE = 'qpsCreate';
 
     /**
      * {@inheritDoc}
@@ -52,11 +54,9 @@ class QuestionPoolSource extends AbstractTestModule implements IQuestionSourceMo
     }
 
     protected function qpsCreate() : void {
-        $selection = new QuestionPoolSelection();
-
         $this->raiseEvent(new SetUIEvent($this, new UIData(
             'Select Question Pool',
-            $selection->render()
+            'SELECTA'
         )));
     }
 
