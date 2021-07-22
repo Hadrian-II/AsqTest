@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace srag\asq\Test\Domain\Section\Model;
 
+use ilDateTimeException;
 use srag\CQRS\Aggregate\AbstractAggregateRoot;
 use srag\asq\Test\Domain\Section\Event\AssessmentSectionDataSetEvent;
 use ilDateTime;
@@ -16,24 +17,22 @@ use ILIAS\Data\UUID\Uuid;
  *
  * @package srag\asq\Test
  *
- * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
+ * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */
 class AssessmentSection extends AbstractAggregateRoot
 {
-    /**
-     * @var ?AssessmentSectionData
-     */
-    protected $data;
+    protected ?AssessmentSectionData $data = null;
 
     /**
      * @var ?SectionPart[]
      */
-    protected $items = [];
+    protected ?array $items = [];
 
     /**
      * @param Uuid $id
      * @param int $user_id
      * @return AssessmentSection
+     * @throws ilDateTimeException
      */
     public static function create(Uuid $id, int $user_id) : AssessmentSection
     {
@@ -50,19 +49,12 @@ class AssessmentSection extends AbstractAggregateRoot
         return $object;
     }
 
-    /**
-     * @return ?AssessmentSectionData
-     */
     public function getData() : ?AssessmentSectionData
     {
         return $this->data;
     }
 
-    /**
-     * @param ?AssessmentSectionData $data
-     * @param int $user_id
-     */
-    public function setData(?AssessmentSectionData $data, int $user_id)
+    public function setData(?AssessmentSectionData $data, int $user_id) : void
     {
         if (!AssessmentSectionData::isNullableEqual($data, $this->data)) {
             $this->ExecuteEvent(
@@ -76,11 +68,12 @@ class AssessmentSection extends AbstractAggregateRoot
         }
     }
 
-    /**
-     * @param SectionPart $item
-     * @param int $user_id
-     */
-    public function addItem(SectionPart $item, int $user_id)
+    public function applyAssessmentSectionDataSetEvent(AssessmentSectionDataSetEvent $event) : void
+    {
+        $this->data = $event->getSectionData();
+    }
+
+    public function addItem(SectionPart $item, int $user_id) : void
     {
         if (!array_key_exists($item->getKey(), $this->items)) {
             $this->ExecuteEvent(new AssessmentSectionItemAddedEvent(
@@ -94,19 +87,12 @@ class AssessmentSection extends AbstractAggregateRoot
         }
     }
 
-    /**
-     * @param AssessmentSectionItemAddedEvent $event
-     */
-    protected function applyAssessmentSectionItemAddedEvent(AssessmentSectionItemAddedEvent $event)
+    protected function applyAssessmentSectionItemAddedEvent(AssessmentSectionItemAddedEvent $event) : void
     {
         $this->items[$event->getItem()->getKey()] = $event->getItem();
     }
 
-    /**
-     * @param SectionPart $item
-     * @param int $user_id
-     */
-    public function removeItem(SectionPart $item, int $user_id)
+    public function removeItem(SectionPart $item, int $user_id) : void
     {
         if (array_key_exists($item->getKey(), $this->items)) {
             $this->ExecuteEvent(new AssessmentSectionItemRemovedEvent(
@@ -120,17 +106,11 @@ class AssessmentSection extends AbstractAggregateRoot
         }
     }
 
-    /**
-     * @param AssessmentSectionItemRemovedEvent $event
-     */
-    protected function applyAssessmentSectionItemRemovedEvent(AssessmentSectionItemRemovedEvent $event)
+    protected function applyAssessmentSectionItemRemovedEvent(AssessmentSectionItemRemovedEvent $event) : void
     {
         unset($this->items[$event->getItem()->getKey()]);
     }
 
-    /**
-     * @return array
-     */
     public function getItems() : ?array
     {
         return $this->items;

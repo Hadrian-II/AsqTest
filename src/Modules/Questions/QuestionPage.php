@@ -83,7 +83,7 @@ class QuestionPage extends AbstractTestModule implements IPageModule
 
         $this->raiseEvent(new SetUIEvent($this, new UIData(
             'Questions',
-            'SHOW Questions',
+            strval(count($this->test_data->getSections())),
             null,
             [ $src ]
         )));

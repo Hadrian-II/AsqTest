@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace srag\asq\Test\Application\Test\Command;
 
+use srag\asq\Test\Domain\Test\Model\AssessmentTestRepository;
 use srag\CQRS\Command\CommandContract;
 use srag\CQRS\Command\CommandHandlerContract;
 use ILIAS\Data\Result;
@@ -22,7 +23,10 @@ class AddSectionCommandHandler implements CommandHandlerContract
      */
     public function handle(CommandContract $command) : Result
     {
-
+        $repo = new AssessmentTestRepository();
+        $test = $repo->getAggregateRootById($command->getId());
+        $test->addSection($command->getSectionId(), $command->getIssuingUserId());
+        $repo->save($test);
 
         return new Ok(null);
     }

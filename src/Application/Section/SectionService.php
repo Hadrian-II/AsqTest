@@ -3,6 +3,9 @@ declare(strict_types = 1);
 
 namespace srag\asq\Test\Application\Section;
 
+use srag\asq\Test\Application\Section\Command\SetDataCommand;
+use srag\asq\Test\Application\Section\Command\SetDataCommandHandler;
+use srag\asq\Test\Domain\Section\Model\AssessmentSectionData;
 use srag\CQRS\Command\CommandBus;
 use srag\CQRS\Command\CommandConfiguration;
 use srag\CQRS\Command\Access\OpenAccess;
@@ -29,15 +32,9 @@ use ILIAS\Data\UUID\Uuid;
 
 class SectionService extends ASQService
 {
-    /**
-     * @var CommandBus
-     */
-    private $command_bus;
+    private CommandBus $command_bus;
 
-    /**
-     * @var AssessmentSectionRepository
-     */
-    private $repo;
+    private AssessmentSectionRepository $repo;
 
     public function __construct()
     {
@@ -61,12 +58,15 @@ class SectionService extends ASQService
             new OpenAccess()
         ));
 
+        $this->command_bus->registerCommand(new CommandConfiguration(
+            SetDataCommand::class,
+            new SetDataCommandHandler(),
+            new OpenAccess()
+        ));
+
         $this->repo = new AssessmentSectionRepository();
     }
 
-    /**
-     * @return string
-     */
     public function createSection() : Uuid
     {
         $uuid_factory = new Factory();
@@ -83,11 +83,6 @@ class SectionService extends ASQService
         return $uuid;
     }
 
-    /**
-     * @param Uuid $section_id
-     * @param Uuid $question_id
-     * @param string $question_revision
-     */
     public function addQuestion(Uuid $section_id, Uuid $question_id, ?string $question_revision = null) : void
     {
         $this->command_bus->handle(
@@ -103,12 +98,7 @@ class SectionService extends ASQService
         );
     }
 
-    /**
-     * @param Uuid $section_id
-     * @param Uuid $question_id
-     * @param string $question_revision
-     */
-    public function removeQuestion(Uuid $section_id, Uuid $question_id, ?string $question_revision = null)
+    public function removeQuestion(Uuid $section_id, Uuid $question_id, ?string $question_revision = null) : void
     {
         $this->command_bus->handle(
             new RemoveItemCommand(
@@ -123,10 +113,17 @@ class SectionService extends ASQService
         );
     }
 
-    /**
-     * @param Uuid $section_id
-     * @return AssessmentSectionDto
-     */
+    public function setSectionData(Uuid $section_id, AssessmentSectionData $data) : void
+    {
+        $this->command_bus->handle(
+            new SetDataCommand(
+                $section_id,
+                $this->getActiveUser(),
+                $data
+            )
+        );
+    }
+
     public function getSection(Uuid $section_id) : AssessmentSectionDto
     {
         return AssessmentSectionDto::Create(

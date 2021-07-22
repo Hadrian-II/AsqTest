@@ -11,16 +11,16 @@ use ILIAS\Data\Result;
 use ILIAS\Data\Result\Ok;
 
 /**
- * Class AddItemCommandHandler
+ * Class SetDataCommandHandler
  *
  * @package srag\asq\Test
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */
-class AddItemCommandHandler implements CommandHandlerContract
+class SetDataCommandHandler implements CommandHandlerContract
 {
     /**
-     * @param $command AddItemCommand
+     * @param $command SetDataCommand
      */
     public function handle(CommandContract $command) : Result
     {
@@ -29,7 +29,7 @@ class AddItemCommandHandler implements CommandHandlerContract
         /** @var $section AssessmentSection */
         $section = $repo->getAggregateRootById($command->getSectionId());
 
-        $section->addItem($command->getItem(), $command->getIssuingUserId());
+        $section->setData($command->getData(), $command->getIssuingUserId());
 
         $repo->save($section);
 

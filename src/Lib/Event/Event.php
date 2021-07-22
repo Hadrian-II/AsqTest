@@ -3,8 +3,6 @@ declare(strict_types = 1);
 
 namespace srag\asq\Test\Lib\Event;
 
-use srag\CQRS\Aggregate\AbstractValueObject;
-
 /**
  * Class Event
  *

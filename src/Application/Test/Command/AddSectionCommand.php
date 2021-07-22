@@ -32,6 +32,7 @@ class AddSectionCommand extends AbstractCommand
     public function __construct(Uuid $id, Uuid $section_id, int $user_id)
     {
         $this->id = $id;
+        $this->section_id = $section_id;
         parent::__construct($user_id);
     }
 

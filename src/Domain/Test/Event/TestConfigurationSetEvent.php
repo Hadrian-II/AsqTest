@@ -20,22 +20,10 @@ class TestConfigurationSetEvent extends AbstractDomainEvent
     const VAR_CONFIG = 'config';
     const VAR_CONFIG_FOR = 'config_for';
 
-    /**
-     * @var AbstractValueObject
-     */
-    protected $config;
+    protected ?AbstractValueObject $config;
 
-    /**
-     * @var string
-     */
-    protected $config_for;
+    protected ?string $config_for;
 
-    /**
-     * @param Uuid $aggregate_id
-     * @param ilDateTime $occured_on
-     * @param int $initiating_user_id
-     * @param AbstractValueObject $data
-     */
     public function __construct(
         Uuid $aggregate_id,
         ilDateTime $occured_on,
@@ -48,18 +36,12 @@ class TestConfigurationSetEvent extends AbstractDomainEvent
             parent::__construct($aggregate_id, $occured_on, $initiating_user_id);
     }
 
-    /**
-     * @return AbstractValueObject
-     */
-    public function getConfig() : AbstractValueObject
+    public function getConfig() : ?AbstractValueObject
     {
         return $this->config;
     }
 
-    /**
-     * @return string
-     */
-    public function getConfigFor() : string
+    public function getConfigFor() : ?string
     {
         return $this->config_for;
     }

@@ -24,13 +24,13 @@ class CreateTestCommandHandler implements CommandHandlerContract
      */
     public function handle(CommandContract $command) : Result
     {
-        $question = AssessmentTest::createNewTest(
+        $test = AssessmentTest::createNewTest(
             $command->getId(),
             $command->getIssuingUserId(),
         );
 
         $repo = new AssessmentTestRepository();
-        $repo->save($question);
+        $repo->save($test);
 
         return new Ok(null);
     }

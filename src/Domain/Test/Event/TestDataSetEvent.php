@@ -17,31 +17,19 @@ use srag\asq\Test\Domain\Test\Model\TestData;
  */
 class TestDataSetEvent extends AbstractDomainEvent
 {
-    /**
-     * @var TestData
-     */
-    protected $test_data;
+    protected ?TestData $test_data;
 
-    /**
-     * @param Uuid $aggregate_id
-     * @param ilDateTime $occured_on
-     * @param int $initiating_user_id
-     * @param TestData $data
-     */
     public function __construct(
         Uuid $aggregate_id,
-        ilDateTime $occured_on,
+        ilDateTime $occurred_on,
         int $initiating_user_id,
         TestData $data = null
         ) {
             $this->test_data = $data;
-            parent::__construct($aggregate_id, $occured_on, $initiating_user_id);
+            parent::__construct($aggregate_id, $occurred_on, $initiating_user_id);
     }
 
-    /**
-     * @return TestData
-     */
-    public function getTestData() : TestData
+    public function getTestData() : ?TestData
     {
         return $this->test_data;
     }

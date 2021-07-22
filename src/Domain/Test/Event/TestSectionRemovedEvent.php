@@ -17,17 +17,8 @@ use ILIAS\Data\UUID\Factory;
  */
 class TestSectionRemovedEvent extends AbstractDomainEvent
 {
-    /**
-     * @var Uuid
-     */
-    protected $section_id;
+    protected ?Uuid $section_id;
 
-    /**
-     * @param Uuid $aggregate_id
-     * @param ilDateTime $occured_on
-     * @param int $initiating_user_id
-     * @param Uuid $data
-     */
     public function __construct(
         Uuid $aggregate_id,
         ilDateTime $occured_on,
@@ -41,7 +32,7 @@ class TestSectionRemovedEvent extends AbstractDomainEvent
     /**
      * @return Uuid
      */
-    public function getSectionId() : Uuid
+    public function getSectionId() : ?Uuid
     {
         return $this->section_id;
     }
