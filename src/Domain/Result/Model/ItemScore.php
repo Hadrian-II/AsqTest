@@ -8,11 +8,9 @@ use srag\CQRS\Aggregate\AbstractValueObject;
 /**
  * Class ItemScore
  *
- * @license Extended GPL, see docs/LICENSE
- * @copyright 1998-2020 ILIAS open source
- *
  * @package srag\asq\Test
- * @author  Adrian Lüthi <al@studer-raimann.ch>
+ *
+ * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */
 class ItemScore extends AbstractValueObject
 {

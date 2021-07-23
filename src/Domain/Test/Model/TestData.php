@@ -12,7 +12,7 @@ use srag\asq\Test\Leipzig\LeipzigTest;
  *
  * @package srag\asq\Test
  *
- * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
+ * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */
 class TestData extends AbstractValueObject
 {

@@ -12,7 +12,9 @@ use srag\asq\UserInterface\Web\Component\Hint\HintComponent;
 /**
  * Class TestPlayerGUI
  *
- * @author studer + raimann ag - Adrian Lüthi <al@studer-raimann.ch>
+ * @package srag\asq\Test
+ *
+ * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */
 class TestPlayerGUI
 {

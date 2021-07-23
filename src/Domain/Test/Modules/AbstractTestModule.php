@@ -12,7 +12,7 @@ use srag\asq\Test\Lib\Event\IEventQueue;
  *
  * @package srag\asq\Test
  *
- * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
+ * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */
 abstract class AbstractTestModule implements  ITestModule
 {

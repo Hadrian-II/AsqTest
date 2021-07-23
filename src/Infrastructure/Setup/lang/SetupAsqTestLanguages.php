@@ -8,7 +8,9 @@ use srag\asq\Infrastructure\Setup\lang\SetupLanguages;
 /**
  * Class SetupAsqTestLanguages
  *
- * @author Adrian Lüthi <al@studer-raimann.ch>
+ * @package srag\asq\Test
+ *
+ * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */
 class SetupAsqTestLanguages extends SetupLanguages
 {

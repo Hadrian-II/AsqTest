@@ -16,12 +16,9 @@ use Psr\Http\Message\ServerRequestInterface;
 /**
  * Class AsqTestServices
  *
- * @license Extended GPL, see docs/LICENSE
- * @copyright 1998-2020 ILIAS open source
+ * @package srag\asq\Test
  *
- * @package srag/asq/Test
- * @author  Adrian Lüthi <al@studer-raimann.ch>
- * @author  Martin Studer <ms@studer-raimann.ch>
+ * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */
 class ConfigurationGUI
 {

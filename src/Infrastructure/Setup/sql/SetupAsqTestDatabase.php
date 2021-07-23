@@ -10,7 +10,9 @@ use srag\asq\Test\Domain\Test\Persistence\AssessmentTestEventStoreAr;
 /**
  * Class SetupAsqTestDatabase
  *
- * @author Adrian Lüthi <ms@studer-raimann.ch>
+ * @package srag\asq\Test
+ *
+ * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */
 class SetupAsqTestDatabase
 {

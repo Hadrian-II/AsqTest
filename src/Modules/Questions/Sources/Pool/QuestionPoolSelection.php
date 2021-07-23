@@ -13,7 +13,7 @@ use srag\asq\QuestionPool\Application\QuestionPoolService;
  *
  * @package srag\asq\Test
  *
- * @author Fluxlabs ag - Adrian Lüthi <adi@fluxlabs.ch>
+ * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */
 class QuestionPoolSelection
 {

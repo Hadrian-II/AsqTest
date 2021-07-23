@@ -24,7 +24,7 @@ use srag\asq\Test\UI\System\UIData;
  *
  * @package srag\asq\Test
  *
- * @author Fluxlabs ag - Adrian Lüthi <adi@fluxlabs.ch>
+ * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */
 class QuestionPoolSource extends AbstractTestModule implements IQuestionSourceModule
 {

@@ -10,7 +10,7 @@ use srag\CQRS\Aggregate\AbstractValueObject;
  *
  * @package srag\asq\Test
  *
- * @author Fluxlabs ag - Adrian Lüthi <adi@fluxlabs.ch>
+ * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */
 class QuestionPoolSourceConfiguration extends AbstractValueObject
 {

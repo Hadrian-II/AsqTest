@@ -13,7 +13,7 @@ use srag\CQRS\Event\AbstractDomainEvent;
  *
  * @package srag\asq\Test
  *
- * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
+ * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */
 class TestConfigurationSetEvent extends AbstractDomainEvent
 {

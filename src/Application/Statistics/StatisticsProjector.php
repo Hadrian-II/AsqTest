@@ -15,12 +15,9 @@ use srag\asq\Test\Domain\Result\Persistence\AssessmentResultEventStore;
 /**
  * Class StatisticsProjector
  *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
- * @license Extended GPL, see docs/LICENSE
- * @copyright 1998-2020 ILIAS open source
+ * @package srag\asq\Test
  *
- * @package srag/asq
- * @author  Adrian Lüthi <al@studer-raimann.ch>
+ * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */
 class StatisticsProjector
 {

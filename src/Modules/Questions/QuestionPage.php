@@ -17,7 +17,7 @@ use srag\asq\Test\UI\System\UIData;
 use ilCtrl;
 
 /**
- * Class QuestionPAge
+ * Class QuestionPage
  *
  * @package srag\asq\Test
  *
