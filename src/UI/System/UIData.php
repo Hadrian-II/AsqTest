@@ -10,7 +10,8 @@ namespace srag\asq\Test\UI\System;
  *
  * @author Fluxlabs AG <adi@fluxlabs.ch>
  */
-class UIData {
+class UIData
+{
     private ?string $title;
 
     private ?string $description;

@@ -16,19 +16,11 @@ use srag\asq\Test\Domain\Test\Modules\IScoringModule;
  */
 class AutomaticScoring extends AbstractTestModule implements IScoringModule
 {
-    /**
-     * {@inheritDoc}
-     * @see ITestModule::getType()
-     */
     public function getType(): string
     {
         return ITestModule::TYPE_SCORING;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see ITestModule::getConfigClass()
-     */
     public function getConfigClass() : ?string
     {
         return AutomaticScoringConfigurationFactory::class;

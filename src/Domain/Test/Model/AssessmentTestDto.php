@@ -16,29 +16,20 @@ use srag\CQRS\Aggregate\AbstractValueObject;
  */
 class AssessmentTestDto
 {
-    /**
-     * @var Uuid
-     */
-    private $id;
+    private Uuid $id;
 
-    /**
-     * @var ?TestData
-     */
-    private $data;
+    private ?TestData $data;
 
     /**
      * @var AbstractValueObject[]
      */
-    private $configurations;
+    private array $configurations;
 
     /**
      * @var Uuid[]
      */
-    private $sections;
+    private array $sections;
 
-    /**
-     * @param AssessmentTest $test
-     */
     public function __construct(AssessmentTest $test)
     {
         $this->id = $test->getAggregateId();
@@ -59,10 +50,6 @@ class AssessmentTestDto
         return $this->configurations;
     }
 
-    /**
-     * @param string $configuration_for
-     * @return AbstractValueObject|NULL
-     */
     public function getConfiguration(string $configuration_for) : ?AbstractValueObject
     {
         return $this->configurations[$configuration_for];
@@ -73,17 +60,11 @@ class AssessmentTestDto
         $this->configurations[$configuration_for] = $config;
     }
 
-    /**
-     * @return ?TestData
-     */
     public function getTestData() : ?TestData
     {
         return $this->data;
     }
 
-    /**
-     * @param TestData $data
-     */
     public function setTestData(TestData $data) : void
     {
         $this->data = $data;
@@ -97,17 +78,11 @@ class AssessmentTestDto
         return $this->sections;
     }
 
-    /**
-     * @param Uuid $section_id
-     */
     public function addSection(Uuid $section_id) : void
     {
         $this->sections[] = $section_id;
     }
 
-    /**
-     * @param Uuid $section_id
-     */
     public function removeSection(Uuid $section_id) : void
     {
         $this->sections = array_diff($this->sections, [$section_id]);

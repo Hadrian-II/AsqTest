@@ -12,8 +12,5 @@ namespace srag\asq\Test\Domain\Test\Modules;
  */
 interface IAvailabilityModule
 {
-    /**
-     * @return bool
-     */
     public function isAvailable() : bool;
 }

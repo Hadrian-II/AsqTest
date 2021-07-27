@@ -12,31 +12,16 @@ use srag\asq\Domain\Model\Hint\QuestionHint;
  *
  * @package srag\asq\Test
  *
- * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
+ * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */
 class HintReceivedCommand extends AbstractCommand
 {
-    /**
-     * @var Uuid
-     */
-    public $result_uuid;
+    public Uuid $result_uuid;
 
-    /**
-     * @var Uuid
-     */
-    public $question_id;
+    public Uuid $question_id;
 
-    /**
-     * @var QuestionHint
-     */
-    public $hint;
+    public QuestionHint $hint;
 
-    /**
-     * @param Uuid $result_uuid
-     * @param int $user_id
-     * @param Uuid $question_id
-     * @param QuestionHint $hint
-     */
     public function __construct(Uuid $result_uuid, int $user_id, Uuid $question_id, QuestionHint $hint)
     {
         $this->result_uuid = $result_uuid;
@@ -45,25 +30,16 @@ class HintReceivedCommand extends AbstractCommand
         parent::__construct($user_id);
     }
 
-    /**
-     * @return Uuid
-     */
     public function getResultUuid() : Uuid
     {
         return $this->result_uuid;
     }
 
-    /**
-     * @return Uuid
-     */
     public function getQuestionId() : Uuid
     {
         return $this->question_id;
     }
 
-    /**
-     * @return QuestionHint
-     */
     public function getHint() : QuestionHint
     {
         return $this->hint;

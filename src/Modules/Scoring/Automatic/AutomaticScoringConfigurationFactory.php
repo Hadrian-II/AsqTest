@@ -18,10 +18,6 @@ class AutomaticScoringConfigurationFactory extends AbstractObjectFactory
     const VAR_SCORING_MODE = 'asc_scoring_mode';
     const VAR_ALLOW_NEGATIVE = 'asc_allow_negative';
 
-    /**
-     * {@inheritDoc}
-     * @see \srag\asq\UserInterface\Web\Form\Factory\IObjectFactory::getFormfields()
-     */
     public function getFormfields(?AbstractValueObject $value): array
     {
         $scoring_mode = $this->factory->input()->field()->select(
@@ -45,10 +41,6 @@ class AutomaticScoringConfigurationFactory extends AbstractObjectFactory
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     * @see \srag\asq\UserInterface\Web\Form\Factory\IObjectFactory::readObjectFromPost()
-     */
     public function readObjectFromPost(array $postdata): AbstractValueObject
     {
         return new AutomaticScoringConfiguration(
@@ -57,10 +49,6 @@ class AutomaticScoringConfigurationFactory extends AbstractObjectFactory
         );
     }
 
-    /**
-     * {@inheritDoc}
-     * @see \srag\asq\UserInterface\Web\Form\Factory\IObjectFactory::getDefaultValue()
-     */
     public function getDefaultValue(): AbstractValueObject
     {
         return new AutomaticScoringConfiguration();

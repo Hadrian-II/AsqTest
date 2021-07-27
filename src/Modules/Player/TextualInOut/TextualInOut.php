@@ -15,19 +15,11 @@ use srag\asq\Test\Domain\Test\Modules\ITestModule;
  */
 class TextualInOut extends AbstractTestModule
 {
-    /**
-     * {@inheritDoc}
-     * @see ITestModule::getType()
-     */
     public function getType(): string
     {
         return ITestModule::TYPE_PLAYER;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see AbstractTestModule::getConfigClass()
-     */
     public function getConfigClass() : ?string
     {
         return TextualInOutConfigurationFactory::class;

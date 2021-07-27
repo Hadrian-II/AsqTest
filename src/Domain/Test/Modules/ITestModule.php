@@ -32,7 +32,7 @@ interface ITestModule extends IEventUser
      * Return the class holding the configuration
      * Null means no configuration is needed
      *
-     * @return string|NULL
+     * @return ?string
      */
     public function getConfigClass() : ?string;
 

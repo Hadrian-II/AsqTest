@@ -18,19 +18,11 @@ class FixedSource extends AbstractTestModule implements IQuestionSourceModule
 {
     const CREATE_STATIC_SOURCE = 'sqsCreate';
 
-    /**
-     * {@inheritDoc}
-     * @see ITestModule::getType()
-     */
     public function getType(): string
     {
         return ITestModule::TYPE_QUESTION_SOURCE;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see \srag\asq\Test\Domain\Test\Modules\IQuestionSourceModule::getQuestions()
-     */
     public function getQuestions(): array
     {
 

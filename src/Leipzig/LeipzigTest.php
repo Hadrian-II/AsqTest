@@ -43,9 +43,6 @@ class LeipzigTest extends AbstractTest
         $this->addModule(new QuestionPage($this->event_queue, $test_data, $this->getModulesOfType(IQuestionSourceModule::class)));
     }
 
-    /**
-     * @return TestType
-     */
     public function getTestType() : TestType
     {
         return TestType::createType('aqtl', 'Test für Leipzig', self::class);

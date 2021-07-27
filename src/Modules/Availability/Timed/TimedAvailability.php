@@ -16,27 +16,16 @@ use srag\asq\Test\Domain\Test\Modules\ITestModule;
  */
 class TimedAvailability extends AbstractTestModule implements IAvailabilityModule
 {
-    /**
-     * {@inheritDoc}
-     * @see ITestModule::getType()
-     */
     public function getType(): string
     {
         return ITestModule::TYPE_AVAILABILITY;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see ITestModule::getConfigClass()
-     */
     public function getConfigClass() : ?string
     {
         return TimedAvailabilityConfigurationFactory::class;
     }
 
-    /**
-     * @return bool
-     */
     public function isAvailable(): bool
     {
 

@@ -17,43 +17,26 @@ use srag\asq\Test\Domain\Test\Modules\IPlayerModule;
  */
 class QuestionDisplay extends AbstractTestModule implements IPlayerModule
 {
-    /**
-     * {@inheritDoc}
-     * @see ITestModule::getType()
-     */
     public function getType(): string
     {
         return ITestModule::TYPE_PLAYER;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see ITestModule::getConfigClass()
-     */
     public function getConfigClass() : ?string
     {
         return QuestionDisplayConfigurationFactory::class;
     }
 
-    /**
-     * @return QuestionDto|NULL
-     */
     public function getNextQuestion(): ?QuestionDto
     {
 
     }
 
-    /**
-     * @return QuestionDto
-     */
     public function getFirstQuestion(): QuestionDto
     {
 
     }
 
-    /**
-     * @return QuestionDto|NULL
-     */
     public function getPreviousQuestion(): ?QuestionDto
     {
 

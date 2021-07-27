@@ -16,44 +16,23 @@ use srag\asq\Test\Leipzig\LeipzigTest;
  */
 class TestData extends AbstractValueObject
 {
-    /**
-     * @var ?string
-     */
-    protected $title;
+    protected ?string $title;
 
-    /**
-     * @var ?string
-     */
-    protected $description;
+    protected ?string $description;
 
-    /**
-     * TODO implement TestType loading/saving
-     *
-     * @var string
-     */
     protected $type = LeipzigTest::class;
 
-    /**
-     * @param string $title
-     * @param string $description
-     */
     public function __construct(?string $title = null, ?string $description = null)
     {
         $this->title = $title;
         $this->description = $description;
     }
 
-    /**
-     * @return ?string
-     */
     public function getTitle() : ?string
     {
         return $this->title;
     }
 
-    /**
-     * @return ?string
-     */
     public function getDescription() : ?string
     {
         return $this->description;

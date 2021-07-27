@@ -18,22 +18,13 @@ class QuestionDisplayConfiguration extends AbstractValueObject
     const SHOW_HEADER = 2;
     const SHOW_NOTHING = 3;
 
-    /**
-     * @var ?string
-     */
-    protected $header_display_mode;
+    protected ?int $header_display_mode;
 
-    /**
-     * @param string $header
-     */
     public function __construct(?int $header_display_mode = null)
     {
         $this->header_display_mode = $header_display_mode;
     }
 
-    /**
-     * @return ?string
-     */
     public function getHeaderDisplayMode() : ?int
     {
         return $this->header_display_mode;

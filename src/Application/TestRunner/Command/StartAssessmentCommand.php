@@ -12,31 +12,19 @@ use ILIAS\Data\UUID\Uuid;
  *
  * @package srag\asq\Test
  *
- * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
+ * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */
 class StartAssessmentCommand extends AbstractCommand
 {
-    /**
-     * @var AssessmentResultContext
-     */
-    protected $context;
+    protected AssessmentResultContext $context;
 
     /**
      * @var Uuid[]
      */
-    protected $question_ids;
+    protected array $question_ids;
 
-    /**
-     * @var Uuid
-     */
-    protected $uuid;
+    protected Uuid $uuid;
 
-    /**
-     * @param Uuid $uuid
-     * @param int $user_id
-     * @param AssessmentResultContext $context
-     * @param array $question_ids
-     */
     public function __construct(Uuid $uuid, int $user_id, AssessmentResultContext $context, array $question_ids)
     {
         $this->uuid = $uuid;
@@ -50,10 +38,7 @@ class StartAssessmentCommand extends AbstractCommand
         return $this->uuid;
     }
 
-    /**
-     * @return AssessmentResultContext
-     */
-    public function getContext()
+    public function getContext() : AssessmentResultContext
     {
         return $this->context;
     }

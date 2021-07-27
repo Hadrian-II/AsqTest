@@ -14,20 +14,10 @@ use srag\CQRS\Aggregate\AbstractValueObject;
  */
 class TextualInOutConfiguration extends AbstractValueObject
 {
-    /**
-     * @var ?string
-     */
-    protected $intro_text;
+    protected ?string $intro_text;
 
-    /**
-     * @var ?string
-     */
-    protected $outro_text;
+    protected ?string $outro_text;
 
-    /**
-     * @param string $intro_text
-     * @param string $outro_text
-     */
     public function __construct(
         ?string $intro_text = null,
         ?string $outro_text = null
@@ -35,17 +25,12 @@ class TextualInOutConfiguration extends AbstractValueObject
         $this->intro_text = $intro_text;
         $this->outro_text = $outro_text;
     }
-    /**
-     * @return ?string
-     */
+
     public function getIntroText() : ?string
     {
         return $this->intro_text;
     }
 
-    /**
-     * @return ?string
-     */
     public function getOutroText() : ?string
     {
         return $this->outro_text;

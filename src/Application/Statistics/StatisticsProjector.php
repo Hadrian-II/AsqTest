@@ -21,14 +21,9 @@ use srag\asq\Test\Domain\Result\Persistence\AssessmentResultEventStore;
  */
 class StatisticsProjector
 {
-    /**
-     * @var ilDBPositionLedger
-     */
-    protected $position_ledger;
-    /**
-     * @var AssessmentResultEventStore
-     */
-    protected $event_store;
+    protected ilDBPositionLedger $position_ledger;
+
+    protected  AssessmentResultEventStore$event_store;
 
     public function __construct()
     {

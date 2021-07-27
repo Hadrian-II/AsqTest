@@ -23,10 +23,6 @@ abstract class AbstractTestModule implements  ITestModule
         $this->event_queue = $event_queue;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see ITestModule::getConfigClass()
-     */
     public function getConfigClass() : ?string
     {
         return null;

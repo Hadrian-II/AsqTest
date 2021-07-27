@@ -16,28 +16,16 @@ use srag\asq\Test\Domain\Test\Modules\ITestModule;
  */
 class QuestionSelection extends AbstractTestModule implements IQuestionSelectionModule
 {
-    /**
-     * {@inheritDoc}
-     * @see ITestModule::getType()
-     */
     public function getType(): string
     {
         return ITestModule::TYPE_QUESTION_SELECTION;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see ITestModule::getConfigClass()
-     */
     public function getConfigClass() : ?string
     {
         return QuestionSelectionConfigurationFactory::class;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see \srag\asq\Test\Domain\Test\Modules\IQuestionSourceModule::getQuestions()
-     */
     public function getQuestions(): array
     {
 

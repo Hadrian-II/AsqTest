@@ -17,17 +17,8 @@ use ILIAS\Data\UUID\Uuid;
  */
 class AssessmentSectionDataSetEvent extends AbstractDomainEvent
 {
-    /**
-    * @var AssessmentSectionData
-    */
-    protected $section_data;
+    protected ?AssessmentSectionData $section_data;
 
-    /**
-     * @param Uuid $aggregate_id
-     * @param ilDateTime $occured_on
-     * @param int $initiating_user_id
-     * @param AssessmentSectionData $data
-     */
     public function __construct(
         Uuid $aggregate_id,
         ilDateTime $occured_on,
@@ -38,35 +29,21 @@ class AssessmentSectionDataSetEvent extends AbstractDomainEvent
         parent::__construct($aggregate_id, $occured_on, $initiating_user_id);
     }
 
-    /**
-     * @return AssessmentSectionData
-     */
     public function getSectionData() : AssessmentSectionData
     {
         return $this->section_data;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see \srag\CQRS\Event\AbstractDomainEvent::getEventBody()
-     */
     public function getEventBody() : string
     {
         return json_encode($this->section_data);
     }
 
-    /**
-     * {@inheritDoc}
-     * @see \srag\CQRS\Event\AbstractDomainEvent::restoreEventBody()
-     */
     protected function restoreEventBody(string $event_body) : void
     {
         $this->section_data = AssessmentSectionData::deserialize($event_body);
     }
 
-    /**
-     * @return int
-     */
     public static function getEventVersion() : int
     {
         // initial version 1

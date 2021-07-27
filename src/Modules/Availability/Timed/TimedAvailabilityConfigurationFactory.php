@@ -18,10 +18,6 @@ class TimedAvailabilityConfigurationFactory extends AbstractObjectFactory
     const VAR_FROM = 'tac_from';
     const VAR_TO = 'tac_to';
 
-    /**
-     * {@inheritDoc}
-     * @see \srag\asq\UserInterface\Web\Form\Factory\IObjectFactory::getFormfields()
-     */
     public function getFormfields(?AbstractValueObject $value): array
     {
         $from = $this->factory->input()->field()->dateTime($this->language->txt('label_tac_from'));
@@ -38,10 +34,6 @@ class TimedAvailabilityConfigurationFactory extends AbstractObjectFactory
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     * @see \srag\asq\UserInterface\Web\Form\Factory\IObjectFactory::readObjectFromPost()
-     */
     public function readObjectFromPost(array $postdata): AbstractValueObject
     {
         return new TimedAvailabilityConfiguration(
@@ -50,10 +42,6 @@ class TimedAvailabilityConfigurationFactory extends AbstractObjectFactory
         );
     }
 
-    /**
-     * {@inheritDoc}
-     * @see \srag\asq\UserInterface\Web\Form\Factory\IObjectFactory::getDefaultValue()
-     */
     public function getDefaultValue(): AbstractValueObject
     {
         return new TimedAvailabilityConfiguration();

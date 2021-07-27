@@ -34,28 +34,17 @@ class TestSectionAddedEvent extends AbstractDomainEvent
         return $this->section_id;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see \srag\CQRS\Event\AbstractDomainEvent::getEventBody()
-     */
     public function getEventBody() : string
     {
         return $this->section_id->toString();
     }
 
-    /**
-     * {@inheritDoc}
-     * @see \srag\CQRS\Event\AbstractDomainEvent::restoreEventBody()
-     */
     protected function restoreEventBody(string $event_body) : void
     {
         $factory = new Factory();
         $this->section_id = $factory->fromString($event_body);
     }
 
-    /**
-     * @return int
-     */
     public static function getEventVersion() : int
     {
         // initial version 1

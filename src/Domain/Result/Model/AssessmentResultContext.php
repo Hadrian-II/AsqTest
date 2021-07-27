@@ -15,34 +15,16 @@ use ILIAS\Data\UUID\Uuid;
  */
 class AssessmentResultContext extends AbstractValueObject
 {
-    /**
-     * @var int
-     */
-    protected $user_id;
-    /**
-     * @var Uuid
-     */
-    protected $assessment_name;
-    /**
-     * @var int
-     */
-    protected $run;
-    /**
-     * @var ?string
-     */
-    protected $assessment_id;
-    /**
-     * @var ?string
-     */
-    protected $assessment_revision;
+    protected ?int $user_id;
 
-    /**
-     * @param int $user_id
-     * @param string $assessment_name
-     * @param int $run
-     * @param Uuid $assessment_id
-     * @param string $assessment_revision
-     */
+    protected ?uid $assessment_name;
+
+    protected int $run;
+
+    protected ?string $assessment_id;
+
+    protected ?string $assessment_revision;
+
     public function __construct(
         int $user_id = null,
         string $assessment_name = null,
@@ -57,42 +39,27 @@ class AssessmentResultContext extends AbstractValueObject
         $this->assessment_revision = $assessment_revision;
     }
 
-    /**
-     * @return int
-     */
     public function getUser_id() : int
     {
         return $this->user_id;
     }
 
-    /**
-     * @return string
-     */
     public function getAssessment_name() : string
     {
         return $this->assessment_name;
     }
 
-    /**
-     * @return int
-     */
     public function getRun() : int
     {
         return $this->run;
     }
 
-    /**
-     * @return ?Uuid
-     */
     public function getAssessment_id() : ?Uuid
     {
         return $this->assessment_id;
     }
 
-    /**
-     * @return ?string
-     */
-    public function getAssessmentRevision()
+    public function getAssessmentRevision() : ?string
     {
         return $this->assessment_revision;
     }

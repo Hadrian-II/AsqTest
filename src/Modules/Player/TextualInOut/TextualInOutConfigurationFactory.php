@@ -18,10 +18,6 @@ class TextualInOutConfigurationFactory extends AbstractObjectFactory
     const VAR_INTRO_TEXT = 'tio_intro_text';
     const VAR_OUTRO_TEXT = 'tio_outro_text';
 
-    /**
-     * {@inheritDoc}
-     * @see \srag\asq\UserInterface\Web\Form\Factory\IObjectFactory::getFormfields()
-     */
     public function getFormfields(?AbstractValueObject $value): array
     {
         $intro = $this->factory->input()->field()->textarea($this->language->txt('label_tio_intro_text'));
@@ -38,10 +34,6 @@ class TextualInOutConfigurationFactory extends AbstractObjectFactory
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     * @see \srag\asq\UserInterface\Web\Form\Factory\IObjectFactory::readObjectFromPost()
-     */
     public function readObjectFromPost(array $postdata): AbstractValueObject
     {
         return new TextualInOutConfiguration(
@@ -50,10 +42,6 @@ class TextualInOutConfigurationFactory extends AbstractObjectFactory
         );
     }
 
-    /**
-     * {@inheritDoc}
-     * @see \srag\asq\UserInterface\Web\Form\Factory\IObjectFactory::getDefaultValue()
-     */
     public function getDefaultValue(): AbstractValueObject
     {
         return new TextualInOutConfiguration();

@@ -3,6 +3,8 @@ declare(strict_types = 1);
 
 namespace srag\asq\Test\Domain\Result\Event;
 
+use ilDateTime;
+use ILIAS\Data\UUID\Uuid;
 use srag\CQRS\Event\AbstractDomainEvent;
 
 /**
@@ -14,28 +16,22 @@ use srag\CQRS\Event\AbstractDomainEvent;
  */
 class AssessmentResultSubmittedEvent extends AbstractDomainEvent
 {
-    /**
-     * {@inheritDoc}
-     * @see \srag\CQRS\Event\AbstractDomainEvent::getEventBody()
-     */
+    public function __construct(Uuid $aggregate_id, ilDateTime $occurred_on, int $initiating_user_id)
+    {
+        parent::__construct($aggregate_id, $occurred_on, $initiating_user_id);
+    }
+
     public function getEventBody() : string
     {
         //No Event body
         return '';
     }
 
-    /**
-     * {@inheritDoc}
-     * @see \srag\CQRS\Event\AbstractDomainEvent::restoreEventBody()
-     */
     protected function restoreEventBody(string $event_body) : void
     {
         //No Event body
     }
 
-    /**
-     * @return int
-     */
     public static function getEventVersion() : int
     {
         // initial version 1

@@ -30,34 +30,16 @@ class TestPlayerGUI
     const PARAM_CURRENT_RESULT = 'currentResult';
     const PARAM_CURRENT_QUESTION = 'currentQuestion';
 
-    /**
-     * @var Uuid
-     */
-    private $result_id;
+    private Uuid $result_id;
 
-    /**
-     * @var QuestionDto
-     */
-    private $question;
+    private QuestionDto $question;
 
-    /**
-     * @var TestRunnerService
-     */
-    private $test_service;
+    private TestRunnerService $test_service;
 
-    /**
-     * @var ItemResult
-     */
-    private $item_result;
+    private ?ItemResult $item_result;
 
-    /**
-     * @var Factory
-     */
-    private $factory;
+    private Factory $factory;
 
-    /**
-     * @throws AsqException
-     */
     public function __construct()
     {
         global $DIC;
@@ -74,7 +56,7 @@ class TestPlayerGUI
         }
     }
 
-    public function executeCommand()/*: void*/
+    public function executeCommand() : void
     {
         global $DIC;
 
@@ -88,7 +70,7 @@ class TestPlayerGUI
         $this->{$cmd}();
     }
 
-    private function runTest()
+    private function runTest() : void
     {
         global $DIC, $ASQDIC;
 
@@ -115,17 +97,17 @@ class TestPlayerGUI
         $DIC->ui()->mainTemplate()->setContent($tpl->get());
     }
 
-    private function previousQuestion()
+    private function previousQuestion() : void
     {
         $this->redirectToQuestion($this->test_service->getPreviousQuestionId($this->result_id, $this->question->getId()));
     }
 
-    private function nextQuestion()
+    private function nextQuestion() : void
     {
         $this->redirectToQuestion($this->test_service->getNextQuestionId($this->result_id, $this->question->getId()));
     }
 
-    private function redirectToQuestion(Uuid $question_id)
+    private function redirectToQuestion(Uuid $question_id) : void
     {
         global $DIC;
 
@@ -133,7 +115,7 @@ class TestPlayerGUI
         $DIC->ctrl()->redirectToURL($DIC->ctrl()->getLinkTarget($this, self::CMD_RUN_TEST, "", false, false));
     }
 
-    private function getHint()
+    private function getHint() : void
     {
         $this->item_result = $this->test_service->getItemResult($this->result_id, $this->question->getId());
 
@@ -146,7 +128,7 @@ class TestPlayerGUI
         $this->runTest();
     }
 
-    private function showResults()
+    private function showResults() : void
     {
         global $DIC, $ASQDIC;
 
@@ -177,7 +159,7 @@ class TestPlayerGUI
         $DIC->ui()->mainTemplate()->setContent($html);
     }
 
-    private function storeAnswer()
+    private function storeAnswer() : void
     {
         global $ASQDIC;
 
@@ -187,7 +169,7 @@ class TestPlayerGUI
         $this->test_service->addAnswer($this->result_id, $this->question->getId(), $answer);
     }
 
-    private function loadQuestion()
+    private function loadQuestion() : void
     {
         global $DIC, $ASQDIC;
 
@@ -248,9 +230,6 @@ class TestPlayerGUI
         }, '');
     }
 
-    /**
-     * @return bool
-     */
     private function areHintsAvailable() : bool
     {
         return $this->question->hasHints()

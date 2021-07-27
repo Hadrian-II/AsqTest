@@ -28,12 +28,6 @@ class AssessmentSection extends AbstractAggregateRoot
      */
     protected ?array $items = [];
 
-    /**
-     * @param Uuid $id
-     * @param int $user_id
-     * @return AssessmentSection
-     * @throws ilDateTimeException
-     */
     public static function create(Uuid $id, int $user_id) : AssessmentSection
     {
         $object = new AssessmentSection();

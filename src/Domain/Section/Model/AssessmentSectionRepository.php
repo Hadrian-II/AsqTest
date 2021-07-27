@@ -18,33 +18,19 @@ use srag\asq\Test\Domain\Section\Persistence\AssessmentSectionEventStore;
  */
 class AssessmentSectionRepository extends AbstractAggregateRepository
 {
-    /**
-     * @var EventStore
-     */
-    private $event_store;
+    private EventStore $event_store;
 
-    /**
-     * QuestionRepository constructor.
-     */
     public function __construct()
     {
         parent::__construct();
         $this->event_store = new AssessmentSectionEventStore();
     }
 
-    /**
-     * @return EventStore
-     */
     protected function getEventStore() : EventStore
     {
         return $this->event_store;
     }
 
-    /**
-     * @param DomainEvents $event_history
-     *
-     * @return AbstractAggregateRoot
-     */
     protected function reconstituteAggregate(DomainEvents $event_history) : AbstractAggregateRoot
     {
         return AssessmentSection::reconstitute($event_history);

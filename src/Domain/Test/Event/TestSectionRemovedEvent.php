@@ -29,36 +29,22 @@ class TestSectionRemovedEvent extends AbstractDomainEvent
             parent::__construct($aggregate_id, $occured_on, $initiating_user_id);
     }
 
-    /**
-     * @return Uuid
-     */
     public function getSectionId() : ?Uuid
     {
         return $this->section_id;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see \srag\CQRS\Event\AbstractDomainEvent::getEventBody()
-     */
     public function getEventBody() : string
     {
         return json_encode($this->section_id->toString());
     }
 
-    /**
-     * {@inheritDoc}
-     * @see \srag\CQRS\Event\AbstractDomainEvent::restoreEventBody()
-     */
     protected function restoreEventBody(string $event_body) : void
     {
         $factory = new Factory();
         $this->section_id = $factory->fromString($event_body);
     }
 
-    /**
-     * @return int
-     */
     public static function getEventVersion() : int
     {
         // initial version 1

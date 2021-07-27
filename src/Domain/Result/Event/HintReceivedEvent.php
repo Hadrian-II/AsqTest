@@ -21,50 +21,32 @@ class HintReceivedEvent extends AbstractDomainEvent
     const KEY_QUESTION_ID = 'quid';
     const KEY_HINT = 'hint';
 
-    /**
-     * @var Uuid
-     */
-    protected $question_id;
+    protected ?Uuid $question_id;
 
-    /**
-     * @var QuestionHint
-     */
-    protected $hint;
+    protected ?QuestionHint $hint;
 
-    /**
-     * @param Uuid $aggregate_id
-     * @param ilDateTime $occured_on
-     * @param int $initiating_user_id
-     * @param Uuid $question_id
-     * @param QuestionHint $hint
-     */
-    public function __construct(Uuid $aggregate_id, ilDateTime $occured_on, int $initiating_user_id, Uuid $question_id = null, QuestionHint $hint = null)
-    {
+    public function __construct(
+        Uuid $aggregate_id,
+        ilDateTime $occured_on,
+        int $initiating_user_id,
+        Uuid $question_id = null,
+        QuestionHint $hint = null
+    ) {
         $this->question_id = $question_id;
         $this->hint = $hint;
         parent::__construct($aggregate_id, $occured_on, $initiating_user_id);
     }
 
-    /**
-     * @return Uuid
-     */
     public function getQuestionId() : Uuid
     {
         return $this->question_id;
     }
 
-    /**
-     * @return QuestionHint
-     */
     public function getHint() : QuestionHint
     {
         return $this->hint;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see \srag\CQRS\Event\AbstractDomainEvent::getEventBody()
-     */
     public function getEventBody() : string
     {
         $body = [];
@@ -73,10 +55,6 @@ class HintReceivedEvent extends AbstractDomainEvent
         return json_encode($body);
     }
 
-    /**
-     * {@inheritDoc}
-     * @see \srag\CQRS\Event\AbstractDomainEvent::restoreEventBody()
-     */
     protected function restoreEventBody(string $event_body) : void
     {
         $factory = new Factory();
@@ -86,9 +64,6 @@ class HintReceivedEvent extends AbstractDomainEvent
         $this->hint = QuestionHint::createFromArray($body[self::KEY_HINT]);
     }
 
-    /**
-     * @return int
-     */
     public static function getEventVersion() : int
     {
         // initial version 1

@@ -15,20 +15,10 @@ use DateTimeImmutable;
  */
 class TimedAvailabilityConfiguration extends AbstractValueObject
 {
-    /**
-     * @var ?ilDateTime
-     */
-    protected $available_from;
+    protected ?DateTimeImmutable $available_from;
 
-    /**
-     * @var ?ilDateTime
-     */
-    protected $available_to;
+    protected ?DateTimeImmutable $available_to;
 
-    /**
-     * @param DateTimeImmutable $available_from
-     * @param DateTimeImmutable $available_to
-     */
     public function __construct(
         ?DateTimeImmutable $available_from = null,
         ?DateTimeImmutable $available_to = null
@@ -36,17 +26,12 @@ class TimedAvailabilityConfiguration extends AbstractValueObject
         $this->available_from = $available_from;
         $this->available_to = $available_to;
     }
-    /**
-     * @return ?ilDateTime
-     */
+
     public function getAvailableFrom() : ?DateTimeImmutable
     {
         return $this->available_from;
     }
 
-    /**
-     * @return ?ilDateTime
-     */
     public function getAvailableTo() : ?DateTimeImmutable
     {
         return $this->available_to;

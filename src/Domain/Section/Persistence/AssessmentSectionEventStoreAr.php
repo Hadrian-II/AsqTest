@@ -16,10 +16,7 @@ class AssessmentSectionEventStoreAr extends AbstractStoredEvent
 {
     const STORAGE_NAME = "asq_section_es";
 
-    /**
-     * @return string
-     */
-    public static function returnDbTableName()
+    public static function returnDbTableName() : string
     {
         return self::STORAGE_NAME;
     }

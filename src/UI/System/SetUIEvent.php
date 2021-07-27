@@ -14,7 +14,8 @@ use srag\CQRS\Aggregate\AbstractValueObject;
  *
  * @author Fluxlabs AG <adi@fluxlabs.ch>
  */
-class SetUIEvent extends Event {
+class SetUIEvent extends Event
+{
     public function __construct(IEventUser $sender, UIData $data)
     {
         parent::__construct($sender, $data);

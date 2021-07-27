@@ -29,15 +29,9 @@ use srag\CQRS\Aggregate\AbstractValueObject;
 
 class TestService extends ASQService
 {
-    /**
-     * @var CommandBus
-     */
-    private $command_bus;
+    private CommandBus $command_bus;
 
-    /**
-     * @var AssessmentTestRepository
-     */
-    private $repo;
+    private AssessmentTestRepository $repo;
 
     public function __construct()
     {
@@ -58,9 +52,6 @@ class TestService extends ASQService
         $this->repo = new AssessmentTestRepository();
     }
 
-    /**
-     * @return Uuid
-     */
     public function createTest() : Uuid
     {
         $uuid_factory = new Factory();
@@ -77,10 +68,6 @@ class TestService extends ASQService
         return $uuid;
     }
 
-    /**
-     * @param Uuid $id
-     * @param Uuid $section_id
-     */
     public function addSection(Uuid $id, Uuid $section_id) : void
     {
         $this->command_bus->handle(
@@ -92,10 +79,6 @@ class TestService extends ASQService
         );
     }
 
-    /**
-     * @param Uuid $test_id
-     * @return AssessmentTestDto
-     */
     public function getTest(Uuid $test_id) : AssessmentTestDto
     {
         return new AssessmentTestDto(
@@ -103,9 +86,6 @@ class TestService extends ASQService
         );
     }
 
-    /**
-     * @param AssessmentTest $test
-     */
     public function saveTest(AssessmentTestDto $test) : void
     {
         /** @var $stored AssessmentTest */

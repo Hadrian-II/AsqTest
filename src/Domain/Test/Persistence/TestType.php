@@ -67,13 +67,6 @@ class TestType extends ActiveRecord
      */
     protected $class;
 
-    /**
-     * @param string $key
-     * @param string $description
-     * @param string $icon
-     * @param string $class
-     * @return TestType
-     */
     public static function createType(
         string $key,
         string $description,
@@ -88,33 +81,21 @@ class TestType extends ActiveRecord
         return $object;
     }
 
-    /**
-     * @return string
-     */
     public function getKey() : string
     {
         return $this->key;
     }
 
-    /**
-     * @return string
-     */
     public function getDescription() : string
     {
         return $this->description;
     }
 
-    /**
-     * @return string
-     */
     public function getIcon() : string
     {
         return $this->icon;
     }
 
-    /**
-     * @return string
-     */
     public function getClass() : string
     {
         return $this->class;

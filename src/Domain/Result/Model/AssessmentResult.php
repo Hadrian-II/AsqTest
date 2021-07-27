@@ -27,43 +27,34 @@ use ILIAS\Data\UUID\Factory;
  */
 class AssessmentResult extends AbstractAggregateRoot
 {
-    /**
-     * @var AssessmentResultContext
-     */
-    protected $context;
+    protected AssessmentResultContext $context;
 
     /**
      * @var ItemResult[]
      */
-    protected $results;
+    protected array $results;
 
-    /**
-     * @var string
-     */
-    protected $status;
+    protected string $status;
 
-    /**
-     * @param Uuid $id
-     * @param AssessmentResultContext $context
-     * @param array $question_ids
-     * @param int $user_id
-     * @return AssessmentResult
-     */
-    public static function create(Uuid $id, AssessmentResultContext $context, array $question_ids, int $user_id) : AssessmentResult
+    public static function create(
+        Uuid $id,
+        AssessmentResultContext $context,
+        array $question_ids,
+        int $user_id) : AssessmentResult
     {
         $result = new AssessmentResult();
-        $occured_on = new ilDateTime(time(), IL_CAL_UNIX);
+        $occurred_on = new ilDateTime(time(), IL_CAL_UNIX);
         $result->ExecuteEvent(
             new AggregateCreatedEvent(
                 $id,
-                $occured_on,
+                $occurred_on,
                 $user_id
             )
         );
         $result->ExecuteEvent(
             new AssessmentResultInitiatedEvent(
                 $id,
-                $occured_on,
+                $occurred_on,
                 $user_id,
                 $context,
                 $question_ids
@@ -73,10 +64,7 @@ class AssessmentResult extends AbstractAggregateRoot
         return $result;
     }
 
-    /**
-     * @param AssessmentResultInitiatedEvent $event
-     */
-    protected function applyAssessmentResultInitiatedEvent(AssessmentResultInitiatedEvent $event)
+    protected function applyAssessmentResultInitiatedEvent(AssessmentResultInitiatedEvent $event) : void
     {
         $this->context = $event->getContext();
         $this->status = SessionStatus::INITIAL;
@@ -89,62 +77,39 @@ class AssessmentResult extends AbstractAggregateRoot
         }
     }
 
-    /**
-     * @param AnswerSetEvent $event
-     */
-    protected function applyAnswerSetEvent(AnswerSetEvent $event)
+    protected function applyAnswerSetEvent(AnswerSetEvent $event) : void
     {
         $result = $this->results[$event->getQuestionId()->toString()];
         $this->results[$event->getQuestionId()->toString()] = $result->withAnswer($event->getAnswer());
     }
 
-    /**
-     * @param HintReceivedEvent $event
-     */
-    protected function applyHintReceivedEvent(HintReceivedEvent $event)
+    protected function applyHintReceivedEvent(HintReceivedEvent $event) : void
     {
         $result = $this->results[$event->getQuestionId()->toString()];
         $this->results[$event->getQuestionId()->toString()] = $result->withAddedHint($event->getHint());
     }
 
-    /**
-     * @param AssessmentResultSubmittedEvent $event
-     */
-    protected function applyAssessmentResultSubmittedEvent(AssessmentResultSubmittedEvent $event)
+    protected function applyAssessmentResultSubmittedEvent(AssessmentResultSubmittedEvent $event) : void
     {
         $this->status = SessionStatus::PENDING_RESPONSE_PROCESSING;
     }
 
-    /**
-     * @param ScoreSetEvent $event
-     */
-    protected function applyScoreSetEvent(ScoreSetEvent $event)
+    protected function applyScoreSetEvent(ScoreSetEvent $event) : void
     {
         $result = $this->results[$event->getQuestionId()->toString()];
         $this->results[$event->getQuestionId()->toString()] = $result->withScore($event->getScore());
     }
 
-    /**
-     * @param ScoringFinishedEvent $event
-     */
-    protected function applyScoringFinishedEvent(ScoringFinishedEvent $event)
+    protected function applyScoringFinishedEvent(ScoringFinishedEvent $event) : void
     {
         $this->status = SessionStatus::FINAL;
     }
 
-    /**
-     * @return AssessmentResultContext
-     */
     public function getContext() : AssessmentResultContext
     {
         return $this->context;
     }
 
-    /**
-     * @param Uuid $question_id
-     * @throws AsqException
-     * @return ItemResult|NULL
-     */
     public function getItemResult(Uuid $question_id) : ?ItemResult
     {
         if (array_key_exists($question_id->toString(), $this->results)) {
@@ -154,13 +119,7 @@ class AssessmentResult extends AbstractAggregateRoot
         }
     }
 
-    /**
-     * @param Uuid $question_id
-     * @param AbstractValueObject $answer
-     * @param int $initiating_user_id
-     * @throws AsqException
-     */
-    public function setAnswer(Uuid $question_id, AbstractValueObject $answer, int $initiating_user_id)
+    public function setAnswer(Uuid $question_id, AbstractValueObject $answer, int $initiating_user_id) : void
     {
         if ($this->status === SessionStatus::PENDING_RESPONSE_PROCESSING ||
             $this->status === SessionStatus::FINAL) {
@@ -180,13 +139,7 @@ class AssessmentResult extends AbstractAggregateRoot
         }
     }
 
-    /**
-     * @param Uuid $question_id
-     * @param ItemScore $score
-     * @param int $initiating_user_id
-     * @throws AsqException
-     */
-    public function setScore(Uuid $question_id, ItemScore $score, int $initiating_user_id)
+    public function setScore(Uuid $question_id, ItemScore $score, int $initiating_user_id) : void
     {
         if ($this->status !== SessionStatus::PENDING_RESPONSE_PROCESSING) {
             throw new AsqException('Scoring only possible on submitted result with unfinished scoring');
@@ -205,13 +158,7 @@ class AssessmentResult extends AbstractAggregateRoot
         }
     }
 
-    /**
-     * @param Uuid $question_id
-     * @param QuestionHint $hint
-     * @param int $initiating_user_id
-     * @throws AsqException
-     */
-    public function addHint(Uuid $question_id, QuestionHint $hint, int $initiating_user_id)
+    public function addHint(Uuid $question_id, QuestionHint $hint, int $initiating_user_id) : void
     {
         if ($this->status === SessionStatus::PENDING_RESPONSE_PROCESSING ||
             $this->status === SessionStatus::FINAL) {
@@ -233,11 +180,7 @@ class AssessmentResult extends AbstractAggregateRoot
         }
     }
 
-    /**
-     * @param int $initiating_user_id
-     * @throws AsqException
-     */
-    public function submitResult(int $initiating_user_id)
+    public function submitResult(int $initiating_user_id) : void
     {
         if ($this->status === SessionStatus::PENDING_RESPONSE_PROCESSING ||
             $this->status === SessionStatus::FINAL) {
@@ -251,11 +194,7 @@ class AssessmentResult extends AbstractAggregateRoot
         ));
     }
 
-    /**
-     * @param int $initiating_user_id
-     * @throws AsqException
-     */
-    public function finishScoring(int $initiating_user_id)
+    public function finishScoring(int $initiating_user_id) : void
     {
         if ($this->status !== SessionStatus::PENDING_RESPONSE_PROCESSING) {
             throw new AsqException('Can only finish scoring on submited result with open scoring');

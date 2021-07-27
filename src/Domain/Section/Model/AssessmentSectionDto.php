@@ -14,25 +14,15 @@ use ILIAS\Data\UUID\Uuid;
  */
 class AssessmentSectionDto
 {
-    /**
-     * @var Uuid
-     */
-    protected $id;
+    protected Uuid $id;
 
-    /**
-     * @var AssessmentSectionData
-     */
-    protected $data;
+    protected ?AssessmentSectionData $data;
 
     /**
      * @var SectionPart[]
      */
-    protected $items;
+    protected ?array $items;
 
-    /**
-     * @param AssessmentSection $section
-     * @return AssessmentSectionDto
-     */
     public static function Create(AssessmentSection $section) : AssessmentSectionDto
     {
         $object = new AssessmentSectionDto();
@@ -42,25 +32,16 @@ class AssessmentSectionDto
         return $object;
     }
 
-    /**
-     * @return Uuid
-     */
     public function getId() : Uuid
     {
         return $this->id;
     }
 
-    /**
-     * @return AssessmentSectionData
-     */
     public function getData() : ?AssessmentSectionData
     {
         return $this->data;
     }
 
-    /**
-     * @return array
-     */
     public function getItems() : ?array
     {
         return $this->items;

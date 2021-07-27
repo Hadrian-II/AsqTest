@@ -16,18 +16,12 @@ use srag\asq\Test\Application\Test\TestService;
  */
 class AsqTestServices
 {
-    /**
-     * @var AsqTestServices
-     */
-    private static $instance;
+    private static AsqTestServices $instance;
 
     private function __construct()
     {
     }
 
-    /**
-     * @return AsqTestServices
-     */
     public static function get() : AsqTestServices
     {
         if (is_null(self::$instance)) {
@@ -37,14 +31,8 @@ class AsqTestServices
         return self::$instance;
     }
 
-    /**
-     * @var SectionService
-     */
-    private $section;
+    private SectionService $section;
 
-    /**
-     * @return SectionService
-     */
     public function section() : SectionService
     {
         if (is_null($this->section)) {
@@ -54,14 +42,8 @@ class AsqTestServices
         return $this->section;
     }
 
-    /**
-     * @var TestRunnerService
-     */
-    private $test_runner;
+    private  TestRunnerService$test_runner;
 
-    /**
-     * @return TestRunnerService
-     */
     public function runner() : TestRunnerService
     {
         if (is_null($this->test_runner)) {
@@ -71,10 +53,7 @@ class AsqTestServices
         return $this->test_runner;
     }
 
-    /**
-     * @var TestService
-     */
-    private $test;
+    private TestService $test;
 
     public function test() : TestService
     {

@@ -16,19 +16,11 @@ use srag\asq\Test\Domain\Test\Modules\IResultModule;
  */
 class Grades extends AbstractTestModule implements IResultModule
 {
-    /**
-     * {@inheritDoc}
-     * @see ITestModule::getType()
-     */
     public function getType(): string
     {
         return ITestModule::TYPE_RESULT;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see AbstractTestModule::getConfigClass()
-     */
     public function getConfigClass() : ?string
     {
         return GradesConfigurationFactory::class;

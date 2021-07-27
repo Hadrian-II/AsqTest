@@ -46,10 +46,6 @@ class TestConfigurationSetEvent extends AbstractDomainEvent
         return $this->config_for;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see \srag\CQRS\Event\AbstractDomainEvent::getEventBody()
-     */
     public function getEventBody() : string
     {
         $body = [];
@@ -58,10 +54,6 @@ class TestConfigurationSetEvent extends AbstractDomainEvent
         return json_encode($body);
     }
 
-    /**
-     * {@inheritDoc}
-     * @see \srag\CQRS\Event\AbstractDomainEvent::restoreEventBody()
-     */
     protected function restoreEventBody(string $event_body) : void
     {
         $body = json_decode($event_body, true);
@@ -69,9 +61,6 @@ class TestConfigurationSetEvent extends AbstractDomainEvent
         $this->config_for = $body[self::VAR_CONFIG_FOR];
     }
 
-    /**
-     * @return int
-     */
     public static function getEventVersion() : int
     {
         // initial version 1

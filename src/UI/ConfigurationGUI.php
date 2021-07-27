@@ -22,59 +22,29 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class ConfigurationGUI
 {
-    /**
-     * @var string
-     */
     const CURRENT_CONFIG = 'CurrentConfig';
 
-    /**
-     * @var AbstractValueObject
-     */
-    private $current_data;
+    private AbstractValueObject $current_data;
 
-    /**
-     * @var AssessmentTestDto
-     */
-    private $test;
+    private AssessmentTestDto$test;
 
-    /**
-     * @var ITest
-     */
-    private $test_module;
+    private ITest $test_module;
 
-    /**
-     * @var Form
-     */
-    private $form;
+    private Form $form;
 
     /**
      * @var IObjectFactory[]
      */
-    private $factories;
+    private array $factories;
 
-    /**
-     * @var UIServices
-     */
-    private $ui;
+    private UIServices $ui;
 
-    /**
-     * @var UIService
-     */
-    private $asq_ui;
+    private UIService $asq_ui;
 
-    /**
-     * @var ilLanguage
-     */
-    private $language;
+    private ilLanguage $language;
 
-    /**
-     * @var ServerRequestInterface
-     */
-    private $request;
+    private ServerRequestInterface$request;
 
-    /**
-     * @param AssessmentTestDto $test
-     */
     public function __construct(AssessmentTestDto $test)
     {
         global $DIC, $ASQDIC;
@@ -90,10 +60,6 @@ class ConfigurationGUI
         $this->initiateForm();
     }
 
-    /**
-     * @param string $current
-     * @return array
-     */
     private function getCurrentFactories(string $current) : array
     {
         $modules =
@@ -131,9 +97,6 @@ class ConfigurationGUI
         $this->form = $this->ui->factory()->input()->container()->form()->standard('', $sections);
     }
 
-    /**
-     * @return array
-     */
     public function getSubTabs() : array
     {
         $subtabs = [];
@@ -164,9 +127,6 @@ class ConfigurationGUI
         return $this->test;
     }
 
-    /**
-     * @return string
-     */
     public function render() : string
     {
         return $this->ui->renderer()->render($this->form);

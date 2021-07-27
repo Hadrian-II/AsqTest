@@ -17,7 +17,7 @@ class GradesConfiguration extends AbstractValueObject
     /**
      * @var ?GradeDefinition[]
      */
-    protected $grades;
+    protected ?array $grades;
 
     /**
      * @param ?GradeDefinition[] $grades

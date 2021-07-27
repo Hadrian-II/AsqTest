@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace srag\asq\Test\Domain\Result\Model;
 
 use ilDateTime;
+use ILIAS\UI\Component\Item\Item;
 use srag\CQRS\Aggregate\AbstractValueObject;
 use srag\asq\Domain\Model\Hint\QuestionHint;
 use srag\asq\Application\Exception\AsqException;
@@ -20,50 +21,22 @@ use ILIAS\Data\UUID\Factory;
  */
 class ItemResult extends AbstractValueObject
 {
-    /**
-     * @var Uuid
-     */
-    protected $question_id;
+    protected ?Uuid $question_id;
 
-    /**
-     * @var int
-     */
-    protected $sequence_index;
+    protected ?int $sequence_index;
 
-    /**
-     * @var ilDateTime
-     */
-    protected $datestamp;
+    protected ilDateTime $datestamp;
 
-    /**
-     * @var string
-     */
-    protected $session_status;
+    protected string $session_status;
 
-    /**
-     * @var ?Answer
-     */
-    protected $answer;
+    protected ?AbstractValueObject $answer;
 
-    /**
-     * @var ItemScore
-     */
-    protected $score;
+    protected ItemScore $score;
 
-    /**
-     * @var QuestionHints
-     */
-    protected $hints;
+    protected QuestionHints $hints;
 
-    /**
-     * @var string
-     */
-    protected $candidate_comment;
+    protected string $candidate_comment;
 
-    /**
-     * @param Uuid $question_id
-     * @param int $sequence_index
-     */
     public function __construct(Uuid $question_id = null, int $sequence_index = null)
     {
         $this->question_id = $question_id;
@@ -73,11 +46,7 @@ class ItemResult extends AbstractValueObject
         $this->hints = new QuestionHints();
     }
 
-    /**
-     * @param AbstractValueObject $answer
-     * @return ItemResult
-     */
-    public function withAnswer(AbstractValueObject $answer)
+    public function withAnswer(AbstractValueObject $answer) : ItemResult
     {
         $clone = clone $this;
         $clone->answer = $answer;
@@ -85,11 +54,7 @@ class ItemResult extends AbstractValueObject
         return $clone;
     }
 
-    /**
-     * @param ItemScore $answer
-     * @return ItemResult
-     */
-    public function withScore(ItemScore $score)
+    public function withScore(ItemScore $score) : ItemResult
     {
         $clone = clone $this;
         $clone->score = $score;
@@ -97,10 +62,6 @@ class ItemResult extends AbstractValueObject
         return $clone;
     }
 
-    /**
-     * @param QuestionHint $hint
-     * @return ItemResult
-     */
     public function withAddedHint(QuestionHint $hint) : ItemResult
     {
         $clone = clone $this;
@@ -110,10 +71,6 @@ class ItemResult extends AbstractValueObject
         return $clone;
     }
 
-    /**
-     * @param string $comment
-     * @return ItemResult
-     */
     public function withComment(string $comment) : ItemResult
     {
         $clone = clone $this;
@@ -121,10 +78,6 @@ class ItemResult extends AbstractValueObject
         return $clone;
     }
 
-    /**
-     * @param string $status
-     * @return ItemResult
-     */
     public function withStatus(string $status) : ItemResult
     {
         if (SessionStatus::isValid()) {
@@ -136,84 +89,51 @@ class ItemResult extends AbstractValueObject
         }
     }
 
-    /**
-     * @return Uuid
-     */
     public function getQuestionId() : Uuid
     {
         return $this->question_id;
     }
 
-    /**
-     * @return int
-     */
     public function getSequenceIndex() : int
     {
         return $this->sequence_index;
     }
 
-    /**
-     * @return ilDateTime
-     */
     public function getDatestamp() : ilDateTime
     {
         return $this->datestamp;
     }
 
-    /**
-     * @return string
-     */
     public function getSessionStatus() : string
     {
         return $this->session_status;
     }
 
-    /**
-     * @return AbstractValueObject
-     */
     public function getAnswer() : ?AbstractValueObject
     {
         return $this->answer;
     }
 
-    /**
-     * @return ItemScore|NULL
-     */
     public function getScore() : ?ItemScore
     {
         return $this->score;
     }
 
-    /**
-     * @return QuestionHints
-     */
     public function getHints() : QuestionHints
     {
         return $this->hints;
     }
 
-    /**
-     * @return bool
-     */
     public function hasHints() : bool
     {
         return count($this->hints->getHints()) > 0;
     }
 
-    /**
-     * @return string
-     */
     public function getCandidateComment() : string
     {
         return $this->candidate_comment;
     }
 
-    /**
-     *
-     * @param string $key
-     * @param mixed $value
-     * @return \ILIAS\Data\UUID\Uuid|mixed
-     */
     protected static function deserializeValue(string $key, $value)
     {
         if ($key === 'question_id') {

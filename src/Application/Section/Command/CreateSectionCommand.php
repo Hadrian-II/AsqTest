@@ -11,28 +11,18 @@ use srag\CQRS\Command\AbstractCommand;
  *
  * @package srag\asq\Test
  *
- * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
+ * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */
 class CreateSectionCommand extends AbstractCommand
 {
-    /**
-     * @var Uuid
-     */
-    protected $uuid;
+    protected Uuid $uuid;
 
-    /**
-     * @param Uuid $uuid
-     * @param int $user_id
-     */
     public function __construct(Uuid $uuid, int $user_id)
     {
         $this->uuid = $uuid;
         parent::__construct($user_id);
     }
 
-    /**
-     * @return Uuid
-     */
     public function getId() : Uuid
     {
         return $this->uuid;

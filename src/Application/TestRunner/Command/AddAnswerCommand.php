@@ -12,30 +12,16 @@ use srag\CQRS\Aggregate\AbstractValueObject;
  *
  * @package srag\asq\Test
  *
- * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
+ * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */
 class AddAnswerCommand extends AbstractCommand
 {
-    /**
-     * @var Uuid
-     */
-    public $result_uuid;
+    public Uuid $result_uuid;
 
-    /**
-     * @var Uuid
-     */
-    public $question_id;
+    public Uuid $question_id;
 
-    /**
-     * @var AbstractValueObject
-     */
-    public $answer;
+    public  AbstractValueObject$answer;
 
-    /**
-     * @param string $assessment_name
-     * @param string $question_id
-     * @param AbstractValueObject $answer
-     */
     public function __construct(Uuid $result_uuid, int $user_id, Uuid $question_id, AbstractValueObject $answer)
     {
         $this->result_uuid = $result_uuid;
@@ -44,25 +30,16 @@ class AddAnswerCommand extends AbstractCommand
         parent::__construct($user_id);
     }
 
-    /**
-     * @return Uuid
-     */
     public function getResultUuid() : Uuid
     {
         return $this->result_uuid;
     }
 
-    /**
-     * @return Uuid
-     */
     public function getQuestionId() : Uuid
     {
         return $this->question_id;
     }
 
-    /**
-     * @return AbstractValueObject
-     */
     public function getAnswer() : AbstractValueObject
     {
         return $this->answer;

@@ -37,16 +37,9 @@ use srag\asq\Test\Domain\Result\Model\ItemScore;
 
 class TestRunnerService extends ASQService
 {
-    /**
-     * @var CommandBus
-     */
-    private $command_bus;
+    private CommandBus $command_bus;
 
-    /**
-     * @var AssessmentResultRepository
-     */
-    private $repo;
-
+    private AssessmentResultRepository $repo;
 
     public function __construct()
     {
@@ -85,11 +78,6 @@ class TestRunnerService extends ASQService
         $this->repo = new AssessmentResultRepository();
     }
 
-    /**
-     * @param AssessmentResultContext $context
-     * @param Uuid[] $question_ids
-     * @return string
-     */
     public function createTestRun(AssessmentResultContext $context, array $question_ids) : Uuid
     {
         $uuid_factory = new Factory();
@@ -109,12 +97,7 @@ class TestRunnerService extends ASQService
         return $uuid;
     }
 
-    /**
-     * @param Uuid $uuid
-     * @param Uuid $question_id
-     * @param AbstractValueObject $answer
-     */
-    public function addAnswer(Uuid $uuid, Uuid $question_id, AbstractValueObject $answer)
+    public function addAnswer(Uuid $uuid, Uuid $question_id, AbstractValueObject $answer) : void
     {
         $this->command_bus->handle(
             new AddAnswerCommand(
@@ -126,12 +109,7 @@ class TestRunnerService extends ASQService
         );
     }
 
-    /**
-     * @param Uuid $uuid
-     * @param Uuid $question_id
-     * @param QuestionHint $hint
-     */
-    public function hintRecieved(Uuid $uuid, Uuid $question_id, QuestionHint $hint)
+    public function hintRecieved(Uuid $uuid, Uuid $question_id, QuestionHint $hint) : void
     {
         $this->command_bus->handle(
             new HintReceivedCommand(
@@ -143,10 +121,7 @@ class TestRunnerService extends ASQService
         );
     }
 
-    /**
-     * @param Uuid $uuid
-     */
-    public function submitTestRun(Uuid $uuid)
+    public function submitTestRun(Uuid $uuid) : void
     {
         $this->command_bus->handle(
             new SubmitAssessmentCommand(
@@ -156,10 +131,7 @@ class TestRunnerService extends ASQService
         );
     }
 
-    /**
-     * @param Uuid $uuid
-     */
-    public function finishScoring(Uuid $uuid)
+    public function finishScoring(Uuid $uuid) : void
     {
         $this->command_bus->handle(
             new FinishScoringCommand(
@@ -169,14 +141,7 @@ class TestRunnerService extends ASQService
         );
     }
 
-
-
-    /**
-     * @param Uuid $uuid
-     * @param Uuid $question_id
-     * @param ItemScore $score
-     */
-    public function addScore(Uuid $uuid, Uuid $question_id, ItemScore $score)
+    public function addScore(Uuid $uuid, Uuid $question_id, ItemScore $score) : void
     {
         $this->command_bus->handle(
             new AddScoreCommand(
@@ -188,11 +153,6 @@ class TestRunnerService extends ASQService
         );
     }
 
-    /**
-     * @param Uuid $uuid
-     * @param Uuid $question_id
-     * @return ItemResult|NULL
-     */
     public function getItemResult(Uuid $uuid, Uuid $question_id) : ?ItemResult
     {
         $assessment_result = $this->repo->getAggregateRootById($uuid);
@@ -200,10 +160,6 @@ class TestRunnerService extends ASQService
         return $assessment_result->getItemResult($question_id);
     }
 
-    /**
-     * @param Uuid $uuid
-     * @return string
-     */
     public function getFirstQuestionId(Uuid $uuid) : Uuid
     {
         $assessment_result = $this->repo->getAggregateRootById($uuid);
@@ -211,11 +167,6 @@ class TestRunnerService extends ASQService
         return $assessment_result->getQuestions()[0];
     }
 
-    /**
-     * @param Uuid $uuid
-     * @param Uuid $question_id
-     * @return string|NULL
-     */
     public function getPreviousQuestionId(Uuid $uuid, Uuid $question_id) : ?Uuid
     {
         $questions = $this->repo->getAggregateRootById($uuid)->getQuestions();
@@ -229,11 +180,6 @@ class TestRunnerService extends ASQService
         }
     }
 
-    /**
-     * @param Uuid $uuid
-     * @param Uuid $question_id
-     * @return string|NULL
-     */
     public function getNextQuestionId(Uuid $uuid, Uuid $question_id) : ?Uuid
     {
         $questions = $this->repo->getAggregateRootById($uuid)->getQuestions();

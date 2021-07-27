@@ -18,10 +18,6 @@ class QuestionSelectionConfigurationFactory extends AbstractObjectFactory
     const VAR_SELECTION_TYPE = 'qsc_selection_type';
     const VAR_RANDOM_POINTS = 'qsc_random_points';
 
-    /**
-     * {@inheritDoc}
-     * @see \srag\asq\UserInterface\Web\Form\Factory\IObjectFactory::getFormfields()
-     */
     public function getFormfields(?AbstractValueObject $value): array
     {
         $random_points = $this->factory->input()->field()->numeric($this->language->txt('label_qsc_random_points'));
@@ -62,10 +58,6 @@ class QuestionSelectionConfigurationFactory extends AbstractObjectFactory
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     * @see \srag\asq\UserInterface\Web\Form\Factory\IObjectFactory::readObjectFromPost()
-     */
     public function readObjectFromPost(array $postdata): AbstractValueObject
     {
         return new QuestionSelectionConfiguration(
@@ -74,10 +66,6 @@ class QuestionSelectionConfigurationFactory extends AbstractObjectFactory
         );
     }
 
-    /**
-     * {@inheritDoc}
-     * @see \srag\asq\UserInterface\Web\Form\Factory\IObjectFactory::getDefaultValue()
-     */
     public function getDefaultValue(): AbstractValueObject
     {
         return new QuestionSelectionConfiguration(QuestionSelectionConfiguration::ALL_QUESTIONS);

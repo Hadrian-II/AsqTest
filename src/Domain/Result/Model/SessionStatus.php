@@ -19,10 +19,6 @@ class SessionStatus
     const PENDING_RESPONSE_PROCESSING = "pendingResponseProcessing";
     const PENDING_SUBMISSION = "pendingSubmission";
 
-    /**
-     * @param string $value
-     * @return bool
-     */
     public static function isValid(string $value) : bool
     {
         $class = new ReflectionClass(__CLASS__);

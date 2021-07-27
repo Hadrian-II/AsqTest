@@ -23,26 +23,12 @@ use srag\asq\Test\Domain\Test\Event\TestSectionRemovedEvent;
  */
 class AssessmentTest extends AbstractAggregateRoot
 {
-    /**
-     * @var ?TestData
-     */
-    protected $data;
+    protected ?TestData $data;
 
-    /**
-     * @var AbstractValueObject[]
-     */
-    protected $configurations = [];
+    protected ?array $configurations = [];
 
-    /**
-     * @var Uuid[]
-     */
-    protected $sections = [];
+    protected array $sections = [];
 
-    /**
-     * @param Uuid $uuid
-     * @param int $initiating_user_id
-     * @return AssessmentTest
-     */
     public static function createNewTest(
         Uuid $uuid,
         int $initiating_user_id
@@ -59,9 +45,6 @@ class AssessmentTest extends AbstractAggregateRoot
             return $test;
     }
 
-    /**
-     * @param TestData $data
-     */
     public function setTestData(?TestData $data, int $user_id) : void
     {
         if (! TestData::isNullableEqual($data, $this->data)) {
@@ -76,27 +59,16 @@ class AssessmentTest extends AbstractAggregateRoot
         }
     }
 
-    /**
-     * @return ?TestData
-     */
     public function getTestData() : ?TestData
     {
         return $this->data;
     }
 
-    /**
-     * @param TestDataSetEvent $event
-     */
     protected function applyTestDataSetEvent(TestDataSetEvent $event) : void
     {
         $this->data = $event->getTestData();
     }
 
-    /**
-     * @param AbstractValueObject $configuration
-     * @param string $configuration_for
-     * @param int $user_id
-     */
     public function setConfiguration(
         AbstractValueObject $configuration,
         string $configuration_for,
@@ -115,34 +87,21 @@ class AssessmentTest extends AbstractAggregateRoot
         }
     }
 
-    /**
-     * @return array
-     */
     public function getConfigurations() : array
     {
         return $this->configurations;
     }
 
-    /**
-     * @param string $configuration_for
-     * @return AbstractValueObject|NULL
-     */
     public function getConfiguration(string $configuration_for) : ?AbstractValueObject
     {
         return $this->configurations[$configuration_for];
     }
 
-    /**
-     * @param TestConfigurationSetEvent $event
-     */
     protected function applyTestConfigurationSetEvent(TestConfigurationSetEvent $event) : void
     {
         $this->configurations[$event->getConfigFor()] = $event->getConfig();
     }
 
-    /**
-     * @param Uuid $section_id
-     */
     public function addSection(Uuid $section_id, int $user_id) : void
     {
         if (!in_array($section_id, $this->sections)) {
@@ -159,17 +118,11 @@ class AssessmentTest extends AbstractAggregateRoot
         }
     }
 
-    /**
-     * @param TestSectionAddedEvent $event
-     */
     protected function applyTestSectionAddedEvent(TestSectionAddedEvent $event) : void
     {
         $this->sections[] = $event->getSectionId();
     }
 
-    /**
-     * @param Uuid $section_id
-     */
     public function removeSection(Uuid $section_id, int $user_id) : void
     {
         if (in_array($section_id, $this->sections)) {
@@ -186,9 +139,6 @@ class AssessmentTest extends AbstractAggregateRoot
         }
     }
 
-    /**
-     * @param TestSectionRemovedEvent $event
-     */
     protected function applyTestSectionRemovedEvent(TestSectionRemovedEvent $event) : void
     {
         $this->sections = array_diff($this->sections, [$event->getSectionId()]);

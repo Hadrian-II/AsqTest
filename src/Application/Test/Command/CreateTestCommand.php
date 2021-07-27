@@ -15,24 +15,14 @@ use srag\CQRS\Command\AbstractCommand;
  */
 class CreateTestCommand extends AbstractCommand
 {
-    /**
-     * @var Uuid
-     */
-    protected $id;
+    protected Uuid $id;
 
-    /**
-     * @param Uuid $uuid
-     * @param int $user_id
-     */
     public function __construct(Uuid $id, int $user_id)
     {
         $this->id = $id;
         parent::__construct($user_id);
     }
 
-    /**
-     * @return Uuid
-     */
     public function getId() : Uuid
     {
         return $this->id;

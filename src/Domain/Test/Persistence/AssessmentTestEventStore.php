@@ -14,10 +14,6 @@ use srag\CQRS\Event\EventStore;
  */
 class AssessmentTestEventStore extends EventStore
 {
-    /**
-     * {@inheritDoc}
-     * @see \srag\CQRS\Event\EventStore::getEventArClass()
-     */
     protected function getEventArClass() : string
     {
         return AssessmentTestEventStoreAr::class;

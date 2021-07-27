@@ -15,7 +15,7 @@ use srag\asq\Test\Domain\Result\Model\ItemScore;
  *
  * @package srag\asq\Test
  *
- * @author studer + raimann ag - Team Core 2 <al@studer-raimann.ch>
+ * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */
 class PerformAutomaticScoringCommandHandler implements CommandHandlerContract
 {

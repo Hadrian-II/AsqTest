@@ -13,7 +13,8 @@ use srag\asq\Test\Lib\Event\IEventUser;
  *
  * @author Fluxlabs AG <adi@fluxlabs.ch>
  */
-class AddTabEvent extends Event {
+class AddTabEvent extends Event
+{
     public function __construct(IEventUser $sender, TabDefinition $tab)
     {
         parent::__construct($sender, $tab);

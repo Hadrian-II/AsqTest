@@ -17,10 +17,6 @@ class QuestionDisplayConfigurationFactory extends AbstractObjectFactory
 {
     const VAR_DISPLAY_MODE = 'qdc_display_mode';
 
-    /**
-     * {@inheritDoc}
-     * @see \srag\asq\UserInterface\Web\Form\Factory\IObjectFactory::getFormfields()
-     */
     public function getFormfields(?AbstractValueObject $value): array
     {
         $display_mode = $this->factory->input()->field()->select(
@@ -41,19 +37,11 @@ class QuestionDisplayConfigurationFactory extends AbstractObjectFactory
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     * @see \srag\asq\UserInterface\Web\Form\Factory\IObjectFactory::readObjectFromPost()
-     */
     public function readObjectFromPost(array $postdata): AbstractValueObject
     {
         return new QuestionDisplayConfiguration($this->readInt($postdata[self::VAR_DISPLAY_MODE]));
     }
 
-    /**
-     * {@inheritDoc}
-     * @see \srag\asq\UserInterface\Web\Form\Factory\IObjectFactory::getDefaultValue()
-     */
     public function getDefaultValue(): AbstractValueObject
     {
         return new QuestionDisplayConfiguration(QuestionDisplayConfiguration::SHOW_HEADER);

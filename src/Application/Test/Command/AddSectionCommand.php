@@ -15,20 +15,10 @@ use srag\CQRS\Command\AbstractCommand;
  */
 class AddSectionCommand extends AbstractCommand
 {
-    /**
-     * @var Uuid
-     */
-    protected $id;
+    protected Uuid $id;
 
-    /**
-     * @var Uuid
-     */
-    protected $section_id;
+    protected Uuid $section_id;
 
-    /**
-     * @param Uuid $uuid
-     * @param int $user_id
-     */
     public function __construct(Uuid $id, Uuid $section_id, int $user_id)
     {
         $this->id = $id;
@@ -36,17 +26,11 @@ class AddSectionCommand extends AbstractCommand
         parent::__construct($user_id);
     }
 
-    /**
-     * @return Uuid
-     */
     public function getId() : Uuid
     {
         return $this->id;
     }
 
-    /**
-     * @return Uuid
-     */
     public function getSectionId() : Uuid
     {
         return $this->section_id;

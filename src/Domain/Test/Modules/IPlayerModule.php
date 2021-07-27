@@ -14,18 +14,9 @@ use srag\asq\Domain\QuestionDto;
  */
 interface IPlayerModule
 {
-    /**
-     * @return QuestionDto
-     */
     public function getFirstQuestion() : QuestionDto;
 
-    /**
-     * @return ?QuestionDto
-     */
     public function getPreviousQuestion() : ?QuestionDto;
 
-    /**
-     * @return ?QuestionDto
-     */
     public function getNextQuestion() : ?QuestionDto;
 }

@@ -16,28 +16,16 @@ use srag\asq\Test\Domain\Test\Modules\ITestModule;
  */
 class BasicAvailability extends AbstractTestModule implements IAvailabilityModule
 {
-    /**
-     * {@inheritDoc}
-     * @see ITestModule::getType()
-     */
     public function getType(): string
     {
         return ITestModule::TYPE_AVAILABILITY;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see ITestModule::getConfigClass()
-     */
     public function getConfigClass() : ?string
     {
         return BasicAvailabilityConfigurationFactory::class;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see \srag\asq\Test\Domain\Test\Modules\IAvailabilityModule::isAvailable()
-     */
     public function isAvailable(): bool
     {
 
