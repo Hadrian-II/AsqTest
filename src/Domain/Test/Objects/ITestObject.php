@@ -13,4 +13,6 @@ namespace srag\asq\Test\Domain\Test\Objects;
 interface ITestObject
 {
     public function getKey() : string;
+
+    public function getConfiguration() : ObjectConfiguration;
 }

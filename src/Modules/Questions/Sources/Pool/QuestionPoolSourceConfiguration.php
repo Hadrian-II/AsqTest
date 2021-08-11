@@ -1,9 +1,11 @@
 <?php
-
+declare(strict_types = 1);
 
 namespace srag\asq\Test\Modules\Questions\Sources\Pool;
 
-use srag\CQRS\Aggregate\AbstractValueObject;
+use ILIAS\Data\UUID\Factory;
+use ILIAS\Data\UUID\Uuid;
+use srag\asq\Test\Domain\Test\Objects\ObjectConfiguration;
 
 /**
  * Class QuestionPoolSourceConfiguration
@@ -12,17 +14,32 @@ use srag\CQRS\Aggregate\AbstractValueObject;
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */
-class QuestionPoolSourceConfiguration extends AbstractValueObject
+class QuestionPoolSourceConfiguration extends ObjectConfiguration
 {
-    private ?string $uuid;
+    protected ?Uuid $uuid;
 
-    public function __construct(?string $uuid = null)
+    public function __construct(?Uuid $uuid = null)
     {
         $this->uuid = $uuid;
     }
 
-    public function getUuid() : string
+    public function getUuid() : ?Uuid
     {
         return $this->uuid;
+    }
+
+    public function moduleName(): string
+    {
+        return QuestionPoolSource::class;
+    }
+
+    protected static function deserializeValue(string $key, $value)
+    {
+        if ($key === 'uuid') {
+            $factory = new Factory();
+            return $factory->fromString($value);
+        }
+
+        return $value;
     }
 }

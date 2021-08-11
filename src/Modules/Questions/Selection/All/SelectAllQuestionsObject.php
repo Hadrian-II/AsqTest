@@ -5,6 +5,7 @@ namespace srag\asq\Test\Modules\Questions\Selection\All;
 
 use srag\asq\Test\Domain\Test\Objects\ISelectionObject;
 use srag\asq\Test\Domain\Test\Objects\ISourceObject;
+use srag\asq\Test\Domain\Test\Objects\ObjectConfiguration;
 
 /**
  * Class SelectAllQuestions
@@ -17,11 +18,6 @@ class SelectAllQuestionsObject implements ISelectionObject
 {
     private ISourceObject $source;
 
-    public function getKey() : string
-    {
-        return 'select_all_of_' . $this->source->getKey();
-    }
-
     public function __create(ISourceObject $source)
     {
         $this->source = $source;
@@ -30,5 +26,15 @@ class SelectAllQuestionsObject implements ISelectionObject
     public function getSelectedQuestionIds() : array
     {
         return $this->source->getQuestionIds();
+    }
+
+    public function getKey() : string
+    {
+        return 'select_all_of_' . $this->source->getKey();
+    }
+
+    public function getConfiguration(): ObjectConfiguration
+    {
+        return new SelectAllQuestionsConfiguration($this->source->getKey());
     }
 }

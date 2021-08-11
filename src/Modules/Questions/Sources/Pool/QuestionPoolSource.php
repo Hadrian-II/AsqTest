@@ -3,19 +3,21 @@ declare(strict_types = 1);
 
 namespace srag\asq\Test\Modules\Questions\Sources\Pool;
 
-use ilCtrl;
+use ILIAS\Data\UUID\Factory;
 use ILIAS\DI\HTTPServices;
 use srag\asq\QuestionPool\Application\QuestionPoolService;
 use srag\asq\Test\Domain\Section\Model\AssessmentSectionData;
-use srag\asq\Test\Domain\Test\Event\TestSectionAddedEvent;
+use srag\asq\Test\Domain\Test\ITestAccess;
 use srag\asq\Test\Domain\Test\Modules\AbstractTestModule;
 use srag\asq\Test\Domain\Test\Modules\ITestModule;
 use srag\asq\Test\Domain\Test\Modules\IQuestionSourceModule;
+use srag\asq\Test\Domain\Test\Objects\ITestObject;
+use srag\asq\Test\Domain\Test\Objects\ObjectConfiguration;
 use srag\asq\Test\Lib\Event\IEventQueue;
 use srag\asq\Test\Lib\Event\Standard\AddSectionEvent;
-use srag\asq\Test\Lib\Event\Standard\ExecuteCommandEvent;
 use srag\asq\Test\Lib\Event\Standard\ForwardToCommandEvent;
-use srag\asq\Test\Modules\Questions\QuestionPage;
+use srag\asq\Test\Lib\Event\Standard\StoreObjectEvent;
+use srag\asq\Test\Modules\Questions\Page\QuestionPage;
 use srag\asq\Test\UI\System\SetUIEvent;
 use srag\asq\Test\UI\System\UIData;
 
@@ -33,21 +35,15 @@ class QuestionPoolSource extends AbstractTestModule implements IQuestionSourceMo
     const SHOW_POOL_SELECTION = 'qpsPoolSelection';
     const CREATE_POOL_SOURCE = 'qpsCreate';
 
-    private ilCtrl $ctrl;
-
     private HTTPServices $http;
 
-    private QuestionPoolService $pool_service;
 
-    public function __construct(IEventQueue $event_queue)
+    public function __construct(IEventQueue $event_queue, ITestAccess $access)
     {
-        $this->pool_service = new QuestionPoolService();
-
         global $DIC;
-        $this->ctrl = $DIC->ctrl();
         $this->http = $DIC->http();
 
-        parent::__construct($event_queue);
+        parent::__construct($event_queue, $access);
     }
 
     /**
@@ -57,14 +53,6 @@ class QuestionPoolSource extends AbstractTestModule implements IQuestionSourceMo
     public function getType(): string
     {
         return ITestModule::TYPE_QUESTION_SOURCE;
-    }
-
-    /**
-     * @return array
-     */
-    public function getQuestions(): array
-    {
-
     }
 
     public function getCommands(): array
@@ -81,14 +69,14 @@ class QuestionPoolSource extends AbstractTestModule implements IQuestionSourceMo
     }
 
     protected function qpsCreate() : void {
-        $uuid = $this->http->request()->getQueryParams()[self::PARAM_SELECTED_POOL];
+        $factory = new Factory();
+        $uuid = $factory->fromString($this->http->request()->getQueryParams()[self::PARAM_SELECTED_POOL]);
 
-        $section_data = new AssessmentSectionData('Questions', true);
-        $section_data->addClass(self::class, new QuestionPoolSourceConfiguration($uuid));
+        $pool_source = new QuestionPoolSourceObject($uuid);
 
-        $this->raiseEvent(new AddSectionEvent(
+        $this->raiseEvent(new StoreObjectEvent(
             $this,
-            $section_data
+            $pool_source
         ));
 
         $this->raiseEvent(new ForwardToCommandEvent(
@@ -104,5 +92,14 @@ class QuestionPoolSource extends AbstractTestModule implements IQuestionSourceMo
             'Select Question Pool',
             $selection->render()
         )));
+    }
+
+    /**
+     * @param QuestionPoolSourceConfiguration $config
+     * @return ITestObject
+     */
+    public function createObject(ObjectConfiguration $config) : ITestObject
+    {
+        return new QuestionPoolSourceObject($config->getUuid());
     }
 }

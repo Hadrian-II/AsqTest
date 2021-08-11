@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace srag\asq\Test\Domain\Test\Modules;
 
-use srag\asq\Domain\QuestionDto;
+use srag\asq\Test\Domain\Test\Objects\ISelectionObject;
 use srag\CQRS\Aggregate\AbstractValueObject;
 
 /**
@@ -15,9 +15,5 @@ use srag\CQRS\Aggregate\AbstractValueObject;
  */
 interface IQuestionSelectionModule extends ITestModule
 {
-    /**
-     * @param ?AbstractValueObject $config
-     * @return array
-     */
-    public function createSelectionObject(?AbstractValueObject $config = null) : array;
+
 }

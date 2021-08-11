@@ -4,6 +4,9 @@ declare(strict_types = 1);
 namespace srag\asq\Test\Domain\Test\Modules;
 
 use srag\asq\Application\Exception\AsqException;
+use srag\asq\Test\Domain\Test\ITestAccess;
+use srag\asq\Test\Domain\Test\Objects\ITestObject;
+use srag\asq\Test\Domain\Test\Objects\ObjectConfiguration;
 use srag\asq\Test\Lib\Event\Event;
 use srag\asq\Test\Lib\Event\IEventQueue;
 
@@ -18,9 +21,12 @@ abstract class AbstractTestModule implements  ITestModule
 {
     private IEventQueue $event_queue;
 
-    public function __construct(IEventQueue $event_queue)
+    protected ITestAccess $access;
+
+    public function __construct(IEventQueue $event_queue, ITestAccess $access)
     {
         $this->event_queue = $event_queue;
+        $this->access = $access;
     }
 
     public function getConfigClass() : ?string
@@ -71,5 +77,15 @@ abstract class AbstractTestModule implements  ITestModule
         }
 
         $this->{$command}();
+    }
+
+    public function createObject(ObjectConfiguration $config) : ITestObject
+    {
+        throw new AsqException(
+            sprintf(
+                'module of type "%s" cannot create objects',
+                get_class($this)
+            )
+        );
     }
 }

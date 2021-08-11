@@ -13,7 +13,8 @@ use ILIAS\Data\UUID\Uuid;
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */
-eITestObjectIIT{
+interface ISourceObject extends ITestObject
+{
     /**
      * @return Uuid[]
      */

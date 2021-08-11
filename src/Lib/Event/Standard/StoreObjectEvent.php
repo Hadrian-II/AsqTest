@@ -3,21 +3,21 @@ declare(strict_types = 1);
 
 namespace srag\asq\Test\Lib\Event\Standard;
 
-use srag\asq\Test\Domain\Section\Model\AssessmentSectionData;
+use srag\asq\Test\Domain\Test\Objects\ITestObject;
 use srag\asq\Test\Lib\Event\Event;
 use srag\asq\Test\Lib\Event\IEventUser;
 
 /**
- * Class AddSectionEvent
+ * Class StoreObjectEvent
  *
  * @package srag\asq\Test
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */
-class AddSectionEvent extends Event
+class StoreObjectEvent extends Event
 {
-    public function __construct(IEventUser $sender, AssessmentSectionData $data)
+    public function __construct(IEventUser $sender, ITestObject $object)
     {
-        parent::__construct($sender, $data);
+        parent::__construct($sender, $object);
     }
 }

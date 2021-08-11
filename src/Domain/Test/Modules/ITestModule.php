@@ -3,8 +3,12 @@ declare(strict_types = 1);
 
 namespace srag\asq\Test\Domain\Test\Modules;
 
+use srag\asq\Test\Domain\Test\Objects\ISelectionObject;
+use srag\asq\Test\Domain\Test\Objects\ITestObject;
+use srag\asq\Test\Domain\Test\Objects\ObjectConfiguration;
 use srag\asq\Test\Lib\Event\Event;
 use srag\asq\Test\Lib\Event\IEventUser;
+use srag\CQRS\Aggregate\AbstractValueObject;
 
 /**
  * Interface TestModule
@@ -56,4 +60,10 @@ interface ITestModule extends IEventUser
      * @param Event $event
      */
     public function raiseEvent(Event $event) : void;
+
+    /**
+     * @param ObjectConfiguration $config
+     * @return ITestObject
+     */
+    public function createObject(ObjectConfiguration $config) : ITestObject;
 }

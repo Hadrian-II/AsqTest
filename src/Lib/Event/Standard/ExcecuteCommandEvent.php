@@ -3,7 +3,6 @@ declare(strict_types = 1);
 
 namespace srag\asq\Test\Lib\Event\Standard;
 
-use srag\asq\Test\Domain\Section\Model\AssessmentSectionData;
 use srag\asq\Test\Lib\Event\Event;
 use srag\asq\Test\Lib\Event\IEventUser;
 

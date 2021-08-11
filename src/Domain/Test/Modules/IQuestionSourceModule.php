@@ -17,12 +17,6 @@ use srag\CQRS\Aggregate\AbstractValueObject;
 interface IQuestionSourceModule extends ITestModule
 {
     /**
-     * @param ?AbstractValueObject $config
-     * @return ISourceObject
-     */
-    public function createSourceObject(?AbstractValueObject $config = null) : ISourceObject;
-
-    /**
      * Gets the command that is executed to create a new QuestionSource
      *
      * @return string

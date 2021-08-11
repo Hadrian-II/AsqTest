@@ -14,6 +14,7 @@ use srag\asq\Test\Modules\Availability\Timed\TimedAvailability;
 use srag\asq\Test\Modules\Player\QuestionDisplay\QuestionDisplay;
 use srag\asq\Test\Modules\Player\TextualInOut\TextualInOut;
 use srag\asq\Test\Modules\Questions\Page\QuestionPage;
+use srag\asq\Test\Modules\Questions\Selection\All\SelectAllQuestions;
 use srag\asq\Test\Modules\Questions\Selection\QuestionSelection;
 use srag\asq\Test\Modules\Questions\Sources\Fixed\FixedSource;
 use srag\asq\Test\Modules\Questions\Sources\Pool\QuestionPoolSource;
@@ -32,18 +33,18 @@ class LeipzigTest extends AbstractTest
     {
         parent::__construct($test_data);
 
-        $this->addModule(new BasicAvailability($this->event_queue));
-        $this->addModule(new TimedAvailability($this->event_queue));
-        $this->addModule(new QuestionDisplay($this->event_queue));
-        $this->addModule(new TextualInOut($this->event_queue));
-        $this->addModule(new QuestionSelection($this->event_queue));
-        $this->addModule(new FixedSource($this->event_queue));
-        $this->addModule(new QuestionPoolSource($this->event_queue));
-        $this->addModule(new AutomaticScoring($this->event_queue));
+        $this->addModule(new BasicAvailability($this->event_queue, $this->access));
+        $this->addModule(new TimedAvailability($this->event_queue, $this->access));
+        $this->addModule(new QuestionDisplay($this->event_queue, $this->access));
+        $this->addModule(new TextualInOut($this->event_queue, $this->access));
+        $this->addModule(new SelectAllQuestions($this->event_queue, $this->access));
+        $this->addModule(new FixedSource($this->event_queue, $this->access));
+        $this->addModule(new QuestionPoolSource($this->event_queue, $this->access));
+        $this->addModule(new AutomaticScoring($this->event_queue, $this->access));
 
         $this->addModule(new QuestionPage(
             $this->event_queue,
-            $test_data,
+            $this->access,
             $this->getModulesOfType(IQuestionSourceModule::class),
             $this->getModulesOfType(IQuestionSelectionModule::class)
         ));
