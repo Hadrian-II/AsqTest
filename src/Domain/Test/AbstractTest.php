@@ -132,4 +132,6 @@ abstract class AbstractTest implements ITest, IEventUser
         $target = $this->ctrl->getLinkTargetByClass($this->ctrl->getCmdClass(), $command);
         $this->ctrl->redirectToURL($target);
     }
+
+    abstract public static function getInitialCommand() : string;
 }

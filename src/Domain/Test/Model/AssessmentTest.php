@@ -23,7 +23,7 @@ use srag\asq\Test\Domain\Test\Event\TestSectionRemovedEvent;
  */
 class AssessmentTest extends AbstractAggregateRoot
 {
-    protected ?TestData $data;
+    protected ?TestData $data = null;
 
     protected ?array $configurations = [];
 

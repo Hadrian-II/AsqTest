@@ -39,16 +39,16 @@ class QuestionPoolSelection
     {
         $tpl = new ilTemplate($this->getBasePath(__DIR__) . 'src/Modules/Questions/Sources/Pool/poolSelectionTable.html', true, true);
 
-        $tpl->setVariable("HEADER_POOL_TITLE",'Titel');
-        $tpl->setVariable("HEADER_POOL_DESCRIPTION", 'Description');
-        $tpl->setVariable("HEADER_POOL_CREATOR", 'Ersteller');
+        $tpl->setVariable('HEADER_POOL_TITLE','TODO_Titel');
+        $tpl->setVariable('HEADER_POOL_DESCRIPTION', 'TODO_Description');
+        $tpl->setVariable('HEADER_POOL_CREATOR', 'TODO_Ersteller');
 
         foreach ($this->pool_service->getPools() as $pool) {
-            $tpl->setCurrentBlock("row");
-            $tpl->setVariable("VAL_POOL_TITLE", $pool->getTitle());
-            $tpl->setVariable("VAL_POOL_DESCRIPTION", $pool->getDescription());
-            $tpl->setVariable("VAL_POOL_CREATOR", $pool->getCreatorId());
-            $tpl->setVariable("VAL_POOL_SELECTION", $this->createSelectButton($pool->getUuid()));
+            $tpl->setCurrentBlock('row');
+            $tpl->setVariable('VAL_POOL_TITLE', $pool->getTitle());
+            $tpl->setVariable('VAL_POOL_DESCRIPTION', $pool->getDescription());
+            $tpl->setVariable('VAL_POOL_CREATOR', $pool->getCreatorId());
+            $tpl->setVariable('VAL_POOL_SELECTION', $this->createSelectButton($pool->getUuid()));
             $tpl->parseCurrentBlock();
         }
 

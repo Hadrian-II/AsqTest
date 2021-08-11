@@ -35,7 +35,7 @@ abstract class AbstractTestModule implements  ITestModule
 
     public function processEvent(object $event): void
     {
-
+        // process no events by default
     }
 
     public function raiseEvent(Event $event) : void

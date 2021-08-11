@@ -84,8 +84,8 @@ class AssessmentSectionData extends AbstractValueObject
     protected array $class_configs =[];
 
     public function __construct(
-        string $title,
-        bool $visible,
+        string $title = '',
+        bool $visible = true,
         bool $required = false,
         bool $fixed = false,
         bool $keep_together = true

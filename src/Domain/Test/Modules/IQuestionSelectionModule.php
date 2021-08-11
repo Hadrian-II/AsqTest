@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace srag\asq\Test\Domain\Test\Modules;
 
 use srag\asq\Domain\QuestionDto;
+use srag\CQRS\Aggregate\AbstractValueObject;
 
 /**
  * Interface IQuestionSelectionModule
@@ -15,14 +16,8 @@ use srag\asq\Domain\QuestionDto;
 interface IQuestionSelectionModule extends ITestModule
 {
     /**
-     * @return QuestionDto[]
+     * @param ?AbstractValueObject $config
+     * @return array
      */
-    public function getQuestions() : array;
-
-    /**
-     * Gets the command that is executed to create a new QuestionSource
-     *
-     * @return string
-     */
-    public function getInitializationCommand() : string;
+    public function createSelectionObject(?AbstractValueObject $config = null) : array;
 }

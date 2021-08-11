@@ -6,13 +6,14 @@ namespace srag\asq\Test\Leipzig;
 use srag\asq\Test\Domain\Test\AbstractTest;
 use srag\asq\Test\Domain\Test\Model\AssessmentTestDto;
 use srag\asq\Test\Domain\Test\Modules\AbstractTestModule;
+use srag\asq\Test\Domain\Test\Modules\IQuestionSelectionModule;
 use srag\asq\Test\Domain\Test\Modules\IQuestionSourceModule;
 use srag\asq\Test\Domain\Test\Persistence\TestType;
 use srag\asq\Test\Modules\Availability\Basic\BasicAvailability;
 use srag\asq\Test\Modules\Availability\Timed\TimedAvailability;
 use srag\asq\Test\Modules\Player\QuestionDisplay\QuestionDisplay;
 use srag\asq\Test\Modules\Player\TextualInOut\TextualInOut;
-use srag\asq\Test\Modules\Questions\QuestionPage;
+use srag\asq\Test\Modules\Questions\Page\QuestionPage;
 use srag\asq\Test\Modules\Questions\Selection\QuestionSelection;
 use srag\asq\Test\Modules\Questions\Sources\Fixed\FixedSource;
 use srag\asq\Test\Modules\Questions\Sources\Pool\QuestionPoolSource;
@@ -40,11 +41,21 @@ class LeipzigTest extends AbstractTest
         $this->addModule(new QuestionPoolSource($this->event_queue));
         $this->addModule(new AutomaticScoring($this->event_queue));
 
-        $this->addModule(new QuestionPage($this->event_queue, $test_data, $this->getModulesOfType(IQuestionSourceModule::class)));
+        $this->addModule(new QuestionPage(
+            $this->event_queue,
+            $test_data,
+            $this->getModulesOfType(IQuestionSourceModule::class),
+            $this->getModulesOfType(IQuestionSelectionModule::class)
+        ));
     }
 
     public function getTestType() : TestType
     {
         return TestType::createType('aqtl', 'Test für Leipzig', self::class);
+    }
+
+    public static function getInitialCommand(): string
+    {
+        return QuestionPage::SHOW_QUESTIONS;
     }
 }
