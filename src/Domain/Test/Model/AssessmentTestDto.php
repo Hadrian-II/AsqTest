@@ -60,6 +60,11 @@ class AssessmentTestDto
         $this->configurations[$configuration_for] = $config;
     }
 
+    public function removeConfiguration(string $configuration_for) : void
+    {
+        unset($this->configurations[$configuration_for]);
+    }
+
     public function getTestData() : ?TestData
     {
         return $this->data;

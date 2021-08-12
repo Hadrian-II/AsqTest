@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace srag\asq\Test\Domain\Test\Model;
 
+use srag\asq\Test\Domain\Test\Event\TestConfigurationRemovedEvent;
 use srag\CQRS\Aggregate\AbstractAggregateRoot;
 use srag\CQRS\Event\Standard\AggregateCreatedEvent;
 use srag\asq\Test\Domain\Test\Event\TestDataSetEvent;
@@ -82,9 +83,37 @@ class AssessmentTest extends AbstractAggregateRoot
                     new ilDateTime(time(), IL_CAL_UNIX),
                     $user_id,
                     $configuration,
-                    $configuration_for)
-                );
+                    $configuration_for
+                )
+            );
         }
+    }
+
+    protected function applyTestConfigurationSetEvent(TestConfigurationSetEvent $event) : void
+    {
+        $this->configurations[$event->getConfigFor()] = $event->getConfig();
+    }
+
+    public function removeConfiguration(
+        string $configuration_for,
+        int $user_id) : void
+    {
+        if (array_key_exists($configuration_for, $this->configurations))
+        {
+            $this->ExecuteEvent(
+                new TestConfigurationRemovedEvent(
+                    $this->aggregate_id,
+                    new ilDateTime(time(), IL_CAL_UNIX),
+                    $user_id,
+                    $configuration_for
+                )
+            );
+        }
+    }
+
+    protected function applyTestConfigurationRemovedEvent(TestConfigurationRemovedEvent $event) : void
+    {
+        unset($this->configurations[$event->getConfigFor()]);
     }
 
     public function getConfigurations() : array
@@ -97,11 +126,6 @@ class AssessmentTest extends AbstractAggregateRoot
         return $this->configurations[$configuration_for];
     }
 
-    protected function applyTestConfigurationSetEvent(TestConfigurationSetEvent $event) : void
-    {
-        $this->configurations[$event->getConfigFor()] = $event->getConfig();
-    }
-
     public function addSection(Uuid $section_id, int $user_id) : void
     {
         if (!in_array($section_id, $this->sections)) {
@@ -110,8 +134,9 @@ class AssessmentTest extends AbstractAggregateRoot
                     $this->aggregate_id,
                     new ilDateTime(time(), IL_CAL_UNIX),
                     $user_id,
-                    $section_id)
-                );
+                    $section_id
+                )
+            );
         }
         else {
             throw new AsqException('Section is already part of Test');
@@ -131,8 +156,9 @@ class AssessmentTest extends AbstractAggregateRoot
                     $this->aggregate_id,
                     new ilDateTime(time(), IL_CAL_UNIX),
                     $user_id,
-                    $section_id)
-                );
+                    $section_id
+                )
+            );
         }
         else {
             throw new AsqException('Section is not part of Test');

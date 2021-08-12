@@ -20,6 +20,7 @@ use srag\asq\Test\Lib\Event\IEventUser;
 use srag\asq\Test\Lib\Event\Standard\AddSectionEvent;
 use srag\asq\Test\Lib\Event\Standard\ExecuteCommandEvent;
 use srag\asq\Test\Lib\Event\Standard\ForwardToCommandEvent;
+use srag\asq\Test\Lib\Event\Standard\RemoveObjectEvent;
 use srag\asq\Test\Lib\Event\Standard\StoreObjectEvent;
 use srag\asq\Test\UI\System\ITestUI;
 use srag\asq\Test\UI\System\SetUIEvent;
@@ -173,6 +174,10 @@ abstract class AbstractTest implements ITest, IEventUser
             $this->processStoreObjectEvent($event->getData());
         }
 
+        if (get_class($event) === RemoveObjectEvent::class) {
+            $this->processRemoveObjectEvent($event->getData());
+        }
+
         if (get_class($event) === ExecuteCommandEvent::class) {
             $this->executeCommand($event->getData());
         }
@@ -192,6 +197,12 @@ abstract class AbstractTest implements ITest, IEventUser
     {
         $this->objects[$object->getKey()] = $object;
         $this->test_data->setConfiguration($object->getKey(), $object->getConfiguration());
+        $this->test_service->saveTest($this->test_data);
+    }
+
+    public function processRemoveObjectEvent(ITestObject $object) : void
+    {
+        $this->test_data->removeConfiguration($object->getKey());
         $this->test_service->saveTest($this->test_data);
     }
 

@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace srag\asq\Test\Modules\Questions\Page;
 
 use ILIAS\Data\UUID\Uuid;
+use ILIAS\DI\HTTPServices;
 use ILIAS\DI\UIServices;
 use ilTemplate;
 use srag\asq\Application\Service\AsqServices;
@@ -20,6 +21,8 @@ use srag\asq\Test\Domain\Test\Modules\ITestModule;
 use srag\asq\Test\Domain\Test\Objects\ISelectionObject;
 use srag\asq\Test\Domain\Test\Objects\ISourceObject;
 use srag\asq\Test\Lib\Event\IEventQueue;
+use srag\asq\Test\Lib\Event\Standard\ForwardToCommandEvent;
+use srag\asq\Test\Lib\Event\Standard\RemoveObjectEvent;
 use srag\asq\Test\UI\System\AddTabEvent;
 use srag\asq\Test\UI\System\SetUIEvent;
 use srag\asq\Test\UI\System\TabDefinition;
@@ -38,12 +41,17 @@ class QuestionPage extends AbstractTestModule implements IPageModule
     use PathHelper;
 
     const SHOW_QUESTIONS = 'qpShow';
+    const REMOVE_SOURCE = 'qpRemoveSource';
+
+    const PARAM_SOURCE_KEY = 'sourceKey';
 
     private UIServices $ui;
 
     private ilCtrl $ctrl;
 
     private AsqServices $asq;
+
+    private HTTPServices $http;
 
     /**
      * @var IQuestionSourceModule[]
@@ -58,7 +66,7 @@ class QuestionPage extends AbstractTestModule implements IPageModule
     /**
      * @var ISourceObject[]
      */
-    private array $source_objects;
+    private array $source_objects = [];
 
     /**
      * @var ISelectionObject[]
@@ -76,13 +84,16 @@ class QuestionPage extends AbstractTestModule implements IPageModule
         global $DIC;
         $this->ui = $DIC->ui();
         $this->ctrl = $DIC->ctrl();
+        $this->http = $DIC->http();
         global $ASQDIC;
         $this->asq = $ASQDIC->asq();
 
         $this->available_sources = $available_sources;
         $this->available_selections = $available_selections;
 
-        $this->source_objects = $this->access->getObjectsOfType(ITestModule::TYPE_QUESTION_SOURCE);
+        foreach ($this->access->getObjectsOfType(ITestModule::TYPE_QUESTION_SOURCE) as $source) {
+            $this->source_objects[$source->getKey()] = $source;
+        }
 
         foreach ($this->access->getObjectsOfType(ITestModule::TYPE_QUESTION_SELECTION) as $selection) {
             $this->selection_objects[$selection->getSourceKey()] = $selection;
@@ -102,7 +113,8 @@ class QuestionPage extends AbstractTestModule implements IPageModule
     public function getCommands(): array
     {
         return [
-            self::SHOW_QUESTIONS
+            self::SHOW_QUESTIONS,
+            self::REMOVE_SOURCE
         ];
     }
 
@@ -162,6 +174,8 @@ class QuestionPage extends AbstractTestModule implements IPageModule
         $tpl->setVariable("QUESTION_VERSION", 'TODO_Version');
         $tpl->setVariable("QUESTION_TYPE", 'TODO_Type');
         $tpl->setVariable("QUESTION_POINTS", 'TODO_Points');
+
+        $tpl->setVariable("REMOVE_SOURCE", $this->renderRemoveButton($source->getKey()));
         $tpl->parseCurrentBlock();
     }
 
@@ -189,6 +203,26 @@ class QuestionPage extends AbstractTestModule implements IPageModule
         return $this->ui->renderer()->render($selection);
     }
 
+    private function renderRemoveButton(string $source_key) : string
+    {
+        $current_class = $this->ctrl->getCmdClass();
+
+        $this->ctrl->setParameterByClass(
+            $current_class,
+            self::PARAM_SOURCE_KEY,
+            $source_key);
+
+        $button = $this->ui->factory()->button()->standard(
+            'TODO Remove',
+            $this->ctrl->getLinkTargetByClass(
+                $this->ctrl->getCmdClass(),
+                self::REMOVE_SOURCE
+            )
+        );
+
+        return $this->ui->renderer()->render($button);
+    }
+
     private function renderQuestions(ilTemplate $tpl, ISelectionObject $selection) : void
     {
         $selection_module = $this->available_selections[$selection->getConfiguration()->moduleName()];
@@ -200,5 +234,18 @@ class QuestionPage extends AbstractTestModule implements IPageModule
             $tpl->setVariable("QUESTION_CONTENT", $selection_module->renderQuestionListItem($question));
             $tpl->parseCurrentBlock();
         }
+    }
+
+    public function qpRemoveSource() : void
+    {
+        $source_key = $this->http->request()->getQueryParams()[self::PARAM_SOURCE_KEY];
+
+        if (array_key_exists($source_key, $this->selection_objects)) {
+            $this->raiseEvent(new RemoveObjectEvent($this, $this->selection_objects[$source_key]));
+        }
+
+        $this->raiseEvent(new RemoveObjectEvent($this, $this->source_objects[$source_key]));
+
+        $this->raiseEvent(new ForwardToCommandEvent($this, self::SHOW_QUESTIONS));
     }
 }

@@ -101,6 +101,13 @@ class TestService extends ASQService
             }
         }
 
+        foreach (array_diff(
+                array_keys($stored->getConfigurations()),
+                array_keys($test->getConfigurations())) as $deleted)
+        {
+            $stored->removeConfiguration($deleted, $this->getActiveUser());
+        }
+
         foreach (array_diff($test->getSections(), $stored->getSections()) as $new_section) {
             $stored->addSection($new_section, $this->getActiveUser());
         }
