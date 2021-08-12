@@ -100,9 +100,9 @@ abstract class AbstractTest implements ITest, IEventUser
     {
         $matches = [];
 
-        foreach ($this->modules as $module) {
+        foreach ($this->modules as $key => $module) {
             if (in_array($class, class_implements($module))) {
-                $matches[] = $module;
+                $matches[$key] = $module;
             }
         }
 

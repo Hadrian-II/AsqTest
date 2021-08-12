@@ -18,7 +18,7 @@ class SelectAllQuestionsObject implements ISelectionObject
 {
     private ISourceObject $source;
 
-    public function __create(ISourceObject $source)
+    public function __construct(ISourceObject $source)
     {
         $this->source = $source;
     }
@@ -26,6 +26,11 @@ class SelectAllQuestionsObject implements ISelectionObject
     public function getSelectedQuestionIds() : array
     {
         return $this->source->getQuestionIds();
+    }
+
+    public function getSourceKey(): string
+    {
+        return $this->source->getKey();
     }
 
     public function getKey() : string

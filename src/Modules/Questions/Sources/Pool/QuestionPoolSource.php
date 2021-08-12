@@ -37,7 +37,6 @@ class QuestionPoolSource extends AbstractTestModule implements IQuestionSourceMo
 
     private HTTPServices $http;
 
-
     public function __construct(IEventQueue $event_queue, ITestAccess $access)
     {
         global $DIC;

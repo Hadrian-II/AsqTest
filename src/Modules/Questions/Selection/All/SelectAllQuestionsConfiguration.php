@@ -15,7 +15,7 @@ use srag\CQRS\Aggregate\AbstractValueObject;
  */
 class SelectAllQuestionsConfiguration extends ObjectConfiguration
 {
-    private ?string $source_key;
+    protected ?string $source_key;
 
     public function __construct(?string $source_key = null)
     {

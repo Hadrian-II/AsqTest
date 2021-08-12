@@ -15,6 +15,13 @@ use ILIAS\Data\UUID\Uuid;
 interface ISelectionObject extends ITestObject
 {
     /**
+     * Gets the key of the source object this selection is based on
+     *
+     * @return string
+     */
+    public function getSourceKey() : string;
+
+    /**
      * @return Uuid[]
      */
     public function getSelectedQuestionIds() : array;
