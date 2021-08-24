@@ -34,7 +34,7 @@ interface IQuestionSelectionModule extends ITestModule
      * @param QuestionDto $question
      * @return string
      */
-    public function renderQuestionListItem(QuestionDto $question) : string;
+    public function renderQuestionListItem(ISelectionObject $object, QuestionDto $question) : string;
 
     /**
      * Gets Actions that can be performed on the question Page

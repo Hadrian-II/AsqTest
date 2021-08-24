@@ -35,9 +35,9 @@ class ManualQuestionSelectionObject implements ISelectionObject
         return $this->selected_questions;
     }
 
-    public function getSourceKey(): string
+    public function getSource(): ISourceObject
     {
-        return $this->source->getKey();
+        return $this->source;
     }
 
     public function getKey() : string

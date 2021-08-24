@@ -28,9 +28,9 @@ class SelectAllQuestionsObject implements ISelectionObject
         return $this->source->getQuestionIds();
     }
 
-    public function getSourceKey(): string
+    public function getSource(): ISourceObject
     {
-        return $this->source->getKey();
+        return $this->source;
     }
 
     public function getKey() : string

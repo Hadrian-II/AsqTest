@@ -51,14 +51,4 @@ class SectionPart extends AbstractValueObject
     {
         return sprintf('%s_%s_%s', $this->type, $this->id->toString(), $this->revision_name);
     }
-
-    protected static function deserializeValue(string $key, $value)
-    {
-        if ($key === 'id') {
-            $factory = new Factory();
-            return $factory->fromString($value);
-        }
-        //virtual method
-        return $value;
-    }
 }

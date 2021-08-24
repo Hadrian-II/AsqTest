@@ -32,14 +32,4 @@ class QuestionPoolSourceConfiguration extends ObjectConfiguration
     {
         return QuestionPoolSource::class;
     }
-
-    protected static function deserializeValue(string $key, $value)
-    {
-        if ($key === 'uuid') {
-            $factory = new Factory();
-            return $factory->fromString($value);
-        }
-
-        return $value;
-    }
 }

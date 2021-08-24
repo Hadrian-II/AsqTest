@@ -133,14 +133,4 @@ class ItemResult extends AbstractValueObject
     {
         return $this->candidate_comment;
     }
-
-    protected static function deserializeValue(string $key, $value)
-    {
-        if ($key === 'question_id') {
-            $factory = new Factory();
-            return $factory->fromString($value);
-        }
-        //virtual method
-        return $value;
-    }
 }

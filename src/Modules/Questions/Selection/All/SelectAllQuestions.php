@@ -41,7 +41,7 @@ class SelectAllQuestions extends AbstractQuestionSelection
         $this->storeAndReturn($selection);
     }
 
-    public function renderQuestionListItem(QuestionDto $question): string
+    public function renderQuestionListItem(ISelectionObject $object, QuestionDto $question): string
     {
         return sprintf(
             '<td>%s</td><td>%s</td><td>%s</td><td>%s</td><td></td>',

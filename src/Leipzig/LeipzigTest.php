@@ -39,7 +39,6 @@ class LeipzigTest extends AbstractTest
         $this->addModule(new TextualInOut($this->event_queue, $this->access));
         $this->addModule(new SelectAllQuestions($this->event_queue, $this->access));
         $this->addModule(new ManualQuestionSelection($this->event_queue, $this->access));
-        $this->addModule(new RandomQuestionSelection($this->event_queue, $this->access));
         $this->addModule(new FixedSource($this->event_queue, $this->access));
         $this->addModule(new QuestionPoolSource($this->event_queue, $this->access));
         $this->addModule(new AutomaticScoring($this->event_queue, $this->access));

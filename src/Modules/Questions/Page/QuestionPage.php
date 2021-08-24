@@ -96,7 +96,7 @@ class QuestionPage extends AbstractTestModule implements IPageModule
         }
 
         foreach ($this->access->getObjectsOfType(ITestModule::TYPE_QUESTION_SELECTION) as $selection) {
-            $this->selection_objects[$selection->getSourceKey()] = $selection;
+            $this->selection_objects[$selection->getSource()->getKey()] = $selection;
         }
 
         $this->raiseEvent(new AddTabEvent(
@@ -236,7 +236,7 @@ class QuestionPage extends AbstractTestModule implements IPageModule
             $question = $this->asq->question()->getQuestionByQuestionId($question_id);
 
             $tpl->setCurrentBlock('question');
-            $tpl->setVariable("QUESTION_CONTENT", $selection_module->renderQuestionListItem($question));
+            $tpl->setVariable("QUESTION_CONTENT", $selection_module->renderQuestionListItem($selection, $question));
             $tpl->parseCurrentBlock();
         }
     }
