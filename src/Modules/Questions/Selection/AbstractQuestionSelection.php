@@ -15,7 +15,6 @@ use srag\asq\Test\Lib\Event\IEventQueue;
 use srag\asq\Test\Lib\Event\Standard\ForwardToCommandEvent;
 use srag\asq\Test\Lib\Event\Standard\StoreObjectEvent;
 use srag\asq\Test\Modules\Questions\Page\QuestionPage;
-use srag\asq\Test\Modules\Questions\Selection\All\SelectAllQuestionsObject;
 
 /**
  * Abstract Class AbstractQuestionSelection
@@ -68,5 +67,11 @@ abstract class AbstractQuestionSelection extends AbstractTestModule implements I
     public function getConfigClass() : ?string
     {
         return null;
+    }
+
+    public function getQuestionPageActions(ISelectionObject $object): string
+    {
+        //no actions
+        return '';
     }
 }

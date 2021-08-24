@@ -5,7 +5,6 @@ namespace srag\asq\Test\Leipzig;
 
 use srag\asq\Test\Domain\Test\AbstractTest;
 use srag\asq\Test\Domain\Test\Model\AssessmentTestDto;
-use srag\asq\Test\Domain\Test\Modules\AbstractTestModule;
 use srag\asq\Test\Domain\Test\Modules\IQuestionSelectionModule;
 use srag\asq\Test\Domain\Test\Modules\IQuestionSourceModule;
 use srag\asq\Test\Domain\Test\Persistence\TestType;
@@ -15,7 +14,8 @@ use srag\asq\Test\Modules\Player\QuestionDisplay\QuestionDisplay;
 use srag\asq\Test\Modules\Player\TextualInOut\TextualInOut;
 use srag\asq\Test\Modules\Questions\Page\QuestionPage;
 use srag\asq\Test\Modules\Questions\Selection\All\SelectAllQuestions;
-use srag\asq\Test\Modules\Questions\Selection\QuestionSelection;
+use srag\asq\Test\Modules\Questions\Selection\Manual\ManualQuestionSelection;
+use srag\asq\Test\Modules\Questions\Selection\Random\RandomQuestionSelection;
 use srag\asq\Test\Modules\Questions\Sources\Fixed\FixedSource;
 use srag\asq\Test\Modules\Questions\Sources\Pool\QuestionPoolSource;
 use srag\asq\Test\Modules\Scoring\Automatic\AutomaticScoring;
@@ -38,6 +38,8 @@ class LeipzigTest extends AbstractTest
         $this->addModule(new QuestionDisplay($this->event_queue, $this->access));
         $this->addModule(new TextualInOut($this->event_queue, $this->access));
         $this->addModule(new SelectAllQuestions($this->event_queue, $this->access));
+        $this->addModule(new ManualQuestionSelection($this->event_queue, $this->access));
+        $this->addModule(new RandomQuestionSelection($this->event_queue, $this->access));
         $this->addModule(new FixedSource($this->event_queue, $this->access));
         $this->addModule(new QuestionPoolSource($this->event_queue, $this->access));
         $this->addModule(new AutomaticScoring($this->event_queue, $this->access));

@@ -35,4 +35,12 @@ interface IQuestionSelectionModule extends ITestModule
      * @return string
      */
     public function renderQuestionListItem(QuestionDto $question) : string;
+
+    /**
+     * Gets Actions that can be performed on the question Page
+     *
+     * @param ISelectionObject $object
+     * @return string
+     */
+    public function getQuestionPageActions(ISelectionObject $object) : string;
 }

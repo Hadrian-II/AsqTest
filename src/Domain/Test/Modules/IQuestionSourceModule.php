@@ -22,4 +22,12 @@ interface IQuestionSourceModule extends ITestModule
      * @return string
      */
     public function getInitializationCommand() : string;
+
+    /**
+     * Gets Actions that can be performed on the question Page
+     *
+     * @param ISourceObject $object
+     * @return string
+     */
+    public function getQuestionPageActions(ISourceObject $object) : string;
 }

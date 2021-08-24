@@ -6,6 +6,7 @@ namespace srag\asq\Test\Modules\Questions\Sources\Fixed;
 use srag\asq\Test\Domain\Test\Modules\AbstractTestModule;
 use srag\asq\Test\Domain\Test\Modules\ITestModule;
 use srag\asq\Test\Domain\Test\Modules\IQuestionSourceModule;
+use srag\asq\Test\Modules\Questions\Sources\AbstractQuestionSource;
 
 /**
  * Class FixedSource
@@ -14,14 +15,9 @@ use srag\asq\Test\Domain\Test\Modules\IQuestionSourceModule;
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */
-class FixedSource extends AbstractTestModule implements IQuestionSourceModule
+class FixedSource extends AbstractQuestionSource
 {
     const CREATE_STATIC_SOURCE = 'sqsCreate';
-
-    public function getType(): string
-    {
-        return ITestModule::TYPE_QUESTION_SOURCE;
-    }
 
     public function getQuestions(): array
     {

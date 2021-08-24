@@ -160,7 +160,7 @@ class QuestionPage extends AbstractTestModule implements IPageModule
         $selection = $this->selection_objects[$source->getKey()];
 
         if ($selection !== null) {
-            $this->renderQuestions($tpl, $selection);
+            $this->renderQuestions($tpl, $source, $selection);
         }
 
         $tpl->setCurrentBlock('source');
@@ -176,6 +176,11 @@ class QuestionPage extends AbstractTestModule implements IPageModule
         $tpl->setVariable("QUESTION_POINTS", 'TODO_Points');
 
         $tpl->setVariable("REMOVE_SOURCE", $this->renderRemoveButton($source->getKey()));
+        $tpl->setVariable("SOURCE_ACTIONS", $this->available_sources[$source->getConfiguration()->moduleName()]->getQuestionPageActions($source));
+        if ($selection !== null) {
+            $tpl->setVariable("SELECTION_ACTIONS",
+                $this->available_selections[$selection->getConfiguration()->moduleName()]->getQuestionPageActions($selection));
+        }
         $tpl->parseCurrentBlock();
     }
 
@@ -223,11 +228,11 @@ class QuestionPage extends AbstractTestModule implements IPageModule
         return $this->ui->renderer()->render($button);
     }
 
-    private function renderQuestions(ilTemplate $tpl, ISelectionObject $selection) : void
+    private function renderQuestions(ilTemplate $tpl, ISourceObject $source, ISelectionObject $selection) : void
     {
         $selection_module = $this->available_selections[$selection->getConfiguration()->moduleName()];
 
-        foreach ($selection->getSelectedQuestionIds() as $question_id) {
+        foreach ($source->getQuestionIds() as $question_id) {
             $question = $this->asq->question()->getQuestionByQuestionId($question_id);
 
             $tpl->setCurrentBlock('question');

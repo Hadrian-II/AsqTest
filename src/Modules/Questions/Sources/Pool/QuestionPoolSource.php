@@ -5,19 +5,14 @@ namespace srag\asq\Test\Modules\Questions\Sources\Pool;
 
 use ILIAS\Data\UUID\Factory;
 use ILIAS\DI\HTTPServices;
-use srag\asq\QuestionPool\Application\QuestionPoolService;
-use srag\asq\Test\Domain\Section\Model\AssessmentSectionData;
 use srag\asq\Test\Domain\Test\ITestAccess;
-use srag\asq\Test\Domain\Test\Modules\AbstractTestModule;
-use srag\asq\Test\Domain\Test\Modules\ITestModule;
-use srag\asq\Test\Domain\Test\Modules\IQuestionSourceModule;
 use srag\asq\Test\Domain\Test\Objects\ITestObject;
 use srag\asq\Test\Domain\Test\Objects\ObjectConfiguration;
 use srag\asq\Test\Lib\Event\IEventQueue;
-use srag\asq\Test\Lib\Event\Standard\AddSectionEvent;
 use srag\asq\Test\Lib\Event\Standard\ForwardToCommandEvent;
 use srag\asq\Test\Lib\Event\Standard\StoreObjectEvent;
 use srag\asq\Test\Modules\Questions\Page\QuestionPage;
+use srag\asq\Test\Modules\Questions\Sources\AbstractQuestionSource;
 use srag\asq\Test\UI\System\SetUIEvent;
 use srag\asq\Test\UI\System\UIData;
 
@@ -28,7 +23,7 @@ use srag\asq\Test\UI\System\UIData;
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */
-class QuestionPoolSource extends AbstractTestModule implements IQuestionSourceModule
+class QuestionPoolSource extends AbstractQuestionSource
 {
     const PARAM_SELECTED_POOL = 'qpsSelectedPool';
 
@@ -43,15 +38,6 @@ class QuestionPoolSource extends AbstractTestModule implements IQuestionSourceMo
         $this->http = $DIC->http();
 
         parent::__construct($event_queue, $access);
-    }
-
-    /**
-     * {@inheritDoc}
-     * @see ITestModule::getType()
-     */
-    public function getType(): string
-    {
-        return ITestModule::TYPE_QUESTION_SOURCE;
     }
 
     public function getCommands(): array
