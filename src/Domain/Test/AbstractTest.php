@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace srag\asq\Test\Domain\Test;
 
 use ilCtrl;
+use ILIAS\Data\UUID\Uuid;
 use ILIAS\DI\Exceptions\Exception;
 use ILIAS\DI\HTTPServices;
 use srag\asq\Test\Application\Section\SectionService;
@@ -11,6 +12,7 @@ use srag\asq\Test\Application\Test\TestService;
 use srag\asq\Test\Domain\Test\Model\AssessmentTestDto;
 use srag\asq\Test\Domain\Test\Modules\IQuestionSelectionModule;
 use srag\asq\Test\Domain\Test\Modules\IQuestionSourceModule;
+use srag\asq\Test\Domain\Test\Modules\IStorageModule;
 use srag\asq\Test\Domain\Test\Modules\ITestModule;
 use srag\asq\Test\Domain\Test\Objects\ITestObject;
 use srag\asq\Test\Domain\Test\Objects\ObjectConfiguration;
@@ -42,17 +44,13 @@ abstract class AbstractTest implements ITest, IEventUser
 
     protected EventQueue $event_queue;
 
-    protected AssessmentTestDto $test_data;
-
     protected TestUI $ui;
-
-    protected SectionService $section_service;
-
-    protected TestService $test_service;
 
     protected ilCtrl $ctrl;
 
     protected ITestAccess $access;
+
+    protected ?IStorageModule $data = null;
 
     /**
      * @var ITestModule[]
@@ -64,13 +62,10 @@ abstract class AbstractTest implements ITest, IEventUser
      */
     protected array $objects = [];
 
-    public function __construct(AssessmentTestDto $test_data)
+    public function __construct()
     {
         global $DIC;
-        $this->section_service = new SectionService();
-        $this->test_service = new TestService();
 
-        $this->test_data = $test_data;
         $this->event_queue = new EventQueue();
         $this->ui = new TestUI();
         $this->ctrl = $DIC->ctrl();
@@ -84,6 +79,14 @@ abstract class AbstractTest implements ITest, IEventUser
         $class = get_class($module);
         $this->modules[$class] = $module;
         $this->event_queue->addUser($module);
+
+        if ($module instanceof IStorageModule) {
+            if ($this->data !== null) {
+                throw new Exception('Test object can only have one datasource');
+            }
+
+            $this->data = $module;
+        }
 
         foreach ($module->getCommands() as $command) {
             $this->commands[$command] = $module;
@@ -114,7 +117,7 @@ abstract class AbstractTest implements ITest, IEventUser
     {
         if (!array_key_exists($key, $this->objects)) {
             /** @var ObjectConfiguration $config */
-            $config = $this->test_data->getConfiguration($key);
+            $config = $this->data->getConfiguration($key);
 
             $this->objects[$key] = $this->getModule($config->moduleName())->createObject($config);
         }
@@ -141,7 +144,7 @@ abstract class AbstractTest implements ITest, IEventUser
         }, $modules);
 
         $objects = [];
-        foreach ($this->test_data->getConfigurations() as $key => $configuration)
+        foreach ($this->data->getConfigurations() as $key => $configuration)
         {
             if (! in_array(ObjectConfiguration::class, class_parents($configuration))) {
                 continue;
@@ -196,14 +199,15 @@ abstract class AbstractTest implements ITest, IEventUser
     public function processStoreObjectEvent(ITestObject $object) : void
     {
         $this->objects[$object->getKey()] = $object;
-        $this->test_data->setConfiguration($object->getKey(), $object->getConfiguration());
-        $this->test_service->saveTest($this->test_data);
+        $this->data->setConfiguration($object->getKey(), $object->getConfiguration());
+        $this->data->save();
     }
 
     public function processRemoveObjectEvent(ITestObject $object) : void
     {
-        $this->test_data->removeConfiguration($object->getKey());
-        $this->test_service->saveTest($this->test_data);
+        unset($this->objects[$object->getKey()]);
+        $this->data->removeConfiguration($object->getKey());
+        $this->data->save();
     }
 
     abstract public static function getInitialCommand() : string;

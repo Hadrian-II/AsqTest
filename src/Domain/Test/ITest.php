@@ -23,7 +23,7 @@ interface ITest
      *
      * @return TestType
      */
-    public function getTestType() : TestType;
+    function getTestType() : TestType;
 
     /**
      * Gets testModule of given Class
@@ -31,7 +31,7 @@ interface ITest
      * @param string $class
      * @return ITestModule
      */
-    public function getModule(string $class) : ITestModule;
+    function getModule(string $class) : ITestModule;
 
     /**
      * Gets an object from the Test
@@ -39,7 +39,7 @@ interface ITest
      * @param string $key
      * @return ITestObject
      */
-    public function getObject(string $key) : ITestObject;
+    function getObject(string $key) : ITestObject;
 
     /**
      * Gets all objects of a type defined in ITestModule
@@ -47,19 +47,19 @@ interface ITest
      * @param string $type
      * @return ITestObject[]
      */
-    public function getObjectsOfType(string $type) : array;
+    function getObjectsOfType(string $type) : array;
 
     /**
      * Executes a command in the test
      *
      * @param string $command
      */
-    public function executeCommand(string $command) : void;
+    function executeCommand(string $command) : void;
 
     /**
-     * Gets access to the ui modcule of the test
+     * Gets access to the ui module of the test
      *
      * @return ITestUI
      */
-    public function ui() : ITestUI;
+    function ui() : ITestUI;
 }

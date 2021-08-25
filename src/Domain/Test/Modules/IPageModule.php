@@ -10,7 +10,7 @@ namespace srag\asq\Test\Domain\Test\Modules;
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */
-interface IPageModule
+interface IPageModule extends ITestModule
 {
 
 }

@@ -26,6 +26,7 @@ interface ITestModule extends IEventUser
     const TYPE_SCORING = 'scoring';
     const TYPE_RESULT = 'result';
     const TYPE_PAGE = 'page';
+    const TYPE_STORAGE = 'storage';
 
     /**
      * Return the type of a test module

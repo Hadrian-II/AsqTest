@@ -20,8 +20,6 @@ class TestData extends AbstractValueObject
 
     protected ?string $description;
 
-    protected $type = LeipzigTest::class;
-
     public function __construct(?string $title = null, ?string $description = null)
     {
         $this->title = $title;
@@ -36,10 +34,5 @@ class TestData extends AbstractValueObject
     public function getDescription() : ?string
     {
         return $this->description;
-    }
-
-    public function getTest() : ITest
-    {
-        return new $this->type();
     }
 }
