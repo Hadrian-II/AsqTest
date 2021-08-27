@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace srag\asq\Test\Modules\Questions\Sources\Pool;
 
 use ILIAS\Data\UUID\Factory;
-use ILIAS\DI\HTTPServices;
+use ILIAS\HTTP\Services;
 use srag\asq\Test\Domain\Test\ITestAccess;
 use srag\asq\Test\Domain\Test\Objects\ITestObject;
 use srag\asq\Test\Domain\Test\Objects\ObjectConfiguration;
@@ -30,7 +30,7 @@ class QuestionPoolSource extends AbstractQuestionSource
     const SHOW_POOL_SELECTION = 'qpsPoolSelection';
     const CREATE_POOL_SOURCE = 'qpsCreate';
 
-    private HTTPServices $http;
+    private Services $http;
 
     public function __construct(IEventQueue $event_queue, ITestAccess $access)
     {

@@ -26,7 +26,7 @@ class ConfigurationGUI
 
     private AbstractValueObject $current_data;
 
-    private AssessmentTestDto$test;
+    private AssessmentTestDto $test;
 
     private ITest $test_module;
 

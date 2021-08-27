@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace srag\asq\Test\Modules\Questions\Selection;
 
-use ILIAS\DI\HTTPServices;
+use ILIAS\HTTP\Services;
 use srag\asq\Application\Service\AsqServices;
 use srag\asq\Test\Domain\Test\ITestAccess;
 use srag\asq\Test\Domain\Test\Modules\AbstractTestModule;
@@ -25,7 +25,7 @@ use srag\asq\Test\Modules\Questions\Page\QuestionPage;
  */
 abstract class AbstractQuestionSelection extends AbstractTestModule implements IQuestionSelectionModule
 {
-    protected HTTPServices $http;
+    protected Services $http;
 
     protected AsqServices $asq;
 

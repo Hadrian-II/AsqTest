@@ -4,12 +4,7 @@ declare(strict_types = 1);
 namespace srag\asq\Test\Domain\Test;
 
 use ilCtrl;
-use ILIAS\Data\UUID\Uuid;
 use ILIAS\DI\Exceptions\Exception;
-use ILIAS\DI\HTTPServices;
-use srag\asq\Test\Application\Section\SectionService;
-use srag\asq\Test\Application\Test\TestService;
-use srag\asq\Test\Domain\Test\Model\AssessmentTestDto;
 use srag\asq\Test\Domain\Test\Modules\IQuestionSelectionModule;
 use srag\asq\Test\Domain\Test\Modules\IQuestionSourceModule;
 use srag\asq\Test\Domain\Test\Modules\IStorageModule;
@@ -19,13 +14,11 @@ use srag\asq\Test\Domain\Test\Objects\ObjectConfiguration;
 use srag\asq\Test\Lib\Event\Event;
 use srag\asq\Test\Lib\Event\EventQueue;
 use srag\asq\Test\Lib\Event\IEventUser;
-use srag\asq\Test\Lib\Event\Standard\AddSectionEvent;
 use srag\asq\Test\Lib\Event\Standard\ExecuteCommandEvent;
 use srag\asq\Test\Lib\Event\Standard\ForwardToCommandEvent;
 use srag\asq\Test\Lib\Event\Standard\RemoveObjectEvent;
 use srag\asq\Test\Lib\Event\Standard\StoreObjectEvent;
 use srag\asq\Test\UI\System\ITestUI;
-use srag\asq\Test\UI\System\SetUIEvent;
 use srag\asq\Test\UI\System\TestUI;
 
 /**

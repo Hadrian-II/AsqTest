@@ -3,16 +3,12 @@ declare(strict_types = 1);
 
 namespace srag\asq\Test\Modules\Questions\Page;
 
-use ILIAS\Data\UUID\Uuid;
-use ILIAS\DI\HTTPServices;
 use ILIAS\DI\UIServices;
+use ILIAS\HTTP\Services;
 use ilTemplate;
 use srag\asq\Application\Service\AsqServices;
 use srag\asq\Infrastructure\Helpers\PathHelper;
-use srag\asq\Test\Application\Section\SectionService;
-use srag\asq\Test\Domain\Section\Model\AssessmentSectionDto;
 use srag\asq\Test\Domain\Test\ITestAccess;
-use srag\asq\Test\Domain\Test\Model\AssessmentTestDto;
 use srag\asq\Test\Domain\Test\Modules\AbstractTestModule;
 use srag\asq\Test\Domain\Test\Modules\IPageModule;
 use srag\asq\Test\Domain\Test\Modules\IQuestionSelectionModule;
@@ -51,7 +47,7 @@ class QuestionPage extends AbstractTestModule implements IPageModule
 
     private AsqServices $asq;
 
-    private HTTPServices $http;
+    private Services $http;
 
     /**
      * @var IQuestionSourceModule[]
