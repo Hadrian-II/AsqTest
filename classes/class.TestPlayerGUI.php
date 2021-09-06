@@ -1,5 +1,6 @@
 <?php
 
+use Fluxlabs\Assessment\Tools\DIC\CtrlTrait;
 use ILIAS\Data\UUID\Factory;
 use ILIAS\Data\UUID\Uuid;
 use srag\asq\Application\Exception\AsqException;
@@ -19,6 +20,7 @@ use srag\asq\UserInterface\Web\Component\Hint\HintComponent;
 class TestPlayerGUI
 {
     use PathHelper;
+    use CtrlTrait;
 
     const LANG_TEST = 'test';
 
@@ -49,7 +51,7 @@ class TestPlayerGUI
         $DIC->language()->loadLanguageModule('asqt');
 
         $this->result_id = $this->factory->fromString($_GET[self::PARAM_CURRENT_RESULT]);
-        $DIC->ctrl()->setParameter($this, self::PARAM_CURRENT_RESULT, $this->result_id->toString());
+        $this->setLinkParameter(self::PARAM_CURRENT_RESULT, $this->result_id->toString());
 
         if (is_null($this->result_id) || empty($this->result_id)) {
             throw new AsqException('AssessmentResult id not set (PARAM_CURRENT_RESULT)');

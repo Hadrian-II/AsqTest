@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace srag\asq\Test\Domain\Test;
 
-use ilCtrl;
+use Fluxlabs\Assessment\Tools\DIC\CtrlTrait;
 use ILIAS\DI\Exceptions\Exception;
 use srag\asq\Test\Domain\Test\Modules\IQuestionSelectionModule;
 use srag\asq\Test\Domain\Test\Modules\IQuestionSourceModule;
@@ -30,6 +30,8 @@ use srag\asq\Test\UI\System\TestUI;
  */
 abstract class AbstractTest implements ITest, IEventUser
 {
+    use CtrlTrait;
+
     /**
      * @var ITestModule[] $commands
      */
@@ -38,8 +40,6 @@ abstract class AbstractTest implements ITest, IEventUser
     protected EventQueue $event_queue;
 
     protected TestUI $ui;
-
-    protected ilCtrl $ctrl;
 
     protected ITestAccess $access;
 
@@ -61,7 +61,6 @@ abstract class AbstractTest implements ITest, IEventUser
 
         $this->event_queue = new EventQueue();
         $this->ui = new TestUI();
-        $this->ctrl = $DIC->ctrl();
         $this->access = new TestAccess($this);
 
         $this->event_queue->addUser($this->ui);
@@ -185,8 +184,7 @@ abstract class AbstractTest implements ITest, IEventUser
 
     private function processForwardToCommandEvent(string $command) : void
     {
-        $target = $this->ctrl->getLinkTargetByClass($this->ctrl->getCmdClass(), $command);
-        $this->ctrl->redirectToURL($target);
+        $this->redirectToCommand($command);
     }
 
     public function processStoreObjectEvent(ITestObject $object) : void

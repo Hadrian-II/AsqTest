@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace srag\asq\Test\Modules\Questions\Page;
 
+use Fluxlabs\Assessment\Tools\DIC\CtrlTrait;
 use ILIAS\DI\UIServices;
 use ILIAS\HTTP\Services;
 use ilTemplate;
@@ -35,6 +36,7 @@ use ilCtrl;
 class QuestionPage extends AbstractTestModule implements IPageModule
 {
     use PathHelper;
+    use CtrlTrait;
 
     const SHOW_QUESTIONS = 'qpShow';
     const REMOVE_SOURCE = 'qpRemoveSource';
@@ -42,8 +44,6 @@ class QuestionPage extends AbstractTestModule implements IPageModule
     const PARAM_SOURCE_KEY = 'sourceKey';
 
     private UIServices $ui;
-
-    private ilCtrl $ctrl;
 
     private AsqServices $asq;
 
@@ -79,7 +79,6 @@ class QuestionPage extends AbstractTestModule implements IPageModule
 
         global $DIC;
         $this->ui = $DIC->ui();
-        $this->ctrl = $DIC->ctrl();
         $this->http = $DIC->http();
         global $ASQDIC;
         $this->asq = $ASQDIC->asq();
@@ -129,10 +128,7 @@ class QuestionPage extends AbstractTestModule implements IPageModule
         $sources = array_map(function (IQuestionSourceModule $module) {
             return $this->ui->factory()->button()->shy(
                 get_class($module),
-                $this->ctrl->getLinkTargetByClass(
-                    $this->ctrl->getCmdClass(),
-                    $module->getInitializationCommand()
-                )
+                $this->getCommandLink($module->getInitializationCommand())
             );
         }, $this->available_sources);
 
@@ -182,20 +178,12 @@ class QuestionPage extends AbstractTestModule implements IPageModule
 
     private function renderSelectionTypeSelection(string $source_key) : string
     {
-        $current_class = $this->ctrl->getCmdClass();
-
-        $this->ctrl->setParameterByClass(
-            $current_class,
-            IQuestionSelectionModule::PARAM_SOURCE_KEY,
-            $source_key);
+        $this->setLinkParameter(IQuestionSelectionModule::PARAM_SOURCE_KEY, $source_key);
 
         $sources = array_map(function (IQuestionSelectionModule $module) {
             return $this->ui->factory()->button()->shy(
                 get_class($module),
-                $this->ctrl->getLinkTargetByClass(
-                    $this->ctrl->getCmdClass(),
-                    $module->getInitializationCommand()
-                )
+                $this->getCommandLink($module->getInitializationCommand())
             );
         }, $this->available_selections);
 
@@ -206,19 +194,11 @@ class QuestionPage extends AbstractTestModule implements IPageModule
 
     private function renderRemoveButton(string $source_key) : string
     {
-        $current_class = $this->ctrl->getCmdClass();
-
-        $this->ctrl->setParameterByClass(
-            $current_class,
-            self::PARAM_SOURCE_KEY,
-            $source_key);
+        $this->setLinkParameter(self::PARAM_SOURCE_KEY, $source_key);
 
         $button = $this->ui->factory()->button()->standard(
             'TODO Remove',
-            $this->ctrl->getLinkTargetByClass(
-                $this->ctrl->getCmdClass(),
-                self::REMOVE_SOURCE
-            )
+            $this->getCommandLink(self::REMOVE_SOURCE)
         );
 
         return $this->ui->renderer()->render($button);

@@ -3,11 +3,9 @@ declare(strict_types = 1);
 
 namespace srag\asq\Test\Modules\Questions\Selection\Manual;
 
-use ilCtrl;
-use ILIAS\DI\UIServices;
+use Fluxlabs\Assessment\Tools\DIC\CtrlTrait;
 use srag\asq\Domain\QuestionDto;
 use srag\asq\Test\Domain\Test\ITestAccess;
-use srag\asq\Test\Domain\Test\Modules\IQuestionSelectionModule;
 use srag\asq\Test\Domain\Test\Objects\ISelectionObject;
 use srag\asq\Test\Domain\Test\Objects\ISourceObject;
 use srag\asq\Test\Lib\Event\IEventQueue;
@@ -26,21 +24,15 @@ use srag\CQRS\Aggregate\AbstractValueObject;
  */
 class ManualQuestionSelection extends AbstractQuestionSelection
 {
+    use CtrlTrait;
+
     const CMD_INITIALIZE = 'initManualQuestions';
     const CMD_SAVE_SELECTION = 'saveManualSelection';
 
     const PARAM_SELECTION_KEY = 'selectionKey';
 
-    private UIServices $ui;
-
-    private ilCtrl $ctrl;
-
     public function __construct(IEventQueue $event_queue, ITestAccess $access)
     {
-        global $DIC;
-        $this->ui = $DIC->ui();
-        $this->ctrl = $DIC->ctrl();
-
         parent::__construct($event_queue, $access);
     }
 
@@ -127,22 +119,11 @@ class ManualQuestionSelection extends AbstractQuestionSelection
 
     public function getQuestionPageActions(ISelectionObject $object) : string
     {
-        $current_class = $this->ctrl->getCmdClass();
-
-        $this->ctrl->setParameterByClass(
-            $current_class,
-            self::PARAM_SELECTION_KEY,
-            $object->getKey());
-
-        $target =
-            $this->ctrl->getLinkTargetByClass(
-                $this->ctrl->getCmdClass(),
-                self::CMD_SAVE_SELECTION
-            );
+        $this->setLinkParameter(self::PARAM_SELECTION_KEY, $object->getKey());
 
         return sprintf(
             '<button class="btn btn-default" type="submit" formmethod="post" formaction="%s">%s</button>',
-            $target,
+            $this->getCommandLink(self::CMD_SAVE_SELECTION),
             'TODO Select Questions'
         );
     }

@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace srag\asq\Test\Modules\Questions\Sources\Pool;
 
-use ilCtrl;
+use Fluxlabs\Assessment\Tools\DIC\CtrlTrait;
 use ilTemplate;
 use srag\asq\Infrastructure\Helpers\PathHelper;
 use srag\asq\QuestionPool\Application\QuestionPoolService;
@@ -18,6 +18,7 @@ use srag\asq\QuestionPool\Application\QuestionPoolService;
 class QuestionPoolSelection
 {
     use PathHelper;
+    use CtrlTrait;
 
     const POOL_TITLE = 'POOL_TITLE';
     const POOL_DESCRIPTION = 'POOL_DESCRIPTION';
@@ -26,13 +27,8 @@ class QuestionPoolSelection
 
     private QuestionPoolService $pool_service;
 
-    private ilCtrl $ctrl;
-
     public function __construct() {
         $this->pool_service = new QuestionPoolService();
-
-        global $DIC;
-        $this->ctrl = $DIC->ctrl();
     }
 
     public function render() : string
@@ -58,18 +54,10 @@ class QuestionPoolSelection
 
     private function createSelectButton(string $uuid) : string
     {
-        $current_class = $this->ctrl->getCmdClass();
-
-        $this->ctrl->setParameterByClass(
-            $current_class,
-            QuestionPoolSource::PARAM_SELECTED_POOL,
-            $uuid);
+        $this->setLinkParameter(QuestionPoolSource::PARAM_SELECTED_POOL, $uuid);
 
         return sprintf('<a href="%s" class="btn btn-default">%s</a>',
-                        $this->ctrl->getLinkTargetByClass(
-                            $current_class,
-                            QuestionPoolSource::CREATE_POOL_SOURCE
-                        ),
-                        'Auswählen');
+                        $this->getCommandLink(QuestionPoolSource::CREATE_POOL_SOURCE),
+                        'TODO Auswählen');
     }
 }
