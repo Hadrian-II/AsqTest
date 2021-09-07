@@ -1,17 +1,17 @@
 <?php
 declare(strict_types = 1);
 
-namespace srag\asq\Test\Modules\Questions\Sources\Fixed;
+namespace Fluxlabs\Assessment\Test\Modules\Questions\Sources\Fixed;
 
-use srag\asq\Test\Domain\Test\Modules\AbstractTestModule;
-use srag\asq\Test\Domain\Test\Modules\ITestModule;
-use srag\asq\Test\Domain\Test\Modules\IQuestionSourceModule;
-use srag\asq\Test\Modules\Questions\Sources\AbstractQuestionSource;
+use Fluxlabs\Assessment\Test\Application\Test\Module\AbstractTestModule;
+use Fluxlabs\Assessment\Test\Application\Test\Module\ITestModule;
+use Fluxlabs\Assessment\Test\Application\Test\Module\IQuestionSourceModule;
+use Fluxlabs\Assessment\Test\Modules\Questions\Sources\AbstractQuestionSource;
 
 /**
  * Class FixedSource
  *
- * @package srag\asq\Test
+ * @package Fluxlabs\Assessment\Test
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */

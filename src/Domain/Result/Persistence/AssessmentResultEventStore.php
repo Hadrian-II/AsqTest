@@ -1,14 +1,14 @@
 <?php
 declare(strict_types = 1);
 
-namespace srag\asq\Test\Domain\Result\Persistence;
+namespace Fluxlabs\Assessment\Test\Domain\Result\Persistence;
 
 use srag\CQRS\Event\EventStore;
 
 /**
  * Class AssessmentResultEventStore
  *
- * @package srag\asq\Test
+ * @package Fluxlabs\Assessment\Test
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */

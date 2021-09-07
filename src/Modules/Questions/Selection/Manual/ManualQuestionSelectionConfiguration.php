@@ -1,16 +1,15 @@
 <?php
 declare(strict_types = 1);
 
-namespace srag\asq\Test\Modules\Questions\Selection\Manual;
+namespace Fluxlabs\Assessment\Test\Modules\Questions\Selection\Manual;
 
+use Fluxlabs\Assessment\Tools\Domain\Objects\ObjectConfiguration;
 use ILIAS\Data\UUID\Uuid;
-use srag\asq\Test\Domain\Test\Objects\ObjectConfiguration;
-use srag\CQRS\Aggregate\AbstractValueObject;
 
 /**
  * Class SelectAllQuestionsConfiguration
  *
- * @package srag\asq\Test
+ * @package Fluxlabs\Assessment\Test
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */

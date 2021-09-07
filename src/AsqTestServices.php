@@ -1,16 +1,16 @@
 <?php
 declare(strict_types=1);
 
-namespace srag\asq\Test;
+namespace Fluxlabs\Assessment\Test;
 
-use srag\asq\Test\Application\Section\SectionService;
-use srag\asq\Test\Application\TestRunner\TestRunnerService;
-use srag\asq\Test\Application\Test\TestService;
+use Fluxlabs\Assessment\Test\Application\Section\SectionService;
+use Fluxlabs\Assessment\Test\Application\TestRunner\TestRunnerService;
+use Fluxlabs\Assessment\Test\Application\Test\TestService;
 
 /**
  * Class AsqTestServices
  *
- * @package srag\asq\Test
+ * @package Fluxlabs\Assessment\Test
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */

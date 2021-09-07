@@ -1,31 +1,31 @@
 <?php
 declare(strict_types = 1);
 
-namespace srag\asq\Test\Application\Section;
+namespace Fluxlabs\Assessment\Test\Application\Section;
 
-use srag\asq\Test\Application\Section\Command\SetDataCommand;
-use srag\asq\Test\Application\Section\Command\SetDataCommandHandler;
-use srag\asq\Test\Domain\Section\Model\AssessmentSectionData;
+use Fluxlabs\Assessment\Test\Application\Section\Command\SetDataCommand;
+use Fluxlabs\Assessment\Test\Application\Section\Command\SetDataCommandHandler;
+use Fluxlabs\Assessment\Test\Domain\Section\Model\AssessmentSectionData;
 use srag\CQRS\Command\CommandBus;
 use srag\CQRS\Command\CommandConfiguration;
 use srag\CQRS\Command\Access\OpenAccess;
 use srag\asq\Application\Service\ASQService;
-use srag\asq\Test\Application\Section\Command\AddItemCommand;
-use srag\asq\Test\Application\Section\Command\AddItemCommandHandler;
-use srag\asq\Test\Application\Section\Command\CreateSectionCommand;
-use srag\asq\Test\Application\Section\Command\CreateSectionCommandHandler;
-use srag\asq\Test\Application\Section\Command\RemoveItemCommand;
-use srag\asq\Test\Application\Section\Command\RemoveItemCommandHandler;
-use srag\asq\Test\Domain\Section\Model\AssessmentSectionDto;
-use srag\asq\Test\Domain\Section\Model\AssessmentSectionRepository;
-use srag\asq\Test\Domain\Section\Model\SectionPart;
+use Fluxlabs\Assessment\Test\Application\Section\Command\AddItemCommand;
+use Fluxlabs\Assessment\Test\Application\Section\Command\AddItemCommandHandler;
+use Fluxlabs\Assessment\Test\Application\Section\Command\CreateSectionCommand;
+use Fluxlabs\Assessment\Test\Application\Section\Command\CreateSectionCommandHandler;
+use Fluxlabs\Assessment\Test\Application\Section\Command\RemoveItemCommand;
+use Fluxlabs\Assessment\Test\Application\Section\Command\RemoveItemCommandHandler;
+use Fluxlabs\Assessment\Test\Domain\Section\Model\AssessmentSectionDto;
+use Fluxlabs\Assessment\Test\Domain\Section\Model\AssessmentSectionRepository;
+use Fluxlabs\Assessment\Test\Domain\Section\Model\SectionPart;
 use ILIAS\Data\UUID\Factory;
 use ILIAS\Data\UUID\Uuid;
 
 /**
  * Class SectionService
  *
- * @package srag\asq\Test
+ * @package Fluxlabs\Assessment\Test
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */

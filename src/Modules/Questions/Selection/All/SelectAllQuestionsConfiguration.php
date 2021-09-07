@@ -1,15 +1,14 @@
 <?php
 declare(strict_types = 1);
 
-namespace srag\asq\Test\Modules\Questions\Selection\All;
+namespace Fluxlabs\Assessment\Test\Modules\Questions\Selection\All;
 
-use srag\asq\Test\Domain\Test\Objects\ObjectConfiguration;
-use srag\CQRS\Aggregate\AbstractValueObject;
+use Fluxlabs\Assessment\Tools\Domain\Objects\ObjectConfiguration;
 
 /**
  * Class SelectAllQuestionsConfiguration
  *
- * @package srag\asq\Test
+ * @package Fluxlabs\Assessment\Test
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */

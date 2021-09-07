@@ -1,35 +1,37 @@
 <?php
 declare(strict_types = 1);
 
-namespace srag\asq\Test\Leipzig;
+namespace Fluxlabs\Assessment\Test\Leipzig;
 
+use Fluxlabs\Assessment\Test\Application\Test\Event\StoreTestDataEvent;
+use Fluxlabs\Assessment\Test\Application\Test\TestService;
+use Fluxlabs\Assessment\Tools\Domain\AbstractAsqPlugin;
 use ILIAS\Data\UUID\Uuid;
-use srag\asq\Test\Domain\Test\AbstractTest;
-use srag\asq\Test\Domain\Test\Model\TestData;
-use srag\asq\Test\Domain\Test\Modules\IQuestionSelectionModule;
-use srag\asq\Test\Domain\Test\Modules\IQuestionSourceModule;
-use srag\asq\Test\Domain\Test\Persistence\TestType;
-use srag\asq\Test\Lib\Event\Standard\StoreTestDataEvent;
-use srag\asq\Test\Modules\Availability\Basic\BasicAvailability;
-use srag\asq\Test\Modules\Availability\Timed\TimedAvailability;
-use srag\asq\Test\Modules\Player\QuestionDisplay\QuestionDisplay;
-use srag\asq\Test\Modules\Player\TextualInOut\TextualInOut;
-use srag\asq\Test\Modules\Questions\Page\QuestionPage;
-use srag\asq\Test\Modules\Questions\Selection\All\SelectAllQuestions;
-use srag\asq\Test\Modules\Questions\Selection\Manual\ManualQuestionSelection;
-use srag\asq\Test\Modules\Questions\Sources\Fixed\FixedSource;
-use srag\asq\Test\Modules\Questions\Sources\Pool\QuestionPoolSource;
-use srag\asq\Test\Modules\Scoring\Automatic\AutomaticScoring;
-use srag\asq\Test\Modules\Storage\AssessmentTestObject\AssessmentTestStorage;
+use Fluxlabs\Assessment\Test\Domain\Test\Model\TestData;
+use Fluxlabs\Assessment\Test\Application\Test\Module\IQuestionSelectionModule;
+use Fluxlabs\Assessment\Test\Application\Test\Module\IQuestionSourceModule;
+use Fluxlabs\Assessment\Test\Domain\Test\Persistence\TestType;
+use Fluxlabs\Assessment\Test\Modules\Availability\Basic\BasicAvailability;
+use Fluxlabs\Assessment\Test\Modules\Availability\Timed\TimedAvailability;
+use Fluxlabs\Assessment\Test\Modules\Player\QuestionDisplay\QuestionDisplay;
+use Fluxlabs\Assessment\Test\Modules\Player\TextualInOut\TextualInOut;
+use Fluxlabs\Assessment\Test\Modules\Questions\Page\QuestionPage;
+use Fluxlabs\Assessment\Test\Modules\Questions\Selection\All\SelectAllQuestions;
+use Fluxlabs\Assessment\Test\Modules\Questions\Selection\Manual\ManualQuestionSelection;
+use Fluxlabs\Assessment\Test\Modules\Questions\Sources\Fixed\FixedSource;
+use Fluxlabs\Assessment\Test\Modules\Questions\Sources\Pool\QuestionPoolSource;
+use Fluxlabs\Assessment\Test\Modules\Scoring\Automatic\AutomaticScoring;
+use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\AssessmentTestStorage;
+use PHPUnit\Util\Test;
 
 /**
  * Class LeipzigTest
  *
- * @package srag\asq\Test
+ * @package Fluxlabs\Assessment\Test
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */
-class LeipzigTest extends AbstractTest
+class LeipzigTest extends AbstractAsqPlugin
 {
     private function __construct(Uuid $test_id)
     {
@@ -61,6 +63,9 @@ class LeipzigTest extends AbstractTest
 
     public static function create(Uuid $test_id, string $title, string $description) : LeipzigTest
     {
+        $service = new TestService();
+        $service->createTest($test_id);
+
         $test = new LeipzigTest($test_id);
 
         $test->event_queue->raiseEvent(new StoreTestDataEvent($test, new TestData($title, $description)));

@@ -1,17 +1,17 @@
 <?php
 declare(strict_types = 1);
 
-namespace srag\asq\Test\Domain\Section\Event;
+namespace Fluxlabs\Assessment\Test\Domain\Section\Event;
 
 use ilDateTime;
 use srag\CQRS\Event\AbstractDomainEvent;
-use srag\asq\Test\Domain\Section\Model\SectionPart;
+use Fluxlabs\Assessment\Test\Domain\Section\Model\SectionPart;
 use ILIAS\Data\UUID\Uuid;
 
 /**
  * Class AssessmentSectionItemRemovedEvent
  *
- * @package srag\asq\Test
+ * @package Fluxlabs\Assessment\Test
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */

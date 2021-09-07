@@ -1,25 +1,25 @@
 <?php
 declare(strict_types = 1);
 
-namespace srag\asq\Test\Modules\Questions\Sources\Pool;
+namespace Fluxlabs\Assessment\Test\Modules\Questions\Sources\Pool;
 
+use Fluxlabs\Assessment\Tools\Domain\IObjectAccess;
+use Fluxlabs\Assessment\Tools\Domain\Objects\IAsqObject;
+use Fluxlabs\Assessment\Tools\Domain\Objects\ObjectConfiguration;
+use Fluxlabs\Assessment\Tools\Event\IEventQueue;
+use Fluxlabs\Assessment\Tools\Event\Standard\ForwardToCommandEvent;
+use Fluxlabs\Assessment\Tools\Event\Standard\SetUIEvent;
+use Fluxlabs\Assessment\Tools\Event\Standard\StoreObjectEvent;
+use Fluxlabs\Assessment\Tools\UI\System\UIData;
 use ILIAS\Data\UUID\Factory;
 use ILIAS\HTTP\Services;
-use srag\asq\Test\Domain\Test\ITestAccess;
-use srag\asq\Test\Domain\Test\Objects\ITestObject;
-use srag\asq\Test\Domain\Test\Objects\ObjectConfiguration;
-use srag\asq\Test\Lib\Event\IEventQueue;
-use srag\asq\Test\Lib\Event\Standard\ForwardToCommandEvent;
-use srag\asq\Test\Lib\Event\Standard\StoreObjectEvent;
-use srag\asq\Test\Modules\Questions\Page\QuestionPage;
-use srag\asq\Test\Modules\Questions\Sources\AbstractQuestionSource;
-use srag\asq\Test\UI\System\SetUIEvent;
-use srag\asq\Test\UI\System\UIData;
+use Fluxlabs\Assessment\Test\Modules\Questions\Page\QuestionPage;
+use Fluxlabs\Assessment\Test\Modules\Questions\Sources\AbstractQuestionSource;
 
 /**
  * Class QuestionPoolSource
  *
- * @package srag\asq\Test
+ * @package Fluxlabs\Assessment\Test
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */
@@ -32,7 +32,7 @@ class QuestionPoolSource extends AbstractQuestionSource
 
     private Services $http;
 
-    public function __construct(IEventQueue $event_queue, ITestAccess $access)
+    public function __construct(IEventQueue $event_queue, IObjectAccess $access)
     {
         global $DIC;
         $this->http = $DIC->http();
@@ -81,9 +81,9 @@ class QuestionPoolSource extends AbstractQuestionSource
 
     /**
      * @param QuestionPoolSourceConfiguration $config
-     * @return ITestObject
+     * @return IAsqObject
      */
-    public function createObject(ObjectConfiguration $config) : ITestObject
+    public function createObject(ObjectConfiguration $config) : IAsqObject
     {
         return new QuestionPoolSourceObject($config->getUuid());
     }

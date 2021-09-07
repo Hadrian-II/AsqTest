@@ -1,14 +1,14 @@
 <?php
 declare(strict_types = 1);
 
-namespace srag\asq\Test\Modules\Availability\Basic;
+namespace Fluxlabs\Assessment\Test\Modules\Availability\Basic;
 
 use srag\CQRS\Aggregate\AbstractValueObject;
 
 /**
  * Class BasicAvailabilityConfiguration
  *
- * @package srag\asq\Test
+ * @package Fluxlabs\Assessment\Test
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */

@@ -1,28 +1,28 @@
 <?php
 declare(strict_types = 1);
 
-namespace srag\asq\Test\Modules\Storage\AssessmentTestObject;
+namespace Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject;
 
+use Fluxlabs\Assessment\Tools\Domain\IObjectAccess;
+use Fluxlabs\Assessment\Tools\Domain\Modules\AbstractAsqModule;
+use Fluxlabs\Assessment\Tools\Domain\Modules\IStorageModule;
+use Fluxlabs\Assessment\Tools\Event\IEventQueue;
+use Fluxlabs\Assessment\Tools\Event\Standard\StoreTestDataEvent;
 use ILIAS\Data\UUID\Uuid;
-use srag\asq\Test\Application\Section\SectionService;
-use srag\asq\Test\Application\Test\TestService;
-use srag\asq\Test\Domain\Test\ITestAccess;
-use srag\asq\Test\Domain\Test\Model\AssessmentTestDto;
-use srag\asq\Test\Domain\Test\Model\TestData;
-use srag\asq\Test\Lib\Event\Event;
-use srag\asq\Test\Lib\Event\IEventQueue;
-use srag\asq\Test\Lib\Event\Standard\StoreTestDataEvent;
-use srag\asq\Test\Modules\Storage\AbstractStorageModule;
+use Fluxlabs\Assessment\Test\Application\Section\SectionService;
+use Fluxlabs\Assessment\Test\Application\Test\TestService;
+use Fluxlabs\Assessment\Test\Domain\Test\Model\AssessmentTestDto;
+use Fluxlabs\Assessment\Test\Domain\Test\Model\TestData;
 use srag\CQRS\Aggregate\AbstractValueObject;
 
 /**
  * Class AssessmentTestStorage
  *
- * @package srag\asq\Test
+ * @package Fluxlabs\Assessment\Test
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */
-class AssessmentTestStorage extends AbstractStorageModule
+class AssessmentTestStorage extends AbstractAsqModule implements IStorageModule
 {
     private Uuid $test_id;
 
@@ -32,7 +32,7 @@ class AssessmentTestStorage extends AbstractStorageModule
 
     protected ?AssessmentTestDto $test_data = null;
 
-    public function __construct(IEventQueue $event_queue, ITestAccess $access, Uuid $test_id)
+    public function __construct(IEventQueue $event_queue, IObjectAccess $access, Uuid $test_id)
     {
         $this->test_id = $test_id;
         $this->section_service = new SectionService();

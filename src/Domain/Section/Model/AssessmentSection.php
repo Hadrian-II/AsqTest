@@ -1,21 +1,21 @@
 <?php
 declare(strict_types = 1);
 
-namespace srag\asq\Test\Domain\Section\Model;
+namespace Fluxlabs\Assessment\Test\Domain\Section\Model;
 
 use ilDateTimeException;
 use srag\CQRS\Aggregate\AbstractAggregateRoot;
-use srag\asq\Test\Domain\Section\Event\AssessmentSectionDataSetEvent;
+use Fluxlabs\Assessment\Test\Domain\Section\Event\AssessmentSectionDataSetEvent;
 use ilDateTime;
 use srag\CQRS\Event\Standard\AggregateCreatedEvent;
-use srag\asq\Test\Domain\Section\Event\AssessmentSectionItemAddedEvent;
-use srag\asq\Test\Domain\Section\Event\AssessmentSectionItemRemovedEvent;
+use Fluxlabs\Assessment\Test\Domain\Section\Event\AssessmentSectionItemAddedEvent;
+use Fluxlabs\Assessment\Test\Domain\Section\Event\AssessmentSectionItemRemovedEvent;
 use ILIAS\Data\UUID\Uuid;
 
 /**
  * Class AssessmentSection
  *
- * @package srag\asq\Test
+ * @package Fluxlabs\Assessment\Test
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */

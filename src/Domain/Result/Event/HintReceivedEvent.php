@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace srag\asq\Test\Domain\Result\Event;
+namespace Fluxlabs\Assessment\Test\Domain\Result\Event;
 
 use srag\CQRS\Event\AbstractDomainEvent;
 use srag\asq\Domain\Model\Hint\QuestionHint;
@@ -12,7 +12,7 @@ use ILIAS\Data\UUID\Factory;
 /**
  * Class HintReceivedEvent
  *
- * @package srag\asq\Test
+ * @package Fluxlabs\Assessment\Test
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */

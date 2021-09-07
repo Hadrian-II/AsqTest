@@ -1,35 +1,34 @@
 <?php
 declare(strict_types = 1);
 
-namespace srag\asq\Test\Modules\Questions\Selection;
+namespace Fluxlabs\Assessment\Test\Modules\Questions\Selection;
 
+use Fluxlabs\Assessment\Tools\Domain\IObjectAccess;
+use Fluxlabs\Assessment\Tools\Domain\Modules\AbstractAsqModule;
+use Fluxlabs\Assessment\Tools\Event\IEventQueue;
+use Fluxlabs\Assessment\Tools\Event\Standard\ForwardToCommandEvent;
+use Fluxlabs\Assessment\Tools\Event\Standard\StoreObjectEvent;
 use ILIAS\HTTP\Services;
 use srag\asq\Application\Service\AsqServices;
-use srag\asq\Test\Domain\Test\ITestAccess;
-use srag\asq\Test\Domain\Test\Modules\AbstractTestModule;
-use srag\asq\Test\Domain\Test\Modules\IQuestionSelectionModule;
-use srag\asq\Test\Domain\Test\Modules\ITestModule;
-use srag\asq\Test\Domain\Test\Objects\ISelectionObject;
-use srag\asq\Test\Domain\Test\Objects\ISourceObject;
-use srag\asq\Test\Lib\Event\IEventQueue;
-use srag\asq\Test\Lib\Event\Standard\ForwardToCommandEvent;
-use srag\asq\Test\Lib\Event\Standard\StoreObjectEvent;
-use srag\asq\Test\Modules\Questions\Page\QuestionPage;
+use Fluxlabs\Assessment\Test\Application\Test\Module\IQuestionSelectionModule;
+use Fluxlabs\Assessment\Test\Application\Test\Object\ISelectionObject;
+use Fluxlabs\Assessment\Test\Application\Test\Object\ISourceObject;
+use Fluxlabs\Assessment\Test\Modules\Questions\Page\QuestionPage;
 
 /**
  * Abstract Class AbstractQuestionSelection
  *
- * @package srag\asq\Test
+ * @package Fluxlabs\Assessment\Test
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */
-abstract class AbstractQuestionSelection extends AbstractTestModule implements IQuestionSelectionModule
+abstract class AbstractQuestionSelection extends AbstractAsqModule implements IQuestionSelectionModule
 {
     protected Services $http;
 
     protected AsqServices $asq;
 
-    public function __construct(IEventQueue $event_queue, ITestAccess $access)
+    public function __construct(IEventQueue $event_queue, IObjectAccess $access)
     {
         global $DIC;
         $this->http = $DIC->http();
@@ -57,11 +56,6 @@ abstract class AbstractQuestionSelection extends AbstractTestModule implements I
             $this,
             QuestionPage::SHOW_QUESTIONS
         ));
-    }
-
-    public function getType(): string
-    {
-        return ITestModule::TYPE_QUESTION_SELECTION;
     }
 
     public function getConfigClass() : ?string

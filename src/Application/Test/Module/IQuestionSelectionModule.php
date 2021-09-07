@@ -1,20 +1,20 @@
 <?php
 declare(strict_types = 1);
 
-namespace srag\asq\Test\Domain\Test\Modules;
+namespace Fluxlabs\Assessment\Test\Application\Test\Module;
 
+use Fluxlabs\Assessment\Tools\Domain\Modules\IAsqModule;
 use srag\asq\Domain\QuestionDto;
-use srag\asq\Test\Domain\Test\Objects\ISelectionObject;
-use srag\CQRS\Aggregate\AbstractValueObject;
+use Fluxlabs\Assessment\Test\Application\Test\Object\ISelectionObject;
 
 /**
  * Interface IQuestionSelectionModule
  *
- * @package srag\asq\Test
+ * @package Fluxlabs\Assessment\Test
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */
-interface IQuestionSelectionModule extends ITestModule
+interface IQuestionSelectionModule extends IAsqModule
 {
     /**
      * Const for source key Query Param

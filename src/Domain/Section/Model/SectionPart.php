@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace srag\asq\Test\Domain\Section\Model;
+namespace Fluxlabs\Assessment\Test\Domain\Section\Model;
 
 use srag\CQRS\Aggregate\AbstractValueObject;
 use ILIAS\Data\UUID\Uuid;
@@ -10,7 +10,7 @@ use ILIAS\Data\UUID\Factory;
 /**
  * Class SectionPart
  *
- * @package srag\asq\Test
+ * @package Fluxlabs\Assessment\Test
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */

@@ -1,39 +1,38 @@
 <?php
 declare(strict_types = 1);
 
-namespace srag\asq\Test\Modules\Questions\Page;
+namespace Fluxlabs\Assessment\Test\Modules\Questions\Page;
 
 use Fluxlabs\Assessment\Tools\DIC\CtrlTrait;
+use Fluxlabs\Assessment\Tools\Domain\IObjectAccess;
+use Fluxlabs\Assessment\Tools\Domain\Modules\AbstractAsqModule;
+use Fluxlabs\Assessment\Tools\Domain\Modules\IAsqModule;
+use Fluxlabs\Assessment\Tools\Domain\Modules\IPageModule;
+use Fluxlabs\Assessment\Tools\Event\IEventQueue;
+use Fluxlabs\Assessment\Tools\Event\Standard\AddTabEvent;
+use Fluxlabs\Assessment\Tools\Event\Standard\ForwardToCommandEvent;
+use Fluxlabs\Assessment\Tools\Event\Standard\RemoveObjectEvent;
+use Fluxlabs\Assessment\Tools\Event\Standard\SetUIEvent;
+use Fluxlabs\Assessment\Tools\UI\System\TabDefinition;
+use Fluxlabs\Assessment\Tools\UI\System\UIData;
 use ILIAS\DI\UIServices;
 use ILIAS\HTTP\Services;
 use ilTemplate;
 use srag\asq\Application\Service\AsqServices;
 use srag\asq\Infrastructure\Helpers\PathHelper;
-use srag\asq\Test\Domain\Test\ITestAccess;
-use srag\asq\Test\Domain\Test\Modules\AbstractTestModule;
-use srag\asq\Test\Domain\Test\Modules\IPageModule;
-use srag\asq\Test\Domain\Test\Modules\IQuestionSelectionModule;
-use srag\asq\Test\Domain\Test\Modules\IQuestionSourceModule;
-use srag\asq\Test\Domain\Test\Modules\ITestModule;
-use srag\asq\Test\Domain\Test\Objects\ISelectionObject;
-use srag\asq\Test\Domain\Test\Objects\ISourceObject;
-use srag\asq\Test\Lib\Event\IEventQueue;
-use srag\asq\Test\Lib\Event\Standard\ForwardToCommandEvent;
-use srag\asq\Test\Lib\Event\Standard\RemoveObjectEvent;
-use srag\asq\Test\UI\System\AddTabEvent;
-use srag\asq\Test\UI\System\SetUIEvent;
-use srag\asq\Test\UI\System\TabDefinition;
-use srag\asq\Test\UI\System\UIData;
-use ilCtrl;
+use Fluxlabs\Assessment\Test\Application\Test\Module\IQuestionSelectionModule;
+use Fluxlabs\Assessment\Test\Application\Test\Module\IQuestionSourceModule;
+use Fluxlabs\Assessment\Test\Application\Test\Object\ISelectionObject;
+use Fluxlabs\Assessment\Test\Application\Test\Object\ISourceObject;
 
 /**
  * Class QuestionPage
  *
- * @package srag\asq\Test
+ * @package Fluxlabs\Assessment\Test
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */
-class QuestionPage extends AbstractTestModule implements IPageModule
+class QuestionPage extends AbstractAsqModule implements IPageModule
 {
     use PathHelper;
     use CtrlTrait;
@@ -70,10 +69,10 @@ class QuestionPage extends AbstractTestModule implements IPageModule
     private array $selection_objects = [];
 
     public function __construct(
-        IEventQueue $event_queue,
-        ITestAccess $access,
-        array $available_sources,
-        array $available_selections)
+        IEventQueue   $event_queue,
+        IObjectAccess $access,
+        array         $available_sources,
+        array         $available_selections)
     {
         parent::__construct($event_queue, $access);
 
@@ -86,11 +85,11 @@ class QuestionPage extends AbstractTestModule implements IPageModule
         $this->available_sources = $available_sources;
         $this->available_selections = $available_selections;
 
-        foreach ($this->access->getObjectsOfType(ITestModule::TYPE_QUESTION_SOURCE) as $source) {
+        foreach ($this->access->getObjectsOfModules($available_sources) as $source) {
             $this->source_objects[$source->getKey()] = $source;
         }
 
-        foreach ($this->access->getObjectsOfType(ITestModule::TYPE_QUESTION_SELECTION) as $selection) {
+        foreach ($this->access->getObjectsOfModules($available_selections) as $selection) {
             $this->selection_objects[$selection->getSource()->getKey()] = $selection;
         }
 
@@ -98,11 +97,6 @@ class QuestionPage extends AbstractTestModule implements IPageModule
             $this,
             new TabDefinition(self::class, 'Questions', self::SHOW_QUESTIONS)
         ));
-    }
-
-    public function getType(): string
-    {
-        return ITestModule::TYPE_PAGE;
     }
 
     public function getCommands(): array

@@ -1,19 +1,19 @@
 <?php
 declare(strict_types = 1);
 
-namespace srag\asq\Test\Application\Test\Command;
+namespace Fluxlabs\Assessment\Test\Application\Test\Command;
 
 use srag\CQRS\Command\CommandContract;
 use srag\CQRS\Command\CommandHandlerContract;
 use ILIAS\Data\Result;
 use ILIAS\Data\Result\Ok;
-use srag\asq\Test\Domain\Test\Model\AssessmentTest;
-use srag\asq\Test\Domain\Test\Model\AssessmentTestRepository;
+use Fluxlabs\Assessment\Test\Domain\Test\Model\AssessmentTest;
+use Fluxlabs\Assessment\Test\Domain\Test\Model\AssessmentTestRepository;
 
 /**
  * Class CreateTestCommandHandler
  *
- * @package srag\asq\Test
+ * @package Fluxlabs\Assessment\Test
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */

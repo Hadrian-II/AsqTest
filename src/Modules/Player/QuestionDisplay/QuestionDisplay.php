@@ -1,27 +1,21 @@
 <?php
 declare(strict_types = 1);
 
-namespace srag\asq\Test\Modules\Player\QuestionDisplay;
+namespace Fluxlabs\Assessment\Test\Modules\Player\QuestionDisplay;
 
+use Fluxlabs\Assessment\Tools\Domain\Modules\AbstractAsqModule;
 use srag\asq\Domain\QuestionDto;
-use srag\asq\Test\Domain\Test\Modules\AbstractTestModule;
-use srag\asq\Test\Domain\Test\Modules\ITestModule;
-use srag\asq\Test\Domain\Test\Modules\IPlayerModule;
+use Fluxlabs\Assessment\Test\Application\Test\Module\IPlayerModule;
 
 /**
  * Class QuestionDisplay
  *
- * @package srag\asq\Test
+ * @package Fluxlabs\Assessment\Test
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */
-class QuestionDisplay extends AbstractTestModule implements IPlayerModule
+class QuestionDisplay extends AbstractAsqModule implements IPlayerModule
 {
-    public function getType(): string
-    {
-        return ITestModule::TYPE_PLAYER;
-    }
-
     public function getConfigClass() : ?string
     {
         return QuestionDisplayConfigurationFactory::class;

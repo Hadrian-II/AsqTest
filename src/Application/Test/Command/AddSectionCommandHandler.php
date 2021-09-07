@@ -1,9 +1,9 @@
 <?php
 declare(strict_types = 1);
 
-namespace srag\asq\Test\Application\Test\Command;
+namespace Fluxlabs\Assessment\Test\Application\Test\Command;
 
-use srag\asq\Test\Domain\Test\Model\AssessmentTestRepository;
+use Fluxlabs\Assessment\Test\Domain\Test\Model\AssessmentTestRepository;
 use srag\CQRS\Command\CommandContract;
 use srag\CQRS\Command\CommandHandlerContract;
 use ILIAS\Data\Result;
@@ -12,7 +12,7 @@ use ILIAS\Data\Result\Ok;
 /**
  * Class AddSectionCommandHandler
  *
- * @package srag\asq\Test
+ * @package Fluxlabs\Assessment\Test
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */

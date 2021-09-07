@@ -1,14 +1,14 @@
 <?php
 declare(strict_types = 1);
 
-namespace srag\asq\Test\Modules\Scoring\Automatic;
+namespace Fluxlabs\Assessment\Test\Modules\Scoring\Automatic;
 
 use srag\CQRS\Aggregate\AbstractValueObject;
 
 /**
  * Class AutomaticScoringConfiguration
  *
- * @package srag\asq\Test
+ * @package Fluxlabs\Assessment\Test
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */

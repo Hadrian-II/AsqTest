@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace srag\asq\Test\Modules\Scoring\Automatic;
+namespace Fluxlabs\Assessment\Test\Modules\Scoring\Automatic;
 
 use srag\CQRS\Aggregate\AbstractValueObject;
 use srag\asq\UserInterface\Web\Form\Factory\AbstractObjectFactory;
@@ -9,7 +9,7 @@ use srag\asq\UserInterface\Web\Form\Factory\AbstractObjectFactory;
 /**
  * Class AutomaticScoringConfigurationFactory
  *
- * @package srag\asq\Test
+ * @package Fluxlabs\Assessment\Test
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */

@@ -1,14 +1,14 @@
 <?php
 declare(strict_types = 1);
 
-namespace srag\asq\Test\Domain\Result\Model;
+namespace Fluxlabs\Assessment\Test\Domain\Result\Model;
 
 use ReflectionClass;
 
 /**
  * Class SessionStatus
  *
- * @package srag\asq\Test
+ * @package Fluxlabs\Assessment\Test
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */

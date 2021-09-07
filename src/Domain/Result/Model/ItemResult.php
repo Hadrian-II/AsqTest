@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace srag\asq\Test\Domain\Result\Model;
+namespace Fluxlabs\Assessment\Test\Domain\Result\Model;
 
 use ilDateTime;
 use ILIAS\UI\Component\Item\Item;
@@ -15,7 +15,7 @@ use ILIAS\Data\UUID\Factory;
 /**
  * Class ItemResult
  *
- * @package srag\asq\Test
+ * @package Fluxlabs\Assessment\Test
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */

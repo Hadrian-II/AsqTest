@@ -1,17 +1,17 @@
 <?php
 declare(strict_types = 1);
 
-namespace srag\asq\Test\Modules\Questions\Sources\Pool;
+namespace Fluxlabs\Assessment\Test\Modules\Questions\Sources\Pool;
 
+use Fluxlabs\Assessment\Tools\Domain\Objects\ObjectConfiguration;
 use ILIAS\Data\UUID\Uuid;
 use srag\asq\QuestionPool\Application\QuestionPoolService;
-use srag\asq\Test\Domain\Test\Objects\ISourceObject;
-use srag\asq\Test\Domain\Test\Objects\ObjectConfiguration;
+use Fluxlabs\Assessment\Test\Application\Test\Object\ISourceObject;
 
 /**
  * Class QuestionPoolSourceObject
  *
- * @package srag\asq\Test
+ * @package Fluxlabs\Assessment\Test
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */

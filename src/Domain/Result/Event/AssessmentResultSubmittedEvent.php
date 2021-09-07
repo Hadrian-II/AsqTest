@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace srag\asq\Test\Domain\Result\Event;
+namespace Fluxlabs\Assessment\Test\Domain\Result\Event;
 
 use ilDateTime;
 use ILIAS\Data\UUID\Uuid;
@@ -10,7 +10,7 @@ use srag\CQRS\Event\AbstractDomainEvent;
 /**
  * Class AssessmentResultSubmittedEvent
  *
- * @package srag\asq\Test
+ * @package Fluxlabs\Assessment\Test
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */

@@ -1,14 +1,14 @@
 <?php
 declare(strict_types = 1);
 
-namespace srag\asq\Test\Modules\Player\QuestionDisplay;
+namespace Fluxlabs\Assessment\Test\Modules\Player\QuestionDisplay;
 
 use srag\CQRS\Aggregate\AbstractValueObject;
 
 /**
  * Class QuestionDisplayConfiguration
  *
- * @package srag\asq\Test
+ * @package Fluxlabs\Assessment\Test
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */

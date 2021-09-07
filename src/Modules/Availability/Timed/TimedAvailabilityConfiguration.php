@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace srag\asq\Test\Modules\Availability\Timed;
+namespace Fluxlabs\Assessment\Test\Modules\Availability\Timed;
 
 use srag\CQRS\Aggregate\AbstractValueObject;
 use DateTimeImmutable;
@@ -9,7 +9,7 @@ use DateTimeImmutable;
 /**
  * Class TimedAvailabilityConfiguration
  *
- * @package srag\asq\Test
+ * @package Fluxlabs\Assessment\Test
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */

@@ -1,14 +1,14 @@
 <?php
 declare(strict_types = 1);
 
-namespace srag\asq\Test\Domain\Section\Model;
+namespace Fluxlabs\Assessment\Test\Domain\Section\Model;
 
 use srag\CQRS\Aggregate\AbstractValueObject;
 
 /**
  * Class AssessmentSectionData
  *
- * @package srag\asq\Test
+ * @package Fluxlabs\Assessment\Test
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */

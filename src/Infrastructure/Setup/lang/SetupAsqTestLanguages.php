@@ -1,14 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace srag\asq\Test\Infrastructure\Setup\lang;
+namespace Fluxlabs\Assessment\Test\Infrastructure\Setup\lang;
 
 use srag\asq\Infrastructure\Setup\lang\SetupLanguages;
 
 /**
  * Class SetupAsqTestLanguages
  *
- * @package srag\asq\Test
+ * @package Fluxlabs\Assessment\Test
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */

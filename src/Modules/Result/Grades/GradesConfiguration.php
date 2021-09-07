@@ -1,14 +1,14 @@
 <?php
 declare(strict_types = 1);
 
-namespace srag\asq\Test\Modules\Result\Grades;
+namespace Fluxlabs\Assessment\Test\Modules\Result\Grades;
 
 use srag\CQRS\Aggregate\AbstractValueObject;
 
 /**
  * Class GradesConfiguration
  *
- * @package srag\asq\Test
+ * @package Fluxlabs\Assessment\Test
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */

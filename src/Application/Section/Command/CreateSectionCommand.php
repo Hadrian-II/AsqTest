@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace srag\asq\Test\Application\Section\Command;
+namespace Fluxlabs\Assessment\Test\Application\Section\Command;
 
 use ILIAS\Data\UUID\Uuid;
 use srag\CQRS\Command\AbstractCommand;
@@ -9,7 +9,7 @@ use srag\CQRS\Command\AbstractCommand;
 /**
  * Class StartAssessmentCommand
  *
- * @package srag\asq\Test
+ * @package Fluxlabs\Assessment\Test
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */

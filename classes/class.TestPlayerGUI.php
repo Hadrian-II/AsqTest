@@ -6,14 +6,14 @@ use ILIAS\Data\UUID\Uuid;
 use srag\asq\Application\Exception\AsqException;
 use srag\asq\Domain\QuestionDto;
 use srag\asq\Infrastructure\Helpers\PathHelper;
-use srag\asq\Test\Application\TestRunner\TestRunnerService;
-use srag\asq\Test\Domain\Result\Model\ItemResult;
+use Fluxlabs\Assessment\Test\Application\TestRunner\TestRunnerService;
+use Fluxlabs\Assessment\Test\Domain\Result\Model\ItemResult;
 use srag\asq\UserInterface\Web\Component\Hint\HintComponent;
 
 /**
  * Class TestPlayerGUI
  *
- * @package srag\asq\Test
+ * @package Fluxlabs\Assessment\Test
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */

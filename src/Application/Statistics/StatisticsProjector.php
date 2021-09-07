@@ -1,21 +1,21 @@
 <?php
 declare(strict_types=1);
 
-namespace srag\asq\Statistics;
+namespace Fluxlabs\Assessment\Test\Application\Statistics;
 
 use Exception;
 use srag\CQRS\Projection\ProjectionEventHandler;
 use srag\CQRS\Projection\Persistence\ilDBPositionLedger;
 use srag\CQRS\Projection\ValueObjects\ProjectorPosition;
-use srag\asq\Test\Domain\Result\Event\ScoreSetEvent;
-use srag\asq\Test\Domain\Result\Model\AssessmentResult;
-use srag\asq\Test\Domain\Result\Model\AssessmentResultRepository;
-use srag\asq\Test\Domain\Result\Persistence\AssessmentResultEventStore;
+use Fluxlabs\Assessment\Test\Domain\Result\Event\ScoreSetEvent;
+use Fluxlabs\Assessment\Test\Domain\Result\Model\AssessmentResult;
+use Fluxlabs\Assessment\Test\Domain\Result\Model\AssessmentResultRepository;
+use Fluxlabs\Assessment\Test\Domain\Result\Persistence\AssessmentResultEventStore;
 
 /**
  * Class StatisticsProjector
  *
- * @package srag\asq\Test
+ * @package Fluxlabs\Assessment\Test
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */

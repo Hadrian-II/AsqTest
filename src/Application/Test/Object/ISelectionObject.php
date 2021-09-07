@@ -1,18 +1,19 @@
 <?php
 declare(strict_types = 1);
 
-namespace srag\asq\Test\Domain\Test\Objects;
+namespace Fluxlabs\Assessment\Test\Application\Test\Object;
 
+use Fluxlabs\Assessment\Tools\Domain\Objects\IAsqObject;
 use ILIAS\Data\UUID\Uuid;
 
 /**
  * Interface ISelectionObject
  *
- * @package srag\asq\Test
+ * @package Fluxlabs\Assessment\Test
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */
-interface ISelectionObject extends ITestObject
+interface ISelectionObject extends IAsqObject
 {
     /**
      * @return Uuid[]

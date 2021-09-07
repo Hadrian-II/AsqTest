@@ -1,16 +1,16 @@
 <?php
 declare(strict_types = 1);
 
-namespace srag\asq\Test\Domain\Test\Model;
+namespace Fluxlabs\Assessment\Test\Domain\Test\Model;
 
 use srag\CQRS\Aggregate\AbstractValueObject;
-use srag\asq\Test\Domain\Test\ITest;
-use srag\asq\Test\Leipzig\LeipzigTest;
+use Fluxlabs\Assessment\Test\Domain\Test\IAsqPlugin;
+use Fluxlabs\Assessment\Test\Leipzig\LeipzigTest;
 
 /**
  * Class TestDefinition
  *
- * @package srag\asq\Test
+ * @package Fluxlabs\Assessment\Test
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */

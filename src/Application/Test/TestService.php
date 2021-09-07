@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace srag\asq\Test\Application\Test;
+namespace Fluxlabs\Assessment\Test\Application\Test;
 
 use ILIAS\Data\UUID\Factory;
 use ILIAS\Data\UUID\Uuid;
@@ -9,20 +9,20 @@ use srag\CQRS\Command\CommandBus;
 use srag\CQRS\Command\CommandConfiguration;
 use srag\CQRS\Command\Access\OpenAccess;
 use srag\asq\Application\Service\ASQService;
-use srag\asq\Test\Application\Test\Command\AddSectionCommand;
-use srag\asq\Test\Application\Test\Command\AddSectionCommandHandler;
-use srag\asq\Test\Application\Test\Command\CreateTestCommand;
-use srag\asq\Test\Application\Test\Command\CreateTestCommandHandler;
-use srag\asq\Test\Domain\Test\Model\AssessmentTest;
-use srag\asq\Test\Domain\Test\Model\AssessmentTestRepository;
-use srag\asq\Test\Domain\Test\Model\AssessmentTestDto;
-use srag\asq\Test\Domain\Test\Model\TestData;
+use Fluxlabs\Assessment\Test\Application\Test\Command\AddSectionCommand;
+use Fluxlabs\Assessment\Test\Application\Test\Command\AddSectionCommandHandler;
+use Fluxlabs\Assessment\Test\Application\Test\Command\CreateTestCommand;
+use Fluxlabs\Assessment\Test\Application\Test\Command\CreateTestCommandHandler;
+use Fluxlabs\Assessment\Test\Domain\Test\Model\AssessmentTest;
+use Fluxlabs\Assessment\Test\Domain\Test\Model\AssessmentTestRepository;
+use Fluxlabs\Assessment\Test\Domain\Test\Model\AssessmentTestDto;
+use Fluxlabs\Assessment\Test\Domain\Test\Model\TestData;
 use srag\CQRS\Aggregate\AbstractValueObject;
 
 /**
  * Class TestService
  *
- * @package srag\asq\Test
+ * @package Fluxlabs\Assessment\Test
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */
@@ -52,10 +52,12 @@ class TestService extends ASQService
         $this->repo = new AssessmentTestRepository();
     }
 
-    public function createTest() : Uuid
+    public function createTest(Uuid $uuid = null) : Uuid
     {
-        $uuid_factory = new Factory();
-        $uuid = $uuid_factory->uuid4();
+        if ($uuid === null) {
+            $uuid_factory = new Factory();
+            $uuid = $uuid_factory->uuid4();
+        }
 
         // CreateQuestion.png
         $this->command_bus->handle(

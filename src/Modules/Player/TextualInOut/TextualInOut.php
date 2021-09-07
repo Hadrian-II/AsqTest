@@ -1,25 +1,19 @@
 <?php
 declare(strict_types = 1);
 
-namespace srag\asq\Test\Modules\Player\TextualInOut;
+namespace Fluxlabs\Assessment\Test\Modules\Player\TextualInOut;
 
-use srag\asq\Test\Domain\Test\Modules\AbstractTestModule;
-use srag\asq\Test\Domain\Test\Modules\ITestModule;
+use Fluxlabs\Assessment\Tools\Domain\Modules\AbstractAsqModule;
 
 /**
  * Class TextualInOut
  *
- * @package srag\asq\Test
+ * @package Fluxlabs\Assessment\Test
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */
-class TextualInOut extends AbstractTestModule
+class TextualInOut extends AbstractAsqModule
 {
-    public function getType(): string
-    {
-        return ITestModule::TYPE_PLAYER;
-    }
-
     public function getConfigClass() : ?string
     {
         return TextualInOutConfigurationFactory::class;

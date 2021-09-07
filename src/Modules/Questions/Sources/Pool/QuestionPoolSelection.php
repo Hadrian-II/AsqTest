@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace srag\asq\Test\Modules\Questions\Sources\Pool;
+namespace Fluxlabs\Assessment\Test\Modules\Questions\Sources\Pool;
 
 use Fluxlabs\Assessment\Tools\DIC\CtrlTrait;
 use ilTemplate;
@@ -11,7 +11,7 @@ use srag\asq\QuestionPool\Application\QuestionPoolService;
 /**
  * Class QuestionPoolSelection
  *
- * @package srag\asq\Test
+ * @package Fluxlabs\Assessment\Test
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */

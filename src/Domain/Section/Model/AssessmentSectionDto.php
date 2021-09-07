@@ -1,14 +1,14 @@
 <?php
 declare(strict_types = 1);
 
-namespace srag\asq\Test\Domain\Section\Model;
+namespace Fluxlabs\Assessment\Test\Domain\Section\Model;
 
 use ILIAS\Data\UUID\Uuid;
 
 /**
  * Class AssessmentSectionDto
  *
- * @package srag\asq\Test
+ * @package Fluxlabs\Assessment\Test
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */

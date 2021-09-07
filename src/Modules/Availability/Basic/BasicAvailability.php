@@ -1,26 +1,20 @@
 <?php
 declare(strict_types = 1);
 
-namespace srag\asq\Test\Modules\Availability\Basic;
+namespace Fluxlabs\Assessment\Test\Modules\Availability\Basic;
 
-use srag\asq\Test\Domain\Test\Modules\AbstractTestModule;
-use srag\asq\Test\Domain\Test\Modules\IAvailabilityModule;
-use srag\asq\Test\Domain\Test\Modules\ITestModule;
+use Fluxlabs\Assessment\Test\Application\Test\Module\IAvailabilityModule;
+use Fluxlabs\Assessment\Tools\Domain\Modules\AbstractAsqModule;
 
 /**
  * Class BasicAvailability
  *
- * @package srag\asq\Test
+ * @package Fluxlabs\Assessment\Test
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */
-class BasicAvailability extends AbstractTestModule implements IAvailabilityModule
+class BasicAvailability extends AbstractAsqModule implements IAvailabilityModule
 {
-    public function getType(): string
-    {
-        return ITestModule::TYPE_AVAILABILITY;
-    }
-
     public function getConfigClass() : ?string
     {
         return BasicAvailabilityConfigurationFactory::class;

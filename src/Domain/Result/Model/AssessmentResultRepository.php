@@ -1,18 +1,18 @@
 <?php
 declare(strict_types = 1);
 
-namespace srag\asq\Test\Domain\Result\Model;
+namespace Fluxlabs\Assessment\Test\Domain\Result\Model;
 
 use srag\CQRS\Aggregate\AbstractAggregateRepository;
 use srag\CQRS\Aggregate\AbstractAggregateRoot;
 use srag\CQRS\Event\DomainEvents;
 use srag\CQRS\Event\EventStore;
-use srag\asq\Test\Domain\Result\Persistence\AssessmentResultEventStore;
+use Fluxlabs\Assessment\Test\Domain\Result\Persistence\AssessmentResultEventStore;
 
 /**
  * Class AssessmentResultRepository
  *
- * @package srag\asq\Test
+ * @package Fluxlabs\Assessment\Test
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */

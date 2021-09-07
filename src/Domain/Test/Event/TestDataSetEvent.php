@@ -1,17 +1,17 @@
 <?php
 declare(strict_types = 1);
 
-namespace srag\asq\Test\Domain\Test\Event;
+namespace Fluxlabs\Assessment\Test\Domain\Test\Event;
 
 use ILIAS\Data\UUID\Uuid;
 use ilDateTime;
 use srag\CQRS\Event\AbstractDomainEvent;
-use srag\asq\Test\Domain\Test\Model\TestData;
+use Fluxlabs\Assessment\Test\Domain\Test\Model\TestData;
 
 /**
  * Class TestDataSetEvent
  *
- * @package srag\asq\Test
+ * @package Fluxlabs\Assessment\Test
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */

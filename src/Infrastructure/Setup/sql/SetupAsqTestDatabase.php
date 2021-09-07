@@ -1,16 +1,16 @@
 <?php
 declare(strict_types=1);
 
-namespace srag\asq\Test\Infrastructure\Setup\sql;
+namespace Fluxlabs\Assessment\Test\Infrastructure\Setup\sql;
 
-use srag\asq\Test\Domain\Result\Persistence\AssessmentResultEventStoreAr;
-use srag\asq\Test\Domain\Section\Persistence\AssessmentSectionEventStoreAr;
-use srag\asq\Test\Domain\Test\Persistence\AssessmentTestEventStoreAr;
+use Fluxlabs\Assessment\Test\Domain\Result\Persistence\AssessmentResultEventStoreAr;
+use Fluxlabs\Assessment\Test\Domain\Section\Persistence\AssessmentSectionEventStoreAr;
+use Fluxlabs\Assessment\Test\Domain\Test\Persistence\AssessmentTestEventStoreAr;
 
 /**
  * Class SetupAsqTestDatabase
  *
- * @package srag\asq\Test
+ * @package Fluxlabs\Assessment\Test
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */

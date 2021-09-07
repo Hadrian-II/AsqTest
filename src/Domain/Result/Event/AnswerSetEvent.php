@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace srag\asq\Test\Domain\Result\Event;
+namespace Fluxlabs\Assessment\Test\Domain\Result\Event;
 
 use ILIAS\Data\UUID\Uuid;
 use ilDateTime;
@@ -12,7 +12,7 @@ use ILIAS\Data\UUID\Factory;
 /**
  * Class AnswerSetEvent
  *
- * @package srag\asq\Test
+ * @package Fluxlabs\Assessment\Test
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */

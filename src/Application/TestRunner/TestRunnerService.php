@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace srag\asq\Test\Application\TestRunner;
+namespace Fluxlabs\Assessment\Test\Application\TestRunner;
 
 use ILIAS\Data\UUID\Factory;
 use ILIAS\Data\UUID\Uuid;
@@ -11,26 +11,26 @@ use srag\CQRS\Command\CommandConfiguration;
 use srag\CQRS\Command\Access\OpenAccess;
 use srag\asq\Application\Service\ASQService;
 use srag\asq\Domain\Model\Hint\QuestionHint;
-use srag\asq\Test\Application\TestRunner\Command\AddAnswerCommand;
-use srag\asq\Test\Application\TestRunner\Command\AddAnswerCommandHandler;
-use srag\asq\Test\Application\TestRunner\Command\AddScoreCommand;
-use srag\asq\Test\Application\TestRunner\Command\AddScoreCommandHandler;
-use srag\asq\Test\Application\TestRunner\Command\FinishScoringCommand;
-use srag\asq\Test\Application\TestRunner\Command\HintReceivedCommand;
-use srag\asq\Test\Application\TestRunner\Command\HintReceivedCommandHandler;
-use srag\asq\Test\Application\TestRunner\Command\StartAssessmentCommand;
-use srag\asq\Test\Application\TestRunner\Command\StartAssessmentCommandHandler;
-use srag\asq\Test\Application\TestRunner\Command\SubmitAssessmentCommand;
-use srag\asq\Test\Application\TestRunner\Command\SubmitAssessmentCommandHandler;
-use srag\asq\Test\Domain\Result\Model\AssessmentResultContext;
-use srag\asq\Test\Domain\Result\Model\AssessmentResultRepository;
-use srag\asq\Test\Domain\Result\Model\ItemResult;
-use srag\asq\Test\Domain\Result\Model\ItemScore;
+use Fluxlabs\Assessment\Test\Application\TestRunner\Command\AddAnswerCommand;
+use Fluxlabs\Assessment\Test\Application\TestRunner\Command\AddAnswerCommandHandler;
+use Fluxlabs\Assessment\Test\Application\TestRunner\Command\AddScoreCommand;
+use Fluxlabs\Assessment\Test\Application\TestRunner\Command\AddScoreCommandHandler;
+use Fluxlabs\Assessment\Test\Application\TestRunner\Command\FinishScoringCommand;
+use Fluxlabs\Assessment\Test\Application\TestRunner\Command\HintReceivedCommand;
+use Fluxlabs\Assessment\Test\Application\TestRunner\Command\HintReceivedCommandHandler;
+use Fluxlabs\Assessment\Test\Application\TestRunner\Command\StartAssessmentCommand;
+use Fluxlabs\Assessment\Test\Application\TestRunner\Command\StartAssessmentCommandHandler;
+use Fluxlabs\Assessment\Test\Application\TestRunner\Command\SubmitAssessmentCommand;
+use Fluxlabs\Assessment\Test\Application\TestRunner\Command\SubmitAssessmentCommandHandler;
+use Fluxlabs\Assessment\Test\Domain\Result\Model\AssessmentResultContext;
+use Fluxlabs\Assessment\Test\Domain\Result\Model\AssessmentResultRepository;
+use Fluxlabs\Assessment\Test\Domain\Result\Model\ItemResult;
+use Fluxlabs\Assessment\Test\Domain\Result\Model\ItemScore;
 
 /**
  * Class TestRunnerService
  *
- * @package srag\asq\Test
+ * @package Fluxlabs\Assessment\Test
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */
