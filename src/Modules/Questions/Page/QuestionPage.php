@@ -126,7 +126,7 @@ class QuestionPage extends AbstractAsqModule implements IPageModule
             );
         }, $this->available_sources);
 
-        $src = $this->ui->factory()->dropdown()->standard($sources)->withLabel("Add Source");
+        $src = $this->ui->factory()->dropdown()->standard($sources)->withLabel('Add Source');
 
         return [ $src ];
     }
@@ -150,21 +150,21 @@ class QuestionPage extends AbstractAsqModule implements IPageModule
         }
 
         $tpl->setCurrentBlock('source');
-        $tpl->setVariable("SELECTION_TYPE", $this->renderSelectionTypeSelection($source->getKey()));
+        $tpl->setVariable('SELECTION_TYPE', $this->renderSelectionTypeSelection($source->getKey()));
 
         if ($selection !== null) {
-            $tpl->setVariable("CURRENT_SELECTION", $selection->getKey());
+            $tpl->setVariable('CURRENT_SELECTION', $selection->getKey());
         }
 
-        $tpl->setVariable("QUESTION_TITLE", 'TODO_Title');
-        $tpl->setVariable("QUESTION_VERSION", 'TODO_Version');
-        $tpl->setVariable("QUESTION_TYPE", 'TODO_Type');
-        $tpl->setVariable("QUESTION_POINTS", 'TODO_Points');
+        $tpl->setVariable('QUESTION_TITLE', 'TODO_Title');
+        $tpl->setVariable('QUESTION_VERSION', 'TODO_Version');
+        $tpl->setVariable('QUESTION_TYPE', 'TODO_Type');
+        $tpl->setVariable('QUESTION_POINTS', 'TODO_Points');
 
-        $tpl->setVariable("REMOVE_SOURCE", $this->renderRemoveButton($source->getKey()));
-        $tpl->setVariable("SOURCE_ACTIONS", $this->available_sources[$source->getConfiguration()->moduleName()]->getQuestionPageActions($source));
+        $tpl->setVariable('REMOVE_SOURCE', $this->renderRemoveButton($source->getKey()));
+        $tpl->setVariable('SOURCE_ACTIONS', $this->available_sources[$source->getConfiguration()->moduleName()]->getQuestionPageActions($source));
         if ($selection !== null) {
-            $tpl->setVariable("SELECTION_ACTIONS",
+            $tpl->setVariable('SELECTION_ACTIONS',
                 $this->available_selections[$selection->getConfiguration()->moduleName()]->getQuestionPageActions($selection));
         }
         $tpl->parseCurrentBlock();
@@ -181,7 +181,7 @@ class QuestionPage extends AbstractAsqModule implements IPageModule
             );
         }, $this->available_selections);
 
-        $selection = $this->ui->factory()->dropdown()->standard($sources)->withLabel("Set Selection");
+        $selection = $this->ui->factory()->dropdown()->standard($sources)->withLabel('Set Selection');
 
         return $this->ui->renderer()->render($selection);
     }
@@ -206,7 +206,7 @@ class QuestionPage extends AbstractAsqModule implements IPageModule
             $question = $this->asq->question()->getQuestionByQuestionId($question_id);
 
             $tpl->setCurrentBlock('question');
-            $tpl->setVariable("QUESTION_CONTENT", $selection_module->renderQuestionListItem($selection, $question));
+            $tpl->setVariable('QUESTION_CONTENT', $selection_module->renderQuestionListItem($selection, $question));
             $tpl->parseCurrentBlock();
         }
     }
