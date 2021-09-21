@@ -5,7 +5,7 @@ namespace Fluxlabs\Assessment\Test\Domain\Result\Model;
 
 use ilDateTime;
 use ILIAS\UI\Component\Item\Item;
-use srag\CQRS\Aggregate\AbstractValueObject;
+use Fluxlabs\CQRS\Aggregate\AbstractValueObject;
 use srag\asq\Domain\Model\Hint\QuestionHint;
 use srag\asq\Application\Exception\AsqException;
 use srag\asq\Domain\Model\Hint\QuestionHints;

@@ -3,8 +3,8 @@ declare(strict_types = 1);
 
 namespace Fluxlabs\Assessment\Test\Application\Section\Command;
 
-use srag\CQRS\Command\CommandContract;
-use srag\CQRS\Command\CommandHandlerContract;
+use Fluxlabs\CQRS\Command\CommandContract;
+use Fluxlabs\CQRS\Command\CommandHandlerContract;
 use Fluxlabs\Assessment\Test\Domain\Section\Model\AssessmentSection;
 use Fluxlabs\Assessment\Test\Domain\Section\Model\AssessmentSectionRepository;
 use ILIAS\Data\Result;

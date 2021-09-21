@@ -13,7 +13,7 @@ use Fluxlabs\Assessment\Test\Application\Section\SectionService;
 use Fluxlabs\Assessment\Test\Application\Test\TestService;
 use Fluxlabs\Assessment\Test\Domain\Test\Model\AssessmentTestDto;
 use Fluxlabs\Assessment\Test\Domain\Test\Model\TestData;
-use srag\CQRS\Aggregate\AbstractValueObject;
+use Fluxlabs\CQRS\Aggregate\AbstractValueObject;
 
 /**
  * Class AssessmentTestStorage

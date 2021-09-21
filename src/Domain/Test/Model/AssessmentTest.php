@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace Fluxlabs\Assessment\Test\Domain\Test\Model;
 
 use Fluxlabs\Assessment\Tools\Domain\Model\PluginAggregateRoot;
-use srag\CQRS\Event\Standard\AggregateCreatedEvent;
+use Fluxlabs\CQRS\Event\Standard\AggregateCreatedEvent;
 use Fluxlabs\Assessment\Test\Domain\Test\Event\TestDataSetEvent;
 use ILIAS\Data\UUID\Uuid;
 use ilDateTime;

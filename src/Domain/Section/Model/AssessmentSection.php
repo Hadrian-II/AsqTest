@@ -4,10 +4,10 @@ declare(strict_types = 1);
 namespace Fluxlabs\Assessment\Test\Domain\Section\Model;
 
 use ilDateTimeException;
-use srag\CQRS\Aggregate\AbstractAggregateRoot;
+use Fluxlabs\CQRS\Aggregate\AbstractAggregateRoot;
 use Fluxlabs\Assessment\Test\Domain\Section\Event\AssessmentSectionDataSetEvent;
 use ilDateTime;
-use srag\CQRS\Event\Standard\AggregateCreatedEvent;
+use Fluxlabs\CQRS\Event\Standard\AggregateCreatedEvent;
 use Fluxlabs\Assessment\Test\Domain\Section\Event\AssessmentSectionItemAddedEvent;
 use Fluxlabs\Assessment\Test\Domain\Section\Event\AssessmentSectionItemRemovedEvent;
 use ILIAS\Data\UUID\Uuid;

@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Fluxlabs\Assessment\Test\Domain\Result\Event;
 
-use srag\CQRS\Event\AbstractDomainEvent;
+use Fluxlabs\CQRS\Event\AbstractDomainEvent;
 use srag\asq\Domain\Model\Hint\QuestionHint;
 use ILIAS\Data\UUID\Uuid;
 use ilDateTime;

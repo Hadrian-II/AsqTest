@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Fluxlabs\Assessment\Test\Domain\Test\Model;
 
-use srag\CQRS\Aggregate\AbstractValueObject;
+use Fluxlabs\CQRS\Aggregate\AbstractValueObject;
 use Fluxlabs\Assessment\Test\Domain\Test\IAsqPlugin;
 use Fluxlabs\Assessment\Test\Leipzig\LeipzigTest;
 

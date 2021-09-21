@@ -3,10 +3,10 @@ declare(strict_types = 1);
 
 namespace Fluxlabs\Assessment\Test\Domain\Result\Model;
 
-use srag\CQRS\Aggregate\AbstractAggregateRepository;
-use srag\CQRS\Aggregate\AbstractAggregateRoot;
-use srag\CQRS\Event\DomainEvents;
-use srag\CQRS\Event\EventStore;
+use Fluxlabs\CQRS\Aggregate\AbstractAggregateRepository;
+use Fluxlabs\CQRS\Aggregate\AbstractAggregateRoot;
+use Fluxlabs\CQRS\Event\DomainEvents;
+use Fluxlabs\CQRS\Event\EventStore;
 use Fluxlabs\Assessment\Test\Domain\Result\Persistence\AssessmentResultEventStore;
 
 /**

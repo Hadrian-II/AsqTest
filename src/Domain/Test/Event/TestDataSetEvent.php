@@ -5,7 +5,7 @@ namespace Fluxlabs\Assessment\Test\Domain\Test\Event;
 
 use ILIAS\Data\UUID\Uuid;
 use ilDateTime;
-use srag\CQRS\Event\AbstractDomainEvent;
+use Fluxlabs\CQRS\Event\AbstractDomainEvent;
 use Fluxlabs\Assessment\Test\Domain\Test\Model\TestData;
 
 /**

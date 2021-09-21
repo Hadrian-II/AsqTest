@@ -5,9 +5,9 @@ namespace Fluxlabs\Assessment\Test\Application\Test;
 
 use ILIAS\Data\UUID\Factory;
 use ILIAS\Data\UUID\Uuid;
-use srag\CQRS\Command\CommandBus;
-use srag\CQRS\Command\CommandConfiguration;
-use srag\CQRS\Command\Access\OpenAccess;
+use Fluxlabs\CQRS\Command\CommandBus;
+use Fluxlabs\CQRS\Command\CommandConfiguration;
+use Fluxlabs\CQRS\Command\Access\OpenAccess;
 use srag\asq\Application\Service\ASQService;
 use Fluxlabs\Assessment\Test\Application\Test\Command\AddSectionCommand;
 use Fluxlabs\Assessment\Test\Application\Test\Command\AddSectionCommandHandler;
@@ -17,7 +17,7 @@ use Fluxlabs\Assessment\Test\Domain\Test\Model\AssessmentTest;
 use Fluxlabs\Assessment\Test\Domain\Test\Model\AssessmentTestRepository;
 use Fluxlabs\Assessment\Test\Domain\Test\Model\AssessmentTestDto;
 use Fluxlabs\Assessment\Test\Domain\Test\Model\TestData;
-use srag\CQRS\Aggregate\AbstractValueObject;
+use Fluxlabs\CQRS\Aggregate\AbstractValueObject;
 
 /**
  * Class TestService

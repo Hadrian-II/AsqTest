@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace Fluxlabs\Assessment\Test\Domain\Result\Event;
 
 use ilDateTime;
-use srag\CQRS\Event\AbstractDomainEvent;
+use Fluxlabs\CQRS\Event\AbstractDomainEvent;
 use Fluxlabs\Assessment\Test\Domain\Result\Model\ItemScore;
 use ILIAS\Data\UUID\Uuid;
 use ILIAS\Data\UUID\Factory;

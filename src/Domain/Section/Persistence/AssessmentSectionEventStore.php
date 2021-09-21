@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Fluxlabs\Assessment\Test\Domain\Section\Persistence;
 
-use srag\CQRS\Event\EventStore;
+use Fluxlabs\CQRS\Event\EventStore;
 
 /**
  * Class AssessmentSectionEventStore

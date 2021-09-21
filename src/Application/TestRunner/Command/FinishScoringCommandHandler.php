@@ -5,8 +5,8 @@ namespace Fluxlabs\Assessment\Test\Application\TestRunner\Command;
 
 use ILIAS\Data\Result;
 use ILIAS\Data\Result\Ok;
-use srag\CQRS\Command\CommandContract;
-use srag\CQRS\Command\CommandHandlerContract;
+use Fluxlabs\CQRS\Command\CommandContract;
+use Fluxlabs\CQRS\Command\CommandHandlerContract;
 use Fluxlabs\Assessment\Test\Domain\Result\Model\AssessmentResultRepository;
 
 /**

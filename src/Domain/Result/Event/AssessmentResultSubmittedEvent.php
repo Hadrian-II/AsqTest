@@ -5,7 +5,7 @@ namespace Fluxlabs\Assessment\Test\Domain\Result\Event;
 
 use ilDateTime;
 use ILIAS\Data\UUID\Uuid;
-use srag\CQRS\Event\AbstractDomainEvent;
+use Fluxlabs\CQRS\Event\AbstractDomainEvent;
 
 /**
  * Class AssessmentResultSubmittedEvent

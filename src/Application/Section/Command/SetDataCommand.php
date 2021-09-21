@@ -5,7 +5,7 @@ namespace Fluxlabs\Assessment\Test\Application\Section\Command;
 
 use ILIAS\Data\UUID\Uuid;
 use Fluxlabs\Assessment\Test\Domain\Section\Model\AssessmentSectionData;
-use srag\CQRS\Command\AbstractCommand;
+use Fluxlabs\CQRS\Command\AbstractCommand;
 
 /**
  * Class SetDataCommand

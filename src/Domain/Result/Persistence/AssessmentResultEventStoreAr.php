@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Fluxlabs\Assessment\Test\Domain\Result\Persistence;
 
-use srag\CQRS\Event\AbstractStoredEvent;
+use Fluxlabs\CQRS\Event\AbstractStoredEvent;
 
 /**
  * Class AssessmentResultEventStoreAr

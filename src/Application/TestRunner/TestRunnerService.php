@@ -5,10 +5,10 @@ namespace Fluxlabs\Assessment\Test\Application\TestRunner;
 
 use ILIAS\Data\UUID\Factory;
 use ILIAS\Data\UUID\Uuid;
-use srag\CQRS\Aggregate\AbstractValueObject;
-use srag\CQRS\Command\CommandBus;
-use srag\CQRS\Command\CommandConfiguration;
-use srag\CQRS\Command\Access\OpenAccess;
+use Fluxlabs\CQRS\Aggregate\AbstractValueObject;
+use Fluxlabs\CQRS\Command\CommandBus;
+use Fluxlabs\CQRS\Command\CommandConfiguration;
+use Fluxlabs\CQRS\Command\Access\OpenAccess;
 use srag\asq\Application\Service\ASQService;
 use srag\asq\Domain\Model\Hint\QuestionHint;
 use Fluxlabs\Assessment\Test\Application\TestRunner\Command\AddAnswerCommand;

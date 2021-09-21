@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace Fluxlabs\Assessment\Test\Application\TestRunner\Command;
 
 use ILIAS\Data\UUID\Uuid;
-use srag\CQRS\Command\AbstractCommand;
+use Fluxlabs\CQRS\Command\AbstractCommand;
 use Fluxlabs\Assessment\Test\Domain\Result\Model\ItemScore;
 
 /**

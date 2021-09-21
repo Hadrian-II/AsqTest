@@ -6,7 +6,7 @@ namespace Fluxlabs\Assessment\Test\Modules\Questions\Selection\All;
 use srag\asq\Domain\QuestionDto;
 use Fluxlabs\Assessment\Test\Application\Test\Object\ISelectionObject;
 use Fluxlabs\Assessment\Test\Modules\Questions\Selection\AbstractQuestionSelection;
-use srag\CQRS\Aggregate\AbstractValueObject;
+use Fluxlabs\CQRS\Aggregate\AbstractValueObject;
 
 /**
  * Class SelectAllQuestions

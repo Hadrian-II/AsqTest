@@ -4,9 +4,9 @@ declare(strict_types=1);
 namespace Fluxlabs\Assessment\Test\Application\Statistics;
 
 use Exception;
-use srag\CQRS\Projection\ProjectionEventHandler;
-use srag\CQRS\Projection\Persistence\ilDBPositionLedger;
-use srag\CQRS\Projection\ValueObjects\ProjectorPosition;
+use Fluxlabs\CQRS\Projection\ProjectionEventHandler;
+use Fluxlabs\CQRS\Projection\Persistence\ilDBPositionLedger;
+use Fluxlabs\CQRS\Projection\ValueObjects\ProjectorPosition;
 use Fluxlabs\Assessment\Test\Domain\Result\Event\ScoreSetEvent;
 use Fluxlabs\Assessment\Test\Domain\Result\Model\AssessmentResult;
 use Fluxlabs\Assessment\Test\Domain\Result\Model\AssessmentResultRepository;

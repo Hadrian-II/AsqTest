@@ -10,7 +10,7 @@ use Fluxlabs\Assessment\Test\Lib\Event\Standard\ForwardToCommandEvent;
 use Fluxlabs\Assessment\Test\Lib\Event\Standard\StoreObjectEvent;
 use Fluxlabs\Assessment\Test\Modules\Questions\Page\QuestionPage;
 use Fluxlabs\Assessment\Test\Modules\Questions\Selection\AbstractQuestionSelection;
-use srag\CQRS\Aggregate\AbstractValueObject;
+use Fluxlabs\CQRS\Aggregate\AbstractValueObject;
 
 /**
  * Class RandomQuestionSelection

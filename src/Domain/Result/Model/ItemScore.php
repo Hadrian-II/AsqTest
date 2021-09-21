@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Fluxlabs\Assessment\Test\Domain\Result\Model;
 
-use srag\CQRS\Aggregate\AbstractValueObject;
+use Fluxlabs\CQRS\Aggregate\AbstractValueObject;
 
 /**
  * Class ItemScore

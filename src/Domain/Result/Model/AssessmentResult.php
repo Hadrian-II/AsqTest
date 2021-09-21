@@ -5,8 +5,8 @@ namespace Fluxlabs\Assessment\Test\Domain\Result\Model;
 
 use ILIAS\Data\UUID\Uuid;
 use ilDateTime;
-use srag\CQRS\Aggregate\AbstractAggregateRoot;
-use srag\CQRS\Event\Standard\AggregateCreatedEvent;
+use Fluxlabs\CQRS\Aggregate\AbstractAggregateRoot;
+use Fluxlabs\CQRS\Event\Standard\AggregateCreatedEvent;
 use srag\asq\Application\Exception\AsqException;
 use Fluxlabs\Assessment\Test\Domain\Result\Event\AnswerSetEvent;
 use Fluxlabs\Assessment\Test\Domain\Result\Event\AssessmentResultInitiatedEvent;
@@ -15,7 +15,7 @@ use Fluxlabs\Assessment\Test\Domain\Result\Event\HintReceivedEvent;
 use Fluxlabs\Assessment\Test\Domain\Result\Event\AssessmentResultSubmittedEvent;
 use Fluxlabs\Assessment\Test\Domain\Result\Event\ScoreSetEvent;
 use Fluxlabs\Assessment\Test\Domain\Result\Event\ScoringFinishedEvent;
-use srag\CQRS\Aggregate\AbstractValueObject;
+use Fluxlabs\CQRS\Aggregate\AbstractValueObject;
 use ILIAS\Data\UUID\Factory;
 
 /**
