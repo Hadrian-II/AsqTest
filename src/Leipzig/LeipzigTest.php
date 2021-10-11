@@ -5,7 +5,9 @@ namespace Fluxlabs\Assessment\Test\Leipzig;
 
 use Fluxlabs\Assessment\Test\Application\Test\Event\StoreTestDataEvent;
 use Fluxlabs\Assessment\Test\Application\Test\TestService;
+use Fluxlabs\Assessment\Test\Modules\Questions\Sources\TaxonomyPool\TaxonomyQuestionPoolSource;
 use Fluxlabs\Assessment\Tools\Domain\AbstractAsqPlugin;
+use Fluxlabs\Assessment\Tools\Domain\ILIASReference;
 use ILIAS\Data\UUID\Uuid;
 use Fluxlabs\Assessment\Test\Domain\Test\Model\TestData;
 use Fluxlabs\Assessment\Test\Application\Test\Module\IQuestionSelectionModule;
@@ -33,9 +35,9 @@ use PHPUnit\Util\Test;
  */
 class LeipzigTest extends AbstractAsqPlugin
 {
-    private function __construct(Uuid $test_id)
+    private function __construct(ILIASReference $reference)
     {
-        parent::__construct();
+        parent::__construct($reference);
 
         $this->addModule(new BasicAvailability($this->event_queue, $this->access));
         $this->addModule(new TimedAvailability($this->event_queue, $this->access));
@@ -46,7 +48,7 @@ class LeipzigTest extends AbstractAsqPlugin
         $this->addModule(new FixedSource($this->event_queue, $this->access));
         $this->addModule(new QuestionPoolSource($this->event_queue, $this->access));
         $this->addModule(new AutomaticScoring($this->event_queue, $this->access));
-        $this->addModule(new AssessmentTestStorage($this->event_queue, $this->access, $test_id));
+        $this->addModule(new AssessmentTestStorage($this->event_queue, $this->access, $reference->getId()));
 
         $this->addModule(new QuestionPage(
             $this->event_queue,
@@ -56,17 +58,17 @@ class LeipzigTest extends AbstractAsqPlugin
         ));
     }
 
-    public static function load(Uuid $test_id) : LeipzigTest
+    public static function load(ILIASReference $reference) : LeipzigTest
     {
-        return new LeipzigTest($test_id);
+        return new LeipzigTest($reference);
     }
 
-    public static function create(Uuid $test_id, string $title, string $description) : LeipzigTest
+    public static function create(ILIASReference $reference, string $title, string $description) : LeipzigTest
     {
         $service = new TestService();
-        $service->createTest($test_id);
+        $service->createTest($reference->getId());
 
-        $test = new LeipzigTest($test_id);
+        $test = new LeipzigTest($reference);
 
         $test->event_queue->raiseEvent(new StoreTestDataEvent($test, new TestData($title, $description)));
 

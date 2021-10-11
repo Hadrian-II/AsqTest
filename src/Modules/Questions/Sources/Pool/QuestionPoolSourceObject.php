@@ -29,7 +29,7 @@ class QuestionPoolSourceObject implements ISourceObject
 
     public function getQuestionIds(): array
     {
-        return $this->pool_service->getQuestionsOfPool($this->uuid, );
+        return $this->pool_service->getQuestionsOfPool($this->uuid);
     }
 
     public function getKey(): string
