@@ -3,8 +3,10 @@ declare(strict_types = 1);
 
 namespace Fluxlabs\Assessment\Test\Modules\Questions\Selection;
 
+use Fluxlabs\Assessment\Tools\DIC\CtrlTrait;
 use Fluxlabs\Assessment\Tools\Domain\IObjectAccess;
 use Fluxlabs\Assessment\Tools\Domain\Modules\AbstractAsqModule;
+use Fluxlabs\Assessment\Tools\Domain\Objects\IAsqObject;
 use Fluxlabs\Assessment\Tools\Event\IEventQueue;
 use Fluxlabs\Assessment\Tools\Event\Standard\ForwardToCommandEvent;
 use Fluxlabs\Assessment\Tools\Event\Standard\StoreObjectEvent;
@@ -24,14 +26,12 @@ use Fluxlabs\Assessment\Test\Modules\Questions\Page\QuestionPage;
  */
 abstract class AbstractQuestionSelection extends AbstractAsqModule implements IQuestionSelectionModule
 {
-    protected Services $http;
+    use CtrlTrait;
 
     protected AsqServices $asq;
 
     public function __construct(IEventQueue $event_queue, IObjectAccess $access)
     {
-        global $DIC;
-        $this->http = $DIC->http();
         global $ASQDIC;
         $this->asq = $ASQDIC->asq();
 
@@ -40,7 +40,7 @@ abstract class AbstractQuestionSelection extends AbstractAsqModule implements IQ
 
     protected function readSource() : ISourceObject
     {
-        $source_key = $this->http->request()->getQueryParams()[IQuestionSelectionModule::PARAM_SOURCE_KEY];
+        $source_key = $this->getLinkParameter(IQuestionSelectionModule::PARAM_SOURCE_KEY);
 
         return $this->access->getObject($source_key);
     }
@@ -63,7 +63,7 @@ abstract class AbstractQuestionSelection extends AbstractAsqModule implements IQ
         return null;
     }
 
-    public function getQuestionPageActions(ISelectionObject $object): string
+    public function getQuestionPageActions(IAsqObject $object): string
     {
         //no actions
         return '';

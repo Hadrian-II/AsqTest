@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace Fluxlabs\Assessment\Test\Modules\Questions\Selection\Manual;
 
 use Fluxlabs\Assessment\Tools\DIC\CtrlTrait;
+use Fluxlabs\Assessment\Tools\Domain\Objects\IAsqObject;
 use Fluxlabs\Assessment\Tools\Event\Standard\ForwardToCommandEvent;
 use Fluxlabs\Assessment\Tools\Event\Standard\StoreObjectEvent;
 use srag\asq\Domain\QuestionDto;
@@ -12,6 +13,7 @@ use Fluxlabs\Assessment\Test\Application\Test\Object\ISourceObject;
 use Fluxlabs\Assessment\Test\Modules\Questions\Page\QuestionPage;
 use Fluxlabs\Assessment\Test\Modules\Questions\Selection\AbstractQuestionSelection;
 use Fluxlabs\CQRS\Aggregate\AbstractValueObject;
+use srag\asq\UserInterface\Web\PostAccess;
 
 /**
  * Class ManualQuestionSelection
@@ -22,7 +24,7 @@ use Fluxlabs\CQRS\Aggregate\AbstractValueObject;
  */
 class ManualQuestionSelection extends AbstractQuestionSelection
 {
-    use CtrlTrait;
+    use PostAccess;
 
     const CMD_INITIALIZE = 'initManualQuestions';
     const CMD_SAVE_SELECTION = 'saveManualSelection';
@@ -49,7 +51,7 @@ class ManualQuestionSelection extends AbstractQuestionSelection
 
     public function saveManualSelection() : void
     {
-        $selection_key = $this->http->request()->getQueryParams()[self::PARAM_SELECTION_KEY];
+        $selection_key = $this->getLinkParameter(self::PARAM_SELECTION_KEY);
         /** @var ISelectionObject $selection */
         $selection = $this->access->getObject($selection_key);
         /** @var ISourceObject $source */
@@ -58,7 +60,7 @@ class ManualQuestionSelection extends AbstractQuestionSelection
         $selected_questions = [];
 
         foreach ($source->getQuestionIds() as $question_id) {
-            if (in_array($question_id->toString(), array_keys($this->http->request()->getParsedBody()))) {
+            if ($this->isPostVarSet($question_id->toString())) {
                 $selected_questions[] = $question_id;
             }
         }
@@ -110,7 +112,7 @@ class ManualQuestionSelection extends AbstractQuestionSelection
         return self::CMD_INITIALIZE;
     }
 
-    public function getQuestionPageActions(ISelectionObject $object) : string
+    public function getQuestionPageActions(IAsqObject $object) : string
     {
         $this->setLinkParameter(self::PARAM_SELECTION_KEY, $object->getKey());
 

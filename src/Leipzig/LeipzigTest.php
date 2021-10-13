@@ -8,7 +8,6 @@ use Fluxlabs\Assessment\Test\Application\Test\TestService;
 use Fluxlabs\Assessment\Test\Modules\Questions\Sources\TaxonomyPool\TaxonomyQuestionPoolSource;
 use Fluxlabs\Assessment\Tools\Domain\AbstractAsqPlugin;
 use Fluxlabs\Assessment\Tools\Domain\ILIASReference;
-use ILIAS\Data\UUID\Uuid;
 use Fluxlabs\Assessment\Test\Domain\Test\Model\TestData;
 use Fluxlabs\Assessment\Test\Application\Test\Module\IQuestionSelectionModule;
 use Fluxlabs\Assessment\Test\Application\Test\Module\IQuestionSourceModule;
@@ -21,10 +20,10 @@ use Fluxlabs\Assessment\Test\Modules\Questions\Page\QuestionPage;
 use Fluxlabs\Assessment\Test\Modules\Questions\Selection\All\SelectAllQuestions;
 use Fluxlabs\Assessment\Test\Modules\Questions\Selection\Manual\ManualQuestionSelection;
 use Fluxlabs\Assessment\Test\Modules\Questions\Sources\Fixed\FixedSource;
-use Fluxlabs\Assessment\Test\Modules\Questions\Sources\Pool\QuestionPoolSource;
 use Fluxlabs\Assessment\Test\Modules\Scoring\Automatic\AutomaticScoring;
 use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\AssessmentTestStorage;
 use PHPUnit\Util\Test;
+use srag\asq\QuestionPool\Module\Taxonomy\TaxonomyModule;
 
 /**
  * Class LeipzigTest
@@ -46,7 +45,7 @@ class LeipzigTest extends AbstractAsqPlugin
         $this->addModule(new SelectAllQuestions($this->event_queue, $this->access));
         $this->addModule(new ManualQuestionSelection($this->event_queue, $this->access));
         $this->addModule(new FixedSource($this->event_queue, $this->access));
-        $this->addModule(new QuestionPoolSource($this->event_queue, $this->access));
+        $this->addModule(new TaxonomyQuestionPoolSource($this->event_queue, $this->access));
         $this->addModule(new AutomaticScoring($this->event_queue, $this->access));
         $this->addModule(new AssessmentTestStorage($this->event_queue, $this->access, $reference->getId()));
 

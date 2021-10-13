@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace Fluxlabs\Assessment\Test\Modules\Questions\Sources\Pool;
 
+use Fluxlabs\Assessment\Tools\DIC\CtrlTrait;
 use Fluxlabs\Assessment\Tools\Domain\IObjectAccess;
 use Fluxlabs\Assessment\Tools\Domain\Objects\IAsqObject;
 use Fluxlabs\Assessment\Tools\Domain\Objects\ObjectConfiguration;
@@ -25,20 +26,12 @@ use Fluxlabs\Assessment\Test\Modules\Questions\Sources\AbstractQuestionSource;
  */
 class QuestionPoolSource extends AbstractQuestionSource
 {
+    use CtrlTrait;
+
     const PARAM_SELECTED_POOL = 'qpsSelectedPool';
 
     const SHOW_POOL_SELECTION = 'qpsPoolSelection';
     const CREATE_POOL_SOURCE = 'qpsCreate';
-
-    private Services $http;
-
-    public function __construct(IEventQueue $event_queue, IObjectAccess $access)
-    {
-        global $DIC;
-        $this->http = $DIC->http();
-
-        parent::__construct($event_queue, $access);
-    }
 
     public function getCommands(): array
     {
@@ -55,7 +48,7 @@ class QuestionPoolSource extends AbstractQuestionSource
 
     protected function qpsCreate() : void {
         $factory = new Factory();
-        $uuid = $factory->fromString($this->http->request()->getQueryParams()[self::PARAM_SELECTED_POOL]);
+        $uuid = $factory->fromString($this->getLinkParameter(self::PARAM_SELECTED_POOL));
 
         $pool_source = new QuestionPoolSourceObject($uuid);
 

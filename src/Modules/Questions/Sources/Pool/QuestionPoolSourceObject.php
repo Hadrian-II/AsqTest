@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace Fluxlabs\Assessment\Test\Modules\Questions\Sources\Pool;
 
+use Fluxlabs\Assessment\Test\Modules\Questions\AbstractQuestionObject;
 use Fluxlabs\Assessment\Tools\Domain\Objects\ObjectConfiguration;
 use ILIAS\Data\UUID\Uuid;
 use srag\asq\QuestionPool\Application\QuestionPoolService;
@@ -15,7 +16,7 @@ use Fluxlabs\Assessment\Test\Application\Test\Object\ISourceObject;
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */
-class QuestionPoolSourceObject implements ISourceObject
+class QuestionPoolSourceObject extends AbstractQuestionObject implements ISourceObject
 {
     private QuestionPoolService $pool_service;
 

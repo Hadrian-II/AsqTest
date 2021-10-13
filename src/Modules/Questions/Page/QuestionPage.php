@@ -145,7 +145,19 @@ class QuestionPage extends AbstractAsqModule implements IPageModule
     private function renderSource(ilTemplate $tpl, ISourceObject $source) {
         $selection = $this->selection_objects[$source->getKey()];
 
+        if ($source->hasOverallDisplay()) {
+            $tpl->setCurrentBlock('overall');
+            $tpl->setVariable('CONTENT', $source->getOverallDisplay());
+            $tpl->parseCurrentBlock();
+        }
+
         if ($selection !== null) {
+            if ($selection->hasOverallDisplay()) {
+                $tpl->setCurrentBlock('overall');
+                $tpl->setVariable('CONTENT', $selection->getOverallDisplay());
+                $tpl->parseCurrentBlock();
+            }
+
             $this->renderQuestions($tpl, $source, $selection);
         }
 

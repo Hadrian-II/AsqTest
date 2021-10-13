@@ -3,7 +3,6 @@ declare(strict_types = 1);
 
 namespace Fluxlabs\Assessment\Test\Application\Test\Object;
 
-use Fluxlabs\Assessment\Tools\Domain\Objects\IAsqObject;
 use ILIAS\Data\UUID\Uuid;
 
 /**
@@ -13,7 +12,7 @@ use ILIAS\Data\UUID\Uuid;
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */
-interface ISourceObject extends IAsqObject
+interface ISourceObject extends IQuestionObject
 {
     /**
      * @return Uuid[]

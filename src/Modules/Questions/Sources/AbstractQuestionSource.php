@@ -6,6 +6,7 @@ namespace Fluxlabs\Assessment\Test\Modules\Questions\Sources;
 use Fluxlabs\Assessment\Test\Application\Test\Module\IQuestionSourceModule;
 use Fluxlabs\Assessment\Test\Application\Test\Object\ISourceObject;
 use Fluxlabs\Assessment\Tools\Domain\Modules\AbstractAsqModule;
+use Fluxlabs\Assessment\Tools\Domain\Objects\IAsqObject;
 
 /**
  * Abstract Class AbstractQuestionSource
@@ -16,7 +17,7 @@ use Fluxlabs\Assessment\Tools\Domain\Modules\AbstractAsqModule;
  */
 abstract class AbstractQuestionSource extends AbstractAsqModule implements IQuestionSourceModule
 {
-    public function getQuestionPageActions(ISourceObject $object): string
+    public function getQuestionPageActions(IAsqObject $object): string
     {
         //no actions
         return '';
