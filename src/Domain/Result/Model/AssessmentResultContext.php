@@ -17,7 +17,7 @@ class AssessmentResultContext extends AbstractValueObject
 {
     protected ?int $user_id;
 
-    protected ?uid $assessment_name;
+    protected string $assessment_name;
 
     protected int $run;
 
