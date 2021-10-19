@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace Fluxlabs\Assessment\Test\Application\Test;
 
+use Fluxlabs\Assessment\Test\Application\Test\Command\RemoveSectionCommand;
 use ILIAS\Data\UUID\Factory;
 use ILIAS\Data\UUID\Uuid;
 use Fluxlabs\CQRS\Command\CommandBus;
@@ -18,6 +19,7 @@ use Fluxlabs\Assessment\Test\Domain\Test\Model\AssessmentTestRepository;
 use Fluxlabs\Assessment\Test\Domain\Test\Model\AssessmentTestDto;
 use Fluxlabs\Assessment\Test\Domain\Test\Model\TestData;
 use Fluxlabs\CQRS\Aggregate\AbstractValueObject;
+use srag\asq\QuestionPool\Application\Command\RemoveQuestionCommandHandler;
 
 /**
  * Class TestService
@@ -38,14 +40,20 @@ class TestService extends ASQService
         $this->command_bus = new CommandBus();
 
         $this->command_bus->registerCommand(new CommandConfiguration(
+            CreateTestCommand::class,
+            new CreateTestCommandHandler(),
+            new OpenAccess()
+        ));
+
+        $this->command_bus->registerCommand(new CommandConfiguration(
             AddSectionCommand::class,
             new AddSectionCommandHandler(),
             new OpenAccess()
         ));
 
         $this->command_bus->registerCommand(new CommandConfiguration(
-            CreateTestCommand::class,
-            new CreateTestCommandHandler(),
+            RemoveSectionCommand::class,
+            new RemoveQuestionCommandHandler(),
             new OpenAccess()
         ));
 
@@ -74,6 +82,17 @@ class TestService extends ASQService
     {
         $this->command_bus->handle(
             new AddSectionCommand(
+                $id,
+                $section_id,
+                $this->getActiveUser()
+            )
+        );
+    }
+
+    public function removeSection(Uuid $id, Uuid $section_id) : void
+    {
+        $this->command_bus->handle(
+            new RemoveSectionCommand(
                 $id,
                 $section_id,
                 $this->getActiveUser()

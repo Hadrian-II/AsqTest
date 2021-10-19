@@ -5,6 +5,7 @@ namespace Fluxlabs\Assessment\Test\Leipzig;
 
 use Fluxlabs\Assessment\Test\Application\Test\Event\StoreTestDataEvent;
 use Fluxlabs\Assessment\Test\Application\Test\TestService;
+use Fluxlabs\Assessment\Test\Modules\Player\Page\PlayerPage;
 use Fluxlabs\Assessment\Test\Modules\Questions\Sources\TaxonomyPool\TaxonomyQuestionPoolSource;
 use Fluxlabs\Assessment\Tools\Domain\AbstractAsqPlugin;
 use Fluxlabs\Assessment\Tools\Domain\ILIASReference;
@@ -40,7 +41,6 @@ class LeipzigTest extends AbstractAsqPlugin
 
         $this->addModule(new BasicAvailability($this->event_queue, $this->access));
         $this->addModule(new TimedAvailability($this->event_queue, $this->access));
-        $this->addModule(new QuestionDisplay($this->event_queue, $this->access));
         $this->addModule(new TextualInOut($this->event_queue, $this->access));
         $this->addModule(new SelectAllQuestions($this->event_queue, $this->access));
         $this->addModule(new ManualQuestionSelection($this->event_queue, $this->access));
@@ -48,6 +48,8 @@ class LeipzigTest extends AbstractAsqPlugin
         $this->addModule(new TaxonomyQuestionPoolSource($this->event_queue, $this->access));
         $this->addModule(new AutomaticScoring($this->event_queue, $this->access));
         $this->addModule(new AssessmentTestStorage($this->event_queue, $this->access, $reference->getId()));
+
+        $this->addModule(new PlayerPage($this->event_queue, $this->access));
 
         $this->addModule(new QuestionPage(
             $this->event_queue,

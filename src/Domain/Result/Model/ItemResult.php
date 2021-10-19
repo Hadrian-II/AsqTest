@@ -29,7 +29,7 @@ class ItemResult extends AbstractValueObject
 
     protected string $session_status;
 
-    protected ?AbstractValueObject $answer;
+    protected ?AbstractValueObject $answer = null;
 
     protected ItemScore $score;
 

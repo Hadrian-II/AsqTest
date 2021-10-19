@@ -3,6 +3,10 @@ declare(strict_types = 1);
 
 namespace Fluxlabs\Assessment\Test\Modules\Player\Page;
 
+use Fluxlabs\Assessment\Test\Modules\Player\IPlayerContext;
+use Fluxlabs\Assessment\Test\Modules\Player\QuestionDisplay\QuestionDisplay;
+use Fluxlabs\Assessment\Tools\DIC\CtrlTrait;
+use Fluxlabs\Assessment\Tools\DIC\KitchenSinkTrait;
 use Fluxlabs\Assessment\Tools\Domain\IObjectAccess;
 use Fluxlabs\Assessment\Tools\Domain\Modules\AbstractAsqModule;
 use Fluxlabs\Assessment\Tools\Domain\Modules\IPageModule;
@@ -11,7 +15,11 @@ use Fluxlabs\Assessment\Tools\Event\Standard\AddTabEvent;
 use Fluxlabs\Assessment\Tools\Event\Standard\SetUIEvent;
 use Fluxlabs\Assessment\Tools\UI\System\TabDefinition;
 use Fluxlabs\Assessment\Tools\UI\System\UIData;
+use ILIAS\Data\UUID\Factory;
+use ILIAS\Data\UUID\Uuid;
 use ilTemplate;
+use srag\asq\Application\Service\AsqServices;
+use srag\asq\Infrastructure\Helpers\PathHelper;
 
 /**
  * Class PlayerPage
@@ -22,27 +30,51 @@ use ilTemplate;
  */
 class PlayerPage extends AbstractAsqModule implements IPageModule
 {
+    use PathHelper;
+    use CtrlTrait;
+    use KitchenSinkTrait;
+
     const CMD_PREVIOUS_QUESTION = 'previousQuestion';
     const CMD_NEXT_QUESTION = 'nextQuestion';
     const CMD_SHOW_TEST = 'showTest';
     const CMD_SUBMIT_TEST = 'submitTest';
     const CMD_GET_HINT = 'getHint';
 
-    const PARAM_CURRENT_RESULT = 'currentResult';
     const PARAM_CURRENT_QUESTION = 'currentQuestion';
+
+    private IPlayerContext $context;
+
+    private ?Uuid $current_question_id = null;
+
+    private Factory $uuid_factory;
+
+    private AsqServices $asq;
 
     public function __construct(IEventQueue $event_queue, IObjectAccess $access)
     {
+        global $ASQDIC;
+        $this->asq = $ASQDIC->asq();
+
         parent::__construct($event_queue, $access);
+
+        $this->uuid_factory = new Factory();
 
         $this->raiseEvent(new AddTabEvent(
             $this,
-            new TabDefinition(self::class, 'Questions', self::CMD_SHOW_TEST)
+            new TabDefinition(self::class, 'Test', self::CMD_SHOW_TEST)
         ));
     }
 
     public function showTest() : void
     {
+        $raw_current_id = $this->getLinkParameter(self::PARAM_CURRENT_QUESTION);
+
+        if ($raw_current_id !== null) {
+            $this->current_question_id = $this->uuid_factory->fromString($raw_current_id);
+        }
+
+        $this->context = $this->access->getStorage()->getPlayerContext($this->current_question_id);
+
         $this->raiseEvent(new SetUIEvent($this, new UIData(
             'Test',
             $this->renderContent()
@@ -53,10 +85,21 @@ class PlayerPage extends AbstractAsqModule implements IPageModule
     {
         $tpl = new ilTemplate($this->getBasePath(__DIR__) . 'src/Modules/Player/Page/PlayerPage.html', true, true);
 
-        $tpl->setVariable('',);
-        $tpl->setVariable('',);
+        $tpl->setVariable('QUESTION', $this->renderQuestion());
+        $tpl->setVariable('BUTTONS', '');
 
         return $tpl->get();
+    }
+
+    private function renderQuestion() : string
+    {
+        $component = $this->asq->ui()->getQuestionComponent($this->context->getCurrentQuestion());
+
+        if ($this->context->getAnswer() !== null) {
+            $component = $component->withAnswer($this->context->getAnswer());
+        }
+
+        return $this->renderKSComponent($component);
     }
 
     public function getCommands(): array

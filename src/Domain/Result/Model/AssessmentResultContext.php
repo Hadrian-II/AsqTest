@@ -17,11 +17,11 @@ class AssessmentResultContext extends AbstractValueObject
 {
     protected ?int $user_id;
 
-    protected string $assessment_name;
+    protected ?string $assessment_name;
 
     protected int $run;
 
-    protected ?string $assessment_id;
+    protected ?Uuid $assessment_id;
 
     protected ?string $assessment_revision;
 
@@ -44,7 +44,7 @@ class AssessmentResultContext extends AbstractValueObject
         return $this->user_id;
     }
 
-    public function getAssessment_name() : string
+    public function getAssessment_name() : ?string
     {
         return $this->assessment_name;
     }

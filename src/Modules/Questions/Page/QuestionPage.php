@@ -3,10 +3,12 @@ declare(strict_types = 1);
 
 namespace Fluxlabs\Assessment\Test\Modules\Questions\Page;
 
+use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event\SectionDefinition;
+use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event\StoreSectionsEvent;
 use Fluxlabs\Assessment\Tools\DIC\CtrlTrait;
+use Fluxlabs\Assessment\Tools\DIC\KitchenSinkTrait;
 use Fluxlabs\Assessment\Tools\Domain\IObjectAccess;
 use Fluxlabs\Assessment\Tools\Domain\Modules\AbstractAsqModule;
-use Fluxlabs\Assessment\Tools\Domain\Modules\IAsqModule;
 use Fluxlabs\Assessment\Tools\Domain\Modules\IPageModule;
 use Fluxlabs\Assessment\Tools\Event\IEventQueue;
 use Fluxlabs\Assessment\Tools\Event\Standard\AddTabEvent;
@@ -17,6 +19,7 @@ use Fluxlabs\Assessment\Tools\UI\System\TabDefinition;
 use Fluxlabs\Assessment\Tools\UI\System\UIData;
 use ILIAS\DI\UIServices;
 use ILIAS\HTTP\Services;
+use ILIAS\UI\Implementation\Component\Input\Field\Section;
 use ilTemplate;
 use srag\asq\Application\Service\AsqServices;
 use srag\asq\Infrastructure\Helpers\PathHelper;
@@ -36,17 +39,15 @@ class QuestionPage extends AbstractAsqModule implements IPageModule
 {
     use PathHelper;
     use CtrlTrait;
+    use KitchenSinkTrait;
 
     const SHOW_QUESTIONS = 'qpShow';
     const REMOVE_SOURCE = 'qpRemoveSource';
+    const INITIALIZE_TEST = 'qpInitialzeTest';
 
     const PARAM_SOURCE_KEY = 'sourceKey';
 
-    private UIServices $ui;
-
     private AsqServices $asq;
-
-    private Services $http;
 
     /**
      * @var IQuestionSourceModule[]
@@ -76,9 +77,6 @@ class QuestionPage extends AbstractAsqModule implements IPageModule
     {
         parent::__construct($event_queue, $access);
 
-        global $DIC;
-        $this->ui = $DIC->ui();
-        $this->http = $DIC->http();
         global $ASQDIC;
         $this->asq = $ASQDIC->asq();
 
@@ -103,7 +101,8 @@ class QuestionPage extends AbstractAsqModule implements IPageModule
     {
         return [
             self::SHOW_QUESTIONS,
-            self::REMOVE_SOURCE
+            self::REMOVE_SOURCE,
+            self::INITIALIZE_TEST
         ];
     }
 
@@ -119,16 +118,22 @@ class QuestionPage extends AbstractAsqModule implements IPageModule
 
     private function renderToolbar() : array
     {
+        $buttons = [];
+
         $sources = array_map(function (IQuestionSourceModule $module) {
-            return $this->ui->factory()->button()->shy(
+            return $this->getKSFactory()->button()->shy(
                 get_class($module),
                 $this->getCommandLink($module->getInitializationCommand())
             );
         }, $this->available_sources);
 
-        $src = $this->ui->factory()->dropdown()->standard($sources)->withLabel('Add Source');
+        $buttons[] = $this->getKSFactory()->dropdown()->standard($sources)->withLabel('Add Source');
 
-        return [ $src ];
+        $buttons[] = $this->getKSFactory()->button()->standard(
+            'TODO Init Test',
+            $this->getCommandLink(self::INITIALIZE_TEST));
+
+        return $buttons;
     }
 
     private function renderContent() : string
@@ -187,27 +192,27 @@ class QuestionPage extends AbstractAsqModule implements IPageModule
         $this->setLinkParameter(IQuestionSelectionModule::PARAM_SOURCE_KEY, $source_key);
 
         $sources = array_map(function (IQuestionSelectionModule $module) {
-            return $this->ui->factory()->button()->shy(
+            return $this->getKSFactory()->button()->shy(
                 get_class($module),
                 $this->getCommandLink($module->getInitializationCommand())
             );
         }, $this->available_selections);
 
-        $selection = $this->ui->factory()->dropdown()->standard($sources)->withLabel('Set Selection');
+        $selection = $this->getKSFactory()->dropdown()->standard($sources)->withLabel('Set Selection');
 
-        return $this->ui->renderer()->render($selection);
+        return $this->renderKSComponent($selection);
     }
 
     private function renderRemoveButton(string $source_key) : string
     {
         $this->setLinkParameter(self::PARAM_SOURCE_KEY, $source_key);
 
-        $button = $this->ui->factory()->button()->standard(
+        $button = $this->getKSFactory()->button()->standard(
             'TODO Remove',
             $this->getCommandLink(self::REMOVE_SOURCE)
         );
 
-        return $this->ui->renderer()->render($button);
+        return $this->renderKSComponent($button);
     }
 
     private function renderQuestions(ilTemplate $tpl, ISourceObject $source, ISelectionObject $selection) : void
@@ -223,9 +228,28 @@ class QuestionPage extends AbstractAsqModule implements IPageModule
         }
     }
 
+    public function qpInitialzeTest() : void
+    {
+        $sections = [];
+
+        foreach ($this->selection_objects as $selection_object) {
+            $sections[] =
+                new SectionDefinition(
+                    $selection_object->getKey(),
+                    $selection_object->getSelectedQuestionIds());
+        }
+
+        $this->raiseEvent(
+            new StoreSectionsEvent(
+                $this,
+                $sections));
+
+        $this->raiseEvent(new ForwardToCommandEvent($this, self::SHOW_QUESTIONS));
+    }
+
     public function qpRemoveSource() : void
     {
-        $source_key = $this->http->request()->getQueryParams()[self::PARAM_SOURCE_KEY];
+        $source_key = $this->getLinkParameter(self::PARAM_SOURCE_KEY);
 
         if (array_key_exists($source_key, $this->selection_objects)) {
             $this->raiseEvent(new RemoveObjectEvent($this, $this->selection_objects[$source_key]));

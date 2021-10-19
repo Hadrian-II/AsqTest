@@ -6,7 +6,11 @@ namespace Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject;
 use Fluxlabs\Assessment\Test\Application\Test\Event\StoreTestDataEvent;
 use Fluxlabs\Assessment\Test\Application\TestRunner\TestRunnerService;
 use Fluxlabs\Assessment\Test\Domain\Result\Model\AssessmentResultContext;
+use Fluxlabs\Assessment\Test\Domain\Section\Model\AssessmentSection;
+use Fluxlabs\Assessment\Test\Domain\Section\Model\AssessmentSectionData;
 use Fluxlabs\Assessment\Test\Domain\Section\Model\SectionPart;
+use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event\SectionDefinition;
+use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event\StoreSectionsEvent;
 use Fluxlabs\Assessment\Tools\Domain\IObjectAccess;
 use Fluxlabs\Assessment\Tools\Domain\Modules\AbstractAsqModule;
 use Fluxlabs\Assessment\Tools\Domain\Modules\IStorageModule;
@@ -82,12 +86,12 @@ class AssessmentTestStorage extends AbstractAsqModule implements IStorageModule
     public function getPlayerContext(?Uuid $current_question = null) : AssessmentTestContext
     {
         global $DIC;
-        $user = $DIC->user->$DIC->user()->getId();
-        $key = "current_result_" . $user;
+        $user_id = $DIC->user()->getId();
+        $key = "current_result_" . $user_id;
 
         if ($_SESSION[$key] === null) {
             $uuid = $this->runner_service->createTestRun(
-                $this->createResultContext(),
+                $this->createResultContext($user_id),
                 $this->getTestQuestions()
             );
             $_SESSION[$key] = $uuid->toString();
@@ -104,7 +108,7 @@ class AssessmentTestStorage extends AbstractAsqModule implements IStorageModule
     {
         return new AssessmentResultContext(
             $user_id,
-            $this->currentTestData()->getTestData()->getTitle(),
+            'TODO TEST',
             1,
             $this->currentTestData()->getId()
         );
@@ -155,11 +159,87 @@ class AssessmentTestStorage extends AbstractAsqModule implements IStorageModule
         if (get_class($event) === StoreTestDataEvent::class) {
             $this->processStoreTestDataEvent($event->getData());
         }
+
+        if (get_class($event) == StoreSectionsEvent::class) {
+            $this->processStoreSectionEvent($event->getSections());
+        }
     }
 
     private function processStoreTestDataEvent(TestData $data) : void
     {
         $this->currentTestData()->setTestData($data);
         $this->test_service->saveTest($this->test_data);
+    }
+
+    /**
+     * @param SectionDefinition[] $sections
+     */
+    private function processStoreSectionEvent(array $sections) : void
+    {
+        $current_sections = [];
+
+        foreach ($this->currentTestData()->getSections() as $id) {
+            $section = $this->section_service->getSection($id);
+
+            $current_sections[$section->getData()->getTitle()] = $section;
+        }
+
+        $new_sections = [];
+
+        foreach ($sections as $section) {
+            $new_sections[$section->getName()] = $section->getQuestions();
+        }
+
+        $existing_sections = array_intersect(array_keys($current_sections), array_keys($new_sections));
+        $created_sections = array_diff(array_keys($new_sections), $existing_sections);
+        $removed_sections =  array_diff(array_change_key_case($current_sections), $existing_sections);
+
+        foreach ($created_sections as $created_section) {
+            $this->createNewSection($created_section, $new_sections[$created_section]);
+        }
+
+        foreach ($existing_sections as $existing_section) {
+            $this->updateSection(
+                $current_sections[$existing_section],
+                $new_sections[$existing_section]);
+        }
+
+        foreach ($removed_sections as $removed_section) {
+            $this->test_service->removeSection($current_sections[$removed_section]->getId());
+        }
+    }
+
+    private function createNewSection(string $title, array $questions) : void
+    {
+        $section_id = $this->section_service->createSection();
+
+        $this->test_service->addSection($this->test_id, $section_id);
+
+        $this->section_service->setSectionData($section_id, new AssessmentSectionData($title));
+
+        foreach ($questions as $question) {
+            $this->section_service->addQuestion($section_id, $question);
+        }
+    }
+
+    private function updateSection(AssessmentSection $section, array $new_questions) : void
+    {
+        $current_questions = [];
+
+        foreach ($section->getItems() as $item) {
+            $current_questions[] = $item->getId();
+        }
+
+        $existing_questions = array_intersect($current_questions, $new_questions);
+        $created_questions = array_diff($new_questions, $existing_questions);
+        $deleted_questions = array_diff($current_questions, $existing_questions);
+
+        foreach ($created_questions as $created_question) {
+            $this->section_service->addQuestion($section->getAggregateId(), $created_question);
+        }
+
+        foreach ($deleted_questions as $deleted_question) {
+            $this->section_service->removeQuestion($section->getAggregateId(), $deleted_question);
+        }
     }
 }

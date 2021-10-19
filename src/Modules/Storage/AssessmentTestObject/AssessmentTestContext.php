@@ -42,9 +42,11 @@ class AssessmentTestContext implements IPlayerContext
         $this->service = $service;
         $this->question_service = $ASQDIC->asq()->question();
 
-        $this->current_question_id = $current_question_id;
-        if ($this->current_question_id === null) {
+        if ($current_question_id === null) {
             $this->current_question_id = $this->service->getFirstQuestionId($this->result_id);
+        }
+        else {
+            $this->current_question_id = $current_question_id;
         }
 
         $this->next_question = $this->service->getNextQuestionId($this->result_id, $this->current_question_id);
