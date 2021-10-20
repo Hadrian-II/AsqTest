@@ -4,7 +4,10 @@ declare(strict_types = 1);
 namespace Fluxlabs\Assessment\Test\Modules\Player\Page;
 
 use Fluxlabs\Assessment\Test\Modules\Player\IPlayerContext;
+use Fluxlabs\Assessment\Test\Modules\Player\Page\Buttons\PlayerButtons;
 use Fluxlabs\Assessment\Test\Modules\Player\QuestionDisplay\QuestionDisplay;
+use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event\StoreAnswerEvent;
+use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event\SubmitTestEvent;
 use Fluxlabs\Assessment\Tools\DIC\CtrlTrait;
 use Fluxlabs\Assessment\Tools\DIC\KitchenSinkTrait;
 use Fluxlabs\Assessment\Tools\Domain\IObjectAccess;
@@ -34,17 +37,16 @@ class PlayerPage extends AbstractAsqModule implements IPageModule
     use CtrlTrait;
     use KitchenSinkTrait;
 
-    const CMD_PREVIOUS_QUESTION = 'previousQuestion';
-    const CMD_NEXT_QUESTION = 'nextQuestion';
+    const CMD_GOTO_QUESTION = 'gotoQuestion';
+    const CMD_STORE_ANSWER = 'storeAnswer';
     const CMD_SHOW_TEST = 'showTest';
     const CMD_SUBMIT_TEST = 'submitTest';
     const CMD_GET_HINT = 'getHint';
 
     const PARAM_CURRENT_QUESTION = 'currentQuestion';
+    const PARAM_DESTINATION_QUESTION = 'destinationQuestion';
 
     private IPlayerContext $context;
-
-    private ?Uuid $current_question_id = null;
 
     private Factory $uuid_factory;
 
@@ -69,11 +71,17 @@ class PlayerPage extends AbstractAsqModule implements IPageModule
     {
         $raw_current_id = $this->getLinkParameter(self::PARAM_CURRENT_QUESTION);
 
+        $current_question_id = null;
         if ($raw_current_id !== null) {
-            $this->current_question_id = $this->uuid_factory->fromString($raw_current_id);
+            $current_question_id = $this->uuid_factory->fromString($raw_current_id);
         }
 
-        $this->context = $this->access->getStorage()->getPlayerContext($this->current_question_id);
+        $this->renderQuestion($current_question_id);
+    }
+
+    public function renderQuestion(?Uuid $question_id) : void
+    {
+        $this->context = $this->access->getStorage()->getPlayerContext($question_id);
 
         $this->raiseEvent(new SetUIEvent($this, new UIData(
             'Test',
@@ -85,13 +93,15 @@ class PlayerPage extends AbstractAsqModule implements IPageModule
     {
         $tpl = new ilTemplate($this->getBasePath(__DIR__) . 'src/Modules/Player/Page/PlayerPage.html', true, true);
 
-        $tpl->setVariable('QUESTION', $this->renderQuestion());
-        $tpl->setVariable('BUTTONS', '');
+        $tpl->setVariable('QUESTION', $this->renderQuestionComponent());
+
+        $buttons = new PlayerButtons($this->context);
+        $tpl->setVariable('BUTTONS', $buttons->render());
 
         return $tpl->get();
     }
 
-    private function renderQuestion() : string
+    private function renderQuestionComponent() : string
     {
         $component = $this->asq->ui()->getQuestionComponent($this->context->getCurrentQuestion());
 
@@ -102,12 +112,61 @@ class PlayerPage extends AbstractAsqModule implements IPageModule
         return $this->renderKSComponent($component);
     }
 
+    public function storeAnswer() : void
+    {
+        $raw_current_id = $this->getLinkParameter(self::PARAM_CURRENT_QUESTION);
+        $current_question_id = $this->uuid_factory->fromString($raw_current_id);
+
+        $this->saveAnswer($current_question_id);
+
+        $this->renderQuestion($current_question_id);
+    }
+
+    public function gotoQuestion() : void
+    {
+        $raw_current_id = $this->getLinkParameter(self::PARAM_CURRENT_QUESTION);
+        $current_question_id = $this->uuid_factory->fromString($raw_current_id);
+
+        $raw_destination_id = $this->getLinkParameter(self::PARAM_DESTINATION_QUESTION);
+        $destination_question_id = $this->uuid_factory->fromString($raw_destination_id);
+
+        $this->saveAnswer($current_question_id);
+
+        $this->renderQuestion($destination_question_id);
+    }
+
+    private function saveAnswer(Uuid $question_id) : void
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            //dont save on browser refresh
+            return;
+        }
+
+        $component = $this->asq->ui()->getQuestionComponent(
+            $this->asq->question()->getQuestionByQuestionId($question_id)
+        );
+        $component = $component->withAnswerFromPost();
+        $answer = $component->getAnswer();
+
+        $this->raiseEvent(new StoreAnswerEvent($this, $question_id, $answer));
+    }
+
+    public function submitTest() : void
+    {
+        $this->raiseEvent(new SubmitTestEvent($this));
+
+        $this->raiseEvent(new SetUIEvent($this, new UIData(
+            'Test',
+            'Thanks for submitting'
+        )));
+    }
+
     public function getCommands(): array
     {
         return [
             self::CMD_SHOW_TEST,
-            self::CMD_NEXT_QUESTION,
-            self::CMD_PREVIOUS_QUESTION,
+            self::CMD_GOTO_QUESTION,
+            self::CMD_STORE_ANSWER,
             self::CMD_GET_HINT,
             self::CMD_SUBMIT_TEST
         ];

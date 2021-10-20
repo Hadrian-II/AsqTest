@@ -10,7 +10,9 @@ use Fluxlabs\Assessment\Test\Domain\Section\Model\AssessmentSection;
 use Fluxlabs\Assessment\Test\Domain\Section\Model\AssessmentSectionData;
 use Fluxlabs\Assessment\Test\Domain\Section\Model\SectionPart;
 use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event\SectionDefinition;
+use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event\StoreAnswerEvent;
 use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event\StoreSectionsEvent;
+use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event\SubmitTestEvent;
 use Fluxlabs\Assessment\Tools\Domain\IObjectAccess;
 use Fluxlabs\Assessment\Tools\Domain\Modules\AbstractAsqModule;
 use Fluxlabs\Assessment\Tools\Domain\Modules\IStorageModule;
@@ -85,6 +87,12 @@ class AssessmentTestStorage extends AbstractAsqModule implements IStorageModule
 
     public function getPlayerContext(?Uuid $current_question = null) : AssessmentTestContext
     {
+        return new AssessmentTestContext($this->getCurrentRunId(), $current_question, $this->runner_service);
+    }
+
+    private function getCurrentRunId() : Uuid
+    {
+        //TODO implement actual handling of run/tries etc
         global $DIC;
         $user_id = $DIC->user()->getId();
         $key = "current_result_" . $user_id;
@@ -101,7 +109,7 @@ class AssessmentTestStorage extends AbstractAsqModule implements IStorageModule
             $uuid = $this->factory->fromString($_SESSION[$key]);
         }
 
-        return new AssessmentTestContext($uuid, $current_question, $this->runner_service);
+        return $uuid;
     }
 
     private function createResultContext(int $user_id) : AssessmentResultContext
@@ -160,8 +168,16 @@ class AssessmentTestStorage extends AbstractAsqModule implements IStorageModule
             $this->processStoreTestDataEvent($event->getData());
         }
 
-        if (get_class($event) == StoreSectionsEvent::class) {
+        if (get_class($event) === StoreSectionsEvent::class) {
             $this->processStoreSectionEvent($event->getSections());
+        }
+
+        if (get_class($event) === StoreAnswerEvent::class) {
+            $this->processStoreAnswerEvent($event->getQuestionId(), $event->getAnswer());
+        }
+
+        if (get_class($event) === SubmitTestEvent::class) {
+            $this->processSubmitTestEvent();
         }
     }
 
@@ -169,6 +185,26 @@ class AssessmentTestStorage extends AbstractAsqModule implements IStorageModule
     {
         $this->currentTestData()->setTestData($data);
         $this->test_service->saveTest($this->test_data);
+    }
+
+    private function processStoreAnswerEvent(Uuid $question_id, AbstractValueObject $answer)
+    {
+        $this->runner_service->addAnswer(
+            $this->getCurrentRunId(),
+            $question_id,
+            $answer
+        );
+    }
+
+    private function processSubmitTestEvent() : void
+    {
+        $this->runner_service->submitTestRun($this->getCurrentRunId());
+
+        //TODO implement actual handling of run/tries etc
+        global $DIC;
+        $user_id = $DIC->user()->getId();
+        $key = "current_result_" . $user_id;
+        unset($_SESSION[$key]);
     }
 
     /**
