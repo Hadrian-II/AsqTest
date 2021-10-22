@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace Fluxlabs\Assessment\Test\Modules\Questions\Selection\Manual;
 
 use Fluxlabs\Assessment\Tools\DIC\CtrlTrait;
+use Fluxlabs\Assessment\Tools\DIC\LanguageTrait;
 use Fluxlabs\Assessment\Tools\Domain\Objects\IAsqObject;
 use Fluxlabs\Assessment\Tools\Event\Standard\ForwardToCommandEvent;
 use Fluxlabs\Assessment\Tools\Event\Standard\StoreObjectEvent;
@@ -25,6 +26,7 @@ use srag\asq\UserInterface\Web\PostAccess;
 class ManualQuestionSelection extends AbstractQuestionSelection
 {
     use PostAccess;
+    use LanguageTrait;
 
     const CMD_INITIALIZE = 'initManualQuestions';
     const CMD_SAVE_SELECTION = 'saveManualSelection';
@@ -119,7 +121,7 @@ class ManualQuestionSelection extends AbstractQuestionSelection
         return sprintf(
             '<button class="btn btn-default" type="submit" formmethod="post" formaction="%s">%s</button>',
             $this->getCommandLink(self::CMD_SAVE_SELECTION),
-            'TODO Select Questions'
+            $this->txt('asqt_select_questions')
         );
     }
 }

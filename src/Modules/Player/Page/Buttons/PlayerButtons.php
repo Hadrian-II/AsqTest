@@ -6,6 +6,7 @@ namespace Fluxlabs\Assessment\Test\Modules\Player\Page\Buttons;
 use Fluxlabs\Assessment\Test\Modules\Player\IPlayerContext;
 use Fluxlabs\Assessment\Test\Modules\Player\Page\PlayerPage;
 use Fluxlabs\Assessment\Tools\DIC\CtrlTrait;
+use Fluxlabs\Assessment\Tools\DIC\LanguageTrait;
 use ilTemplate;
 use srag\asq\Infrastructure\Helpers\PathHelper;
 
@@ -20,6 +21,7 @@ class PlayerButtons
 {
     use PathHelper;
     use CtrlTrait;
+    use LanguageTrait;
 
     private IPlayerContext $context;
 
@@ -44,7 +46,7 @@ class PlayerButtons
 
             $tpl->setCurrentBlock('previous');
             $tpl->setVariable('PREV_ACTION', $this->getCommandLink(PlayerPage::CMD_GOTO_QUESTION));
-            $tpl->setVariable('PREV_TEXT', 'TODO Previous Question');
+            $tpl->setVariable('PREV_TEXT', $this->txt('asqt_previous_question'));
             $tpl->parseCurrentBlock();
         }
 
@@ -54,17 +56,17 @@ class PlayerButtons
                 PlayerPage::PARAM_DESTINATION_QUESTION,
                 $this->context->getNextQuestion()->toString());
 
-            $tpl->setCurrentBlock('previous');
+            $tpl->setCurrentBlock('next');
             $tpl->setVariable('NEXT_ACTION', $this->getCommandLink(PlayerPage::CMD_GOTO_QUESTION));
-            $tpl->setVariable('NEXT_TEXT', 'TODO Next Question');
+            $tpl->setVariable('NEXT_TEXT', $this->txt('asqt_next_question'));
             $tpl->parseCurrentBlock();
         }
 
         $tpl->setVariable('SAVE_ACTION', $this->getCommandLink(PlayerPage::CMD_STORE_ANSWER));
-        $tpl->setVariable('SAVE_TEXT', 'TODO Save Answer');
+        $tpl->setVariable('SAVE_TEXT', $this->txt('asqt_save_answer'));
 
         $tpl->setVariable('SUBMIT_ACTION', $this->getCommandLink(PlayerPage::CMD_SUBMIT_TEST));
-        $tpl->setVariable('SUBMIT_TEXT', 'TODO Submit Test');
+        $tpl->setVariable('SUBMIT_TEXT', $this->txt('asqt_submit_test'));
 
         return $tpl->get();
     }

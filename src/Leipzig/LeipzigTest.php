@@ -5,8 +5,10 @@ namespace Fluxlabs\Assessment\Test\Leipzig;
 
 use Fluxlabs\Assessment\Test\Application\Test\Event\StoreTestDataEvent;
 use Fluxlabs\Assessment\Test\Application\Test\TestService;
+use Fluxlabs\Assessment\Test\Infrastructure\Setup\lang\SetupAsqTestLanguages;
 use Fluxlabs\Assessment\Test\Modules\Player\Page\PlayerPage;
 use Fluxlabs\Assessment\Test\Modules\Questions\Sources\TaxonomyPool\TaxonomyQuestionPoolSource;
+use Fluxlabs\Assessment\Tools\DIC\LanguageTrait;
 use Fluxlabs\Assessment\Tools\Domain\AbstractAsqPlugin;
 use Fluxlabs\Assessment\Tools\Domain\ILIASReference;
 use Fluxlabs\Assessment\Test\Domain\Test\Model\TestData;
@@ -35,9 +37,14 @@ use srag\asq\QuestionPool\Module\Taxonomy\TaxonomyModule;
  */
 class LeipzigTest extends AbstractAsqPlugin
 {
+    use LanguageTrait;
+
     private function __construct(ILIASReference $reference)
     {
         parent::__construct($reference);
+
+        $this->loadLanguageModule('asq');
+        $this->loadLanguageModule(SetupAsqTestLanguages::ASQ_TEST_LANGUAGE_PREFIX);
 
         $this->addModule(new BasicAvailability($this->event_queue, $this->access));
         $this->addModule(new TimedAvailability($this->event_queue, $this->access));

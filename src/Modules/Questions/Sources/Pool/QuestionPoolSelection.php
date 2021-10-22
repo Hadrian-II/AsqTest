@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace Fluxlabs\Assessment\Test\Modules\Questions\Sources\Pool;
 
 use Fluxlabs\Assessment\Tools\DIC\CtrlTrait;
+use Fluxlabs\Assessment\Tools\DIC\LanguageTrait;
 use ilTemplate;
 use srag\asq\Infrastructure\Helpers\PathHelper;
 use srag\asq\QuestionPool\Application\QuestionPoolService;
@@ -19,6 +20,7 @@ class QuestionPoolSelection
 {
     use PathHelper;
     use CtrlTrait;
+    use LanguageTrait;
 
     const POOL_TITLE = 'POOL_TITLE';
     const POOL_DESCRIPTION = 'POOL_DESCRIPTION';
@@ -35,9 +37,9 @@ class QuestionPoolSelection
     {
         $tpl = new ilTemplate($this->getBasePath(__DIR__) . 'src/Modules/Questions/Sources/Pool/poolSelectionTable.html', true, true);
 
-        $tpl->setVariable('HEADER_POOL_TITLE','TODO_Titel');
-        $tpl->setVariable('HEADER_POOL_DESCRIPTION', 'TODO_Description');
-        $tpl->setVariable('HEADER_POOL_CREATOR', 'TODO_Ersteller');
+        $tpl->setVariable('HEADER_POOL_TITLE', $this->txt('asqt_title'));
+        $tpl->setVariable('HEADER_POOL_DESCRIPTION', $this->txt('asqt_description'));
+        $tpl->setVariable('HEADER_POOL_CREATOR', $this->txt('asqt_creator'));
 
         foreach ($this->pool_service->getPools() as $pool) {
             $tpl->setCurrentBlock('row');
@@ -58,6 +60,6 @@ class QuestionPoolSelection
 
         return sprintf('<a href="%s" class="btn btn-default">%s</a>',
                         $this->getCommandLink(QuestionPoolSource::CREATE_POOL_SOURCE),
-                        'TODO Auswählen');
+                        $this->txt('asqt_select'));
     }
 }

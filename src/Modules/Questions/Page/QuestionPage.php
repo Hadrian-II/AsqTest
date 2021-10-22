@@ -7,6 +7,7 @@ use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event\SectionD
 use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event\StoreSectionsEvent;
 use Fluxlabs\Assessment\Tools\DIC\CtrlTrait;
 use Fluxlabs\Assessment\Tools\DIC\KitchenSinkTrait;
+use Fluxlabs\Assessment\Tools\DIC\LanguageTrait;
 use Fluxlabs\Assessment\Tools\Domain\IObjectAccess;
 use Fluxlabs\Assessment\Tools\Domain\Modules\AbstractAsqModule;
 use Fluxlabs\Assessment\Tools\Domain\Modules\IPageModule;
@@ -40,6 +41,7 @@ class QuestionPage extends AbstractAsqModule implements IPageModule
     use PathHelper;
     use CtrlTrait;
     use KitchenSinkTrait;
+    use LanguageTrait;
 
     const SHOW_QUESTIONS = 'qpShow';
     const REMOVE_SOURCE = 'qpRemoveSource';
@@ -130,7 +132,7 @@ class QuestionPage extends AbstractAsqModule implements IPageModule
         $buttons[] = $this->getKSFactory()->dropdown()->standard($sources)->withLabel('Add Source');
 
         $buttons[] = $this->getKSFactory()->button()->standard(
-            'TODO Init Test',
+            $this->txt('asqt_init_test'),
             $this->getCommandLink(self::INITIALIZE_TEST));
 
         return $buttons;
@@ -173,10 +175,10 @@ class QuestionPage extends AbstractAsqModule implements IPageModule
             $tpl->setVariable('CURRENT_SELECTION', $selection->getKey());
         }
 
-        $tpl->setVariable('QUESTION_TITLE', 'TODO_Title');
-        $tpl->setVariable('QUESTION_VERSION', 'TODO_Version');
-        $tpl->setVariable('QUESTION_TYPE', 'TODO_Type');
-        $tpl->setVariable('QUESTION_POINTS', 'TODO_Points');
+        $tpl->setVariable('QUESTION_TITLE', $this->txt('asqt_title'));
+        $tpl->setVariable('QUESTION_VERSION',  $this->txt('asqt_version'));
+        $tpl->setVariable('QUESTION_TYPE',  $this->txt('asqt_type'));
+        $tpl->setVariable('QUESTION_POINTS',  $this->txt('asqt_points'));
 
         $tpl->setVariable('REMOVE_SOURCE', $this->renderRemoveButton($source->getKey()));
         $tpl->setVariable('SOURCE_ACTIONS', $this->available_sources[$source->getConfiguration()->moduleName()]->getQuestionPageActions($source));
@@ -198,7 +200,7 @@ class QuestionPage extends AbstractAsqModule implements IPageModule
             );
         }, $this->available_selections);
 
-        $selection = $this->getKSFactory()->dropdown()->standard($sources)->withLabel('Set Selection');
+        $selection = $this->getKSFactory()->dropdown()->standard($sources)->withLabel($this->txt('asqt_select'));
 
         return $this->renderKSComponent($selection);
     }
@@ -208,7 +210,7 @@ class QuestionPage extends AbstractAsqModule implements IPageModule
         $this->setLinkParameter(self::PARAM_SOURCE_KEY, $source_key);
 
         $button = $this->getKSFactory()->button()->standard(
-            'TODO Remove',
+            $this->txt('asqt_remove'),
             $this->getCommandLink(self::REMOVE_SOURCE)
         );
 

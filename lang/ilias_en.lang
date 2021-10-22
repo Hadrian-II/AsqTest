@@ -1,5 +1,17 @@
-test_prev_question#:#Previous
-test_save_answer#:#Save
-test_next_question#:#Next
-test_show_results#:#Show results
-test_get_hint#:#Hint
+previous_question#:#Previous Question
+next_question#:#Next Question
+save_answer#:#Save Answer
+submit_test#:#Submit Test
+title#:#Title
+description#:#Description
+creator#:#Creator
+select#:#Select
+title#:#Title
+version#:#Version
+type#:#Type
+points#:#Points
+init_test#:#Init Test
+select#:#Select
+remove#:#Remove
+select_questions#:#Select Questions
+select_taxonomy#:#Select Taxonomy

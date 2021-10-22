@@ -14,8 +14,10 @@ use srag\asq\Infrastructure\Setup\lang\SetupLanguages;
  */
 class SetupAsqTestLanguages extends SetupLanguages
 {
+    const ASQ_TEST_LANGUAGE_PREFIX = 'asqt';
+
     public function getLanguagePrefix() : string
     {
-        return "asqt";
+        return self::ASQ_TEST_LANGUAGE_PREFIX;
     }
 }

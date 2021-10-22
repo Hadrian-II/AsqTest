@@ -7,6 +7,7 @@ use Fluxlabs\Assessment\Test\Application\Test\Object\ISourceObject;
 use Fluxlabs\Assessment\Test\Modules\Questions\AbstractQuestionObject;
 use Fluxlabs\Assessment\Test\Modules\Questions\Sources\Pool\QuestionPoolSourceObject;
 use Fluxlabs\Assessment\Tools\DIC\CtrlTrait;
+use Fluxlabs\Assessment\Tools\DIC\LanguageTrait;
 use Fluxlabs\Assessment\Tools\Domain\Objects\ObjectConfiguration;
 use Fluxlabs\Assessment\Tools\Service\Taxonomy\Taxonomy;
 use ILIAS\Data\UUID\Uuid;
@@ -27,6 +28,7 @@ class TaxonomyQuestionPoolSourceObject extends AbstractQuestionObject implements
 {
     use CtrlTrait;
     use PostAccess;
+    use LanguageTrait;
 
     const PARAM_SELECTION = 'taxonomy_';
 
@@ -113,7 +115,7 @@ class TaxonomyQuestionPoolSourceObject extends AbstractQuestionObject implements
             $this->getSelectionPostKey(),
             $options,
             $this->getCommandLink(TaxonomyQuestionPoolSource::CMD_TAXONOMY_SELECTION),
-            'TODO Select Taxonomy');
+            $this->txt('asqt_select_taxonomy'));
     }
 
     public function storeTaxonomySelection() : void
