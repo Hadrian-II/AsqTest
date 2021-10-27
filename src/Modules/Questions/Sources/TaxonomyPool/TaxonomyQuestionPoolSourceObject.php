@@ -40,28 +40,21 @@ class TaxonomyQuestionPoolSourceObject extends AbstractQuestionObject implements
 
     private ?Taxonomy $taxonomy = null;
 
+    private bool $has_no_taxonomy = false;
+
     public function __construct(TaxonomyQuestionPoolSourceConfiguration $configuration)
     {
         $this->configuration = $configuration;
         $this->pool_service = new QuestionPoolService();
-    }
 
-    private function getData() : TaxonomyData
-    {
+        $this->data = $this->pool_service->getConfiguration($this->configuration->getUuid(), TaxonomyModule::TAXONOMY_KEY);
         if ($this->data === null) {
-            $this->data = $this->pool_service->getConfiguration($this->configuration->getUuid(), TaxonomyModule::TAXONOMY_KEY);
+            $this->has_no_taxonomy = true;
         }
-
-        return $this->data;
-    }
-
-    private function getTaxonomy() : Taxonomy
-    {
-        if ($this->taxonomy === null) {
-            $this->taxonomy = new Taxonomy($this->getData()->getTaxonomyId());
+        else
+        {
+            $this->taxonomy = new Taxonomy($this->data->getTaxonomyId());
         }
-
-        return $this->taxonomy;
     }
 
     public function getConfiguration(): ObjectConfiguration
@@ -78,9 +71,13 @@ class TaxonomyQuestionPoolSourceObject extends AbstractQuestionObject implements
     {
         $questions = $this->pool_service->getQuestionsOfPool($this->configuration->getUuid());
 
+        if ($this->has_no_taxonomy) {
+            return $questions;
+        }
+
         return array_reduce($questions, function($matched_questions, $question)
         {
-            $question_taxonomy = $this->getData()->getQuestionMapping()[strval($question)];
+            $question_taxonomy = $this->data->getQuestionMapping()[strval($question)];
 
             if (in_array($question_taxonomy, $this->configuration->getUsedTaxonomies())) {
                 $matched_questions[] = $question;
@@ -97,7 +94,11 @@ class TaxonomyQuestionPoolSourceObject extends AbstractQuestionObject implements
 
     public function getOverallDisplay() : string
     {
-        $mapping = $this->getTaxonomy()->getNodeMapping();
+        if ($this->has_no_taxonomy) {
+            return '';
+        }
+
+        $mapping = $this->taxonomy->getNodeMapping();
 
         $options = implode('', array_map(function($node) {
             return sprintf(
@@ -125,7 +126,7 @@ class TaxonomyQuestionPoolSourceObject extends AbstractQuestionObject implements
         $this->configuration = new TaxonomyQuestionPoolSourceConfiguration(
             $this->configuration->getUuid(),
             $selected_taxonomy,
-            $this->getTaxonomy()->getTaxonomyWithChildren($selected_taxonomy)
+            $this->taxonomy->getTaxonomyWithChildren($selected_taxonomy)
         );
     }
 
