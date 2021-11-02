@@ -5,6 +5,7 @@ namespace Fluxlabs\Assessment\Test\Domain\Instance\Persistence\Projections;
 
 use ActiveRecord;
 use DateTimeImmutable;
+use Fluxlabs\Assessment\Test\Domain\Instance\Model\AssessmentInstanceRun;
 use ILIAS\Data\UUID\Uuid;
 
 /**
@@ -16,10 +17,6 @@ use ILIAS\Data\UUID\Uuid;
  */
 class RunState extends ActiveRecord
 {
-    const STATE_OPEN = 1;
-    const STATE_SUBMITED = 2;
-    const STATE_CORRECTED = 3;
-
     /**
      * @var int
      *
@@ -110,7 +107,7 @@ class RunState extends ActiveRecord
         $this->instance_id = $instance_id;
         $this->instancestate_id = $instancestate_id;
         $this->start_time = $start_time;
-        $this->state = self::STATE_OPEN;
+        $this->state = AssessmentInstanceRun::STATE_OPEN;
     }
 
     public function setState(int $state) : void
