@@ -71,7 +71,13 @@ class TaxonomyQuestionPoolSourceObject extends AbstractQuestionObject implements
     {
         $questions = $this->pool_service->getQuestionsOfPool($this->configuration->getUuid());
 
+        //no filtering if no available taxonomies
         if ($this->has_no_taxonomy) {
+            return $questions;
+        }
+
+        //no filtering if no taxonomy selected
+        if ($this->configuration->getUsedTaxonomies() === null) {
             return $questions;
         }
 
