@@ -27,8 +27,7 @@ class StartAssessmentCommandHandler implements CommandHandlerContract
         $assessment_result = AssessmentResult::create(
             $command->getUuid(),
             $command->getContext(),
-            $command->getQuestionIds(),
-            $command->getIssuingUserId()
+            $command->getQuestionIds()
         );
 
         $repo = new AssessmentResultRepository();

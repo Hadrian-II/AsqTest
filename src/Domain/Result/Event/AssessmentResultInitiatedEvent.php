@@ -32,13 +32,12 @@ class AssessmentResultInitiatedEvent extends AbstractDomainEvent
     public function __construct(
         Uuid $aggregate_id,
         ilDateTime $occured_on,
-        int $initiating_user_id,
         AssessmentResultContext $context = null,
         array $questions = null
     ) {
         $this->context = $context;
         $this->questions = $questions;
-        parent::__construct($aggregate_id, $occured_on, $initiating_user_id);
+        parent::__construct($aggregate_id, $occured_on);
     }
 
     public function getContext() : AssessmentResultContext

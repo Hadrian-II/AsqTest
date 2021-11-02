@@ -28,15 +28,14 @@ class AssessmentSection extends AbstractAggregateRoot
      */
     protected ?array $items = [];
 
-    public static function create(Uuid $id, int $user_id) : AssessmentSection
+    public static function create(Uuid $id) : AssessmentSection
     {
         $object = new AssessmentSection();
 
         $object->ExecuteEvent(
             new AggregateCreatedEvent(
                 $id,
-                new ilDateTime(time(), IL_CAL_UNIX),
-                $user_id
+                new ilDateTime(time(), IL_CAL_UNIX)
             )
         );
 
@@ -48,14 +47,13 @@ class AssessmentSection extends AbstractAggregateRoot
         return $this->data;
     }
 
-    public function setData(?AssessmentSectionData $data, int $user_id) : void
+    public function setData(?AssessmentSectionData $data) : void
     {
         if (!AssessmentSectionData::isNullableEqual($data, $this->data)) {
             $this->ExecuteEvent(
                 new AssessmentSectionDataSetEvent(
                     $this->aggregate_id,
                     new ilDateTime(time(), IL_CAL_UNIX),
-                    $user_id,
                     $data
                 )
             );
@@ -67,13 +65,12 @@ class AssessmentSection extends AbstractAggregateRoot
         $this->data = $event->getSectionData();
     }
 
-    public function addItem(SectionPart $item, int $user_id) : void
+    public function addItem(SectionPart $item) : void
     {
         if (!array_key_exists($item->getKey(), $this->items)) {
             $this->ExecuteEvent(new AssessmentSectionItemAddedEvent(
                 $this->aggregate_id,
                 new ilDateTime(time(), IL_CAL_UNIX),
-                $user_id,
                 $item
             ));
         } else {
@@ -86,13 +83,12 @@ class AssessmentSection extends AbstractAggregateRoot
         $this->items[$event->getItem()->getKey()] = $event->getItem();
     }
 
-    public function removeItem(SectionPart $item, int $user_id) : void
+    public function removeItem(SectionPart $item) : void
     {
         if (array_key_exists($item->getKey(), $this->items)) {
             $this->ExecuteEvent(new AssessmentSectionItemRemovedEvent(
                 $this->aggregate_id,
                 new ilDateTime(time(), IL_CAL_UNIX),
-                $user_id,
                 $item
             ));
         } else {

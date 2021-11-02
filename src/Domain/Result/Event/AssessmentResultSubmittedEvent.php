@@ -16,9 +16,9 @@ use Fluxlabs\CQRS\Event\AbstractDomainEvent;
  */
 class AssessmentResultSubmittedEvent extends AbstractDomainEvent
 {
-    public function __construct(Uuid $aggregate_id, ilDateTime $occurred_on, int $initiating_user_id)
+    public function __construct(Uuid $aggregate_id, ilDateTime $occurred_on)
     {
-        parent::__construct($aggregate_id, $occurred_on, $initiating_user_id);
+        parent::__construct($aggregate_id, $occurred_on);
     }
 
     public function getEventBody() : string

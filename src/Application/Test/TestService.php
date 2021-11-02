@@ -29,7 +29,7 @@ use srag\asq\QuestionPool\Application\Command\RemoveQuestionCommandHandler;
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */
 
-class TestService extends ASQService
+class TestService
 {
     private CommandBus $command_bus;
 
@@ -70,8 +70,7 @@ class TestService extends ASQService
         // CreateQuestion.png
         $this->command_bus->handle(
             new CreateTestCommand(
-                $uuid,
-                $this->getActiveUser()
+                $uuid
             )
         );
 
@@ -83,8 +82,7 @@ class TestService extends ASQService
         $this->command_bus->handle(
             new AddSectionCommand(
                 $id,
-                $section_id,
-                $this->getActiveUser()
+                $section_id
             )
         );
     }
@@ -94,8 +92,7 @@ class TestService extends ASQService
         $this->command_bus->handle(
             new RemoveSectionCommand(
                 $id,
-                $section_id,
-                $this->getActiveUser()
+                $section_id
             )
         );
     }
@@ -113,12 +110,12 @@ class TestService extends ASQService
         $stored = $this->repo->getAggregateRootById($test->getId());
 
         if (!TestData::isNullableEqual($test->getTestData(), $stored->getTestData())) {
-            $stored->setTestData($test->getTestData(), $this->getActiveUser());
+            $stored->setTestData($test->getTestData());
         }
 
         foreach ($test->getConfigurations() as $configuration_for => $configuration) {
             if (!AbstractValueObject::isNullableEqual($stored->getConfiguration($configuration_for), $configuration)) {
-                $stored->setConfiguration($configuration, $configuration_for, $this->getActiveUser());
+                $stored->setConfiguration($configuration, $configuration_for);
             }
         }
 
@@ -126,15 +123,15 @@ class TestService extends ASQService
                 array_keys($stored->getConfigurations()),
                 array_keys($test->getConfigurations())) as $deleted)
         {
-            $stored->removeConfiguration($deleted, $this->getActiveUser());
+            $stored->removeConfiguration($deleted);
         }
 
         foreach (array_diff($test->getSections(), $stored->getSections()) as $new_section) {
-            $stored->addSection($new_section, $this->getActiveUser());
+            $stored->addSection($new_section);
         }
 
         foreach (array_diff($stored->getSections(), $test->getSections()) as $removed_section) {
-            $stored->removeSection($removed_section, $this->getActiveUser());
+            $stored->removeSection($removed_section);
         }
 
         if (count($stored->getRecordedEvents()->getEvents()) > 0) {

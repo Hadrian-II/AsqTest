@@ -22,11 +22,10 @@ class AssessmentSectionItemRemovedEvent extends AbstractDomainEvent
     public function __construct(
         Uuid $aggregate_id,
         ilDateTime $occured_on,
-        int $initiating_user_id,
         SectionPart $item = null
     ) {
         $this->item = $item;
-        parent::__construct($aggregate_id, $occured_on, $initiating_user_id);
+        parent::__construct($aggregate_id, $occured_on);
     }
 
     public function getItem() : SectionPart

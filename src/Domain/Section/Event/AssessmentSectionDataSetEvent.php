@@ -22,11 +22,10 @@ class AssessmentSectionDataSetEvent extends AbstractDomainEvent
     public function __construct(
         Uuid $aggregate_id,
         ilDateTime $occured_on,
-        int $initiating_user_id,
         AssessmentSectionData $data = null
     ) {
         $this->section_data = $data;
-        parent::__construct($aggregate_id, $occured_on, $initiating_user_id);
+        parent::__construct($aggregate_id, $occured_on);
     }
 
     public function getSectionData() : AssessmentSectionData

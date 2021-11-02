@@ -17,10 +17,10 @@ class CreateTestCommand extends AbstractCommand
 {
     protected Uuid $id;
 
-    public function __construct(Uuid $id, int $user_id)
+    public function __construct(Uuid $id)
     {
         $this->id = $id;
-        parent::__construct($user_id);
+        parent::__construct();
     }
 
     public function getId() : Uuid

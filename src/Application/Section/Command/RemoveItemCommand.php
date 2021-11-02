@@ -20,11 +20,11 @@ class RemoveItemCommand extends AbstractCommand
 
     public SectionPart $item;
 
-    public function __construct(Uuid $section_id, int $user_id, SectionPart $item)
+    public function __construct(Uuid $section_id, SectionPart $item)
     {
         $this->section_id = $section_id;
         $this->item = $item;
-        parent::__construct($user_id);
+        parent::__construct();
     }
 
     public function getSectionId() : Uuid

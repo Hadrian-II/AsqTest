@@ -39,8 +39,7 @@ class AssessmentResult extends AbstractAggregateRoot
     public static function create(
         Uuid $id,
         AssessmentResultContext $context,
-        array $question_ids,
-        int $user_id) : AssessmentResult
+        array $question_ids) : AssessmentResult
     {
         $result = new AssessmentResult();
         $occurred_on = new ilDateTime(time(), IL_CAL_UNIX);
@@ -48,14 +47,12 @@ class AssessmentResult extends AbstractAggregateRoot
             new AggregateCreatedEvent(
                 $id,
                 $occurred_on,
-                $user_id
             )
         );
         $result->ExecuteEvent(
             new AssessmentResultInitiatedEvent(
                 $id,
                 $occurred_on,
-                $user_id,
                 $context,
                 $question_ids
             )
@@ -119,7 +116,7 @@ class AssessmentResult extends AbstractAggregateRoot
         }
     }
 
-    public function setAnswer(Uuid $question_id, AbstractValueObject $answer, int $initiating_user_id) : void
+    public function setAnswer(Uuid $question_id, AbstractValueObject $answer) : void
     {
         if ($this->status === SessionStatus::PENDING_RESPONSE_PROCESSING ||
             $this->status === SessionStatus::FINAL) {
@@ -130,7 +127,6 @@ class AssessmentResult extends AbstractAggregateRoot
             $this->ExecuteEvent(new AnswerSetEvent(
                 $this->getAggregateId(),
                 new ilDateTime(time(), IL_CAL_UNIX),
-                $initiating_user_id,
                 $question_id,
                 $answer
             ));
@@ -139,7 +135,7 @@ class AssessmentResult extends AbstractAggregateRoot
         }
     }
 
-    public function setScore(Uuid $question_id, ItemScore $score, int $initiating_user_id) : void
+    public function setScore(Uuid $question_id, ItemScore $score) : void
     {
         if ($this->status !== SessionStatus::PENDING_RESPONSE_PROCESSING) {
             throw new AsqException('Scoring only possible on submitted result with unfinished scoring');
@@ -149,7 +145,6 @@ class AssessmentResult extends AbstractAggregateRoot
             $this->ExecuteEvent(new ScoreSetEvent(
                 $this->getAggregateId(),
                 new ilDateTime(time(), IL_CAL_UNIX),
-                $initiating_user_id,
                 $question_id,
                 $score
             ));
@@ -158,7 +153,7 @@ class AssessmentResult extends AbstractAggregateRoot
         }
     }
 
-    public function addHint(Uuid $question_id, QuestionHint $hint, int $initiating_user_id) : void
+    public function addHint(Uuid $question_id, QuestionHint $hint) : void
     {
         if ($this->status === SessionStatus::PENDING_RESPONSE_PROCESSING ||
             $this->status === SessionStatus::FINAL) {
@@ -170,7 +165,6 @@ class AssessmentResult extends AbstractAggregateRoot
                 new HintReceivedEvent(
                     $this->getAggregateId(),
                     new ilDateTime(time(), IL_CAL_UNIX),
-                    $initiating_user_id,
                     $question_id,
                     $hint
                 )
@@ -180,7 +174,7 @@ class AssessmentResult extends AbstractAggregateRoot
         }
     }
 
-    public function submitResult(int $initiating_user_id) : void
+    public function submitResult() : void
     {
         if ($this->status === SessionStatus::PENDING_RESPONSE_PROCESSING ||
             $this->status === SessionStatus::FINAL) {
@@ -189,12 +183,11 @@ class AssessmentResult extends AbstractAggregateRoot
 
         $this->ExecuteEvent(new AssessmentResultSubmittedEvent(
             $this->getAggregateId(),
-            new ilDateTime(time(), IL_CAL_UNIX),
-            $initiating_user_id
+            new ilDateTime(time(), IL_CAL_UNIX)
         ));
     }
 
-    public function finishScoring(int $initiating_user_id) : void
+    public function finishScoring() : void
     {
         if ($this->status !== SessionStatus::PENDING_RESPONSE_PROCESSING) {
             throw new AsqException('Can only finish scoring on submited result with open scoring');
@@ -202,8 +195,7 @@ class AssessmentResult extends AbstractAggregateRoot
 
         $this->ExecuteEvent(new ScoringFinishedEvent(
             $this->getAggregateId(),
-            new ilDateTime(time(), IL_CAL_UNIX),
-            $initiating_user_id
+            new ilDateTime(time(), IL_CAL_UNIX)
         ));
     }
 

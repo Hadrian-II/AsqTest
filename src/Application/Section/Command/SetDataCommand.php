@@ -20,11 +20,11 @@ class SetDataCommand extends AbstractCommand
 
     public AssessmentSectionData $data;
 
-    public function __construct(Uuid $section_id, int $user_id, AssessmentSectionData $data)
+    public function __construct(Uuid $section_id, AssessmentSectionData $data)
     {
         $this->section_id = $section_id;
         $this->data = $data;
-        parent::__construct($user_id);
+        parent::__construct();
     }
 
     public function getSectionId() : Uuid

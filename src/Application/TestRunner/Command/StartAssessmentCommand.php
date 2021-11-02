@@ -25,12 +25,12 @@ class StartAssessmentCommand extends AbstractCommand
 
     protected Uuid $uuid;
 
-    public function __construct(Uuid $uuid, int $user_id, AssessmentResultContext $context, array $question_ids)
+    public function __construct(Uuid $uuid, AssessmentResultContext $context, array $question_ids)
     {
         $this->uuid = $uuid;
         $this->context = $context;
         $this->question_ids = $question_ids;
-        parent::__construct($user_id);
+        parent::__construct();
     }
 
     public function getUuid() : Uuid

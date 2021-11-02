@@ -16,10 +16,10 @@ class PerformAutomaticScoringCommand extends AbstractCommand
 {
     public string $result_uuid;
 
-    public function __construct(string $result_uuid, int $user_id)
+    public function __construct(string $result_uuid)
     {
         $this->result_uuid = $result_uuid;
-        parent::__construct($user_id);
+        parent::__construct();
     }
 
     public function getResultUuid() : string

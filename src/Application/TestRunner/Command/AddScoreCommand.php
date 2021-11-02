@@ -22,12 +22,12 @@ class AddScoreCommand extends AbstractCommand
 
     public ItemScore $score;
 
-    public function __construct(Uuid $result_uuid, int $user_id, Uuid $question_id, ItemScore $score)
+    public function __construct(Uuid $result_uuid, Uuid $question_id, ItemScore $score)
     {
         $this->result_uuid = $result_uuid;
         $this->question_id = $question_id;
         $this->score = $score;
-        parent::__construct($user_id);
+        parent::__construct();
     }
 
     public function getResultUuid() : Uuid

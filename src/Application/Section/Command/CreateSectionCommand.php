@@ -17,10 +17,10 @@ class CreateSectionCommand extends AbstractCommand
 {
     protected Uuid $uuid;
 
-    public function __construct(Uuid $uuid, int $user_id)
+    public function __construct(Uuid $uuid)
     {
         $this->uuid = $uuid;
-        parent::__construct($user_id);
+        parent::__construct();
     }
 
     public function getId() : Uuid

@@ -25,8 +25,7 @@ class CreateTestCommandHandler implements CommandHandlerContract
     public function handle(CommandContract $command) : Result
     {
         $test = AssessmentTest::createNewTest(
-            $command->getId(),
-            $command->getIssuingUserId(),
+            $command->getId()
         );
 
         $repo = new AssessmentTestRepository();

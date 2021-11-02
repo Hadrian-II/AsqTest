@@ -22,12 +22,12 @@ class HintReceivedCommand extends AbstractCommand
 
     public QuestionHint $hint;
 
-    public function __construct(Uuid $result_uuid, int $user_id, Uuid $question_id, QuestionHint $hint)
+    public function __construct(Uuid $result_uuid, Uuid $question_id, QuestionHint $hint)
     {
         $this->result_uuid = $result_uuid;
         $this->question_id = $question_id;
         $this->hint = $hint;
-        parent::__construct($user_id);
+        parent::__construct();
     }
 
     public function getResultUuid() : Uuid

@@ -22,12 +22,12 @@ class AddAnswerCommand extends AbstractCommand
 
     public  AbstractValueObject$answer;
 
-    public function __construct(Uuid $result_uuid, int $user_id, Uuid $question_id, AbstractValueObject $answer)
+    public function __construct(Uuid $result_uuid, Uuid $question_id, AbstractValueObject $answer)
     {
         $this->result_uuid = $result_uuid;
         $this->question_id = $question_id;
         $this->answer = $answer;
-        parent::__construct($user_id);
+        parent::__construct();
     }
 
     public function getResultUuid() : Uuid

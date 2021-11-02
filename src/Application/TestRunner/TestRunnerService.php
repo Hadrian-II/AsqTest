@@ -35,7 +35,7 @@ use Fluxlabs\Assessment\Test\Domain\Result\Model\ItemScore;
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */
 
-class TestRunnerService extends ASQService
+class TestRunnerService
 {
     private CommandBus $command_bus;
 
@@ -88,7 +88,6 @@ class TestRunnerService extends ASQService
         $this->command_bus->handle(
             new StartAssessmentCommand(
                 $uuid,
-                $this->getActiveUser(),
                 $context,
                 $question_ids
             )
@@ -102,7 +101,6 @@ class TestRunnerService extends ASQService
         $this->command_bus->handle(
             new AddAnswerCommand(
                 $uuid,
-                $this->getActiveUser(),
                 $question_id,
                 $answer
             )
@@ -114,7 +112,6 @@ class TestRunnerService extends ASQService
         $this->command_bus->handle(
             new HintReceivedCommand(
                 $uuid,
-                $this->getActiveUser(),
                 $question_id,
                 $hint
             )
@@ -126,7 +123,6 @@ class TestRunnerService extends ASQService
         $this->command_bus->handle(
             new SubmitAssessmentCommand(
                 $uuid,
-                $this->getActiveUser()
             )
         );
     }
@@ -136,7 +132,6 @@ class TestRunnerService extends ASQService
         $this->command_bus->handle(
             new FinishScoringCommand(
                 $uuid,
-                $this->getActiveUser()
             )
         );
     }
@@ -146,7 +141,6 @@ class TestRunnerService extends ASQService
         $this->command_bus->handle(
             new AddScoreCommand(
                 $uuid,
-                $this->getActiveUser(),
                 $question_id,
                 $score
             )

@@ -25,8 +25,7 @@ class CreateSectionCommandHandler implements CommandHandlerContract
     public function handle(CommandContract $command) : Result
     {
         $section = AssessmentSection::create(
-            $command->getId(),
-            $command->getIssuingUserId()
+            $command->getId()
         );
 
         $repo = new AssessmentSectionRepository();

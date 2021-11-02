@@ -30,7 +30,7 @@ use ILIAS\Data\UUID\Uuid;
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */
 
-class SectionService extends ASQService
+class SectionService
 {
     private CommandBus $command_bus;
 
@@ -75,8 +75,7 @@ class SectionService extends ASQService
         // CreateQuestion.png
         $this->command_bus->handle(
             new CreateSectionCommand(
-                $uuid,
-                $this->getActiveUser()
+                $uuid
             )
         );
 
@@ -88,7 +87,6 @@ class SectionService extends ASQService
         $this->command_bus->handle(
             new AddItemCommand(
                 $section_id,
-                $this->getActiveUser(),
                 new SectionPart(
                     SectionPart::TYPE_QUESTION,
                     $question_id,
@@ -103,7 +101,6 @@ class SectionService extends ASQService
         $this->command_bus->handle(
             new RemoveItemCommand(
                 $section_id,
-                $this->getActiveUser(),
                 new SectionPart(
                     SectionPart::TYPE_QUESTION,
                     $question_id,
@@ -118,7 +115,6 @@ class SectionService extends ASQService
         $this->command_bus->handle(
             new SetDataCommand(
                 $section_id,
-                $this->getActiveUser(),
                 $data
             )
         );

@@ -17,10 +17,10 @@ class SubmitAssessmentCommand extends AbstractCommand
 {
     public Uuid $result_uuid;
 
-    public function __construct(Uuid $result_uuid, int $user_id)
+    public function __construct(Uuid $result_uuid)
     {
         $this->result_uuid = $result_uuid;
-        parent::__construct($user_id);
+        parent::__construct();
     }
 
     public function getResultUuid() : Uuid
