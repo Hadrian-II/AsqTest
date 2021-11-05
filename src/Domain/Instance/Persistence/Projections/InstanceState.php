@@ -5,6 +5,7 @@ namespace Fluxlabs\Assessment\Test\Domain\Instance\Persistence\Projections;
 
 use ActiveRecord;
 use DateTimeImmutable;
+use ILIAS\Data\UUID\Factory;
 use ILIAS\Data\UUID\Uuid;
 
 /**
@@ -16,6 +17,13 @@ use ILIAS\Data\UUID\Uuid;
  */
 class InstanceState extends ActiveRecord
 {
+    const STORAGE_NAME = 'asqt_instance_state';
+
+    public static function returnDbTableName() : string
+    {
+        return self::STORAGE_NAME;
+    }
+
     /**
      * @var int
      *
@@ -73,14 +81,10 @@ class InstanceState extends ActiveRecord
      */
     protected $instance_closes;
 
-    /**
-     * @var int
-     *
-     * @con_has_field  true
-     * @con_fieldtype  integer
-     * @con_length     8
-     */
-    protected $allowed_tries;
+    public function getId() : int
+    {
+        return intval($this->id);
+    }
 
     public function getAggregateId() : Uuid
     {
@@ -107,18 +111,50 @@ class InstanceState extends ActiveRecord
         return $this->instance_closes;
     }
 
-    public function getAllowedTries() : int
-    {
-        return $this->allowed_tries;
-    }
 
-    public function setData(Uuid $instance_id, Uuid $test_id, int $teststate_id, DateTimeImmutable $opening, DateTimeImmutable $closing, int $tries) : void
+    public function setData(
+        Uuid $instance_id,
+        Uuid $test_id,
+        int $teststate_id,
+        DateTimeImmutable $opening,
+        DateTimeImmutable $closing) : void
     {
         $this->aggregate_id = $instance_id;
         $this->test_id = $test_id;
         $this->teststate_id = $teststate_id;
         $this->instance_opens = $opening;
         $this->instance_closes = $closing;
-        $this->allowed_tries = $tries;
+    }
+
+    public function sleep($field_name)
+    {
+        switch ($field_name) {
+            case 'aggregate_id':
+                return $this->aggregate_id ? $this->aggregate_id->toString() : null;
+            case 'test_id':
+                return $this->test_id ? $this->test_id->toString() : null;
+            case 'instance_opens':
+                return $this->instance_opens ? $this->instance_opens->getTimestamp() : null;
+            case 'instance_closes':
+                return $this->instance_closes ? $this->instance_closes->getTimestamp() : null;
+            default:
+                return null;
+        }
+    }
+
+    public function wakeUp($field_name, $field_value)
+    {
+        $factory = new Factory();
+
+        switch ($field_name) {
+            case 'aggregate_id':
+            case 'test_id':
+                return $field_value ? $factory->fromString($field_value) : null;
+            case 'instance_opens':
+            case 'instance_closes':
+                return $field_value ? (new DateTimeImmutable())->setTimestamp(intval($field_value)) : null;
+            default:
+                return null;
+        }
     }
 }

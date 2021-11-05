@@ -5,6 +5,7 @@ namespace Fluxlabs\Assessment\Test\Modules\Questions\Page;
 
 use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event\SectionDefinition;
 use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event\StoreSectionsEvent;
+use Fluxlabs\Assessment\Test\Modules\Storage\RunManager\Event\CreateInstanceEvent;
 use Fluxlabs\Assessment\Tools\DIC\CtrlTrait;
 use Fluxlabs\Assessment\Tools\DIC\KitchenSinkTrait;
 use Fluxlabs\Assessment\Tools\DIC\LanguageTrait;
@@ -244,7 +245,13 @@ class QuestionPage extends AbstractAsqModule implements IPageModule
         $this->raiseEvent(
             new StoreSectionsEvent(
                 $this,
-                $sections));
+                $sections
+            )
+        );
+
+        $this->raiseEvent(
+            new CreateInstanceEvent($this)
+        );
 
         $this->raiseEvent(new ForwardToCommandEvent($this, self::SHOW_QUESTIONS));
     }

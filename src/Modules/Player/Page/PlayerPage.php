@@ -8,6 +8,7 @@ use Fluxlabs\Assessment\Test\Modules\Player\Page\Buttons\PlayerButtons;
 use Fluxlabs\Assessment\Test\Modules\Player\QuestionDisplay\QuestionDisplay;
 use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event\StoreAnswerEvent;
 use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event\SubmitTestEvent;
+use Fluxlabs\Assessment\Test\Modules\Storage\RunManager\RunManager;
 use Fluxlabs\Assessment\Tools\DIC\CtrlTrait;
 use Fluxlabs\Assessment\Tools\DIC\KitchenSinkTrait;
 use Fluxlabs\Assessment\Tools\Domain\IObjectAccess;
@@ -23,6 +24,7 @@ use ILIAS\Data\UUID\Uuid;
 use ilTemplate;
 use srag\asq\Application\Service\AsqServices;
 use srag\asq\Infrastructure\Helpers\PathHelper;
+use Whoops\Run;
 
 /**
  * Class PlayerPage
@@ -81,7 +83,7 @@ class PlayerPage extends AbstractAsqModule implements IPageModule
 
     public function renderQuestion(?Uuid $question_id) : void
     {
-        $this->context = $this->access->getStorage()->getPlayerContext($question_id);
+        $this->access->getModule(RunManager::class)->getPlayerContext($question_id);
 
         $this->raiseEvent(new SetUIEvent($this, new UIData(
             'Test',

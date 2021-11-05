@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace Fluxlabs\Assessment\Test\Domain\Instance\Persistence\Projections;
 
 use ActiveRecord;
+use ILIAS\Data\UUID\Factory;
 use ILIAS\Data\UUID\Uuid;
 
 /**
@@ -15,6 +16,13 @@ use ILIAS\Data\UUID\Uuid;
  */
 class TestState extends ActiveRecord
 {
+    const STORAGE_NAME = 'asqt_test_state';
+
+    public static function returnDbTableName() : string
+    {
+        return self::STORAGE_NAME;
+    }
+
     /**
      * @var int
      *
@@ -44,7 +52,7 @@ class TestState extends ActiveRecord
      * @con_length     36
      * @con_index      true
      */
-    protected $current_run_id;
+    protected $current_instance_id;
     /**
      * @var int
      *
@@ -52,7 +60,12 @@ class TestState extends ActiveRecord
      * @con_fieldtype  integer
      * @con_length     8
      */
-    protected $current_runstate_id;
+    protected $current_instance_state_id;
+
+    public function getId() : int
+    {
+        return intval($this->id);
+    }
 
     public function getAggregateId() : Uuid
     {
@@ -64,19 +77,44 @@ class TestState extends ActiveRecord
         $this->aggregate_id = $id;
     }
 
-    public function getCurrentRunId() : Uuid
+    public function getCurrentInstanceId() : Uuid
     {
-        return $this->current_run_id;
+        return $this->current_instance_id;
     }
 
-    public function getRunstateId() : int
+    public function getCurrentInstanceStateId() : int
     {
-        return $this->current_runstate_id;
+        return intval($this->current_instance_state_id);
     }
 
-    public function setCurrentRun(Uuid $run_id, int $runstate_id) : void
+    public function setCurrentInstance(InstanceState $state) : void
     {
-        $this->current_run_id = $run_id;
-        $this->current_runstate_id = $runstate_id;
+        $this->current_instance_id = $state->getAggregateId();
+        $this->current_instance_state_id = $state->getId();
+    }
+
+    public function sleep($field_name)
+    {
+        switch ($field_name) {
+            case 'aggregate_id':
+                return $this->aggregate_id ? $this->aggregate_id->toString() : null;
+            case 'current_instance_id':
+                return $this->current_instance_id ? $this->current_instance_id->toString() : null;
+            default:
+                return null;
+        }
+    }
+
+    public function wakeUp($field_name, $field_value)
+    {
+        $factory = new Factory();
+
+        switch ($field_name) {
+            case 'aggregate_id':
+            case 'current_instance_id':
+                return $field_value ? $factory->fromString($field_value) : null;
+            default:
+                return null;
+        }
     }
 }

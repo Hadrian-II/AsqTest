@@ -8,6 +8,7 @@ use Fluxlabs\Assessment\Test\Application\TestRunner\TestRunnerService;
 use Fluxlabs\Assessment\Test\Domain\Result\Model\AssessmentResultContext;
 use Fluxlabs\Assessment\Test\Domain\Section\Model\AssessmentSection;
 use Fluxlabs\Assessment\Test\Domain\Section\Model\AssessmentSectionData;
+use Fluxlabs\Assessment\Test\Domain\Section\Model\AssessmentSectionDto;
 use Fluxlabs\Assessment\Test\Domain\Section\Model\SectionPart;
 use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event\SectionDefinition;
 use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event\StoreAnswerEvent;
@@ -85,44 +86,7 @@ class AssessmentTestStorage extends AbstractAsqModule implements IStorageModule
         $this->currentTestData()->removeConfiguration($configuration_for);
     }
 
-    public function getPlayerContext(?Uuid $current_question = null) : AssessmentTestContext
-    {
-        return new AssessmentTestContext($this->getCurrentRunId(), $current_question, $this->runner_service);
-    }
-
-    private function getCurrentRunId() : Uuid
-    {
-        //TODO implement actual handling of run/tries etc
-        global $DIC;
-        $user_id = $DIC->user()->getId();
-        $key = "current_result_" . $user_id;
-
-        if ($_SESSION[$key] === null) {
-            $uuid = $this->runner_service->createTestRun(
-                $this->createResultContext($user_id),
-                $this->getTestQuestions()
-            );
-            $_SESSION[$key] = $uuid->toString();
-        }
-        else
-        {
-            $uuid = $this->factory->fromString($_SESSION[$key]);
-        }
-
-        return $uuid;
-    }
-
-    private function createResultContext(int $user_id) : AssessmentResultContext
-    {
-        return new AssessmentResultContext(
-            $user_id,
-            'TODO TEST',
-            1,
-            $this->currentTestData()->getId()
-        );
-    }
-
-    private function getTestQuestions() : array
+    public function getTestQuestions() : array
     {
         $questions = [];
 
@@ -171,40 +135,12 @@ class AssessmentTestStorage extends AbstractAsqModule implements IStorageModule
         if (get_class($event) === StoreSectionsEvent::class) {
             $this->processStoreSectionEvent($event->getSections());
         }
-
-        if (get_class($event) === StoreAnswerEvent::class) {
-            $this->processStoreAnswerEvent($event->getQuestionId(), $event->getAnswer());
-        }
-
-        if (get_class($event) === SubmitTestEvent::class) {
-            $this->processSubmitTestEvent();
-        }
     }
 
     private function processStoreTestDataEvent(TestData $data) : void
     {
         $this->currentTestData()->setTestData($data);
         $this->test_service->saveTest($this->test_data);
-    }
-
-    private function processStoreAnswerEvent(Uuid $question_id, AbstractValueObject $answer)
-    {
-        $this->runner_service->addAnswer(
-            $this->getCurrentRunId(),
-            $question_id,
-            $answer
-        );
-    }
-
-    private function processSubmitTestEvent() : void
-    {
-        $this->runner_service->submitTestRun($this->getCurrentRunId());
-
-        //TODO implement actual handling of run/tries etc
-        global $DIC;
-        $user_id = $DIC->user()->getId();
-        $key = "current_result_" . $user_id;
-        unset($_SESSION[$key]);
     }
 
     /**
@@ -228,7 +164,7 @@ class AssessmentTestStorage extends AbstractAsqModule implements IStorageModule
 
         $existing_sections = array_intersect(array_keys($current_sections), array_keys($new_sections));
         $created_sections = array_diff(array_keys($new_sections), $existing_sections);
-        $removed_sections =  array_diff(array_change_key_case($current_sections), $existing_sections);
+        $removed_sections =  array_diff(array_keys($current_sections), $existing_sections);
 
         foreach ($created_sections as $created_section) {
             $this->createNewSection($created_section, $new_sections[$created_section]);
@@ -258,7 +194,7 @@ class AssessmentTestStorage extends AbstractAsqModule implements IStorageModule
         }
     }
 
-    private function updateSection(AssessmentSection $section, array $new_questions) : void
+    private function updateSection(AssessmentSectionDto $section, array $new_questions) : void
     {
         $current_questions = [];
 

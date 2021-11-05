@@ -14,7 +14,7 @@ use Fluxlabs\CQRS\Event\AbstractStoredEvent;
  */
 class AssessmentInstanceEventStoreAr extends AbstractStoredEvent
 {
-    const STORAGE_NAME = "asq_instance_event_store";
+    const STORAGE_NAME = 'asq_instance_es';
 
     public static function returnDbTableName() : string
     {

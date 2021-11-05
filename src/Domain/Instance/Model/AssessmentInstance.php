@@ -51,6 +51,11 @@ class AssessmentInstance extends AbstractAggregateRoot
         return $instance;
     }
 
+    public function getConfig() : AssessmentInstanceConfiguration
+    {
+        return $this->configuration;
+    }
+
     protected function applyAggregateCreatedEvent(DomainEvent $event) : void
     {
         parent::applyAggregateCreatedEvent($event);
@@ -67,7 +72,7 @@ class AssessmentInstance extends AbstractAggregateRoot
         return true;
     }
 
-    protected function startRun(int $user_id, Uuid $run_id) : void
+    public function startRun(int $user_id, Uuid $run_id) : void
     {
         if (!$this->userHasAvailableTries()) {
             throw new AsqException("User has no avalable tries");
@@ -83,7 +88,7 @@ class AssessmentInstance extends AbstractAggregateRoot
         );
     }
 
-    protected function cancelRun(int $user_id, Uuid $run_id) : void
+    public function cancelRun(int $user_id, Uuid $run_id) : void
     {
         $run = $this->getRun($user_id, $run_id);
 
@@ -97,7 +102,7 @@ class AssessmentInstance extends AbstractAggregateRoot
         );
     }
 
-    protected function submitRun(int $user_id, Uuid $run_id) : void
+    public function submitRun(int $user_id, Uuid $run_id) : void
     {
         $run = $this->getRun($user_id, $run_id);
 
@@ -111,7 +116,7 @@ class AssessmentInstance extends AbstractAggregateRoot
         );
     }
 
-    protected function correctRun(int $user_id, Uuid $run_id) : void
+    public function correctRun(int $user_id, Uuid $run_id) : void
     {
         $run = $this->getRun($user_id, $run_id);
 
@@ -129,6 +134,10 @@ class AssessmentInstance extends AbstractAggregateRoot
     {
         // first try
         if (!array_key_exists($user_id, $this->runs)) {
+            return true;
+        }
+
+        if ($this->configuration->getTries() === AssessmentInstanceConfiguration::UNLIMITED_TRIES) {
             return true;
         }
 
