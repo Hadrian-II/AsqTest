@@ -124,12 +124,18 @@ class AssessmentResult extends AbstractAggregateRoot
         }
 
         if (array_key_exists($question_id->toString(), $this->results)) {
-            $this->ExecuteEvent(new AnswerSetEvent(
-                $this->getAggregateId(),
-                new ilDateTime(time(), IL_CAL_UNIX),
-                $question_id,
-                $answer
-            ));
+
+            $old_answer = $this->getItemResult($question_id)->getAnswer();
+
+            if (!AbstractValueObject::isNullableEqual($answer, $old_answer))
+            {
+                $this->ExecuteEvent(new AnswerSetEvent(
+                    $this->getAggregateId(),
+                    new ilDateTime(time(), IL_CAL_UNIX),
+                    $question_id,
+                    $answer
+                ));
+            }
         } else {
             throw new AsqException('Question is not part of current Assesment');
         }

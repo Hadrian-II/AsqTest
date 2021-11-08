@@ -48,4 +48,9 @@ class AssessmentInstanceRun extends AbstractValueObject
     {
         return $this->result_id;
     }
+
+    public function setState(int $state) :void
+    {
+        $this->state = $state;
+    }
 }

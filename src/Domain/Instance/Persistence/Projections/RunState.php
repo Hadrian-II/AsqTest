@@ -116,7 +116,7 @@ class RunState extends ActiveRecord
 
     public function getState() : int
     {
-        return $this->state;
+        return intval($this->state);
     }
 
     public function getStartTime() : DateTimeImmutable
@@ -132,8 +132,8 @@ class RunState extends ActiveRecord
     public function setData(Uuid $run_id, InstanceState $instance_state, DateTimeImmutable $start_time, int $user_id) : void
     {
         $this->aggregate_id = $run_id;
-        $this->instance_id = $instance_state->getId();
-        $this->instancestate_id = $instance_state->getAggregateId();
+        $this->instance_id = $instance_state->getAggregateId();
+        $this->instancestate_id = $instance_state->getId();
         $this->start_time = $start_time;
         $this->user_id = $user_id;
         $this->state = AssessmentInstanceRun::STATE_OPEN;
@@ -151,6 +151,8 @@ class RunState extends ActiveRecord
                 return $this->aggregate_id ? $this->aggregate_id->toString() : null;
             case 'instance_id':
                 return $this->instance_id ? $this->instance_id->toString() : null;
+            case 'start_time':
+                return $this->start_time ? $this->start_time->getTimestamp() : null;
             default:
                 return null;
         }
@@ -164,6 +166,8 @@ class RunState extends ActiveRecord
             case 'aggregate_id':
             case 'instance_id':
                 return $field_value ? $factory->fromString($field_value) : null;
+            case 'start_time':
+                return $field_value ? (new DateTimeImmutable())->setTimestamp(intval($field_value)) : null;
             default:
                 return null;
         }

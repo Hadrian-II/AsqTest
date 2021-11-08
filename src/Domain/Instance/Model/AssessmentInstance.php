@@ -28,7 +28,7 @@ class AssessmentInstance extends AbstractAggregateRoot
     /**
      * @var array<int, array<Uuid, AssessmentInstanceRun>>
      */
-    protected array $runs;
+    protected array $runs = [];
 
     protected AssessmentInstanceConfiguration $configuration;
 
@@ -64,7 +64,7 @@ class AssessmentInstance extends AbstractAggregateRoot
 
     public function canUserStartRun(int $user_id) : bool
     {
-        if (!$this->userHasAvailableTries())
+        if (!$this->userHasAvailableTries($user_id))
         {
             return false;
         }
@@ -74,7 +74,7 @@ class AssessmentInstance extends AbstractAggregateRoot
 
     public function startRun(int $user_id, Uuid $run_id) : void
     {
-        if (!$this->userHasAvailableTries()) {
+        if (!$this->userHasAvailableTries($user_id)) {
             throw new AsqException("User has no avalable tries");
         }
 
@@ -86,6 +86,15 @@ class AssessmentInstance extends AbstractAggregateRoot
                 $user_id
             )
         );
+    }
+
+    protected function applyRunStartedEvent(RunStartedEvent $event) : void
+    {
+        if (array_key_exists($event->getUserId(), $this->runs)) {
+            $this->runs[$event->getUserId()] = [];
+        }
+
+        $this->runs[$event->getUserId()][$event->getRunId()->toString()] = AssessmentInstanceRun::create($event->getUserId(), $event->getRunId());
     }
 
     public function cancelRun(int $user_id, Uuid $run_id) : void
@@ -102,6 +111,11 @@ class AssessmentInstance extends AbstractAggregateRoot
         );
     }
 
+    protected function applyRunCancelledEvent(RunCancelledEvent $event) : void
+    {
+        $this->getRun($event->getUserId(), $event->getRunId())->setState(AssessmentInstanceRun::STATE_CANCELLED);
+    }
+
     public function submitRun(int $user_id, Uuid $run_id) : void
     {
         $run = $this->getRun($user_id, $run_id);
@@ -116,6 +130,11 @@ class AssessmentInstance extends AbstractAggregateRoot
         );
     }
 
+    protected function applyRunSubmitedEvent(RunSubmitedEvent $event) : void
+    {
+        $this->getRun($event->getUserId(), $event->getRunId())->setState(AssessmentInstanceRun::STATE_SUBMITTED);
+    }
+
     public function correctRun(int $user_id, Uuid $run_id) : void
     {
         $run = $this->getRun($user_id, $run_id);
@@ -128,6 +147,11 @@ class AssessmentInstance extends AbstractAggregateRoot
                 $user_id
             )
         );
+    }
+
+    protected function applyRunCorrectedEvent(RunCorrectedEvent $event) : void
+    {
+        $this->getRun($event->getUserId(), $event->getRunId())->setState(AssessmentInstanceRun::STATE_CORRECTED);
     }
 
     private function userHasAvailableTries(int $user_id) : bool
@@ -147,7 +171,7 @@ class AssessmentInstance extends AbstractAggregateRoot
     private function getRun(int $user_id, Uuid $run_id) : AssessmentInstanceRun
     {
         if (!array_key_exists($user_id, $this->runs) ||
-            !array_key_exists($user_id, $this->runs)) {
+            !array_key_exists($run_id->toString(), $this->runs[$user_id])) {
             throw new AsqException(
                 sprintf(
                     'The run with id : "%s" does not exist for User: "%s"',
@@ -157,6 +181,6 @@ class AssessmentInstance extends AbstractAggregateRoot
             );
         }
 
-        return $this->runs[$user_id][$run_id];
+        return $this->runs[$user_id][$run_id->toString()];
     }
 }

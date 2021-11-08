@@ -65,30 +65,28 @@ class RunManager extends AbstractAsqModule
 
     public function getPlayerContext(?Uuid $current_question = null) : AssessmentTestContext
     {
-        return new AssessmentTestContext($this->getCurrentRunId(), $current_question, $this->runner_service);
-    }
-
-    private function getCurrentRunId() : Uuid
-    {
-        if ($this->getCurrentRunState() === null) {
+        if ($this->getCurrentRunState() === null ||
+            $this->getCurrentRunState()->getState() !== AssessmentInstanceRun::STATE_OPEN) {
             $this->createNewRun();
         }
 
-        return $this->getCurrentRunState()->getAggregateId();
+        return new AssessmentTestContext($this->getCurrentRunState()->getAggregateId(), $current_question, $this->runner_service);
     }
 
     private function createNewRun() : void
     {
-        if(!$this->instance->canUserStartRun($this->getCurrentUser())) {
+        if(!$this->getCurrentInstance()->canUserStartRun($this->getCurrentUser())) {
             throw new AsqException("User cannot start another run");
         }
 
         $run_id = $this->runner_service->createTestRun($this->createResultContext($this->getCurrentUser()), $this->access->getStorage()->getTestQuestions());
-        $this->instance->startRun($this->getCurrentUser(), $run_id);
+        $this->getCurrentInstance()->startRun($this->getCurrentUser(), $run_id);
+        $this->storeCurrentInstance();
 
         $this->current_run_state = new RunState();
         $this->current_run_state->setData($run_id, $this->getCurrentInstanceState(), new DateTimeImmutable(), $this->getCurrentUser());
         $this->current_run_state->create();
+        $this->no_current_run_found = false;
     }
 
     private function createResultContext(int $user_id) : AssessmentResultContext
@@ -119,7 +117,7 @@ class RunManager extends AbstractAsqModule
     private function processStoreAnswerEvent(Uuid $question_id, AbstractValueObject $answer)
     {
         $this->runner_service->addAnswer(
-            $this->getCurrentRunId(),
+            $this->getCurrentRunState()->getAggregateId(),
             $question_id,
             $answer
         );
@@ -127,10 +125,10 @@ class RunManager extends AbstractAsqModule
 
     private function processSubmitTestEvent() : void
     {
-        $run_id = $this->getCurrentRunId();
+        $run_id = $this->getCurrentRunState()->getAggregateId();
         $this->runner_service->submitTestRun($run_id);
 
-        $this->instance->submitRun($this->getCurrentUser(), $run_id);
+        $this->getCurrentInstance()->submitRun($this->getCurrentUser(), $run_id);
 
         $this->getCurrentRunState()->setState(AssessmentInstanceRun::STATE_SUBMITTED);
         $this->getCurrentRunState()->save();
@@ -147,7 +145,7 @@ class RunManager extends AbstractAsqModule
                 new DateTimeImmutable('2100-01-01')
             )
         );
-        $this->repository->save($this->instance);
+        $this->storeCurrentInstance();
 
         $instance_state = new InstanceState();
         $instance_state->setData(
@@ -172,6 +170,11 @@ class RunManager extends AbstractAsqModule
         }
 
         return $this->instance;
+    }
+
+    private function storeCurrentInstance() : void
+    {
+        $this->repository->save($this->instance);
     }
 
     private function getCurrentTestState() : TestState

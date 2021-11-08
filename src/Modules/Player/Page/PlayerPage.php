@@ -83,7 +83,7 @@ class PlayerPage extends AbstractAsqModule implements IPageModule
 
     public function renderQuestion(?Uuid $question_id) : void
     {
-        $this->access->getModule(RunManager::class)->getPlayerContext($question_id);
+        $this->context = $this->access->getModule(RunManager::class)->getPlayerContext($question_id);
 
         $this->raiseEvent(new SetUIEvent($this, new UIData(
             'Test',
