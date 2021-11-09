@@ -17,7 +17,7 @@ class AutomaticScoringConfiguration extends AbstractValueObject
     const SCORING_ALL_OR_NOTHING = 1;
     const SCORING_PARTIAL_RESULTS = 2;
 
-    protected ?string $scoring_mode;
+    protected ?int $scoring_mode;
 
     protected ?bool $allow_negative;
 

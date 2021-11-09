@@ -6,12 +6,12 @@ title#:#Title
 description#:#Description
 creator#:#Creator
 select#:#Select
-title#:#Title
 version#:#Version
 type#:#Type
 points#:#Points
 init_test#:#Init Test
-select#:#Select
 remove#:#Remove
 select_questions#:#Select Questions
 select_taxonomy#:#Select Taxonomy
+questions#:#Questions
+settings#:#Settings

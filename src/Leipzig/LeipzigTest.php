@@ -18,16 +18,13 @@ use Fluxlabs\Assessment\Test\Application\Test\Module\IQuestionSourceModule;
 use Fluxlabs\Assessment\Test\Domain\Test\Persistence\TestType;
 use Fluxlabs\Assessment\Test\Modules\Availability\Basic\BasicAvailability;
 use Fluxlabs\Assessment\Test\Modules\Availability\Timed\TimedAvailability;
-use Fluxlabs\Assessment\Test\Modules\Player\QuestionDisplay\QuestionDisplay;
-use Fluxlabs\Assessment\Test\Modules\Player\TextualInOut\TextualInOut;
 use Fluxlabs\Assessment\Test\Modules\Questions\Page\QuestionPage;
 use Fluxlabs\Assessment\Test\Modules\Questions\Selection\All\SelectAllQuestions;
 use Fluxlabs\Assessment\Test\Modules\Questions\Selection\Manual\ManualQuestionSelection;
 use Fluxlabs\Assessment\Test\Modules\Questions\Sources\Fixed\FixedSource;
 use Fluxlabs\Assessment\Test\Modules\Scoring\Automatic\AutomaticScoring;
 use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\AssessmentTestStorage;
-use PHPUnit\Util\Test;
-use srag\asq\QuestionPool\Module\Taxonomy\TaxonomyModule;
+use Fluxlabs\Assessment\Tools\Domain\Modules\Settings\SettingsPage;
 
 /**
  * Class LeipzigTest
@@ -49,7 +46,6 @@ class LeipzigTest extends AbstractAsqPlugin
 
         $this->addModule(new BasicAvailability($this->event_queue, $this->access));
         $this->addModule(new TimedAvailability($this->event_queue, $this->access));
-        $this->addModule(new TextualInOut($this->event_queue, $this->access));
         $this->addModule(new SelectAllQuestions($this->event_queue, $this->access));
         $this->addModule(new ManualQuestionSelection($this->event_queue, $this->access));
         $this->addModule(new FixedSource($this->event_queue, $this->access));
@@ -65,6 +61,12 @@ class LeipzigTest extends AbstractAsqPlugin
             $this->access,
             $this->getModulesOfType(IQuestionSourceModule::class),
             $this->getModulesOfType(IQuestionSelectionModule::class)
+        ));
+
+        $this->addModule(new SettingsPage(
+            $this->event_queue,
+            $this->access,
+            $this->modules
         ));
     }
 

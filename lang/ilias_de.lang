@@ -1,5 +1,17 @@
-test_prev_question#:#Vorherige
-test_save_answer#:#Speichern
-test_next_question#:#Nächste
-test_show_results#:#Resultate Anzeigen
-test_get_hint#:#Tipp
+previous_question#:#Vorherige Frage
+next_question#:#Nächste Frage
+save_answer#:#Antwort Speichern
+submit_test#:#Test Abgeben
+title#:#Titel
+description#:#Beschreibung
+creator#:#Ersteller
+select#:#Auswählen
+version#:#Version
+type#:#Typ
+points#:#Punkte
+init_test#:#Test Initialisieren
+remove#:#Entfernen
+select_questions#:#Fragen Auswählen
+select_taxonomy#:#Taxonomie Auswählen
+questions#:#Fragen
+settings#:#Einstellungen

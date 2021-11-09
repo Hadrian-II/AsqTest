@@ -96,7 +96,7 @@ class QuestionPage extends AbstractAsqModule implements IPageModule
 
         $this->raiseEvent(new AddTabEvent(
             $this,
-            new TabDefinition(self::class, 'Questions', self::SHOW_QUESTIONS)
+            new TabDefinition(self::class, $this->txt('asqt_questions'), self::SHOW_QUESTIONS)
         ));
     }
 
@@ -112,7 +112,7 @@ class QuestionPage extends AbstractAsqModule implements IPageModule
     protected function qpShow() : void
     {
         $this->raiseEvent(new SetUIEvent($this, new UIData(
-            'Questions',
+            $this->txt('asqt_questions'),
             $this->renderContent(),
             null,
             $this->renderToolbar()

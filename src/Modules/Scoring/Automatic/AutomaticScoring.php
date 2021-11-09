@@ -5,6 +5,7 @@ namespace Fluxlabs\Assessment\Test\Modules\Scoring\Automatic;
 
 use Fluxlabs\Assessment\Tools\Domain\Modules\AbstractAsqModule;
 use Fluxlabs\Assessment\Test\Application\Test\Module\IScoringModule;
+use srag\asq\UserInterface\Web\Form\Factory\AbstractObjectFactory;
 
 /**
  * Class AutomaticScoring
@@ -15,8 +16,10 @@ use Fluxlabs\Assessment\Test\Application\Test\Module\IScoringModule;
  */
 class AutomaticScoring extends AbstractAsqModule implements IScoringModule
 {
-    public function getConfigClass() : ?string
+    public function getConfigFactory() : ?AbstractObjectFactory
     {
-        return AutomaticScoringConfigurationFactory::class;
+        global $DIC, $ASQDIC;
+
+        return new AutomaticScoringConfigurationFactory($DIC->language(), $DIC->ui(), $ASQDIC->asq()->ui());
     }
 }

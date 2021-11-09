@@ -24,8 +24,12 @@ class TimedAvailabilityConfigurationFactory extends AbstractObjectFactory
         $to = $this->factory->input()->field()->dateTime($this->language->txt('label_tac_to'));
 
         if ($value !== null) {
-            $from = $from->withMinValue($value->getAvailableFrom());
-            $to = $to->withMinValue($value->getAvailableTo());
+            if ($value->getAvailableFrom() !== null) {
+                $from = $from->withMinValue($value->getAvailableFrom());
+            }
+            if ($value->getAvailableTo() !== null) {
+                $to = $to->withMinValue($value->getAvailableTo());
+            }
         }
 
         return [

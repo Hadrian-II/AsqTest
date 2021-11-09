@@ -5,6 +5,8 @@ namespace Fluxlabs\Assessment\Test\Modules\Availability\Timed;
 
 use Fluxlabs\Assessment\Tools\Domain\Modules\AbstractAsqModule;
 use Fluxlabs\Assessment\Test\Application\Test\Module\IAvailabilityModule;
+use srag\asq\UserInterface\Web\Form\Factory\AbstractObjectFactory;
+use function ILIAS\UI\examples\Symbol\Glyph\Language\language;
 
 /**
  * Class TimedAvailability
@@ -15,9 +17,11 @@ use Fluxlabs\Assessment\Test\Application\Test\Module\IAvailabilityModule;
  */
 class TimedAvailability extends AbstractAsqModule implements IAvailabilityModule
 {
-    public function getConfigClass() : ?string
+    public function getConfigFactory() : ?AbstractObjectFactory
     {
-        return TimedAvailabilityConfigurationFactory::class;
+        global $DIC, $ASQDIC;
+
+        return new TimedAvailabilityConfigurationFactory($DIC->language(), $DIC->ui(), $ASQDIC->asq()->ui());
     }
 
     public function isAvailable(): bool

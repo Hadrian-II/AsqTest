@@ -5,6 +5,7 @@ namespace Fluxlabs\Assessment\Test\Modules\Availability\Basic;
 
 use Fluxlabs\Assessment\Test\Application\Test\Module\IAvailabilityModule;
 use Fluxlabs\Assessment\Tools\Domain\Modules\AbstractAsqModule;
+use srag\asq\UserInterface\Web\Form\Factory\AbstractObjectFactory;
 
 /**
  * Class BasicAvailability
@@ -15,9 +16,11 @@ use Fluxlabs\Assessment\Tools\Domain\Modules\AbstractAsqModule;
  */
 class BasicAvailability extends AbstractAsqModule implements IAvailabilityModule
 {
-    public function getConfigClass() : ?string
+    public function getConfigFactory() : ?AbstractObjectFactory
     {
-        return BasicAvailabilityConfigurationFactory::class;
+        global $DIC, $ASQDIC;
+
+        return new BasicAvailabilityConfigurationFactory($DIC->language(), $DIC->ui(), $ASQDIC->asq()->ui());
     }
 
     public function isAvailable(): bool
