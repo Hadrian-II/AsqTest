@@ -31,7 +31,7 @@ class ItemResult extends AbstractValueObject
 
     protected ?AbstractValueObject $answer = null;
 
-    protected ItemScore $score;
+    protected ?ItemScore $score = null;
 
     protected QuestionHints $hints;
 

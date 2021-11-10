@@ -15,3 +15,5 @@ select_questions#:#Fragen Auswählen
 select_taxonomy#:#Taxonomie Auswählen
 questions#:#Fragen
 settings#:#Einstellungen
+correction#:#Korrektur
+submit_correction#:#Korrektur Abschliessen

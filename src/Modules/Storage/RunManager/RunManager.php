@@ -13,6 +13,10 @@ use Fluxlabs\Assessment\Test\Domain\Instance\Persistence\Projections\InstanceSta
 use Fluxlabs\Assessment\Test\Domain\Instance\Persistence\Projections\RunState;
 use Fluxlabs\Assessment\Test\Domain\Instance\Persistence\Projections\TestState;
 use Fluxlabs\Assessment\Test\Domain\Result\Model\AssessmentResultContext;
+use Fluxlabs\Assessment\Test\Domain\Result\Model\ItemResult;
+use Fluxlabs\Assessment\Test\Domain\Result\Model\ItemScore;
+use Fluxlabs\Assessment\Test\Modules\Scoring\Event\SetManualCorrectionEvent;
+use Fluxlabs\Assessment\Test\Modules\Scoring\Event\SubmitCorrectionEvent;
 use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\AssessmentTestContext;
 use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event\StoreAnswerEvent;
 use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event\SubmitTestEvent;
@@ -24,7 +28,9 @@ use Fluxlabs\Assessment\Tools\Event\IEventQueue;
 use ILIAS\Data\UUID\Factory;
 use ILIAS\Data\UUID\Uuid;
 use Fluxlabs\CQRS\Aggregate\AbstractValueObject;
+use IMSGlobal\LTI\Profile\Item;
 use srag\asq\Application\Exception\AsqException;
+use srag\asq\Application\Service\AsqServices;
 
 /**
  * Class AssessmentTestStorage
@@ -39,6 +45,7 @@ class RunManager extends AbstractAsqModule
 
     private Factory $factory;
     private TestRunnerService $runner_service;
+    private AsqServices $asq;
 
     private ?AssessmentInstance $instance = null;
 
@@ -55,12 +62,40 @@ class RunManager extends AbstractAsqModule
 
     public function __construct(IEventQueue $event_queue, IObjectAccess $access, Uuid $test_id)
     {
+        global $ASQDIC;
+
         $this->runner_service = new TestRunnerService();
         $this->factory = new Factory();
         $this->repository = new AssessmentInstanceRepository();
+        $this->asq = $ASQDIC->asq();
         $this->test_id = $test_id;
 
         parent::__construct($event_queue, $access);
+    }
+
+    /**
+     * @return RunState[]
+     */
+    public function getCorrectableRuns() : array
+    {
+        return RunState::where([
+            'instancestate_id' => $this->getCurrentInstanceState()->getId(),
+            'state' => AssessmentInstanceRun::STATE_SUBMITTED
+        ])->get();
+    }
+
+    /**
+     * @return ItemResult[]
+     */
+    public function getResultsForCorrection(Uuid $run_id) : array
+    {
+        $results = [];
+
+        foreach ($this->access->getStorage()->getTestQuestions() as $question_id) {
+            $results[] = $this->runner_service->getItemResult($run_id, $question_id);
+        }
+
+        return $results;
     }
 
     public function getPlayerContext(?Uuid $current_question = null) : AssessmentTestContext
@@ -112,6 +147,18 @@ class RunManager extends AbstractAsqModule
         if (get_class($event) === CreateInstanceEvent::class) {
             $this->processCreateInstanceEvent();
         }
+
+        if (get_class($event) === SetManualCorrectionEvent::class) {
+            $this->processSetManualCorrectionEvent(
+                $event->getRunId(),
+                $event->getQuestionId(),
+                $event->getScore());
+        }
+
+        if (get_class($event) === SubmitCorrectionEvent::class) {
+            $this->processSubmitCorrectionEvent(
+                $event->getRunId());
+        }
     }
 
     private function processStoreAnswerEvent(Uuid $question_id, AbstractValueObject $answer)
@@ -129,9 +176,61 @@ class RunManager extends AbstractAsqModule
         $this->runner_service->submitTestRun($run_id);
 
         $this->getCurrentInstance()->submitRun($this->getCurrentUser(), $run_id);
+        $this->storeCurrentInstance();
 
         $this->getCurrentRunState()->setState(AssessmentInstanceRun::STATE_SUBMITTED);
         $this->getCurrentRunState()->save();
+    }
+
+    private function processSetManualCorrectionEvent(Uuid $run_id, Uuid $question_id, ItemScore $score) : void
+    {
+        $this->runner_service->addScore(
+            $run_id,
+            $question_id,
+            $score
+        );
+    }
+
+    private function processSubmitCorrectionEvent(Uuid $run_id) : void
+    {
+        $this->autoScoreMissingScores($run_id);
+
+        $this->runner_service->finishScoring($run_id);
+
+        $this->getCurrentInstance()->correctRun($this->getCurrentUser(), $run_id);
+        $this->storeCurrentInstance();
+
+        $runstate = RunState::where(
+            [
+                'aggregate_id' => $run_id->toString(),
+            ])->first();
+
+        $runstate->setState(AssessmentInstanceRun::STATE_CORRECTED);
+        $runstate->save();
+    }
+
+    private function autoScoreMissingScores($run_id) : void
+    {
+        foreach ($this->getResultsForCorrection($run_id) as $result) {
+            if ($result->getScore() === null) {
+                $this->runner_service->addScore(
+                    $run_id,
+                    $result->getQuestionId(),
+                    new ItemScore(
+                        ItemScore::AUTOMATIC_SCORING,
+                        $result->getAnswer() ? $this->scoreAnswer($result) : 0
+                    )
+                );
+            }
+        }
+    }
+
+    private function scoreAnswer(ItemResult $result): float
+    {
+        return $this->asq->answer()->getScore(
+            $this->asq->question()->getQuestionByQuestionId($result->getQuestionId()),
+            $result->getAnswer()
+        );
     }
 
     private function processCreateInstanceEvent() : void

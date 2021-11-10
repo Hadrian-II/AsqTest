@@ -126,7 +126,7 @@ class RunState extends ActiveRecord
 
     public function getUserId() : int
     {
-        return $this->user_id;
+        return intval($this->user_id);
     }
 
     public function setData(Uuid $run_id, InstanceState $instance_state, DateTimeImmutable $start_time, int $user_id) : void

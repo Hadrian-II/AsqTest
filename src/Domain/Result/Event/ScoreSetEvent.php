@@ -60,7 +60,7 @@ class ScoreSetEvent extends AbstractDomainEvent
 
         $body = json_decode($event_body, true);
         $this->question_id = $factory->fromString($body[self::KEY_QUESTION_ID]);
-        $this->answer = ItemScore::createFromArray($body[self::KEY_SCORE]);
+        $this->score = ItemScore::createFromArray($body[self::KEY_SCORE]);
     }
 
     public static function getEventVersion() : int

@@ -8,6 +8,7 @@ use Fluxlabs\Assessment\Test\Application\Test\TestService;
 use Fluxlabs\Assessment\Test\Infrastructure\Setup\lang\SetupAsqTestLanguages;
 use Fluxlabs\Assessment\Test\Modules\Player\Page\PlayerPage;
 use Fluxlabs\Assessment\Test\Modules\Questions\Sources\TaxonomyPool\TaxonomyQuestionPoolSource;
+use Fluxlabs\Assessment\Test\Modules\Scoring\Manual\CorrectionPage;
 use Fluxlabs\Assessment\Test\Modules\Storage\RunManager\RunManager;
 use Fluxlabs\Assessment\Tools\DIC\LanguageTrait;
 use Fluxlabs\Assessment\Tools\Domain\AbstractAsqPlugin;
@@ -68,6 +69,8 @@ class LeipzigTest extends AbstractAsqPlugin
             $this->access,
             $this->modules
         ));
+
+        $this->addModule(new CorrectionPage($this->event_queue, $this->access));
     }
 
     public static function load(ILIASReference $reference) : LeipzigTest

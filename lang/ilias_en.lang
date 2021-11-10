@@ -15,3 +15,5 @@ select_questions#:#Select Questions
 select_taxonomy#:#Select Taxonomy
 questions#:#Questions
 settings#:#Settings
+correction#:#Correction
+submit_correction#:#Submit Correction
