@@ -207,11 +207,11 @@ class AssessmentTestStorage extends AbstractAsqModule implements IStorageModule
         $deleted_questions = array_diff($current_questions, $existing_questions);
 
         foreach ($created_questions as $created_question) {
-            $this->section_service->addQuestion($section->getAggregateId(), $created_question);
+            $this->section_service->addQuestion($section->getId(), $created_question);
         }
 
         foreach ($deleted_questions as $deleted_question) {
-            $this->section_service->removeQuestion($section->getAggregateId(), $deleted_question);
+            $this->section_service->removeQuestion($section->getId(), $deleted_question);
         }
     }
 }

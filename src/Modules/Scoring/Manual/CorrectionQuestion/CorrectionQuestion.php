@@ -9,6 +9,7 @@ use Fluxlabs\Assessment\Tools\DIC\CtrlTrait;
 use Fluxlabs\Assessment\Tools\DIC\KitchenSinkTrait;
 use Fluxlabs\Assessment\Tools\DIC\LanguageTrait;
 use ilTemplate;
+use srag\asq\Application\Exception\AsqException;
 use srag\asq\Application\Service\AsqServices;
 use srag\asq\Infrastructure\Helpers\PathHelper;
 
@@ -44,7 +45,7 @@ class CorrectionQuestion
 
         $tpl = new ilTemplate($this->getBasePath(__DIR__) . 'src/Modules/Scoring/Manual/CorrectionQuestion/CorrectionQuestion.html', true, true);
 
-        $question_control = $this->services->ui()->getQuestionComponent($question);
+        $question_control = $this->services->ui()->getQuestionComponent($question)->withDisabled(true);
 
         if ($answer !== null) {
             $question_control = $question_control->withAnswer($this->result->getAnswer());
@@ -53,7 +54,14 @@ class CorrectionQuestion
         $tpl->setVariable('QUESTION', $this->renderKSComponent($question_control));
 
         $tpl->setVariable('MAX_SCORE', $this->txt('asqt_max_score') . ': ' . $this->services->answer()->getMaxScore($question));
-        $tpl->setVariable('AUTOMATIC_SCORE', $this->txt('asqt_auto_score') . ': ' . ($answer ? $this->services->answer()->getScore($question, $answer) : 0));
+
+        try {
+            $tpl->setVariable('AUTOMATIC_SCORE', $this->txt('asqt_auto_score') . ': ' . ($answer ? $this->services->answer()->getScore($question, $answer) : 0));
+        }
+        catch (AsqException $exception) {
+            $tpl->setVariable('AUTOMATIC_SCORE', $this->txt('asqt_auto_score_impossible'));
+        }
+
         $tpl->setVariable('CUSTOM_SCORING', $this->renderCustomScoring());
 
         return $tpl->get();

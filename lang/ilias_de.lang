@@ -17,3 +17,8 @@ questions#:#Fragen
 settings#:#Einstellungen
 correction#:#Korrektur
 submit_correction#:#Korrektur Abschliessen
+max_score#:#Maximale Punktzahl
+auto_score#:#Automatische Punktzahl
+custom_score#:#Manuelle Punktzahl
+submit_score#:#Punktzahl Speichern
+auto_score_impossible#:#Automatisches scoring unmöglich
