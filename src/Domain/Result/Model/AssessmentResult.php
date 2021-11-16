@@ -216,4 +216,12 @@ class AssessmentResult extends AbstractAggregateRoot
             return $factory->fromString($id);
         }, array_keys($this->results));
     }
+
+    public function getPoints() : float
+    {
+        return array_reduce($this->results, function(float $points, ItemResult $result) {
+            $points += $result->getScore() ? $result->getScore()->getReachedScore() : 0;
+            return $points;
+        }, 0);
+    }
 }

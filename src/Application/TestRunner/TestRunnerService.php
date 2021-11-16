@@ -187,7 +187,10 @@ class TestRunnerService
         }
     }
 
-    public function getTestResult(string $name)
+    public function getPoints(Uuid $uuid) : float
     {
+        $assessment_result = $this->repo->getAggregateRootById($uuid);
+
+        return $assessment_result->getPoints();
     }
 }

@@ -22,3 +22,6 @@ auto_score#:#Automatische Punktzahl
 custom_score#:#Manuelle Punktzahl
 submit_score#:#Punktzahl Speichern
 auto_score_impossible#:#Automatisches scoring unmöglich
+results#:#Resultate
+id#:#Id
+user#:#Benutzer

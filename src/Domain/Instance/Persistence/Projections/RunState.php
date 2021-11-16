@@ -94,6 +94,22 @@ class RunState extends ActiveRecord
      */
     protected $start_time;
 
+    /**
+     * @var float
+     *
+     * @con_has_field  true
+     * @con_fieldtype  float
+     */
+    protected $points;
+
+    /**
+     * @var float
+     *
+     * @con_has_field  true
+     * @con_fieldtype  float
+     */
+    protected $max_points;
+
     public function getId() : int
     {
         return intval($this->id);
@@ -129,6 +145,16 @@ class RunState extends ActiveRecord
         return intval($this->user_id);
     }
 
+    public function getPoints() : float
+    {
+        return floatval($this->points);
+    }
+
+    public function getMaxPoints() : float
+    {
+        return floatval($this->max_points);
+    }
+
     public function setData(Uuid $run_id, InstanceState $instance_state, DateTimeImmutable $start_time, int $user_id) : void
     {
         $this->aggregate_id = $run_id;
@@ -139,9 +165,16 @@ class RunState extends ActiveRecord
         $this->state = AssessmentInstanceRun::STATE_OPEN;
     }
 
-    public function setState(int $state) : void
+    public function submit() : void
     {
-        $this->state = $state;
+        $this->state = AssessmentInstanceRun::STATE_SUBMITTED;
+    }
+
+    public function correct(float $points, float $max_points) : void
+    {
+        $this->state = AssessmentInstanceRun::STATE_CORRECTED;
+        $this->points = $points;
+        $this->max_points = $max_points;
     }
 
     public function sleep($field_name)

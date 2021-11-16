@@ -81,6 +81,14 @@ class InstanceState extends ActiveRecord
      */
     protected $instance_closes;
 
+    /**
+     * @var float
+     *
+     * @con_has_field  true
+     * @con_fieldtype  float
+     */
+    protected $max_points;
+
     public function getId() : int
     {
         return intval($this->id);
@@ -111,19 +119,25 @@ class InstanceState extends ActiveRecord
         return $this->instance_closes;
     }
 
+    public function getMaxPoints() : float
+    {
+        return floatval($this->max_points);
+    }
 
     public function setData(
         Uuid $instance_id,
         Uuid $test_id,
         int $teststate_id,
         DateTimeImmutable $opening,
-        DateTimeImmutable $closing) : void
+        DateTimeImmutable $closing,
+        float $max_points) : void
     {
         $this->aggregate_id = $instance_id;
         $this->test_id = $test_id;
         $this->teststate_id = $teststate_id;
         $this->instance_opens = $opening;
         $this->instance_closes = $closing;
+        $this->max_points = $max_points;
     }
 
     public function sleep($field_name)

@@ -22,3 +22,6 @@ auto_score#:#Score of Automatic Scoring
 custom_score#:#Custom Score
 submit_score#:#Submit Score
 auto_score_impossible#:#Automatic scoring impossible
+results#:#Results
+id#:#Id
+user#:#User

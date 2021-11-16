@@ -108,6 +108,14 @@ class RunManager extends AbstractAsqModule
         return new AssessmentTestContext($this->getCurrentRunState()->getAggregateId(), $current_question, $this->runner_service);
     }
 
+    public function getEndresults() : array
+    {
+        return RunState::where([
+            'instancestate_id' => $this->getCurrentInstanceState()->getId(),
+            'state' => AssessmentInstanceRun::STATE_CORRECTED
+        ])->get();
+    }
+
     private function createNewRun() : void
     {
         if(!$this->getCurrentInstance()->canUserStartRun($this->getCurrentUser())) {
@@ -178,7 +186,7 @@ class RunManager extends AbstractAsqModule
         $this->getCurrentInstance()->submitRun($this->getCurrentUser(), $run_id);
         $this->storeCurrentInstance();
 
-        $this->getCurrentRunState()->setState(AssessmentInstanceRun::STATE_SUBMITTED);
+        $this->getCurrentRunState()->submit();
         $this->getCurrentRunState()->save();
     }
 
@@ -205,7 +213,10 @@ class RunManager extends AbstractAsqModule
                 'aggregate_id' => $run_id->toString(),
             ])->first();
 
-        $runstate->setState(AssessmentInstanceRun::STATE_CORRECTED);
+        $runstate->correct(
+            $this->runner_service->getPoints($run_id),
+            $this->getCurrentInstanceState()->getMaxPoints()
+        );
         $runstate->save();
     }
 
@@ -246,13 +257,24 @@ class RunManager extends AbstractAsqModule
         );
         $this->storeCurrentInstance();
 
+        $max_points = array_reduce(
+            $this->access->getStorage()->getTestQuestions(),
+            function (float $max_points, Uuid $question_id) {
+                $question = $this->asq->question()->getQuestionByQuestionId($question_id);
+                $max_points += $this->asq->answer()->getMaxScore($question);
+                return $max_points;
+            },
+            0
+        );
+
         $instance_state = new InstanceState();
         $instance_state->setData(
             $instance_id,
             $this->test_id,
             $this->getCurrentTestState()->getId(),
             $this->instance->getConfig()->getStartTime(),
-            $this->instance->getConfig()->getEndTime()
+            $this->instance->getConfig()->getEndTime(),
+            $max_points
         );
         $instance_state->create();
         $this->current_instance_state = $instance_state;
