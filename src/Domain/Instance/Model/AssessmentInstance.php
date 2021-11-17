@@ -9,7 +9,7 @@ use Fluxlabs\Assessment\Test\Domain\Instance\Event\RunStartedEvent;
 use Fluxlabs\Assessment\Test\Domain\Instance\Event\RunSubmitedEvent;
 use Fluxlabs\CQRS\Event\DomainEvent;
 use ILIAS\Data\UUID\Uuid;
-use ilDateTime;
+use DateTimeImmutable;
 use Fluxlabs\CQRS\Aggregate\AbstractAggregateRoot;
 use Fluxlabs\CQRS\Event\Standard\AggregateCreatedEvent;
 use srag\asq\Application\Exception\AsqException;
@@ -37,7 +37,7 @@ class AssessmentInstance extends AbstractAggregateRoot
         AssessmentInstanceConfiguration $configuration) : AssessmentInstance
     {
         $instance = new AssessmentInstance();
-        $occurred_on = new ilDateTime(time(), IL_CAL_UNIX);
+        $occurred_on = new DateTimeImmutable();
         $instance->ExecuteEvent(
             new AggregateCreatedEvent(
                 $id,
@@ -81,7 +81,7 @@ class AssessmentInstance extends AbstractAggregateRoot
         $this->ExecuteEvent(
             new RunStartedEvent(
                 $this->aggregate_id,
-                new ilDateTime(time(), IL_CAL_UNIX),
+                new DateTimeImmutable(),
                 $run_id,
                 $user_id
             )
@@ -104,7 +104,7 @@ class AssessmentInstance extends AbstractAggregateRoot
         $this->ExecuteEvent(
             new RunCancelledEvent(
                 $this->aggregate_id,
-                new ilDateTime(time(), IL_CAL_UNIX),
+                new DateTimeImmutable(),
                 $run_id,
                 $user_id
             )
@@ -123,7 +123,7 @@ class AssessmentInstance extends AbstractAggregateRoot
         $this->ExecuteEvent(
             new RunSubmitedEvent(
                 $this->aggregate_id,
-                new ilDateTime(time(), IL_CAL_UNIX),
+                new DateTimeImmutable(),
                 $run_id,
                 $user_id
             )
@@ -142,7 +142,7 @@ class AssessmentInstance extends AbstractAggregateRoot
         $this->ExecuteEvent(
             new RunCorrectedEvent(
                 $this->aggregate_id,
-                new ilDateTime(time(), IL_CAL_UNIX),
+                new DateTimeImmutable(),
                 $run_id,
                 $user_id
             )

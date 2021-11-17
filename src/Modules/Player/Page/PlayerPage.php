@@ -116,8 +116,7 @@ class PlayerPage extends AbstractAsqModule implements IPageModule
 
     public function storeAnswer() : void
     {
-        $raw_current_id = $this->getLinkParameter(self::PARAM_CURRENT_QUESTION);
-        $current_question_id = $this->uuid_factory->fromString($raw_current_id);
+        $current_question_id = $this->getCurrentQuestionId();
 
         $this->saveAnswer($current_question_id);
 
@@ -126,13 +125,10 @@ class PlayerPage extends AbstractAsqModule implements IPageModule
 
     public function gotoQuestion() : void
     {
-        $raw_current_id = $this->getLinkParameter(self::PARAM_CURRENT_QUESTION);
-        $current_question_id = $this->uuid_factory->fromString($raw_current_id);
-
         $raw_destination_id = $this->getLinkParameter(self::PARAM_DESTINATION_QUESTION);
         $destination_question_id = $this->uuid_factory->fromString($raw_destination_id);
 
-        $this->saveAnswer($current_question_id);
+        $this->saveAnswer($this->getCurrentQuestionId());
 
         $this->renderQuestion($destination_question_id);
     }
@@ -155,12 +151,22 @@ class PlayerPage extends AbstractAsqModule implements IPageModule
 
     public function submitTest() : void
     {
+
+
+        $this->saveAnswer($this->getCurrentQuestionId());
+
         $this->raiseEvent(new SubmitTestEvent($this));
 
         $this->raiseEvent(new SetUIEvent($this, new UIData(
             'Test',
             'Thanks for submitting'
         )));
+    }
+
+    private function getCurrentQuestionId() : Uuid
+    {
+        $raw_current_id = $this->getLinkParameter(self::PARAM_CURRENT_QUESTION);
+        return $this->uuid_factory->fromString($raw_current_id);
     }
 
     public function getCommands(): array

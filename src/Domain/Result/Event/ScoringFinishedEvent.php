@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Fluxlabs\Assessment\Test\Domain\Result\Event;
 
-use ilDateTime;
+use DateTimeImmutable;
 use ILIAS\Data\UUID\Uuid;
 use Fluxlabs\CQRS\Event\AbstractDomainEvent;
 
@@ -16,7 +16,7 @@ use Fluxlabs\CQRS\Event\AbstractDomainEvent;
  */
 class ScoringFinishedEvent extends AbstractDomainEvent
 {
-    public function __construct(Uuid $aggregate_id, ilDateTime $occurred_on)
+    public function __construct(Uuid $aggregate_id, DateTimeImmutable $occurred_on)
     {
         parent::__construct($aggregate_id, $occurred_on);
     }

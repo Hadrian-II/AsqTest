@@ -3,14 +3,12 @@ declare(strict_types = 1);
 
 namespace Fluxlabs\Assessment\Test\Domain\Result\Model;
 
-use ilDateTime;
-use ILIAS\UI\Component\Item\Item;
+use DateTimeImmutable;
 use Fluxlabs\CQRS\Aggregate\AbstractValueObject;
 use srag\asq\Domain\Model\Hint\QuestionHint;
 use srag\asq\Application\Exception\AsqException;
 use srag\asq\Domain\Model\Hint\QuestionHints;
 use ILIAS\Data\UUID\Uuid;
-use ILIAS\Data\UUID\Factory;
 
 /**
  * Class ItemResult
@@ -25,7 +23,7 @@ class ItemResult extends AbstractValueObject
 
     protected ?int $sequence_index;
 
-    protected ilDateTime $datestamp;
+    protected DateTimeImmutable $datestamp;
 
     protected string $session_status;
 
@@ -42,7 +40,7 @@ class ItemResult extends AbstractValueObject
         $this->question_id = $question_id;
         $this->sequence_index = $sequence_index;
         $this->session_status = SessionStatus::INITIAL;
-        $this->datestamp = new ilDateTime(time(), IL_CAL_UNIX);
+        $this->datestamp = new DateTimeImmutable();
         $this->hints = new QuestionHints();
     }
 
@@ -99,7 +97,7 @@ class ItemResult extends AbstractValueObject
         return $this->sequence_index;
     }
 
-    public function getDatestamp() : ilDateTime
+    public function getDatestamp() : DateTimeImmutable
     {
         return $this->datestamp;
     }

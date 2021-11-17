@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace Fluxlabs\Assessment\Test\Domain\Test\Event;
 
 use ILIAS\Data\UUID\Uuid;
-use ilDateTime;
+use DateTimeImmutable;
 use Fluxlabs\CQRS\Event\AbstractDomainEvent;
 use Fluxlabs\Assessment\Test\Domain\Test\Model\TestData;
 
@@ -21,7 +21,7 @@ class TestDataSetEvent extends AbstractDomainEvent
 
     public function __construct(
         Uuid $aggregate_id,
-        ilDateTime $occurred_on,
+        DateTimeImmutable $occurred_on,
         TestData $data = null
         ) {
             $this->test_data = $data;

@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Fluxlabs\Assessment\Test\Domain\Result\Event;
 
-use ilDateTime;
+use DateTimeImmutable;
 use Fluxlabs\CQRS\Event\AbstractDomainEvent;
 use Fluxlabs\Assessment\Test\Domain\Result\Model\ItemScore;
 use ILIAS\Data\UUID\Uuid;
@@ -27,7 +27,7 @@ class ScoreSetEvent extends AbstractDomainEvent
 
     public function __construct(
         Uuid $aggregate_id,
-        ilDateTime $occured_on,
+        DateTimeImmutable $occured_on,
         Uuid $question_id = null,
         ItemScore $score = null
     ) {

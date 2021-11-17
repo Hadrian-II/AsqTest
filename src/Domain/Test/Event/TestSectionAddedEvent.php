@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace Fluxlabs\Assessment\Test\Domain\Test\Event;
 
 use ILIAS\Data\UUID\Uuid;
-use ilDateTime;
+use DateTimeImmutable;
 use Fluxlabs\CQRS\Event\AbstractDomainEvent;
 use ILIAS\Data\UUID\Factory;
 
@@ -21,7 +21,7 @@ class TestSectionAddedEvent extends AbstractDomainEvent
 
     public function __construct(
         Uuid $aggregate_id,
-        ilDateTime $occured_on,
+        DateTimeImmutable $occured_on,
         Uuid $section_id = null
         ) {
             $this->section_id = $section_id;

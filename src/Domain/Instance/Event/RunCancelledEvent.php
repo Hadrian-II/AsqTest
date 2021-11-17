@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace Fluxlabs\Assessment\Test\Domain\Instance\Event;
 
 use ILIAS\Data\UUID\Uuid;
-use ilDateTime;
+use DateTimeImmutable;
 use Fluxlabs\CQRS\Event\AbstractDomainEvent;
 use ILIAS\Data\UUID\Factory;
 
@@ -26,7 +26,7 @@ class RunCancelledEvent extends AbstractDomainEvent
 
     public function __construct(
         Uuid $aggregate_id,
-        ilDateTime $occurred_on,
+        DateTimeImmutable $occurred_on,
         ?Uuid $run_id = null,
         ?int $user_id = null
     ) {

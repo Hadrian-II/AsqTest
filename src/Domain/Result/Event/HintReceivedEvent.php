@@ -6,7 +6,7 @@ namespace Fluxlabs\Assessment\Test\Domain\Result\Event;
 use Fluxlabs\CQRS\Event\AbstractDomainEvent;
 use srag\asq\Domain\Model\Hint\QuestionHint;
 use ILIAS\Data\UUID\Uuid;
-use ilDateTime;
+use DateTimeImmutable;
 use ILIAS\Data\UUID\Factory;
 
 /**
@@ -27,7 +27,7 @@ class HintReceivedEvent extends AbstractDomainEvent
 
     public function __construct(
         Uuid $aggregate_id,
-        ilDateTime $occured_on,
+        DateTimeImmutable $occured_on,
         Uuid $question_id = null,
         QuestionHint $hint = null
     ) {

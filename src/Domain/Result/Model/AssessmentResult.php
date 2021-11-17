@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace Fluxlabs\Assessment\Test\Domain\Result\Model;
 
 use ILIAS\Data\UUID\Uuid;
-use ilDateTime;
+use DateTimeImmutable;
 use Fluxlabs\CQRS\Aggregate\AbstractAggregateRoot;
 use Fluxlabs\CQRS\Event\Standard\AggregateCreatedEvent;
 use srag\asq\Application\Exception\AsqException;
@@ -42,7 +42,7 @@ class AssessmentResult extends AbstractAggregateRoot
         array $question_ids) : AssessmentResult
     {
         $result = new AssessmentResult();
-        $occurred_on = new ilDateTime(time(), IL_CAL_UNIX);
+        $occurred_on = new DateTimeImmutable();
         $result->ExecuteEvent(
             new AggregateCreatedEvent(
                 $id,
@@ -131,7 +131,7 @@ class AssessmentResult extends AbstractAggregateRoot
             {
                 $this->ExecuteEvent(new AnswerSetEvent(
                     $this->getAggregateId(),
-                    new ilDateTime(time(), IL_CAL_UNIX),
+                    new DateTimeImmutable(),
                     $question_id,
                     $answer
                 ));
@@ -150,7 +150,7 @@ class AssessmentResult extends AbstractAggregateRoot
         if (array_key_exists($question_id->toString(), $this->results)) {
             $this->ExecuteEvent(new ScoreSetEvent(
                 $this->getAggregateId(),
-                new ilDateTime(time(), IL_CAL_UNIX),
+                new DateTimeImmutable(),
                 $question_id,
                 $score
             ));
@@ -170,7 +170,7 @@ class AssessmentResult extends AbstractAggregateRoot
             $this->ExecuteEvent(
                 new HintReceivedEvent(
                     $this->getAggregateId(),
-                    new ilDateTime(time(), IL_CAL_UNIX),
+                    new DateTimeImmutable(),
                     $question_id,
                     $hint
                 )
@@ -189,7 +189,7 @@ class AssessmentResult extends AbstractAggregateRoot
 
         $this->ExecuteEvent(new AssessmentResultSubmittedEvent(
             $this->getAggregateId(),
-            new ilDateTime(time(), IL_CAL_UNIX)
+            new DateTimeImmutable()
         ));
     }
 
@@ -201,7 +201,7 @@ class AssessmentResult extends AbstractAggregateRoot
 
         $this->ExecuteEvent(new ScoringFinishedEvent(
             $this->getAggregateId(),
-            new ilDateTime(time(), IL_CAL_UNIX)
+            new DateTimeImmutable()
         ));
     }
 

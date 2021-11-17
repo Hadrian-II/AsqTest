@@ -3,10 +3,9 @@ declare(strict_types = 1);
 
 namespace Fluxlabs\Assessment\Test\Domain\Section\Model;
 
-use ilDateTimeException;
 use Fluxlabs\CQRS\Aggregate\AbstractAggregateRoot;
 use Fluxlabs\Assessment\Test\Domain\Section\Event\AssessmentSectionDataSetEvent;
-use ilDateTime;
+use DateTimeImmutable;
 use Fluxlabs\CQRS\Event\Standard\AggregateCreatedEvent;
 use Fluxlabs\Assessment\Test\Domain\Section\Event\AssessmentSectionItemAddedEvent;
 use Fluxlabs\Assessment\Test\Domain\Section\Event\AssessmentSectionItemRemovedEvent;
@@ -35,7 +34,7 @@ class AssessmentSection extends AbstractAggregateRoot
         $object->ExecuteEvent(
             new AggregateCreatedEvent(
                 $id,
-                new ilDateTime(time(), IL_CAL_UNIX)
+                new DateTimeImmutable()
             )
         );
 
@@ -53,7 +52,7 @@ class AssessmentSection extends AbstractAggregateRoot
             $this->ExecuteEvent(
                 new AssessmentSectionDataSetEvent(
                     $this->aggregate_id,
-                    new ilDateTime(time(), IL_CAL_UNIX),
+                    new DateTimeImmutable(),
                     $data
                 )
             );
@@ -70,7 +69,7 @@ class AssessmentSection extends AbstractAggregateRoot
         if (!array_key_exists($item->getKey(), $this->items)) {
             $this->ExecuteEvent(new AssessmentSectionItemAddedEvent(
                 $this->aggregate_id,
-                new ilDateTime(time(), IL_CAL_UNIX),
+                new DateTimeImmutable(),
                 $item
             ));
         } else {
@@ -88,7 +87,7 @@ class AssessmentSection extends AbstractAggregateRoot
         if (array_key_exists($item->getKey(), $this->items)) {
             $this->ExecuteEvent(new AssessmentSectionItemRemovedEvent(
                 $this->aggregate_id,
-                new ilDateTime(time(), IL_CAL_UNIX),
+                new DateTimeImmutable(),
                 $item
             ));
         } else {

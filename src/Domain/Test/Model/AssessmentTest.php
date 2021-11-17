@@ -7,7 +7,7 @@ use Fluxlabs\Assessment\Tools\Domain\Model\PluginAggregateRoot;
 use Fluxlabs\CQRS\Event\Standard\AggregateCreatedEvent;
 use Fluxlabs\Assessment\Test\Domain\Test\Event\TestDataSetEvent;
 use ILIAS\Data\UUID\Uuid;
-use ilDateTime;
+use DateTimeImmutable;
 use srag\asq\Application\Exception\AsqException;
 use Fluxlabs\Assessment\Test\Domain\Test\Event\TestSectionAddedEvent;
 use Fluxlabs\Assessment\Test\Domain\Test\Event\TestSectionRemovedEvent;
@@ -32,7 +32,7 @@ class AssessmentTest extends PluginAggregateRoot
             $test->ExecuteEvent(
                 new AggregateCreatedEvent(
                     $uuid,
-                    new ilDateTime(time(), IL_CAL_UNIX),
+                    new DateTimeImmutable(),
                 )
             );
 
@@ -45,7 +45,7 @@ class AssessmentTest extends PluginAggregateRoot
             $this->ExecuteEvent(
                 new TestDataSetEvent(
                     $this->aggregate_id,
-                    new ilDateTime(time(), IL_CAL_UNIX),
+                    new DateTimeImmutable(),
                     $data
                 )
             );
@@ -68,7 +68,7 @@ class AssessmentTest extends PluginAggregateRoot
             $this->ExecuteEvent(
                 new TestSectionAddedEvent(
                     $this->aggregate_id,
-                    new ilDateTime(time(), IL_CAL_UNIX),
+                    new DateTimeImmutable(),
                     $section_id
                 )
             );
@@ -89,7 +89,7 @@ class AssessmentTest extends PluginAggregateRoot
             $this->ExecuteEvent(
                 new TestSectionRemovedEvent(
                     $this->aggregate_id,
-                    new ilDateTime(time(), IL_CAL_UNIX),
+                    new DateTimeImmutable(),
                     $section_id
                 )
             );
