@@ -90,7 +90,7 @@ class RunState extends ActiveRecord
      * @var DateTimeImmutable
      *
      * @con_has_field  true
-     * @con_fieldtype  timestamp
+     * @con_fieldtype  integer
      */
     protected $start_time;
 

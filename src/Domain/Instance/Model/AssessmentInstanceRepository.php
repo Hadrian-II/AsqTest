@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace Fluxlabs\Assessment\Test\Domain\Instance\Model;
 
+use Fluxlabs\Assessment\Test\Domain\Instance\Persistence\AssessmentInstanceEventStore;
 use Fluxlabs\CQRS\Aggregate\AbstractAggregateRepository;
 use Fluxlabs\CQRS\Aggregate\AbstractAggregateRoot;
 use Fluxlabs\CQRS\Event\DomainEvents;
@@ -23,7 +24,7 @@ class AssessmentInstanceRepository extends AbstractAggregateRepository
     public function __construct()
     {
         parent::__construct();
-        $this->event_store = new AssessmentResultEventStore();
+        $this->event_store = new AssessmentInstanceEventStore();
     }
 
     protected function getEventStore() : EventStore
