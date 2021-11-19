@@ -16,14 +16,22 @@ class RandomQuestionSelectionConfiguration extends ObjectConfiguration
 {
     protected ?string $source_key;
 
-    public function __construct(?string $source_key = null)
+    protected ?float $points;
+
+    public function __construct(?string $source_key = null, ?float $points = null)
     {
         $this->source_key = $source_key;
+        $this->points = $points;
     }
 
     public function getSourceKey() : string
     {
         return $this->source_key;
+    }
+
+    public function getPoints() : ?float
+    {
+        return $this->points;
     }
 
     public function moduleName(): string

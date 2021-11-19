@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace Fluxlabs\Assessment\Test\Modules\Questions\Page;
 
+use Fluxlabs\Assessment\Test\Domain\Section\Model\AssessmentSectionData;
 use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event\SectionDefinition;
 use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event\StoreSectionsEvent;
 use Fluxlabs\Assessment\Test\Modules\Storage\RunManager\Event\CreateInstanceEvent;
@@ -235,7 +236,7 @@ class QuestionPage extends AbstractAsqModule implements IPageModule
         foreach ($this->selection_objects as $selection_object) {
             $sections[] =
                 new SectionDefinition(
-                    $selection_object->getKey(),
+                    new AssessmentSectionData($selection_object->getKey()),
                     $selection_object->getSelectedQuestionIds());
         }
 

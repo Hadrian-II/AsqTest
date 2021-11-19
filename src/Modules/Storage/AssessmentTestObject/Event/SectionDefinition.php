@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event;
 
+use Fluxlabs\Assessment\Test\Domain\Section\Model\AssessmentSectionData;
 use ILIAS\Data\UUID\Uuid;
 
 /**
@@ -14,22 +15,22 @@ use ILIAS\Data\UUID\Uuid;
  */
 class SectionDefinition
 {
-    protected string $name;
+    protected AssessmentSectionData $data;
 
     /**
      * @var Uuid[]
      */
     protected array $questions;
 
-    public function __construct(string $name, array $questions)
+    public function __construct(AssessmentSectionData $data, array $questions)
     {
-        $this->name = $name;
+        $this->data = $data;
         $this->questions = $questions;
     }
 
-    public function getName() : string
+    public function getData() : AssessmentSectionData
     {
-        return $this->name;
+        return $this->data;
     }
 
     /**

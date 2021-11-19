@@ -159,7 +159,7 @@ class AssessmentTestStorage extends AbstractAsqModule implements IStorageModule
         $new_sections = [];
 
         foreach ($sections as $section) {
-            $new_sections[$section->getName()] = $section->getQuestions();
+            $new_sections[$section->getData()->getTitle()] = $section;
         }
 
         $existing_sections = array_intersect(array_keys($current_sections), array_keys($new_sections));
@@ -173,23 +173,23 @@ class AssessmentTestStorage extends AbstractAsqModule implements IStorageModule
         foreach ($existing_sections as $existing_section) {
             $this->updateSection(
                 $current_sections[$existing_section],
-                $new_sections[$existing_section]);
+                $new_sections[$existing_section]->getQuestions());
         }
 
         foreach ($removed_sections as $removed_section) {
-            $this->test_service->removeSection($current_sections[$removed_section]->getId());
+            $this->test_service->removeSection($this->test_id, $current_sections[$removed_section]->getId());
         }
     }
 
-    private function createNewSection(string $title, array $questions) : void
+    private function createNewSection(string $title, SectionDefinition $definition) : void
     {
         $section_id = $this->section_service->createSection();
 
         $this->test_service->addSection($this->test_id, $section_id);
 
-        $this->section_service->setSectionData($section_id, new AssessmentSectionData($title));
+        $this->section_service->setSectionData($section_id, $definition->getData());
 
-        foreach ($questions as $question) {
+        foreach ($definition->getQuestions() as $question) {
             $this->section_service->addQuestion($section_id, $question);
         }
     }

@@ -7,6 +7,7 @@ use Fluxlabs\Assessment\Test\Application\Test\Event\StoreTestDataEvent;
 use Fluxlabs\Assessment\Test\Application\Test\TestService;
 use Fluxlabs\Assessment\Test\Infrastructure\Setup\lang\SetupAsqTestLanguages;
 use Fluxlabs\Assessment\Test\Modules\Player\Page\PlayerPage;
+use Fluxlabs\Assessment\Test\Modules\Questions\Selection\Random\RandomQuestionSelection;
 use Fluxlabs\Assessment\Test\Modules\Questions\Sources\TaxonomyPool\TaxonomyQuestionPoolSource;
 use Fluxlabs\Assessment\Test\Modules\Result\ResultPage;
 use Fluxlabs\Assessment\Test\Modules\Scoring\Manual\CorrectionPage;
@@ -50,6 +51,7 @@ class LeipzigTest extends AbstractAsqPlugin
         $this->addModule(new TimedAvailability($this->event_queue, $this->access));
         $this->addModule(new SelectAllQuestions($this->event_queue, $this->access));
         $this->addModule(new ManualQuestionSelection($this->event_queue, $this->access));
+        $this->addModule(new RandomQuestionSelection($this->event_queue, $this->access));
         $this->addModule(new FixedSource($this->event_queue, $this->access));
         $this->addModule(new TaxonomyQuestionPoolSource($this->event_queue, $this->access));
         $this->addModule(new AutomaticScoring($this->event_queue, $this->access));

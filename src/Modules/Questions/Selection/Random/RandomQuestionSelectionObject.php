@@ -4,9 +4,14 @@ declare(strict_types = 1);
 namespace Fluxlabs\Assessment\Test\Modules\Questions\Selection\Random;
 
 use Fluxlabs\Assessment\Test\Modules\Questions\AbstractQuestionObject;
+use Fluxlabs\Assessment\Tools\DIC\CtrlTrait;
+use Fluxlabs\Assessment\Tools\DIC\LanguageTrait;
 use Fluxlabs\Assessment\Tools\Domain\Objects\ObjectConfiguration;
 use Fluxlabs\Assessment\Test\Application\Test\Object\ISelectionObject;
 use Fluxlabs\Assessment\Test\Application\Test\Object\ISourceObject;
+use ILIAS\Data\UUID\Uuid;
+use srag\asq\Application\Service\AsqServices;
+use srag\asq\UserInterface\Web\PostAccess;
 
 /**
  * Class RandomQuestionSelectionObject
@@ -17,11 +22,17 @@ use Fluxlabs\Assessment\Test\Application\Test\Object\ISourceObject;
  */
 class RandomQuestionSelectionObject extends AbstractQuestionObject implements ISelectionObject
 {
-    private ISourceObject $source;
+    use CtrlTrait;
+    use LanguageTrait;
+    use PostAccess;
 
-    public function __construct(ISourceObject $source)
+    private ISourceObject $source;
+    private ?float $points;
+
+    public function __construct(ISourceObject $source, ?float $points = null)
     {
         $this->source = $source;
+        $this->points = $points;
     }
 
     public function getSelectedQuestionIds() : array
@@ -39,8 +50,38 @@ class RandomQuestionSelectionObject extends AbstractQuestionObject implements IS
         return 'select_all_of_' . $this->source->getKey();
     }
 
+    public function storePoints() : void
+    {
+        $this->points = floatval($this->getPostValue($this->getPostKey()));
+    }
+
+    public function hasOverallDisplay(): bool
+    {
+        return true;
+    }
+
+    public function getOverallDisplay() : string
+    {
+        $this->setLinkParameter(RandomQuestionSelection::PARAM_SOURCE_KEY, $this->getKey());
+
+        return sprintf(
+            '<label for="%1$s">%5$s</label>
+                    <input name="%1$s" type="text" value="%2$s" />
+                    <button class="btn btn-default" formmethod="post" formaction="%3$s">%4$s</button>',
+            $this->getPostKey(),
+            $this->points,
+            $this->getCommandLink(RandomQuestionSelection::CMD_SAVE_POINTS),
+            $this->txt('asqt_select'),
+            $this->txt('asqt_points'));
+    }
+
+    private function getPostKey() : string
+    {
+        return RandomQuestionSelection::PARAM_POINTS . $this->getKey();
+    }
+
     public function getConfiguration(): ObjectConfiguration
     {
-        return new RandomQuestionSelectionConfiguration($this->source->getKey());
+        return new RandomQuestionSelectionConfiguration($this->source->getKey(), $this->points);
     }
 }
