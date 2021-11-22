@@ -91,7 +91,7 @@ class RunManager extends AbstractAsqModule
     {
         $results = [];
 
-        foreach ($this->access->getStorage()->getTestQuestions() as $question_id) {
+        foreach ($this->runner_service->getAllQuestions() as $question_id) {
             $results[] = $this->runner_service->getItemResult($run_id, $question_id);
         }
 
@@ -122,7 +122,7 @@ class RunManager extends AbstractAsqModule
             throw new AsqException("User cannot start another run");
         }
 
-        $run_id = $this->runner_service->createTestRun($this->createResultContext($this->getCurrentUser()), $this->access->getStorage()->getTestQuestions());
+        $run_id = $this->runner_service->createTestRun($this->createResultContext($this->getCurrentUser()), $this->access->getStorage()->getQuestionsForNewRun());
         $this->getCurrentInstance()->startRun($this->getCurrentUser(), $run_id);
         $this->storeCurrentInstance();
 
@@ -258,7 +258,7 @@ class RunManager extends AbstractAsqModule
         $this->storeCurrentInstance();
 
         $max_points = array_reduce(
-            $this->access->getStorage()->getTestQuestions(),
+            $this->access->getStorage()->getQuestionsForNewRun(),
             function (float $max_points, Uuid $question_id) {
                 $question = $this->asq->question()->getQuestionByQuestionId($question_id);
                 $max_points += $this->asq->answer()->getMaxScore($question);

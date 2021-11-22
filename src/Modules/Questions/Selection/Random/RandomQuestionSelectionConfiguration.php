@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace Fluxlabs\Assessment\Test\Modules\Questions\Selection\Random;
 
 use Fluxlabs\Assessment\Tools\Domain\Objects\ObjectConfiguration;
+use ILIAS\Data\UUID\Uuid;
 
 /**
  * Class RandomQuestionSelectionConfiguration
@@ -14,6 +15,7 @@ use Fluxlabs\Assessment\Tools\Domain\Objects\ObjectConfiguration;
  */
 class RandomQuestionSelectionConfiguration extends ObjectConfiguration
 {
+
     protected ?string $source_key;
 
     protected ?float $points;

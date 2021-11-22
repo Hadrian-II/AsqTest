@@ -174,6 +174,15 @@ class TestRunnerService
         }
     }
 
+    /**
+     * @param Uuid $uuid
+     * @return Uuid[]
+     */
+    public function getAllQuestions(Uuid $uuid) : array
+    {
+        return $this->repo->getAggregateRootById($uuid)->getQuestions();
+    }
+
     public function getNextQuestionId(Uuid $uuid, Uuid $question_id) : ?Uuid
     {
         $questions = $this->repo->getAggregateRootById($uuid)->getQuestions();

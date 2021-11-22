@@ -234,9 +234,12 @@ class QuestionPage extends AbstractAsqModule implements IPageModule
         $sections = [];
 
         foreach ($this->selection_objects as $selection_object) {
+            $section_data = new AssessmentSectionData($selection_object->getKey());
+            $section_data->addClass(ISelectionObject::class, $selection_object->getConfiguration());
+
             $sections[] =
                 new SectionDefinition(
-                    new AssessmentSectionData($selection_object->getKey()),
+                    $section_data,
                     $selection_object->getSelectedQuestionIds());
         }
 

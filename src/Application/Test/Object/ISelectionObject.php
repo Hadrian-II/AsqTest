@@ -15,6 +15,8 @@ use ILIAS\Data\UUID\Uuid;
 interface ISelectionObject extends IQuestionObject
 {
     /**
+     * Perform Question selection for Question Page
+     *
      * @return Uuid[]
      */
     public function getSelectedQuestionIds() : array;
@@ -25,4 +27,12 @@ interface ISelectionObject extends IQuestionObject
      * @return ISourceObject
      */
     public function getSource() : ISourceObject;
+
+    /**
+     * Performs selection of questions for run (ex. random seleciton for random seleciton module)
+     *
+     * @param array $questions
+     * @return array
+     */
+    public function selectQuestionsForRun(array $questions) : array;
 }

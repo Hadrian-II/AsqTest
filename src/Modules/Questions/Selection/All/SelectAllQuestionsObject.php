@@ -3,9 +3,8 @@ declare(strict_types = 1);
 
 namespace Fluxlabs\Assessment\Test\Modules\Questions\Selection\All;
 
-use Fluxlabs\Assessment\Test\Modules\Questions\AbstractQuestionObject;
+use Fluxlabs\Assessment\Test\Modules\Questions\Selection\AbstractQuestionSelectionObject;
 use Fluxlabs\Assessment\Tools\Domain\Objects\ObjectConfiguration;
-use Fluxlabs\Assessment\Test\Application\Test\Object\ISelectionObject;
 use Fluxlabs\Assessment\Test\Application\Test\Object\ISourceObject;
 
 /**
@@ -15,7 +14,7 @@ use Fluxlabs\Assessment\Test\Application\Test\Object\ISourceObject;
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */
-class SelectAllQuestionsObject extends AbstractQuestionObject implements ISelectionObject
+class SelectAllQuestionsObject extends AbstractQuestionSelectionObject
 {
     private ISourceObject $source;
 

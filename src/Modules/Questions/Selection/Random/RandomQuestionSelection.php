@@ -30,7 +30,9 @@ class RandomQuestionSelection extends AbstractQuestionSelection
      */
     public function createObject(AbstractValueObject $config = null) : RandomQuestionSelectionObject
     {
-        return new RandomQuestionSelectionObject($this->access->getObject($config->getSourceKey()), $config->getPoints());
+        return new RandomQuestionSelectionObject(
+            $this->access->getObject($config->getSourceKey()),
+            $config->getPoints());
     }
 
     public function initAllQuestions() : void

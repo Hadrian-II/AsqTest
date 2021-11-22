@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject;
 
 use Fluxlabs\Assessment\Test\Application\Test\Event\StoreTestDataEvent;
+use Fluxlabs\Assessment\Test\Application\Test\Object\ISelectionObject;
 use Fluxlabs\Assessment\Test\Application\TestRunner\TestRunnerService;
 use Fluxlabs\Assessment\Test\Domain\Result\Model\AssessmentResultContext;
 use Fluxlabs\Assessment\Test\Domain\Section\Model\AssessmentSection;
@@ -17,6 +18,7 @@ use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event\SubmitTe
 use Fluxlabs\Assessment\Tools\Domain\IObjectAccess;
 use Fluxlabs\Assessment\Tools\Domain\Modules\AbstractAsqModule;
 use Fluxlabs\Assessment\Tools\Domain\Modules\IStorageModule;
+use Fluxlabs\Assessment\Tools\Domain\Objects\ObjectConfiguration;
 use Fluxlabs\Assessment\Tools\Event\IEventQueue;
 use ILIAS\Data\UUID\Factory;
 use ILIAS\Data\UUID\Uuid;
@@ -86,7 +88,10 @@ class AssessmentTestStorage extends AbstractAsqModule implements IStorageModule
         $this->currentTestData()->removeConfiguration($configuration_for);
     }
 
-    public function getTestQuestions() : array
+    /**
+     * @return Uuid[]
+     */
+    public function getQuestionsForNewRun() : array
     {
         $questions = [];
 
@@ -114,7 +119,14 @@ class AssessmentTestStorage extends AbstractAsqModule implements IStorageModule
             }
         }
 
-        return $questions;
+        /** @var ObjectConfiguration $selection_configuration */
+        $selection_configuration = $section->getData()->getData(ISelectionObject::class);
+        $selection_module = $this->access->getModule($selection_configuration->moduleName());
+
+        /** @var ISelectionObject $selection_object */
+        $selection_object = $selection_module->createObject($selection_configuration);
+
+        return $selection_object->selectQuestionsForRun($questions);
     }
 
     public function save(): void
@@ -167,13 +179,13 @@ class AssessmentTestStorage extends AbstractAsqModule implements IStorageModule
         $removed_sections =  array_diff(array_keys($current_sections), $existing_sections);
 
         foreach ($created_sections as $created_section) {
-            $this->createNewSection($created_section, $new_sections[$created_section]);
+            $this->createNewSection($new_sections[$created_section]);
         }
 
         foreach ($existing_sections as $existing_section) {
             $this->updateSection(
                 $current_sections[$existing_section],
-                $new_sections[$existing_section]->getQuestions());
+                $new_sections[$existing_section]);
         }
 
         foreach ($removed_sections as $removed_section) {
@@ -181,7 +193,7 @@ class AssessmentTestStorage extends AbstractAsqModule implements IStorageModule
         }
     }
 
-    private function createNewSection(string $title, SectionDefinition $definition) : void
+    private function createNewSection(SectionDefinition $definition) : void
     {
         $section_id = $this->section_service->createSection();
 
@@ -194,7 +206,7 @@ class AssessmentTestStorage extends AbstractAsqModule implements IStorageModule
         }
     }
 
-    private function updateSection(AssessmentSectionDto $section, array $new_questions) : void
+    private function updateSection(AssessmentSectionDto $section, SectionDefinition $new_definition) : void
     {
         $current_questions = [];
 
@@ -202,8 +214,8 @@ class AssessmentTestStorage extends AbstractAsqModule implements IStorageModule
             $current_questions[] = $item->getId();
         }
 
-        $existing_questions = array_intersect($current_questions, $new_questions);
-        $created_questions = array_diff($new_questions, $existing_questions);
+        $existing_questions = array_intersect($current_questions, $new_definition->getQuestions());
+        $created_questions = array_diff($new_definition->getQuestions(), $existing_questions);
         $deleted_questions = array_diff($current_questions, $existing_questions);
 
         foreach ($created_questions as $created_question) {
@@ -212,6 +224,10 @@ class AssessmentTestStorage extends AbstractAsqModule implements IStorageModule
 
         foreach ($deleted_questions as $deleted_question) {
             $this->section_service->removeQuestion($section->getId(), $deleted_question);
+        }
+
+        if (!$section->getData()->equals($new_definition->getData())) {
+            $this->section_service->setSectionData($section->getId(), $new_definition->getData());
         }
     }
 }

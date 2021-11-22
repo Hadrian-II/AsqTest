@@ -3,14 +3,11 @@ declare(strict_types = 1);
 
 namespace Fluxlabs\Assessment\Test\Modules\Questions\Selection\Random;
 
-use Fluxlabs\Assessment\Test\Modules\Questions\AbstractQuestionObject;
+use Fluxlabs\Assessment\Test\Modules\Questions\Selection\AbstractQuestionSelectionObject;
 use Fluxlabs\Assessment\Tools\DIC\CtrlTrait;
 use Fluxlabs\Assessment\Tools\DIC\LanguageTrait;
 use Fluxlabs\Assessment\Tools\Domain\Objects\ObjectConfiguration;
-use Fluxlabs\Assessment\Test\Application\Test\Object\ISelectionObject;
 use Fluxlabs\Assessment\Test\Application\Test\Object\ISourceObject;
-use ILIAS\Data\UUID\Uuid;
-use srag\asq\Application\Service\AsqServices;
 use srag\asq\UserInterface\Web\PostAccess;
 
 /**
@@ -20,7 +17,7 @@ use srag\asq\UserInterface\Web\PostAccess;
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */
-class RandomQuestionSelectionObject extends AbstractQuestionObject implements ISelectionObject
+class RandomQuestionSelectionObject extends AbstractQuestionSelectionObject
 {
     use CtrlTrait;
     use LanguageTrait;
@@ -29,7 +26,9 @@ class RandomQuestionSelectionObject extends AbstractQuestionObject implements IS
     private ISourceObject $source;
     private ?float $points;
 
-    public function __construct(ISourceObject $source, ?float $points = null)
+    public function __construct(
+        ISourceObject $source,
+        ?float $points = null)
     {
         $this->source = $source;
         $this->points = $points;
@@ -82,6 +81,14 @@ class RandomQuestionSelectionObject extends AbstractQuestionObject implements IS
 
     public function getConfiguration(): ObjectConfiguration
     {
-        return new RandomQuestionSelectionConfiguration($this->source->getKey(), $this->points);
+        return new RandomQuestionSelectionConfiguration(
+            $this->source->getKey(),
+            $this->points);
+    }
+
+    public function selectQuestionsForRun(array $questions): array
+    {
+        $processor = new RandomSelectionProcessor($this->points, $questions);
+        return $processor->selectQuestions();
     }
 }

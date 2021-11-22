@@ -3,10 +3,9 @@ declare(strict_types = 1);
 
 namespace Fluxlabs\Assessment\Test\Modules\Questions\Selection\Manual;
 
-use Fluxlabs\Assessment\Test\Modules\Questions\AbstractQuestionObject;
+use Fluxlabs\Assessment\Test\Modules\Questions\Selection\AbstractQuestionSelectionObject;
 use Fluxlabs\Assessment\Tools\Domain\Objects\ObjectConfiguration;
 use ILIAS\Data\UUID\Uuid;
-use Fluxlabs\Assessment\Test\Application\Test\Object\ISelectionObject;
 use Fluxlabs\Assessment\Test\Application\Test\Object\ISourceObject;
 
 /**
@@ -16,7 +15,7 @@ use Fluxlabs\Assessment\Test\Application\Test\Object\ISourceObject;
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */
-class ManualQuestionSelectionObject extends AbstractQuestionObject implements ISelectionObject
+class ManualQuestionSelectionObject extends AbstractQuestionSelectionObject
 {
     private ISourceObject $source;
 
