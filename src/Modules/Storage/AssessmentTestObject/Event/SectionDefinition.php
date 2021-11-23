@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event;
 
 use Fluxlabs\Assessment\Test\Domain\Section\Model\AssessmentSectionData;
-use ILIAS\Data\UUID\Uuid;
 
 /**
  * Class StoreSectionEvent
@@ -18,7 +17,7 @@ class SectionDefinition
     protected AssessmentSectionData $data;
 
     /**
-     * @var Uuid[]
+     * @var QuestionDefinition[]
      */
     protected array $questions;
 
@@ -34,7 +33,7 @@ class SectionDefinition
     }
 
     /**
-     * @return Uuid[]
+     * @return QuestionDefinition[]
      */
     public function getQuestions() : array
     {

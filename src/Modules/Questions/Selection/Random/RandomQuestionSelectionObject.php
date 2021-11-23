@@ -34,7 +34,7 @@ class RandomQuestionSelectionObject extends AbstractQuestionSelectionObject
         $this->points = $points;
     }
 
-    public function getSelectedQuestionIds() : array
+    public function getSelectedQuestionDefinitions() : array
     {
         return $this->source->getQuestionIds();
     }

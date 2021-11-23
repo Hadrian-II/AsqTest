@@ -20,7 +20,7 @@ use Fluxlabs\CQRS\Aggregate\AbstractValueObject;
  */
 class RandomQuestionSelection extends AbstractQuestionSelection
 {
-    const CMD_INITIALIZE = 'initAllQuestions';
+    const CMD_INITIALIZE = 'initRandomQuestions';
     const CMD_SAVE_POINTS = 'saveRandomPoints';
 
     const PARAM_POINTS = 'points';
@@ -35,7 +35,7 @@ class RandomQuestionSelection extends AbstractQuestionSelection
             $config->getPoints());
     }
 
-    public function initAllQuestions() : void
+    public function initRandomQuestions() : void
     {
         $source_object = $this->readSource();
 

@@ -30,7 +30,7 @@ class ManualQuestionSelectionObject extends AbstractQuestionSelectionObject
         $this->selected_questions = $selected_questions;
     }
 
-    public function getSelectedQuestionIds() : array
+    public function getSelectedQuestionDefinitions() : array
     {
         return $this->selected_questions;
     }

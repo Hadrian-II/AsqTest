@@ -240,7 +240,7 @@ class QuestionPage extends AbstractAsqModule implements IPageModule
             $sections[] =
                 new SectionDefinition(
                     $section_data,
-                    $selection_object->getSelectedQuestionIds());
+                    $selection_object->getSelectedQuestionDefinitions());
         }
 
         $this->raiseEvent(

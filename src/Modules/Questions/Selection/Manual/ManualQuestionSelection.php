@@ -97,7 +97,7 @@ class ManualQuestionSelection extends AbstractQuestionSelection
         return sprintf(
             '<input type="checkbox" name="%s" %s/>',
             $question->getId(),
-            in_array($question->getId(), $object->getSelectedQuestionIds()) ? 'checked="checked"' : ''
+            in_array($question->getId(), $object->getSelectedQuestionDefinitions()) ? 'checked="checked"' : ''
         );
     }
 

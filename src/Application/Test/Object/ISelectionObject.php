@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace Fluxlabs\Assessment\Test\Application\Test\Object;
 
+use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event\QuestionDefinition;
 use ILIAS\Data\UUID\Uuid;
 
 /**
@@ -17,9 +18,9 @@ interface ISelectionObject extends IQuestionObject
     /**
      * Perform Question selection for Question Page
      *
-     * @return Uuid[]
+     * @return QuestionDefinition[]
      */
-    public function getSelectedQuestionIds() : array;
+    public function getSelectedQuestionDefinitions() : array;
 
     /**
      * Gets the source of the selection
