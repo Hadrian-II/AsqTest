@@ -34,10 +34,6 @@ class PlayerButtons
     {
         $tpl = new ilTemplate($this->getBasePath(__DIR__) . 'src/Modules/Player/Page/Buttons/PlayerButtons.html', true, true);
 
-        $this->setLinkParameter(
-            PlayerPage::PARAM_CURRENT_QUESTION,
-            $this->context->getCurrentQuestion()->getId()->toString());
-
         if ($this->context->hasPreviousQuestion())
         {
             $this->setLinkParameter(

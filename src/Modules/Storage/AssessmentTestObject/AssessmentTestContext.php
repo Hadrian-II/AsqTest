@@ -4,13 +4,16 @@ declare(strict_types = 1);
 namespace Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject;
 
 use Fluxlabs\Assessment\Test\Application\TestRunner\TestRunnerService;
+use Fluxlabs\Assessment\Test\Modules\Player\IOverviewProvider;
 use Fluxlabs\Assessment\Test\Modules\Player\IPlayerContext;
+use Fluxlabs\Assessment\Test\Modules\Player\Page\TestOverview\OverviewState;
 use Fluxlabs\CQRS\Aggregate\AbstractValueObject;
 use ILIAS\Data\UUID\Uuid;
 use PHPUnit\Util\Test;
 use srag\asq\Application\Service\AsqServices;
 use srag\asq\Application\Service\QuestionService;
 use srag\asq\Domain\QuestionDto;
+use srag\asq\Infrastructure\Persistence\Projection\QuestionListItemAr;
 
 /**
  * Class AssessmentTestStorage
@@ -19,7 +22,7 @@ use srag\asq\Domain\QuestionDto;
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */
-class AssessmentTestContext implements IPlayerContext
+class AssessmentTestContext implements IPlayerContext, IOverviewProvider
 {
     private TestRunnerService $service;
 
@@ -33,6 +36,11 @@ class AssessmentTestContext implements IPlayerContext
     private ?AbstractValueObject $current_answer;
 
     private QuestionService $question_service;
+
+    /**
+     * @var OverviewState[]
+     */
+    private array $overview_state = [];
 
     public function __construct(Uuid $result_id, ?Uuid $current_question_id, TestRunnerService $service)
     {
@@ -53,6 +61,16 @@ class AssessmentTestContext implements IPlayerContext
         $this->previous_question = $this->service->getPreviousQuestionId($this->result_id, $this->current_question_id);
         $this->current_question = $this->question_service->getQuestionByQuestionId($this->current_question_id);
         $this->current_answer = $this->service->getItemResult($this->result_id, $this->current_question_id)->getAnswer();
+
+        foreach ($this->service->getAllQuestions($this->result_id) as $question_id) {
+            $question = QuestionListItemAr::where(['question_id' => $question_id->toString()])->first();
+            $this->overview_state[] =
+                new OverviewState(
+                    $this->service->getItemResult($this->result_id, $question_id)->getAnswer() ? OverviewState::STATE_ANSWERED : OverviewState::STATE_OPEN,
+                    $question->getTitle(),
+                    $question_id
+                );
+        }
     }
 
     public function hasNextQuestion(): bool
@@ -93,5 +111,10 @@ class AssessmentTestContext implements IPlayerContext
     public function submitTest(): void
     {
         $this->service->submitTestRun($this->result_id);
+    }
+
+    public function getOverview(): array
+    {
+        return $this->overview_state;
     }
 }

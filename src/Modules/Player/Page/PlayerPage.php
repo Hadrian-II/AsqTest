@@ -5,6 +5,7 @@ namespace Fluxlabs\Assessment\Test\Modules\Player\Page;
 
 use Fluxlabs\Assessment\Test\Modules\Player\IPlayerContext;
 use Fluxlabs\Assessment\Test\Modules\Player\Page\Buttons\PlayerButtons;
+use Fluxlabs\Assessment\Test\Modules\Player\Page\TestOverview\TestOverview;
 use Fluxlabs\Assessment\Test\Modules\Player\QuestionDisplay\QuestionDisplay;
 use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event\StoreAnswerEvent;
 use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event\SubmitTestEvent;
@@ -85,6 +86,10 @@ class PlayerPage extends AbstractAsqModule implements IPageModule
     {
         $this->context = $this->access->getModule(RunManager::class)->getPlayerContext($question_id);
 
+        $this->setLinkParameter(
+            PlayerPage::PARAM_CURRENT_QUESTION,
+            $this->context->getCurrentQuestion()->getId()->toString());
+
         $this->raiseEvent(new SetUIEvent($this, new UIData(
             'Test',
             $this->renderContent()
@@ -96,6 +101,9 @@ class PlayerPage extends AbstractAsqModule implements IPageModule
         $tpl = new ilTemplate($this->getBasePath(__DIR__) . 'src/Modules/Player/Page/PlayerPage.html', true, true);
 
         $tpl->setVariable('QUESTION', $this->renderQuestionComponent());
+
+        $overview = new TestOverview($this->context);
+        $tpl->setVariable('OVERVIEW', $overview->render());
 
         $buttons = new PlayerButtons($this->context);
         $tpl->setVariable('BUTTONS', $buttons->render());

@@ -25,3 +25,5 @@ auto_score_impossible#:#Automatisches scoring unmöglich
 results#:#Resultate
 id#:#Id
 user#:#Benutzer
+open#:#Offen
+answered#:#Beantwortet
