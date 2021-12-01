@@ -42,6 +42,9 @@ class AssessmentSectionDto
         return $this->data;
     }
 
+    /**
+     * @return SectionPart[]|null
+     */
     public function getItems() : ?array
     {
         return $this->items;

@@ -23,11 +23,6 @@ class SelectAllQuestionsObject extends AbstractQuestionSelectionObject
         $this->source = $source;
     }
 
-    public function getSelectedQuestionDefinitions() : array
-    {
-        return $this->source->getQuestionIds();
-    }
-
     public function getSource(): ISourceObject
     {
         return $this->source;

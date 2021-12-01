@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event;
 
+use Fluxlabs\CQRS\Aggregate\AbstractValueObject;
 use ILIAS\Data\UUID\Uuid;
 
 /**
@@ -12,17 +13,19 @@ use ILIAS\Data\UUID\Uuid;
  *
  * @author Fluxlabs AG - Adrian Lüthi <adi@fluxlabs.ch>
  */
-class QuestionDefinition
+class QuestionDefinition extends AbstractValueObject
 {
-    protected Uuid $question_id;
+    protected ?Uuid $question_id;
 
     protected ?string $revision_name;
 
 
-    public function __construct(Uuid $question_id, ?string $revision_name = null)
+    public static function create(Uuid $question_id, ?string $revision_name = null) : QuestionDefinition
     {
-        $this->question_id = $question_id;
-        $this->revision_name = $revision_name;
+        $object = new QuestionDefinition();
+        $object->question_id = $question_id;
+        $object->revision_name = $revision_name;
+        return $object;
     }
 
     public function getQuestionId(): Uuid

@@ -16,13 +16,6 @@ use ILIAS\Data\UUID\Uuid;
 interface ISelectionObject extends IQuestionObject
 {
     /**
-     * Perform Question selection for Question Page
-     *
-     * @return QuestionDefinition[]
-     */
-    public function getSelectedQuestionDefinitions() : array;
-
-    /**
      * Gets the source of the selection
      *
      * @return ISourceObject

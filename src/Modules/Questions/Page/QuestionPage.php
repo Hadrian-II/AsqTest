@@ -4,6 +4,8 @@ declare(strict_types = 1);
 namespace Fluxlabs\Assessment\Test\Modules\Questions\Page;
 
 use Fluxlabs\Assessment\Test\Domain\Section\Model\AssessmentSectionData;
+use Fluxlabs\Assessment\Test\Modules\Questions\Selection\Manual\ManualQuestionSelectionObject;
+use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event\QuestionDefinition;
 use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event\SectionDefinition;
 use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event\StoreSectionsEvent;
 use Fluxlabs\Assessment\Test\Modules\Storage\RunManager\Event\CreateInstanceEvent;
@@ -18,15 +20,18 @@ use Fluxlabs\Assessment\Tools\Event\Standard\AddTabEvent;
 use Fluxlabs\Assessment\Tools\Event\Standard\ForwardToCommandEvent;
 use Fluxlabs\Assessment\Tools\Event\Standard\RemoveObjectEvent;
 use Fluxlabs\Assessment\Tools\Event\Standard\SetUIEvent;
+use Fluxlabs\Assessment\Tools\Event\Standard\StoreObjectEvent;
 use Fluxlabs\Assessment\Tools\UI\System\TabDefinition;
 use Fluxlabs\Assessment\Tools\UI\System\UIData;
 use ilTemplate;
 use srag\asq\Application\Service\AsqServices;
+use srag\asq\Domain\QuestionDto;
 use srag\asq\Infrastructure\Helpers\PathHelper;
 use Fluxlabs\Assessment\Test\Application\Test\Module\IQuestionSelectionModule;
 use Fluxlabs\Assessment\Test\Application\Test\Module\IQuestionSourceModule;
 use Fluxlabs\Assessment\Test\Application\Test\Object\ISelectionObject;
 use Fluxlabs\Assessment\Test\Application\Test\Object\ISourceObject;
+use srag\asq\UserInterface\Web\PostAccess;
 
 /**
  * Class QuestionPage
@@ -41,10 +46,12 @@ class QuestionPage extends AbstractAsqModule implements IPageModule
     use CtrlTrait;
     use KitchenSinkTrait;
     use LanguageTrait;
+    use PostAccess;
 
-    const SHOW_QUESTIONS = 'qpShow';
-    const REMOVE_SOURCE = 'qpRemoveSource';
-    const INITIALIZE_TEST = 'qpInitialzeTest';
+    const CMD_SHOW_QUESTIONS = 'qpShow';
+    const CMD_REMOVE_SOURCE = 'qpRemoveSource';
+    const CMD_INITIALIZE_TEST = 'qpInitialzeTest';
+    const CMD_SELECT_QUESTIONS = 'qpSaveQuestions';
 
     const PARAM_SOURCE_KEY = 'sourceKey';
 
@@ -94,16 +101,17 @@ class QuestionPage extends AbstractAsqModule implements IPageModule
 
         $this->raiseEvent(new AddTabEvent(
             $this,
-            new TabDefinition(self::class, $this->txt('asqt_questions'), self::SHOW_QUESTIONS)
+            new TabDefinition(self::class, $this->txt('asqt_questions'), self::CMD_SHOW_QUESTIONS)
         ));
     }
 
     public function getCommands(): array
     {
         return [
-            self::SHOW_QUESTIONS,
-            self::REMOVE_SOURCE,
-            self::INITIALIZE_TEST
+            self::CMD_SHOW_QUESTIONS,
+            self::CMD_REMOVE_SOURCE,
+            self::CMD_INITIALIZE_TEST,
+            self::CMD_SELECT_QUESTIONS,
         ];
     }
 
@@ -132,7 +140,7 @@ class QuestionPage extends AbstractAsqModule implements IPageModule
 
         $buttons[] = $this->getKSFactory()->button()->standard(
             $this->txt('asqt_init_test'),
-            $this->getCommandLink(self::INITIALIZE_TEST));
+            $this->getCommandLink(self::CMD_INITIALIZE_TEST));
 
         return $buttons;
     }
@@ -164,7 +172,7 @@ class QuestionPage extends AbstractAsqModule implements IPageModule
                 $tpl->parseCurrentBlock();
             }
 
-            $this->renderQuestions($tpl, $source, $selection);
+            $this->renderQuestions($tpl, $source);
         }
 
         $tpl->setCurrentBlock('source');
@@ -180,6 +188,7 @@ class QuestionPage extends AbstractAsqModule implements IPageModule
         $tpl->setVariable('QUESTION_POINTS',  $this->txt('asqt_points'));
 
         $tpl->setVariable('REMOVE_SOURCE', $this->renderRemoveButton($source->getKey()));
+        $tpl->setVariable('SELECT_QUESTIONS', $this->renderSelectionButton($source->getKey()));
         $tpl->setVariable('SOURCE_ACTIONS', $this->available_sources[$source->getConfiguration()->moduleName()]->getQuestionPageActions($source));
         if ($selection !== null) {
             $tpl->setVariable('SELECTION_ACTIONS',
@@ -210,23 +219,89 @@ class QuestionPage extends AbstractAsqModule implements IPageModule
 
         $button = $this->getKSFactory()->button()->standard(
             $this->txt('asqt_remove'),
-            $this->getCommandLink(self::REMOVE_SOURCE)
+            $this->getCommandLink(self::CMD_REMOVE_SOURCE)
         );
 
         return $this->renderKSComponent($button);
     }
 
-    private function renderQuestions(ilTemplate $tpl, ISourceObject $source, ISelectionObject $selection) : void
+    private function renderSelectionButton(string $key)
     {
-        $selection_module = $this->available_selections[$selection->getConfiguration()->moduleName()];
+        $this->setLinkParameter(self::PARAM_SOURCE_KEY, $key);
 
-        foreach ($source->getQuestionIds() as $question_id) {
+        return sprintf(
+            '<button class="btn btn-default" type="submit" formmethod="post" formaction="%s">%s</button>',
+            $this->getCommandLink(self::CMD_SELECT_QUESTIONS),
+            $this->txt('asqt_select_questions')
+        );
+    }
+
+    private function renderQuestions(ilTemplate $tpl, ISourceObject $source) : void
+    {
+        $selections = [];
+        foreach($source->getQuestions() as $definition)
+        {
+            $selections[$definition->getQuestionId()->toString()] = $definition;
+        }
+
+        foreach ($source->getAllQuestions() as $question_id) {
             $question = $this->asq->question()->getQuestionByQuestionId($question_id);
 
+            $definition = array_key_exists($question_id->toString(), $selections) ?
+                $selections[$question_id->toString()] : null;
+
             $tpl->setCurrentBlock('question');
-            $tpl->setVariable('QUESTION_CONTENT', $selection_module->renderQuestionListItem($selection, $question));
+            $tpl->setVariable('QUESTION_CONTENT', $this->renderQuestionListItem($question, $definition, $source->getKey()));
             $tpl->parseCurrentBlock();
         }
+    }
+
+    public function renderQuestionListItem(QuestionDto $question, ?QuestionDefinition $definition, string $key) : string
+    {
+        return sprintf(
+            '<td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td>',
+            $question->getData()->getTitle(),
+            $question->getRevisionId() !== null ? $question->getRevisionId()->getName() : 'Unrevised',
+            $question->getType()->getTitleKey(),
+            $question->isComplete() ? $this->asq->answer()->getMaxScore($question) : 'Incomplete',
+            $this->renderSelectionCheckbox($question, !is_null($definition), $key)
+        );
+    }
+
+    private function renderSelectionCheckbox(QuestionDto $question, bool $selected, string $key) : string
+    {
+        return sprintf(
+            '<input type="checkbox" name="%s" %s/>',
+            $key . $question->getId(),
+            $selected ? 'checked="checked"' : ''
+        );
+    }
+
+    public function qpSaveQuestions() : void
+    {
+        $source_key = $this->getLinkParameter(self::PARAM_SOURCE_KEY);
+        /** @var ISourceObject $source */
+        $source = $this->access->getObject($source_key);
+
+        $selected_questions = [];
+
+        foreach ($source->getAllQuestions() as $question_id) {
+            if ($this->isPostVarSet($source_key . $question_id->toString())) {
+                $selected_questions[] = QuestionDefinition::create($question_id);
+            }
+        }
+
+        $source->setSelections($selected_questions);
+
+        $this->raiseEvent(new StoreObjectEvent(
+            $this,
+            $source
+        ));
+
+        $this->raiseEvent(new ForwardToCommandEvent(
+            $this,
+            QuestionPage::CMD_SHOW_QUESTIONS
+        ));
     }
 
     public function qpInitialzeTest() : void
@@ -240,7 +315,7 @@ class QuestionPage extends AbstractAsqModule implements IPageModule
             $sections[] =
                 new SectionDefinition(
                     $section_data,
-                    $selection_object->getSelectedQuestionDefinitions());
+                    $selection_object->getSource()->getQuestions());
         }
 
         $this->raiseEvent(
@@ -254,7 +329,7 @@ class QuestionPage extends AbstractAsqModule implements IPageModule
             new CreateInstanceEvent($this)
         );
 
-        $this->raiseEvent(new ForwardToCommandEvent($this, self::SHOW_QUESTIONS));
+        $this->raiseEvent(new ForwardToCommandEvent($this, self::CMD_SHOW_QUESTIONS));
     }
 
     public function qpRemoveSource() : void
@@ -267,6 +342,6 @@ class QuestionPage extends AbstractAsqModule implements IPageModule
 
         $this->raiseEvent(new RemoveObjectEvent($this, $this->source_objects[$source_key]));
 
-        $this->raiseEvent(new ForwardToCommandEvent($this, self::SHOW_QUESTIONS));
+        $this->raiseEvent(new ForwardToCommandEvent($this, self::CMD_SHOW_QUESTIONS));
     }
 }

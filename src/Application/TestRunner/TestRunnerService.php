@@ -9,6 +9,7 @@ use Fluxlabs\CQRS\Aggregate\AbstractValueObject;
 use Fluxlabs\CQRS\Command\CommandBus;
 use Fluxlabs\CQRS\Command\CommandConfiguration;
 use Fluxlabs\CQRS\Command\Access\OpenAccess;
+use srag\asq\Application\Exception\AsqException;
 use srag\asq\Application\Service\ASQService;
 use srag\asq\Domain\Model\Hint\QuestionHint;
 use Fluxlabs\Assessment\Test\Application\TestRunner\Command\AddAnswerCommand;
@@ -80,6 +81,10 @@ class TestRunnerService
 
     public function createTestRun(AssessmentResultContext $context, array $question_ids) : Uuid
     {
+        if (count($question_ids) < 1) {
+            throw new AsqException('Cant start testrun without questions');
+        }
+
         $uuid_factory = new Factory();
 
         $uuid = $uuid_factory->uuid4();

@@ -67,7 +67,22 @@ class TaxonomyQuestionPoolSourceObject extends AbstractQuestionObject implements
         return 'taxonomy_pool_source_for_pool' . $this->configuration->getUuid();
     }
 
-    public function getQuestionIds(): array
+    public function getQuestions(): array
+    {
+        return $this->configuration->getQuestions();
+    }
+
+    public function setSelections(array $selections): void
+    {
+        $this->configuration = new TaxonomyQuestionPoolSourceConfiguration(
+            $this->configuration->getUuid(),
+            $selections,
+            $this->configuration->getSelectedTaxonomyId(),
+            $this->configuration->getUsedTaxonomies()
+        );
+    }
+
+    public function getAllQuestions(): array
     {
         $questions = $this->pool_service->getQuestionsOfPool($this->configuration->getUuid());
 
@@ -131,6 +146,7 @@ class TaxonomyQuestionPoolSourceObject extends AbstractQuestionObject implements
 
         $this->configuration = new TaxonomyQuestionPoolSourceConfiguration(
             $this->configuration->getUuid(),
+            $this->configuration->getQuestions(),
             $selected_taxonomy,
             $this->taxonomy->getTaxonomyWithChildren($selected_taxonomy)
         );

@@ -17,7 +17,7 @@ use ILIAS\Data\UUID\Uuid;
  */
 class AssessmentSectionItemRemovedEvent extends AbstractDomainEvent
 {
-    protected SectionPart $item;
+    protected ?SectionPart $item;
 
     public function __construct(
         Uuid $aggregate_id,

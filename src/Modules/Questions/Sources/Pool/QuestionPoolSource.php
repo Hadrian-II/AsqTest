@@ -59,7 +59,7 @@ class QuestionPoolSource extends AbstractQuestionSource
 
         $this->raiseEvent(new ForwardToCommandEvent(
             $this,
-            QuestionPage::SHOW_QUESTIONS
+            QuestionPage::CMD_SHOW_QUESTIONS
         ));
     }
 

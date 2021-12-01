@@ -50,7 +50,6 @@ class LeipzigTest extends AbstractAsqPlugin
         $this->addModule(new BasicAvailability($this->event_queue, $this->access));
         $this->addModule(new TimedAvailability($this->event_queue, $this->access));
         $this->addModule(new SelectAllQuestions($this->event_queue, $this->access));
-        $this->addModule(new ManualQuestionSelection($this->event_queue, $this->access));
         $this->addModule(new RandomQuestionSelection($this->event_queue, $this->access));
         $this->addModule(new FixedSource($this->event_queue, $this->access));
         $this->addModule(new TaxonomyQuestionPoolSource($this->event_queue, $this->access));
@@ -102,6 +101,6 @@ class LeipzigTest extends AbstractAsqPlugin
 
     public static function getInitialCommand(): string
     {
-        return QuestionPage::SHOW_QUESTIONS;
+        return QuestionPage::CMD_SHOW_QUESTIONS;
     }
 }

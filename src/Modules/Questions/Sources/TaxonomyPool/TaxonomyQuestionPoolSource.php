@@ -40,7 +40,7 @@ class TaxonomyQuestionPoolSource extends QuestionPoolSource
 
         $this->raiseEvent(new ForwardToCommandEvent(
             $this,
-            QuestionPage::SHOW_QUESTIONS
+            QuestionPage::CMD_SHOW_QUESTIONS
         ));
     }
 
@@ -74,7 +74,7 @@ class TaxonomyQuestionPoolSource extends QuestionPoolSource
 
         $this->raiseEvent(new ForwardToCommandEvent(
             $this,
-            QuestionPage::SHOW_QUESTIONS
+            QuestionPage::CMD_SHOW_QUESTIONS
         ));
     }
 

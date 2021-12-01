@@ -44,17 +44,6 @@ class RandomQuestionSelection extends AbstractQuestionSelection
         $this->storeAndReturn($selection);
     }
 
-    public function renderQuestionListItem(ISelectionObject $object, QuestionDto $question): string
-    {
-        return sprintf(
-            '<td>%s</td><td>%s</td><td>%s</td><td>%s</td><td></td>',
-            $question->getData()->getTitle(),
-            $question->getRevisionId() !== null ? $question->getRevisionId()->getName() : 'Unrevised',
-            $question->getType()->getTitleKey(),
-            $question->isComplete() ? $this->asq->answer()->getMaxScore($question) : 'Incomplete'
-        );
-    }
-
     public function saveRandomPoints() : void
     {
         $selection_key = $this->getLinkParameter(self::PARAM_SOURCE_KEY);
@@ -71,7 +60,7 @@ class RandomQuestionSelection extends AbstractQuestionSelection
 
         $this->raiseEvent(new ForwardToCommandEvent(
             $this,
-            QuestionPage::SHOW_QUESTIONS
+            QuestionPage::CMD_SHOW_QUESTIONS
         ));
     }
 

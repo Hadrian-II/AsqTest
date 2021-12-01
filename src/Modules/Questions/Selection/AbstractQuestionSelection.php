@@ -54,7 +54,7 @@ abstract class AbstractQuestionSelection extends AbstractAsqModule implements IQ
 
         $this->raiseEvent(new ForwardToCommandEvent(
             $this,
-            QuestionPage::SHOW_QUESTIONS
+            QuestionPage::CMD_SHOW_QUESTIONS
         ));
     }
 

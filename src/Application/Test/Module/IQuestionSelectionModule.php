@@ -19,12 +19,4 @@ interface IQuestionSelectionModule extends IQuestionModule
      * Const for source key Query Param
      */
     const PARAM_SOURCE_KEY = 'sectionUuid';
-
-    /**
-     * Renders a question to display on QuestionPage
-     *
-     * @param QuestionDto $question
-     * @return string
-     */
-    public function renderQuestionListItem(ISelectionObject $object, QuestionDto $question) : string;
 }

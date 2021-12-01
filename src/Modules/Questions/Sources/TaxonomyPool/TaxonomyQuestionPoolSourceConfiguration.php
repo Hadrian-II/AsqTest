@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace Fluxlabs\Assessment\Test\Modules\Questions\Sources\TaxonomyPool;
 
 use Fluxlabs\Assessment\Test\Modules\Questions\Sources\Pool\QuestionPoolSourceConfiguration;
+use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event\QuestionDefinition;
 use ILIAS\Data\UUID\Uuid;
 
 /**
@@ -22,9 +23,9 @@ class TaxonomyQuestionPoolSourceConfiguration extends QuestionPoolSourceConfigur
      */
     protected ?array $used_taxonomies;
 
-    public function __construct(?Uuid $uuid = null, int $selected_taxonomy_id = null, array $used_taxonomies = null)
+    public function __construct(?Uuid $uuid = null, ?array $questions = null, ?int $selected_taxonomy_id = null, array $used_taxonomies = null)
     {
-        parent::__construct($uuid);
+        parent::__construct($uuid, $questions);
 
         $this->selected_taxonomy_id = $selected_taxonomy_id;
         $this->used_taxonomies = $used_taxonomies;

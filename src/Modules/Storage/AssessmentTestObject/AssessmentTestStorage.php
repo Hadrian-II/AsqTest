@@ -62,7 +62,7 @@ class AssessmentTestStorage extends AbstractAsqModule implements IStorageModule
     private function currentTestData() : AssessmentTestDto
     {
         if ($this->test_data === null) {
-            $this->test_data = $this->test_data = $this->test_service->getTest($this->test_id);
+            $this->test_data = $this->test_service->getTest($this->test_id);
         }
 
         return $this->test_data;
@@ -202,7 +202,7 @@ class AssessmentTestStorage extends AbstractAsqModule implements IStorageModule
         $this->section_service->setSectionData($section_id, $definition->getData());
 
         foreach ($definition->getQuestions() as $question) {
-            $this->section_service->addQuestion($section_id, $question);
+            $this->section_service->addQuestion($section_id, $question->getQuestionId(), $question->getRevisionName());
         }
     }
 
@@ -211,19 +211,28 @@ class AssessmentTestStorage extends AbstractAsqModule implements IStorageModule
         $current_questions = [];
 
         foreach ($section->getItems() as $item) {
-            $current_questions[] = $item->getId();
+            $current_questions[$item->getId() . $item->getRevisionName()] = $item;
         }
 
-        $existing_questions = array_intersect($current_questions, $new_definition->getQuestions());
-        $created_questions = array_diff($new_definition->getQuestions(), $existing_questions);
-        $deleted_questions = array_diff($current_questions, $existing_questions);
+        $new_questions = [];
 
-        foreach ($created_questions as $created_question) {
-            $this->section_service->addQuestion($section->getId(), $created_question);
+        foreach ($new_definition->getQuestions() as $question) {
+            $new_questions[$question->getQuestionId() . $question->getRevisionName()] = $question;
         }
+
+        $existing_questions = array_intersect(array_keys($current_questions), array_keys($new_questions));
+        $created_questions = array_diff(array_keys($new_questions), array_keys($existing_questions));
+        $deleted_questions = array_diff(array_keys($current_questions), array_keys($existing_questions));
 
         foreach ($deleted_questions as $deleted_question) {
-            $this->section_service->removeQuestion($section->getId(), $deleted_question);
+            $this->section_service->removeQuestion($section->getId(), $current_questions[$deleted_question]->getId());
+        }
+
+        foreach ($created_questions as $created_question) {
+            $this->section_service->addQuestion(
+                $section->getId(),
+                $new_questions[$created_question]->getQuestionId(),
+                $new_questions[$created_question]->getRevisionName());
         }
 
         if (!$section->getData()->equals($new_definition->getData())) {
