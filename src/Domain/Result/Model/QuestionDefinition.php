@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event;
+namespace Fluxlabs\Assessment\Test\Domain\Result\Model;;
 
 use Fluxlabs\CQRS\Aggregate\AbstractValueObject;
 use ILIAS\Data\UUID\Uuid;

@@ -34,6 +34,11 @@ class AssessmentResult extends AbstractAggregateRoot
      */
     protected array $results;
 
+    /**
+     * @var QuestionDefinition[]
+     */
+    protected array $questions;
+
     protected string $status;
 
     public static function create(
@@ -68,8 +73,8 @@ class AssessmentResult extends AbstractAggregateRoot
         $this->results = [];
 
         $ix = 1;
-        foreach ($event->getQuestions() as $question_id) {
-            $this->results[$question_id->toString()] = new ItemResult($question_id, $ix);
+        foreach ($event->getQuestions() as $question) {
+            $this->results[$question->getQuestionId()->toString()] = new ItemResult($question->getQuestionId(), $ix);
             $ix += 1;
         }
     }
@@ -206,15 +211,11 @@ class AssessmentResult extends AbstractAggregateRoot
     }
 
     /**
-     * @return Uuid[]
+     * @return QuestionDefinition[]
      */
     public function getQuestions() : array
     {
-        $factory = new Factory();
-
-        return array_map(function($id) use ($factory) {
-            return $factory->fromString($id);
-        }, array_keys($this->results));
+        return $this->questions;
     }
 
     public function getPoints() : float

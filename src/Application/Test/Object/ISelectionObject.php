@@ -3,8 +3,7 @@ declare(strict_types = 1);
 
 namespace Fluxlabs\Assessment\Test\Application\Test\Object;
 
-use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event\QuestionDefinition;
-use ILIAS\Data\UUID\Uuid;
+use Fluxlabs\Assessment\Test\Domain\Result\Model\QuestionDefinition;
 
 /**
  * Interface ISelectionObject
@@ -23,10 +22,10 @@ interface ISelectionObject extends IQuestionObject
     public function getSource() : ISourceObject;
 
     /**
-     * Performs selection of questions for run (ex. random seleciton for random seleciton module)
+     * Performs selection of questions for run (ex. random selection for random selection module)
      *
-     * @param array $questions
-     * @return array
+     * @param QuestionDefinition[] $questions
+     * @return QuestionDefinition[]
      */
     public function selectQuestionsForRun(array $questions) : array;
 }

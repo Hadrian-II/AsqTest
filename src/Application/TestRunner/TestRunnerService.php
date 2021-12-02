@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace Fluxlabs\Assessment\Test\Application\TestRunner;
 
+use Fluxlabs\Assessment\Test\Domain\Result\Model\QuestionDefinition;
 use ILIAS\Data\UUID\Factory;
 use ILIAS\Data\UUID\Uuid;
 use Fluxlabs\CQRS\Aggregate\AbstractValueObject;
@@ -10,7 +11,6 @@ use Fluxlabs\CQRS\Command\CommandBus;
 use Fluxlabs\CQRS\Command\CommandConfiguration;
 use Fluxlabs\CQRS\Command\Access\OpenAccess;
 use srag\asq\Application\Exception\AsqException;
-use srag\asq\Application\Service\ASQService;
 use srag\asq\Domain\Model\Hint\QuestionHint;
 use Fluxlabs\Assessment\Test\Application\TestRunner\Command\AddAnswerCommand;
 use Fluxlabs\Assessment\Test\Application\TestRunner\Command\AddAnswerCommandHandler;
@@ -79,6 +79,12 @@ class TestRunnerService
         $this->repo = new AssessmentResultRepository();
     }
 
+    /**
+     * @param AssessmentResultContext $context
+     * @param QuestionDefinition[] $question_ids
+     * @return Uuid
+     * @throws AsqException
+     */
     public function createTestRun(AssessmentResultContext $context, array $question_ids) : Uuid
     {
         if (count($question_ids) < 1) {

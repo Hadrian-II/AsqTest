@@ -4,7 +4,6 @@ declare(strict_types = 1);
 namespace Fluxlabs\Assessment\Test\Modules\Questions\Sources\TaxonomyPool;
 
 use Fluxlabs\Assessment\Test\Modules\Questions\Sources\Pool\QuestionPoolSourceConfiguration;
-use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event\QuestionDefinition;
 use ILIAS\Data\UUID\Uuid;
 
 /**

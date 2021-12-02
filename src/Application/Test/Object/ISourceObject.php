@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Fluxlabs\Assessment\Test\Application\Test\Object;
 
-use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event\QuestionDefinition;
+use Fluxlabs\Assessment\Test\Domain\Result\Model\QuestionDefinition;
 use ILIAS\Data\UUID\Uuid;
 
 /**

@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace Fluxlabs\Assessment\Test\Application\TestRunner\Command;
 
+use Fluxlabs\Assessment\Test\Domain\Result\Model\QuestionDefinition;
 use Fluxlabs\CQRS\Command\AbstractCommand;
 use Fluxlabs\Assessment\Test\Domain\Result\Model\AssessmentResultContext;
 use ILIAS\Data\UUID\Uuid;
@@ -19,7 +20,7 @@ class StartAssessmentCommand extends AbstractCommand
     protected AssessmentResultContext $context;
 
     /**
-     * @var Uuid[]
+     * @var QuestionDefinition[]
      */
     protected array $question_ids;
 
@@ -44,7 +45,7 @@ class StartAssessmentCommand extends AbstractCommand
     }
 
     /**
-     * @return Uuid[]
+     * @return QuestionDefinition[]
      */
     public function getQuestionIds() : array
     {

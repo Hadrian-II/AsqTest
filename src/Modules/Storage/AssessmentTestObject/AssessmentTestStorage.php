@@ -6,15 +6,11 @@ namespace Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject;
 use Fluxlabs\Assessment\Test\Application\Test\Event\StoreTestDataEvent;
 use Fluxlabs\Assessment\Test\Application\Test\Object\ISelectionObject;
 use Fluxlabs\Assessment\Test\Application\TestRunner\TestRunnerService;
-use Fluxlabs\Assessment\Test\Domain\Result\Model\AssessmentResultContext;
-use Fluxlabs\Assessment\Test\Domain\Section\Model\AssessmentSection;
-use Fluxlabs\Assessment\Test\Domain\Section\Model\AssessmentSectionData;
+use Fluxlabs\Assessment\Test\Domain\Result\Model\QuestionDefinition;
 use Fluxlabs\Assessment\Test\Domain\Section\Model\AssessmentSectionDto;
 use Fluxlabs\Assessment\Test\Domain\Section\Model\SectionPart;
 use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event\SectionDefinition;
-use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event\StoreAnswerEvent;
 use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event\StoreSectionsEvent;
-use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event\SubmitTestEvent;
 use Fluxlabs\Assessment\Tools\Domain\IObjectAccess;
 use Fluxlabs\Assessment\Tools\Domain\Modules\AbstractAsqModule;
 use Fluxlabs\Assessment\Tools\Domain\Modules\IStorageModule;
@@ -89,7 +85,7 @@ class AssessmentTestStorage extends AbstractAsqModule implements IStorageModule
     }
 
     /**
-     * @return Uuid[]
+     * @return QuestionDefinition[]
      */
     public function getQuestionsForNewRun() : array
     {
@@ -103,6 +99,10 @@ class AssessmentTestStorage extends AbstractAsqModule implements IStorageModule
         return $questions;
     }
 
+    /**
+     * @param Uuid $section_id
+     * @return QuestionDefinition[]
+     */
     private function readSection(Uuid $section_id) : array
     {
         $section = $this->section_service->getSection($section_id);
@@ -111,7 +111,7 @@ class AssessmentTestStorage extends AbstractAsqModule implements IStorageModule
         foreach ($section->getItems() as $item) {
             switch ($item->getType()) {
                 case SectionPart::TYPE_QUESTION:
-                    $questions[] = $item->getId();
+                    $questions[] = QuestionDefinition::create($item->getId(), $item->getRevisionName());
                     break;
                 case SectionPart::TYPE_SECTION:
                     $questions = array_merge($questions, $this->readSection($item->getId()));

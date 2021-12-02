@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace Fluxlabs\Assessment\Test\Domain\Result\Event;
 
 use DateTimeImmutable;
+use Fluxlabs\Assessment\Test\Domain\Result\Model\QuestionDefinition;
 use Fluxlabs\CQRS\Aggregate\AbstractValueObject;
 use Fluxlabs\CQRS\Event\AbstractDomainEvent;
 use Fluxlabs\Assessment\Test\Domain\Result\Model\AssessmentResultContext;
@@ -25,7 +26,7 @@ class AssessmentResultInitiatedEvent extends AbstractDomainEvent
     protected ?AssessmentResultContext $context;
 
     /**
-     * @var Uuid[]
+     * @var QuestionDefinition[]
      */
     protected ?array $questions;
 
@@ -46,7 +47,7 @@ class AssessmentResultInitiatedEvent extends AbstractDomainEvent
     }
 
     /**
-     * @return Uuid[]
+     * @return QuestionDefinition[]
      */
     public function getQuestions() : array
     {

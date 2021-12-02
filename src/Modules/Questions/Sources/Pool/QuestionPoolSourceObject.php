@@ -3,8 +3,8 @@ declare(strict_types = 1);
 
 namespace Fluxlabs\Assessment\Test\Modules\Questions\Sources\Pool;
 
+use Fluxlabs\Assessment\Test\Domain\Result\Model\QuestionDefinition;
 use Fluxlabs\Assessment\Test\Modules\Questions\AbstractQuestionObject;
-use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event\QuestionDefinition;
 use Fluxlabs\Assessment\Tools\Domain\Objects\ObjectConfiguration;
 use ILIAS\Data\UUID\Uuid;
 use srag\asq\QuestionPool\Application\QuestionPoolService;

@@ -3,9 +3,8 @@ declare(strict_types = 1);
 
 namespace Fluxlabs\Assessment\Test\Modules\Questions\Page;
 
+use Fluxlabs\Assessment\Test\Domain\Result\Model\QuestionDefinition;
 use Fluxlabs\Assessment\Test\Domain\Section\Model\AssessmentSectionData;
-use Fluxlabs\Assessment\Test\Modules\Questions\Selection\Manual\ManualQuestionSelectionObject;
-use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event\QuestionDefinition;
 use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event\SectionDefinition;
 use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event\StoreSectionsEvent;
 use Fluxlabs\Assessment\Test\Modules\Storage\RunManager\Event\CreateInstanceEvent;
@@ -23,6 +22,8 @@ use Fluxlabs\Assessment\Tools\Event\Standard\SetUIEvent;
 use Fluxlabs\Assessment\Tools\Event\Standard\StoreObjectEvent;
 use Fluxlabs\Assessment\Tools\UI\System\TabDefinition;
 use Fluxlabs\Assessment\Tools\UI\System\UIData;
+use Fluxlabs\CQRS\Aggregate\RevisionId;
+use ILIAS\Data\UUID\Uuid;
 use ilTemplate;
 use srag\asq\Application\Service\AsqServices;
 use srag\asq\Domain\QuestionDto;
@@ -54,6 +55,9 @@ class QuestionPage extends AbstractAsqModule implements IPageModule
     const CMD_SELECT_QUESTIONS = 'qpSaveQuestions';
 
     const PARAM_SOURCE_KEY = 'sourceKey';
+
+    const SELECT_REVISION_KEY = 'revision';
+    const NO_REVISION = 'no_revision';
 
     private AsqServices $asq;
 
@@ -256,16 +260,42 @@ class QuestionPage extends AbstractAsqModule implements IPageModule
         }
     }
 
-    public function renderQuestionListItem(QuestionDto $question, ?QuestionDefinition $definition, string $key) : string
+    private function renderQuestionListItem(QuestionDto $question, ?QuestionDefinition $definition, string $key) : string
     {
         return sprintf(
             '<td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td>',
             $question->getData()->getTitle(),
-            $question->getRevisionId() !== null ? $question->getRevisionId()->getName() : 'Unrevised',
+            $this->renderRevisions($question, $key, $definition->getRevisionName()),
             $question->getType()->getTitleKey(),
             $question->isComplete() ? $this->asq->answer()->getMaxScore($question) : 'Incomplete',
             $this->renderSelectionCheckbox($question, !is_null($definition), $key)
         );
+    }
+
+    private function renderRevisions(QuestionDto $question, string $key, string $current_revision) : string
+    {
+        $options = array_reduce(
+            $question->getRevisions(),
+            function(string $options, RevisionId $revision)  use ($current_revision) {
+                return $options . sprintf('<option value="%1$s" %2$s>%1$s</option>',
+                                                $revision->getName(),
+                                                $revision->getName() === $current_revision ? 'selected="selected"' : ''
+                    );
+            },
+            sprintf('<option value="%"',
+                $this->txt('asqt_no_revision')
+            )
+        );
+
+        return sprintf('<select name="%s">%s</select>',
+            $this->getRevisionKey($question->getId(), $key),
+            $options
+        );
+    }
+
+    private function getRevisionKey(Uuid $question_id, string $key) : string
+    {
+        return $question_id->toString() . $key . self::SELECT_REVISION_KEY;
     }
 
     private function renderSelectionCheckbox(QuestionDto $question, bool $selected, string $key) : string
@@ -287,7 +317,9 @@ class QuestionPage extends AbstractAsqModule implements IPageModule
 
         foreach ($source->getAllQuestions() as $question_id) {
             if ($this->isPostVarSet($source_key . $question_id->toString())) {
-                $selected_questions[] = QuestionDefinition::create($question_id);
+                $revision = $this->getPostValue($this->getRevisionKey($question_id, $source_key));
+
+                $selected_questions[] = QuestionDefinition::create($question_id, $revision === self::NO_REVISION? null : $revision);
             }
         }
 
