@@ -10,6 +10,7 @@ use Fluxlabs\CQRS\Event\Standard\AggregateCreatedEvent;
 use Fluxlabs\Assessment\Test\Domain\Section\Event\AssessmentSectionItemAddedEvent;
 use Fluxlabs\Assessment\Test\Domain\Section\Event\AssessmentSectionItemRemovedEvent;
 use ILIAS\Data\UUID\Uuid;
+use srag\asq\Application\Exception\AsqException;
 
 /**
  * Class AssessmentSection
@@ -66,38 +67,38 @@ class AssessmentSection extends AbstractAggregateRoot
 
     public function addItem(SectionPart $item) : void
     {
-        if (!array_key_exists($item->getKey(), $this->items)) {
+        if (!array_key_exists($item->getId()->toString(), $this->items)) {
             $this->ExecuteEvent(new AssessmentSectionItemAddedEvent(
                 $this->aggregate_id,
                 new DateTimeImmutable(),
                 $item
             ));
         } else {
-            //TODO throw exception?
+            throw new AsqException('same item cant be added twice to assessmentsection');
         }
     }
 
     protected function applyAssessmentSectionItemAddedEvent(AssessmentSectionItemAddedEvent $event) : void
     {
-        $this->items[$event->getItem()->getKey()] = $event->getItem();
+        $this->items[$event->getItem()->getId()->toString()] = $event->getItem();
     }
 
     public function removeItem(SectionPart $item) : void
     {
-        if (array_key_exists($item->getKey(), $this->items)) {
+        if (array_key_exists($item->getId()->toString(), $this->items)) {
             $this->ExecuteEvent(new AssessmentSectionItemRemovedEvent(
                 $this->aggregate_id,
                 new DateTimeImmutable(),
                 $item
             ));
         } else {
-            //TODO throw exception?
+            throw new AsqException('cant remove item that is not part of assessmentsection');
         }
     }
 
     protected function applyAssessmentSectionItemRemovedEvent(AssessmentSectionItemRemovedEvent $event) : void
     {
-        unset($this->items[$event->getItem()->getKey()]);
+        unset($this->items[$event->getItem()->getId()->toString()]);
     }
 
     public function getItems() : ?array

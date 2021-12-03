@@ -165,46 +165,13 @@ class TestRunnerService
         return $assessment_result->getItemResult($question_id);
     }
 
-    public function getFirstQuestionId(Uuid $uuid) : Uuid
-    {
-        $assessment_result = $this->repo->getAggregateRootById($uuid);
-
-        return $assessment_result->getQuestions()[0];
-    }
-
-    public function getPreviousQuestionId(Uuid $uuid, Uuid $question_id) : ?Uuid
-    {
-        $questions = $this->repo->getAggregateRootById($uuid)->getQuestions();
-
-        $current_id = array_search($question_id, $questions);
-
-        if ($current_id > 0) {
-            return $questions[$current_id - 1];
-        } else {
-            return null;
-        }
-    }
-
     /**
      * @param Uuid $uuid
-     * @return Uuid[]
+     * @return QuestionDefinition[]
      */
-    public function getAllQuestions(Uuid $uuid) : array
+    public function getQuestions(Uuid $uuid) : array
     {
         return $this->repo->getAggregateRootById($uuid)->getQuestions();
-    }
-
-    public function getNextQuestionId(Uuid $uuid, Uuid $question_id) : ?Uuid
-    {
-        $questions = $this->repo->getAggregateRootById($uuid)->getQuestions();
-
-        $current_id = array_search($question_id, $questions);
-
-        if (array_key_exists($current_id + 1, $questions)) {
-            return $questions[$current_id + 1];
-        } else {
-            return null;
-        }
     }
 
     public function getPoints(Uuid $uuid) : float

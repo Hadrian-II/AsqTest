@@ -50,25 +50,36 @@ class AssessmentTestContext implements IPlayerContext, IOverviewProvider
         $this->service = $service;
         $this->question_service = $ASQDIC->asq()->question();
 
+        $questions = $this->service->getQuestions($this->result_id);
+
         if ($current_question_id === null) {
-            $this->current_question_id = $this->service->getFirstQuestionId($this->result_id);
+            $this->current_question_id = $questions[0]->getQuestionId();
         }
         else {
             $this->current_question_id = $current_question_id;
         }
 
-        $this->next_question = $this->service->getNextQuestionId($this->result_id, $this->current_question_id);
-        $this->previous_question = $this->service->getPreviousQuestionId($this->result_id, $this->current_question_id);
-        $this->current_question = $this->question_service->getQuestionByQuestionId($this->current_question_id);
-        $this->current_answer = $this->service->getItemResult($this->result_id, $this->current_question_id)->getAnswer();
+        foreach ($questions as $key => $definition) {
+            $question = QuestionListItemAr::where(['question_id' => $definition->getQuestionId()->toString()])->first();
+            $answer = $this->service->getItemResult($this->result_id, $definition->getQuestionId())->getAnswer();
 
-        foreach ($this->service->getAllQuestions($this->result_id) as $question_id) {
-            $question = QuestionListItemAr::where(['question_id' => $question_id->toString()])->first();
+            if ($this->current_question_id->equals($definition->getQuestionId())) {
+                $this->previous_question = $key > 0 ? $questions[$key - 1]->getQuestionId() : null;
+                if ($definition->getRevisionName()) {
+                    $this->current_question = $this->question_service->getQuestionRevision($definition->getQuestionId(), $definition->getRevisionName());
+                }
+                else {
+                    $this->current_question = $this->question_service->getQuestionByQuestionId($this->current_question_id);
+                }
+                $this->current_answer = $answer;
+                $this->next_question = $key < (count($questions) - 1) ? $questions[$key + 1]->getQuestionId() : null;;
+            }
+
             $this->overview_state[] =
                 new OverviewState(
-                    $this->service->getItemResult($this->result_id, $question_id)->getAnswer() ? OverviewState::STATE_ANSWERED : OverviewState::STATE_OPEN,
+                    $answer ? OverviewState::STATE_ANSWERED : OverviewState::STATE_OPEN,
                     $question->getTitle(),
-                    $question_id
+                    $definition->getQuestionId()
                 );
         }
     }

@@ -175,9 +175,9 @@ class QuestionPage extends AbstractAsqModule implements IPageModule
                 $tpl->setVariable('CONTENT', $selection->getOverallDisplay());
                 $tpl->parseCurrentBlock();
             }
-
-            $this->renderQuestions($tpl, $source);
         }
+
+        $this->renderQuestions($tpl, $source);
 
         $tpl->setCurrentBlock('source');
         $tpl->setVariable('SELECTION_TYPE', $this->renderSelectionTypeSelection($source->getKey()));
@@ -265,14 +265,14 @@ class QuestionPage extends AbstractAsqModule implements IPageModule
         return sprintf(
             '<td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td>',
             $question->getData()->getTitle(),
-            $this->renderRevisions($question, $key, $definition->getRevisionName()),
+            $this->renderRevisions($question, $key, $definition ? $definition->getRevisionName() : null),
             $question->getType()->getTitleKey(),
             $question->isComplete() ? $this->asq->answer()->getMaxScore($question) : 'Incomplete',
             $this->renderSelectionCheckbox($question, !is_null($definition), $key)
         );
     }
 
-    private function renderRevisions(QuestionDto $question, string $key, string $current_revision) : string
+    private function renderRevisions(QuestionDto $question, string $key, ?string $current_revision) : string
     {
         $options = array_reduce(
             $question->getRevisions(),
@@ -282,7 +282,7 @@ class QuestionPage extends AbstractAsqModule implements IPageModule
                                                 $revision->getName() === $current_revision ? 'selected="selected"' : ''
                     );
             },
-            sprintf('<option value="%"',
+            sprintf('<option value="">%s</option>',
                 $this->txt('asqt_no_revision')
             )
         );

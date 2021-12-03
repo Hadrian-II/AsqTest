@@ -37,7 +37,7 @@ class AssessmentResult extends AbstractAggregateRoot
     /**
      * @var QuestionDefinition[]
      */
-    protected array $questions;
+    protected array $questions = [];
 
     protected string $status;
 
@@ -70,10 +70,11 @@ class AssessmentResult extends AbstractAggregateRoot
     {
         $this->context = $event->getContext();
         $this->status = SessionStatus::INITIAL;
-        $this->results = [];
+        $this->questions = $event->getQuestions();
 
+        $this->results = [];
         $ix = 1;
-        foreach ($event->getQuestions() as $question) {
+        foreach ($this->questions as $question) {
             $this->results[$question->getQuestionId()->toString()] = new ItemResult($question->getQuestionId(), $ix);
             $ix += 1;
         }

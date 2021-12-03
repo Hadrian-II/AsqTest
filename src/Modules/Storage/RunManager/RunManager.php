@@ -15,6 +15,7 @@ use Fluxlabs\Assessment\Test\Domain\Instance\Persistence\Projections\TestState;
 use Fluxlabs\Assessment\Test\Domain\Result\Model\AssessmentResultContext;
 use Fluxlabs\Assessment\Test\Domain\Result\Model\ItemResult;
 use Fluxlabs\Assessment\Test\Domain\Result\Model\ItemScore;
+use Fluxlabs\Assessment\Test\Domain\Result\Model\QuestionDefinition;
 use Fluxlabs\Assessment\Test\Modules\Scoring\Event\SetManualCorrectionEvent;
 use Fluxlabs\Assessment\Test\Modules\Scoring\Event\SubmitCorrectionEvent;
 use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\AssessmentTestContext;
@@ -91,8 +92,8 @@ class RunManager extends AbstractAsqModule
     {
         $results = [];
 
-        foreach ($this->runner_service->getAllQuestions() as $question_id) {
-            $results[] = $this->runner_service->getItemResult($run_id, $question_id);
+        foreach ($this->runner_service->getQuestions($run_id) as $definition) {
+            $results[] = $this->runner_service->getItemResult($run_id, $definition->getQuestionId());
         }
 
         return $results;
@@ -259,8 +260,8 @@ class RunManager extends AbstractAsqModule
 
         $max_points = array_reduce(
             $this->access->getStorage()->getQuestionsForNewRun(),
-            function (float $max_points, Uuid $question_id) {
-                $question = $this->asq->question()->getQuestionByQuestionId($question_id);
+            function (float $max_points, QuestionDefinition $definition) {
+                $question = $this->asq->question()->getQuestionByQuestionId($definition->getQuestionId());
                 $max_points += $this->asq->answer()->getMaxScore($question);
                 return $max_points;
             },

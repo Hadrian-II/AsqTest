@@ -90,10 +90,6 @@ class AssessmentInstance extends AbstractAggregateRoot
 
     protected function applyRunStartedEvent(RunStartedEvent $event) : void
     {
-        if (array_key_exists($event->getUserId(), $this->runs)) {
-            $this->runs[$event->getUserId()] = [];
-        }
-
         $this->runs[$event->getUserId()][$event->getRunId()->toString()] = AssessmentInstanceRun::create($event->getUserId(), $event->getRunId());
     }
 

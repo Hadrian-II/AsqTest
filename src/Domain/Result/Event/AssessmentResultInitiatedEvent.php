@@ -58,9 +58,7 @@ class AssessmentResultInitiatedEvent extends AbstractDomainEvent
     {
         $body = [];
         $body[self::KEY_CONTEXT] = $this->context;
-        $body[self::KEY_QUESTIONS] = array_map(function($question_id) {
-            return $question_id->toString();
-        }, $this->questions);
+        $body[self::KEY_QUESTIONS] = $this->questions;
         return json_encode($body);
     }
 
@@ -69,9 +67,7 @@ class AssessmentResultInitiatedEvent extends AbstractDomainEvent
         $factory = new Factory();
 
         $body = json_decode($event_body, true);
-        $this->questions = array_map(function($question_id) use ($factory) {
-            return $factory->fromString($question_id);
-        }, $body[self::KEY_QUESTIONS]);
+        $this->questions = AbstractValueObject::createFromArray($body[self::KEY_QUESTIONS]);
         $this->context = AbstractValueObject::createFromArray($body[self::KEY_CONTEXT]);
     }
 

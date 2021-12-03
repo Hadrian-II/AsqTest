@@ -46,9 +46,4 @@ class SectionPart extends AbstractValueObject
     {
         return $this->type;
     }
-
-    public function getKey() : string
-    {
-        return sprintf('%s_%s_%s', $this->type, $this->id->toString(), $this->revision_name);
-    }
 }
