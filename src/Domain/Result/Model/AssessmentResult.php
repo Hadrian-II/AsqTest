@@ -122,7 +122,7 @@ class AssessmentResult extends AbstractAggregateRoot
         }
     }
 
-    public function setAnswer(Uuid $question_id, AbstractValueObject $answer) : void
+    public function setAnswer(Uuid $question_id, ?AbstractValueObject $answer) : void
     {
         if ($this->status === SessionStatus::PENDING_RESPONSE_PROCESSING ||
             $this->status === SessionStatus::FINAL) {

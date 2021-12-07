@@ -29,7 +29,7 @@ class AnswerSetEvent extends AbstractDomainEvent
         Uuid $aggregate_id,
         DateTimeImmutable $occurred_on,
         Uuid $question_id = null,
-        AbstractValueObject $answer = null
+        ?AbstractValueObject $answer = null
     ) {
         $this->question_id = $question_id;
         $this->answer = $answer;
@@ -41,7 +41,7 @@ class AnswerSetEvent extends AbstractDomainEvent
         return $this->question_id;
     }
 
-    public function getAnswer() : AbstractValueObject
+    public function getAnswer() : ?AbstractValueObject
     {
         return $this->answer;
     }

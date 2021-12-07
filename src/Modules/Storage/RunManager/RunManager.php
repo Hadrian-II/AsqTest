@@ -19,9 +19,9 @@ use Fluxlabs\Assessment\Test\Domain\Result\Model\QuestionDefinition;
 use Fluxlabs\Assessment\Test\Modules\Scoring\Event\SetManualCorrectionEvent;
 use Fluxlabs\Assessment\Test\Modules\Scoring\Event\SubmitCorrectionEvent;
 use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\AssessmentTestContext;
-use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event\StoreAnswerEvent;
 use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event\SubmitTestEvent;
 use Fluxlabs\Assessment\Test\Modules\Storage\RunManager\Event\CreateInstanceEvent;
+use Fluxlabs\Assessment\Test\Modules\Storage\RunManager\Event\StoreAnswerEvent;
 use Fluxlabs\Assessment\Tools\DIC\UserTrait;
 use Fluxlabs\Assessment\Tools\Domain\IObjectAccess;
 use Fluxlabs\Assessment\Tools\Domain\Modules\AbstractAsqModule;
@@ -170,7 +170,7 @@ class RunManager extends AbstractAsqModule
         }
     }
 
-    private function processStoreAnswerEvent(Uuid $question_id, AbstractValueObject $answer)
+    private function processStoreAnswerEvent(Uuid $question_id, ?AbstractValueObject $answer)
     {
         $this->runner_service->addAnswer(
             $this->getCurrentRunState()->getAggregateId(),

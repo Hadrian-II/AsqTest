@@ -107,7 +107,7 @@ class TestRunnerService
         return $uuid;
     }
 
-    public function addAnswer(Uuid $uuid, Uuid $question_id, AbstractValueObject $answer) : void
+    public function addAnswer(Uuid $uuid, Uuid $question_id, ?AbstractValueObject $answer) : void
     {
         $this->command_bus->handle(
             new AddAnswerCommand(

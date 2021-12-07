@@ -44,7 +44,7 @@ class ItemResult extends AbstractValueObject
         $this->hints = new QuestionHints();
     }
 
-    public function withAnswer(AbstractValueObject $answer) : ItemResult
+    public function withAnswer(?AbstractValueObject $answer) : ItemResult
     {
         $clone = clone $this;
         $clone->answer = $answer;

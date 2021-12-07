@@ -20,9 +20,9 @@ class AddAnswerCommand extends AbstractCommand
 
     public Uuid $question_id;
 
-    public  AbstractValueObject$answer;
+    public ?AbstractValueObject $answer;
 
-    public function __construct(Uuid $result_uuid, Uuid $question_id, AbstractValueObject $answer)
+    public function __construct(Uuid $result_uuid, Uuid $question_id, ?AbstractValueObject $answer)
     {
         $this->result_uuid = $result_uuid;
         $this->question_id = $question_id;
@@ -40,7 +40,7 @@ class AddAnswerCommand extends AbstractCommand
         return $this->question_id;
     }
 
-    public function getAnswer() : AbstractValueObject
+    public function getAnswer() : ?AbstractValueObject
     {
         return $this->answer;
     }

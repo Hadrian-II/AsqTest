@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event;
+namespace Fluxlabs\Assessment\Test\Modules\Storage\RunManager\Event;
 
 use Fluxlabs\Assessment\Tools\Event\Event;
 use Fluxlabs\Assessment\Tools\Event\IEventUser;
@@ -19,9 +19,9 @@ class StoreAnswerEvent extends Event
 {
     private Uuid $question_id;
 
-    private AbstractValueObject $answer;
+    private ?AbstractValueObject $answer;
 
-    public function __construct(IEventUser $sender, Uuid $question_id, AbstractValueObject $answer)
+    public function __construct(IEventUser $sender, Uuid $question_id, ?AbstractValueObject $answer)
     {
         parent::__construct($sender);
 
@@ -34,7 +34,7 @@ class StoreAnswerEvent extends Event
         return $this->question_id;
     }
 
-    public function getAnswer(): AbstractValueObject
+    public function getAnswer(): ?AbstractValueObject
     {
         return $this->answer;
     }
