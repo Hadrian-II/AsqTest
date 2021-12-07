@@ -275,7 +275,7 @@ class QuestionPage extends AbstractAsqModule implements IPageModule
     private function renderRevisions(QuestionDto $question, string $key, ?string $current_revision) : string
     {
         $options = array_reduce(
-            $question->getRevisions(),
+            $question->getRevisions() ?? [],
             function(string $options, RevisionId $revision)  use ($current_revision) {
                 return $options . sprintf('<option value="%1$s" %2$s>%1$s</option>',
                                                 $revision->getName(),
