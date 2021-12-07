@@ -74,7 +74,12 @@ class AssessmentTestContext implements IPlayerContext, IOverviewProvider
                 $this->next_question = $key < (count($questions) - 1) ? $questions[$key + 1]->getQuestionId() : null;;
             }
 
-            $question = QuestionListItemAr::where(['question_id' => $definition->getQuestionId()->toString()])->first();
+            $question = QuestionListItemAr::where(
+                [
+                    'question_id' => $definition->getQuestionId()->toString(),
+                    'revision_name' => $definition->getRevisionName()
+                ]
+            )->first();
 
             if ($question) {
                 $title = $question->getTitle();
