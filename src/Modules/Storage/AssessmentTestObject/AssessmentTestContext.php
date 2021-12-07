@@ -60,7 +60,6 @@ class AssessmentTestContext implements IPlayerContext, IOverviewProvider
         }
 
         foreach ($questions as $key => $definition) {
-            $question = QuestionListItemAr::where(['question_id' => $definition->getQuestionId()->toString()])->first();
             $answer = $this->service->getItemResult($this->result_id, $definition->getQuestionId())->getAnswer();
 
             if ($this->current_question_id->equals($definition->getQuestionId())) {
@@ -75,10 +74,20 @@ class AssessmentTestContext implements IPlayerContext, IOverviewProvider
                 $this->next_question = $key < (count($questions) - 1) ? $questions[$key + 1]->getQuestionId() : null;;
             }
 
+            $question = QuestionListItemAr::where(['question_id' => $definition->getQuestionId()->toString()])->first();
+
+            if ($question) {
+                $title = $question->getTitle();
+            }
+            else {
+                // TODO, bad performance to be expected maybe add title to questiohndefinition
+                $title = $this->question_service->getQuestionByQuestionId($definition->getQuestionId())->getData()->getTitle();
+            }
+
             $this->overview_state[] =
                 new OverviewState(
                     $answer ? OverviewState::STATE_ANSWERED : OverviewState::STATE_OPEN,
-                    $question->getTitle(),
+                    $title,
                     $definition->getQuestionId()
                 );
         }
