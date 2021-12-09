@@ -81,13 +81,7 @@ class AssessmentTestContext implements IPlayerContext, IOverviewProvider
                 ]
             )->first();
 
-            if ($question) {
-                $title = $question->getTitle();
-            }
-            else {
-                // TODO, bad performance to be expected maybe add title to questiohndefinition
-                $title = $this->question_service->getQuestionByQuestionId($definition->getQuestionId())->getData()->getTitle();
-            }
+            $title = $question->getTitle();
 
             $this->overview_state[] =
                 new OverviewState(
