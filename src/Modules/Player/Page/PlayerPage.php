@@ -5,6 +5,8 @@ namespace Fluxlabs\Assessment\Test\Modules\Player\Page;
 
 use Fluxlabs\Assessment\Test\Modules\Player\IPlayerContext;
 use Fluxlabs\Assessment\Test\Modules\Player\Page\Buttons\PlayerButtons;
+use Fluxlabs\Assessment\Test\Modules\Player\Page\QuestionDisplay\QuestionDisplay;
+use Fluxlabs\Assessment\Test\Modules\Player\Page\QuestionDisplay\QuestionDisplayConfigurationFactory;
 use Fluxlabs\Assessment\Test\Modules\Player\Page\TestOverview\TestOverview;
 use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event\SubmitTestEvent;
 use Fluxlabs\Assessment\Test\Modules\Storage\RunManager\Event\StoreAnswerEvent;
@@ -24,7 +26,7 @@ use ILIAS\Data\UUID\Uuid;
 use ilTemplate;
 use srag\asq\Application\Service\AsqServices;
 use srag\asq\Infrastructure\Helpers\PathHelper;
-use Whoops\Run;
+use srag\asq\UserInterface\Web\Form\Factory\AbstractObjectFactory;
 
 /**
  * Class PlayerPage
@@ -56,10 +58,10 @@ class PlayerPage extends AbstractAsqModule implements IPageModule
 
     public function __construct(IEventQueue $event_queue, IObjectAccess $access)
     {
+        parent::__construct($event_queue, $access);
+
         global $ASQDIC;
         $this->asq = $ASQDIC->asq();
-
-        parent::__construct($event_queue, $access);
 
         $this->uuid_factory = new Factory();
 
@@ -99,7 +101,12 @@ class PlayerPage extends AbstractAsqModule implements IPageModule
     {
         $tpl = new ilTemplate($this->getBasePath(__DIR__) . 'src/Modules/Player/Page/PlayerPage.html', true, true);
 
-        $tpl->setVariable('QUESTION', $this->renderQuestionComponent());
+        $question = new QuestionDisplay(
+            $this->context->getCurrentQuestion(),
+            $this->context->getAnswer(),
+            $this->getModuleConfiguration()->getConfiguration(QuestionDisplayConfigurationFactory::class)
+        );
+        $tpl->setVariable('QUESTION', $question->render());
 
         $overview = new TestOverview($this->context);
         $tpl->setVariable('OVERVIEW', $overview->render());
@@ -108,17 +115,6 @@ class PlayerPage extends AbstractAsqModule implements IPageModule
         $tpl->setVariable('BUTTONS', $buttons->render());
 
         return $tpl->get();
-    }
-
-    private function renderQuestionComponent() : string
-    {
-        $component = $this->asq->ui()->getQuestionComponent($this->context->getCurrentQuestion());
-
-        if ($this->context->getAnswer() !== null) {
-            $component = $component->withAnswer($this->context->getAnswer());
-        }
-
-        return $this->renderKSComponent($component);
     }
 
     public function storeAnswer() : void
@@ -174,6 +170,13 @@ class PlayerPage extends AbstractAsqModule implements IPageModule
     {
         $raw_current_id = $this->getLinkParameter(self::PARAM_CURRENT_QUESTION);
         return $this->uuid_factory->fromString($raw_current_id);
+    }
+
+    public function getConfigFactory() : ?AbstractObjectFactory
+    {
+        global $DIC;
+
+        return new PlayerConfigurationFactory($DIC->language(), $DIC->ui(), $this->asq->ui());
     }
 
     public function getCommands(): array

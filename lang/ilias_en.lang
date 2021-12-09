@@ -28,3 +28,7 @@ user#:#User
 open#:#Open
 answered#:#Answered
 no_revision#:#No revision
+label_qdc_display_mode#:#Question display mode:
+label_qdc_header#:#Show question title
+label_qdc_header_points#:#Show question title with points
+label_qdc_nothing#:#Show nothing

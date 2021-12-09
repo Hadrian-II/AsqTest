@@ -1,9 +1,10 @@
 <?php
 declare(strict_types = 1);
 
-namespace Fluxlabs\Assessment\Test\Modules\Player\QuestionDisplay;
+namespace Fluxlabs\Assessment\Test\Modules\Player\Page\QuestionDisplay;
 
 use Fluxlabs\CQRS\Aggregate\AbstractValueObject;
+use srag\asq\UserInterface\Web\Component\QuestionComponent;
 use srag\asq\UserInterface\Web\Form\Factory\AbstractObjectFactory;
 
 /**
@@ -20,16 +21,16 @@ class QuestionDisplayConfigurationFactory extends AbstractObjectFactory
     public function getFormfields(?AbstractValueObject $value): array
     {
         $display_mode = $this->factory->input()->field()->select(
-            $this->language->txt('label_qdc_display_mode'),
+            $this->language->txt('asqt_label_qdc_display_mode'),
             [
-                QuestionDisplayConfiguration::SHOW_HEADER => $this->language->txt('label_qdc_header'),
-                QuestionDisplayConfiguration::SHOW_HEADER_WITH_POINTS => $this->language->txt('label_qdc_header_points'),
-                QuestionDisplayConfiguration::SHOW_NOTHING => $this->language->txt('label_qdc_nothing')
+                QuestionComponent::SHOW_HEADER => $this->language->txt('asqt_label_qdc_header'),
+                QuestionComponent::SHOW_HEADER_WITH_POINTS => $this->language->txt('asqt_label_qdc_header_points'),
+                QuestionComponent::SHOW_NOTHING => $this->language->txt('asqt_label_qdc_nothing')
             ]
         );
 
         if ($value !== null) {
-            $display_mode = $display_mode->withValue($value->getHeaderDisplayMode());
+            $display_mode = $display_mode->withValue($value->getTitleDisplayMode());
         }
 
         return [
