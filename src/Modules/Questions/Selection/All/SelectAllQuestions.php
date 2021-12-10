@@ -3,6 +3,10 @@ declare(strict_types = 1);
 
 namespace Fluxlabs\Assessment\Test\Modules\Questions\Selection\All;
 
+use Fluxlabs\Assessment\Test\Modules\Questions\Page\QuestionPage;
+use Fluxlabs\Assessment\Tools\Domain\Modules\Definition\CommandDefinition;
+use Fluxlabs\Assessment\Tools\Domain\Modules\Definition\ModuleDefinition;
+use Fluxlabs\Assessment\Tools\Domain\Modules\IModuleDefinition;
 use srag\asq\Domain\QuestionDto;
 use Fluxlabs\Assessment\Test\Application\Test\Object\ISelectionObject;
 use Fluxlabs\Assessment\Test\Modules\Questions\Selection\AbstractQuestionSelection;
@@ -37,15 +41,25 @@ class SelectAllQuestions extends AbstractQuestionSelection
         $this->storeAndReturn($selection);
     }
 
-    public function getCommands(): array
-    {
-        return [
-            self::CMD_INITIALIZE
-        ];
-    }
-
     public function getInitializationCommand(): string
     {
         return self::CMD_INITIALIZE;
+    }
+
+    public function getModuleDefinition(): IModuleDefinition
+    {
+        return new ModuleDefinition(
+            ModuleDefinition::NO_CONFIG,
+            [
+                new CommandDefinition(
+                    self::CMD_INITIALIZE,
+                    CommandDefinition::ACCESS_ADMIN,
+                    QuestionPage::QUESTION_TAB
+                )
+            ],
+            [
+                QuestionPage::class
+            ]
+        );
     }
 }

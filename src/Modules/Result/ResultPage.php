@@ -3,26 +3,21 @@ declare(strict_types = 1);
 
 namespace Fluxlabs\Assessment\Test\Modules\Result;
 
-use Fluxlabs\Assessment\Test\Application\TestRunner\TestRunnerService;
-use Fluxlabs\Assessment\Test\Domain\Instance\Persistence\Projections\InstanceState;
 use Fluxlabs\Assessment\Test\Domain\Instance\Persistence\Projections\RunState;
+use Fluxlabs\Assessment\Test\Modules\Scoring\Manual\CorrectionPageModuleDefinition;
 use Fluxlabs\Assessment\Test\Modules\Storage\RunManager\RunManager;
 use Fluxlabs\Assessment\Tools\DIC\LanguageTrait;
-use Fluxlabs\Assessment\Tools\Domain\IObjectAccess;
 use Fluxlabs\Assessment\Tools\Domain\Modules\AbstractAsqModule;
+use Fluxlabs\Assessment\Tools\Domain\Modules\IModuleDefinition;
 use Fluxlabs\Assessment\Tools\Domain\Modules\IPageModule;
-use Fluxlabs\Assessment\Tools\Event\IEventQueue;
-use Fluxlabs\Assessment\Tools\Event\Standard\AddTabEvent;
 use Fluxlabs\Assessment\Tools\Event\Standard\SetUIEvent;
 use Fluxlabs\Assessment\Tools\UI\Components\AsqTable;
-use Fluxlabs\Assessment\Tools\UI\System\TabDefinition;
 use Fluxlabs\Assessment\Tools\UI\System\UIData;
 use ilTemplate;
-use srag\asq\Application\Service\AnswerService;
 use srag\asq\Infrastructure\Helpers\PathHelper;
 
 /**
- * Class CorrectionPage
+ * Class ResultPage
  *
  * @package Fluxlabs\Assessment\Test
  *
@@ -35,6 +30,8 @@ class ResultPage extends AbstractAsqModule implements IPageModule
 
     const CMD_SHOW_RESULTS = 'showResults';
 
+    const RESULT_TAB = 'result_tab';
+
     const COL_RUN = 'run';
     const COL_USER = 'user';
     const COL_POINTS = 'points';
@@ -42,16 +39,9 @@ class ResultPage extends AbstractAsqModule implements IPageModule
 
     private RunManager $manager;
 
-    public function __construct(IEventQueue $event_queue, IObjectAccess $access)
+    protected function initialize() : void
     {
-        parent::__construct($event_queue, $access);
-
-        $this->manager = $access->getModule(RunManager::class);
-
-        $this->raiseEvent(new AddTabEvent(
-            $this,
-            new TabDefinition(self::class, $this->txt('asqt_results'), self::CMD_SHOW_RESULTS)
-        ));
+        $this->manager = $this->access->getModule(RunManager::class);
     }
 
     public function showResults() : void
@@ -95,10 +85,8 @@ class ResultPage extends AbstractAsqModule implements IPageModule
         return $table->render();
     }
 
-    public function getCommands(): array
+    public function getModuleDefinition(): IModuleDefinition
     {
-        return [
-            self::CMD_SHOW_RESULTS
-        ];
+        return new CorrectionPageModuleDefinition();
     }
 }

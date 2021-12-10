@@ -14,13 +14,13 @@ use Fluxlabs\Assessment\Tools\DIC\KitchenSinkTrait;
 use Fluxlabs\Assessment\Tools\DIC\LanguageTrait;
 use Fluxlabs\Assessment\Tools\Domain\IObjectAccess;
 use Fluxlabs\Assessment\Tools\Domain\Modules\AbstractAsqModule;
+use Fluxlabs\Assessment\Tools\Domain\Modules\IModuleDefinition;
 use Fluxlabs\Assessment\Tools\Domain\Modules\IPageModule;
 use Fluxlabs\Assessment\Tools\Event\IEventQueue;
-use Fluxlabs\Assessment\Tools\Event\Standard\AddTabEvent;
 use Fluxlabs\Assessment\Tools\Event\Standard\ForwardToCommandEvent;
 use Fluxlabs\Assessment\Tools\Event\Standard\SetUIEvent;
-use Fluxlabs\Assessment\Tools\UI\System\TabDefinition;
 use Fluxlabs\Assessment\Tools\UI\System\UIData;
+use Fluxlabs\CQRS\Aggregate\AbstractValueObject;
 use ILIAS\Data\UUID\Factory;
 use ILIAS\Data\UUID\Uuid;
 use ilTemplate;
@@ -51,6 +51,8 @@ class CorrectionPage extends AbstractAsqModule implements IPageModule
     const CMD_SET_QUESTION_SCORE = 'setQuestionScore';
     const CMD_SUBMIT_CORRECTION = 'submitCorrection';
 
+    const CORRECTION_TAB = 'currection_tab';
+
     private RunManager $manager;
 
     private Factory $factory;
@@ -59,17 +61,10 @@ class CorrectionPage extends AbstractAsqModule implements IPageModule
 
 
 
-    public function __construct(IEventQueue $event_queue, IObjectAccess $access)
+    protected function initialize() : void
     {
-        parent::__construct($event_queue, $access);
-
-        $this->manager = $access->getModule(RunManager::class);
+        $this->manager = $this->access->getModule(RunManager::class);
         $this->factory = new Factory();
-
-        $this->raiseEvent(new AddTabEvent(
-            $this,
-            new TabDefinition(self::class, $this->txt('asqt_correction'), self::CMD_SHOW_CORRECTIONS)
-        ));
     }
 
     public function showCorrections() : void
@@ -188,12 +183,8 @@ class CorrectionPage extends AbstractAsqModule implements IPageModule
         );
     }
 
-    public function getCommands(): array
+    public function getModuleDefinition(): IModuleDefinition
     {
-        return [
-            self::CMD_SHOW_CORRECTIONS,
-            self::CMD_SET_QUESTION_SCORE,
-            self::CMD_SUBMIT_CORRECTION
-        ];
+        return new CorrectionPageModuleDefinition();
     }
 }

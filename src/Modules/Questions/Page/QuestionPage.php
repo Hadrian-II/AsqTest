@@ -13,6 +13,7 @@ use Fluxlabs\Assessment\Tools\DIC\KitchenSinkTrait;
 use Fluxlabs\Assessment\Tools\DIC\LanguageTrait;
 use Fluxlabs\Assessment\Tools\Domain\IObjectAccess;
 use Fluxlabs\Assessment\Tools\Domain\Modules\AbstractAsqModule;
+use Fluxlabs\Assessment\Tools\Domain\Modules\IModuleDefinition;
 use Fluxlabs\Assessment\Tools\Domain\Modules\IPageModule;
 use Fluxlabs\Assessment\Tools\Event\IEventQueue;
 use Fluxlabs\Assessment\Tools\Event\Standard\AddTabEvent;
@@ -59,6 +60,8 @@ class QuestionPage extends AbstractAsqModule implements IPageModule
     const SELECT_REVISION_KEY = 'revision';
     const NO_REVISION = 'no_revision';
 
+    const QUESTION_TAB = 'question_tab';
+
     private AsqServices $asq;
 
     /**
@@ -81,52 +84,36 @@ class QuestionPage extends AbstractAsqModule implements IPageModule
      */
     private array $selection_objects = [];
 
-    public function __construct(
-        IEventQueue   $event_queue,
-        IObjectAccess $access,
-        array         $available_sources,
-        array         $available_selections)
+    protected function initialize() : void
     {
-        parent::__construct($event_queue, $access);
-
         global $ASQDIC;
         $this->asq = $ASQDIC->asq();
-
-        $this->available_sources = $available_sources;
-        $this->available_selections = $available_selections;
-
-        foreach ($this->access->getObjectsOfModules($available_sources) as $source) {
-            $this->source_objects[$source->getKey()] = $source;
-        }
-
-        foreach ($this->access->getObjectsOfModules($available_selections) as $selection) {
-            $this->selection_objects[$selection->getSource()->getKey()] = $selection;
-        }
-
-        $this->raiseEvent(new AddTabEvent(
-            $this,
-            new TabDefinition(self::class, $this->txt('asqt_questions'), self::CMD_SHOW_QUESTIONS)
-        ));
-    }
-
-    public function getCommands(): array
-    {
-        return [
-            self::CMD_SHOW_QUESTIONS,
-            self::CMD_REMOVE_SOURCE,
-            self::CMD_INITIALIZE_TEST,
-            self::CMD_SELECT_QUESTIONS,
-        ];
     }
 
     protected function qpShow() : void
     {
+        $this->getAvailableModules();
+
         $this->raiseEvent(new SetUIEvent($this, new UIData(
             $this->txt('asqt_questions'),
             $this->renderContent(),
             null,
             $this->renderToolbar()
         )));
+    }
+
+    private function getAvailableModules() : void
+    {
+        $this->available_sources = $this->access->getModulesOfType(IQuestionSourceModule::class);
+        $this->available_selections = $this->access->getModulesOfType(IQuestionSelectionModule::class);
+
+        foreach ($this->access->getObjectsOfModules($this->available_sources) as $source) {
+            $this->source_objects[$source->getKey()] = $source;
+        }
+
+        foreach ($this->access->getObjectsOfModules($this->available_selections) as $selection) {
+            $this->selection_objects[$selection->getSource()->getKey()] = $selection;
+        }
     }
 
     private function renderToolbar() : array
@@ -375,5 +362,10 @@ class QuestionPage extends AbstractAsqModule implements IPageModule
         $this->raiseEvent(new RemoveObjectEvent($this, $this->source_objects[$source_key]));
 
         $this->raiseEvent(new ForwardToCommandEvent($this, self::CMD_SHOW_QUESTIONS));
+    }
+
+    public function getModuleDefinition(): IModuleDefinition
+    {
+        return new QuestionPageModuleDefinition();
     }
 }

@@ -13,6 +13,8 @@ use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event\SectionD
 use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event\StoreSectionsEvent;
 use Fluxlabs\Assessment\Tools\Domain\IObjectAccess;
 use Fluxlabs\Assessment\Tools\Domain\Modules\AbstractAsqModule;
+use Fluxlabs\Assessment\Tools\Domain\Modules\Definition\ModuleDefinition;
+use Fluxlabs\Assessment\Tools\Domain\Modules\IModuleDefinition;
 use Fluxlabs\Assessment\Tools\Domain\Modules\IStorageModule;
 use Fluxlabs\Assessment\Tools\Domain\Objects\ObjectConfiguration;
 use Fluxlabs\Assessment\Tools\Event\IEventQueue;
@@ -44,15 +46,13 @@ class AssessmentTestStorage extends AbstractAsqModule implements IStorageModule
 
     protected Factory $factory;
 
-    public function __construct(IEventQueue $event_queue, IObjectAccess $access, Uuid $test_id)
+    protected function initialize(): void
     {
-        $this->test_id = $test_id;
+        $this->test_id = $this->access->getReference()->getId();
         $this->section_service = new SectionService();
         $this->test_service = new TestService();
         $this->runner_service = new TestRunnerService();
         $this->factory = new Factory();
-
-        parent::__construct($event_queue, $access);
     }
 
     private function currentTestData() : AssessmentTestDto

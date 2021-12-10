@@ -15,6 +15,7 @@ use Fluxlabs\Assessment\Tools\DIC\CtrlTrait;
 use Fluxlabs\Assessment\Tools\DIC\KitchenSinkTrait;
 use Fluxlabs\Assessment\Tools\Domain\IObjectAccess;
 use Fluxlabs\Assessment\Tools\Domain\Modules\AbstractAsqModule;
+use Fluxlabs\Assessment\Tools\Domain\Modules\IModuleDefinition;
 use Fluxlabs\Assessment\Tools\Domain\Modules\IPageModule;
 use Fluxlabs\Assessment\Tools\Event\IEventQueue;
 use Fluxlabs\Assessment\Tools\Event\Standard\AddTabEvent;
@@ -50,25 +51,19 @@ class PlayerPage extends AbstractAsqModule implements IPageModule
     const PARAM_CURRENT_QUESTION = 'currentQuestion';
     const PARAM_DESTINATION_QUESTION = 'destinationQuestion';
 
+    const PLAYER_TAB = 'player_tab';
+
     private IPlayerContext $context;
 
     private Factory $uuid_factory;
 
     private AsqServices $asq;
 
-    public function __construct(IEventQueue $event_queue, IObjectAccess $access)
+    protected function initialize() : void
     {
-        parent::__construct($event_queue, $access);
-
         global $ASQDIC;
         $this->asq = $ASQDIC->asq();
-
         $this->uuid_factory = new Factory();
-
-        $this->raiseEvent(new AddTabEvent(
-            $this,
-            new TabDefinition(self::class, 'Test', self::CMD_SHOW_TEST)
-        ));
     }
 
     public function showTest() : void
@@ -172,21 +167,8 @@ class PlayerPage extends AbstractAsqModule implements IPageModule
         return $this->uuid_factory->fromString($raw_current_id);
     }
 
-    public function getConfigFactory() : ?AbstractObjectFactory
+    public function getModuleDefinition(): IModuleDefinition
     {
-        global $DIC;
-
-        return new PlayerConfigurationFactory($DIC->language(), $DIC->ui(), $this->asq->ui());
-    }
-
-    public function getCommands(): array
-    {
-        return [
-            self::CMD_SHOW_TEST,
-            self::CMD_GOTO_QUESTION,
-            self::CMD_STORE_ANSWER,
-            self::CMD_GET_HINT,
-            self::CMD_SUBMIT_TEST
-        ];
+        return new PlayerPageModuleDefinition();
     }
 }

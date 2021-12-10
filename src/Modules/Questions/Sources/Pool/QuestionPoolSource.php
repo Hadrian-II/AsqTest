@@ -5,6 +5,9 @@ namespace Fluxlabs\Assessment\Test\Modules\Questions\Sources\Pool;
 
 use Fluxlabs\Assessment\Tools\DIC\CtrlTrait;
 use Fluxlabs\Assessment\Tools\Domain\IObjectAccess;
+use Fluxlabs\Assessment\Tools\Domain\Modules\Definition\CommandDefinition;
+use Fluxlabs\Assessment\Tools\Domain\Modules\Definition\ModuleDefinition;
+use Fluxlabs\Assessment\Tools\Domain\Modules\IModuleDefinition;
 use Fluxlabs\Assessment\Tools\Domain\Objects\IAsqObject;
 use Fluxlabs\Assessment\Tools\Domain\Objects\ObjectConfiguration;
 use Fluxlabs\Assessment\Tools\Event\IEventQueue;
@@ -32,14 +35,6 @@ class QuestionPoolSource extends AbstractQuestionSource
 
     const SHOW_POOL_SELECTION = 'qpsPoolSelection';
     const CREATE_POOL_SOURCE = 'qpsCreate';
-
-    public function getCommands(): array
-    {
-        return [
-            self::SHOW_POOL_SELECTION,
-            self::CREATE_POOL_SOURCE
-        ];
-    }
 
     public function getInitializationCommand(): string
     {
@@ -79,5 +74,27 @@ class QuestionPoolSource extends AbstractQuestionSource
     public function createObject(ObjectConfiguration $config) : IAsqObject
     {
         return new QuestionPoolSourceObject($config->getUuid());
+    }
+
+    public function getModuleDefinition(): IModuleDefinition
+    {
+        return new ModuleDefinition(
+            ModuleDefinition::NO_CONFIG,
+            [
+                new CommandDefinition(
+                    self::SHOW_POOL_SELECTION,
+                    CommandDefinition::ACCESS_ADMIN,
+                    QuestionPage::QUESTION_TAB
+                ),
+                new CommandDefinition(
+                    self::CREATE_POOL_SOURCE,
+                    CommandDefinition::ACCESS_ADMIN,
+                    QuestionPage::QUESTION_TAB
+                )
+            ],
+            [
+                QuestionPage::class
+            ]
+        );
     }
 }

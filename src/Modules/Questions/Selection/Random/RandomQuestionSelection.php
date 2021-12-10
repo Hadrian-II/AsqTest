@@ -3,10 +3,11 @@ declare(strict_types = 1);
 
 namespace Fluxlabs\Assessment\Test\Modules\Questions\Selection\Random;
 
+use Fluxlabs\Assessment\Tools\Domain\Modules\Definition\CommandDefinition;
+use Fluxlabs\Assessment\Tools\Domain\Modules\Definition\ModuleDefinition;
+use Fluxlabs\Assessment\Tools\Domain\Modules\IModuleDefinition;
 use Fluxlabs\Assessment\Tools\Event\Standard\ForwardToCommandEvent;
 use Fluxlabs\Assessment\Tools\Event\Standard\StoreObjectEvent;
-use srag\asq\Domain\QuestionDto;
-use Fluxlabs\Assessment\Test\Application\Test\Object\ISelectionObject;
 use Fluxlabs\Assessment\Test\Modules\Questions\Page\QuestionPage;
 use Fluxlabs\Assessment\Test\Modules\Questions\Selection\AbstractQuestionSelection;
 use Fluxlabs\CQRS\Aggregate\AbstractValueObject;
@@ -64,16 +65,30 @@ class RandomQuestionSelection extends AbstractQuestionSelection
         ));
     }
 
-    public function getCommands(): array
-    {
-        return [
-            self::CMD_INITIALIZE,
-            self::CMD_SAVE_POINTS
-        ];
-    }
-
     public function getInitializationCommand(): string
     {
         return self::CMD_INITIALIZE;
+    }
+
+    public function getModuleDefinition(): IModuleDefinition
+    {
+        return new ModuleDefinition(
+            ModuleDefinition::NO_CONFIG,
+            [
+                new CommandDefinition(
+                    self::CMD_INITIALIZE,
+                    CommandDefinition::ACCESS_ADMIN,
+                    QuestionPage::QUESTION_TAB
+                ),
+                new CommandDefinition(
+                    self::CMD_SAVE_POINTS,
+                    CommandDefinition::ACCESS_ADMIN,
+                    QuestionPage::QUESTION_TAB
+                )
+            ],
+            [
+                QuestionPage::class
+            ]
+        );
     }
 }

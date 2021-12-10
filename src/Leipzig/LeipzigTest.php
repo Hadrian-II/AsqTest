@@ -28,6 +28,8 @@ use Fluxlabs\Assessment\Test\Modules\Questions\Sources\Fixed\FixedSource;
 use Fluxlabs\Assessment\Test\Modules\Scoring\Automatic\AutomaticScoring;
 use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\AssessmentTestStorage;
 use Fluxlabs\Assessment\Tools\Domain\Modules\Settings\SettingsPage;
+use phpseclib\Crypt\Random;
+use Whoops\Run;
 
 /**
  * Class LeipzigTest
@@ -47,34 +49,17 @@ class LeipzigTest extends AbstractAsqPlugin
         $this->loadLanguageModule('asq');
         $this->loadLanguageModule(SetupAsqTestLanguages::ASQ_TEST_LANGUAGE_PREFIX);
 
-        $this->addModule(new BasicAvailability($this->event_queue, $this->access));
-        $this->addModule(new TimedAvailability($this->event_queue, $this->access));
-        $this->addModule(new SelectAllQuestions($this->event_queue, $this->access));
-        $this->addModule(new RandomQuestionSelection($this->event_queue, $this->access));
-        $this->addModule(new FixedSource($this->event_queue, $this->access));
-        $this->addModule(new TaxonomyQuestionPoolSource($this->event_queue, $this->access));
-        $this->addModule(new AutomaticScoring($this->event_queue, $this->access));
-        $this->addModule(new AssessmentTestStorage($this->event_queue, $this->access, $reference->getId()));
-        $this->addModule(new RunManager($this->event_queue, $this->access, $reference->getId()));
+        $this->addModule(SelectAllQuestions::class);
+        $this->addModule(RandomQuestionSelection::class);
+        $this->addModule(TaxonomyQuestionPoolSource::class);
+        $this->addModule(AssessmentTestStorage::class);
+        $this->addModule(RunManager::class);
 
-        $this->addModule(new PlayerPage($this->event_queue, $this->access));
-
-        $this->addModule(new QuestionPage(
-            $this->event_queue,
-            $this->access,
-            $this->getModulesOfType(IQuestionSourceModule::class),
-            $this->getModulesOfType(IQuestionSelectionModule::class)
-        ));
-
-        $this->addModule(new SettingsPage(
-            $this->event_queue,
-            $this->access,
-            $this->modules
-        ));
-
-        $this->addModule(new CorrectionPage($this->event_queue, $this->access));
-
-        $this->addModule(new ResultPage($this->event_queue, $this->access));
+        $this->addModule(PlayerPage::class);
+        $this->addModule(QuestionPage::class);
+        $this->addModule(SettingsPage::class);
+        $this->addModule(CorrectionPage::class);
+        $this->addModule(ResultPage::class);
     }
 
     public static function load(ILIASReference $reference) : LeipzigTest

@@ -25,6 +25,8 @@ use Fluxlabs\Assessment\Test\Modules\Storage\RunManager\Event\StoreAnswerEvent;
 use Fluxlabs\Assessment\Tools\DIC\UserTrait;
 use Fluxlabs\Assessment\Tools\Domain\IObjectAccess;
 use Fluxlabs\Assessment\Tools\Domain\Modules\AbstractAsqModule;
+use Fluxlabs\Assessment\Tools\Domain\Modules\Definition\ModuleDefinition;
+use Fluxlabs\Assessment\Tools\Domain\Modules\IModuleDefinition;
 use Fluxlabs\Assessment\Tools\Event\IEventQueue;
 use ILIAS\Data\UUID\Factory;
 use ILIAS\Data\UUID\Uuid;
@@ -61,7 +63,7 @@ class RunManager extends AbstractAsqModule
     private ?RunState  $current_run_state = null;
     private bool $no_current_run_found = false;
 
-    public function __construct(IEventQueue $event_queue, IObjectAccess $access, Uuid $test_id)
+    protected function initialize() : void
     {
         global $ASQDIC;
 
@@ -69,9 +71,7 @@ class RunManager extends AbstractAsqModule
         $this->factory = new Factory();
         $this->repository = new AssessmentInstanceRepository();
         $this->asq = $ASQDIC->asq();
-        $this->test_id = $test_id;
-
-        parent::__construct($event_queue, $access);
+        $this->test_id = $this->access->getReference()->getId();
     }
 
     /**

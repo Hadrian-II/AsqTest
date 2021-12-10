@@ -30,12 +30,10 @@ abstract class AbstractQuestionSelection extends AbstractAsqModule implements IQ
 
     protected AsqServices $asq;
 
-    public function __construct(IEventQueue $event_queue, IObjectAccess $access)
+    protected function initialize(): void
     {
         global $ASQDIC;
         $this->asq = $ASQDIC->asq();
-
-        parent::__construct($event_queue, $access);
     }
 
     protected function readSource() : ISourceObject
