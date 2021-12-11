@@ -45,6 +45,6 @@ class QuestionDisplayConfigurationFactory extends AbstractObjectFactory
 
     public function getDefaultValue(): AbstractValueObject
     {
-        return new QuestionDisplayConfiguration(QuestionDisplayConfiguration::SHOW_HEADER);
+        return new QuestionDisplayConfiguration(QuestionComponent::SHOW_HEADER);
     }
 }

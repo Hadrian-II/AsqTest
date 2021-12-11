@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace Fluxlabs\Assessment\Test\Application\Test;
 
 use Fluxlabs\Assessment\Test\Application\Test\Command\RemoveSectionCommand;
+use Fluxlabs\Assessment\Test\Application\Test\Command\RemoveSectionCommandHandler;
 use ILIAS\Data\UUID\Factory;
 use ILIAS\Data\UUID\Uuid;
 use Fluxlabs\CQRS\Command\CommandBus;
@@ -53,7 +54,7 @@ class TestService
 
         $this->command_bus->registerCommand(new CommandConfiguration(
             RemoveSectionCommand::class,
-            new RemoveQuestionCommandHandler(),
+            new RemoveSectionCommandHandler(),
             new OpenAccess()
         ));
 

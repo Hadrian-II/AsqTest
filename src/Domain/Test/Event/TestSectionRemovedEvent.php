@@ -35,7 +35,7 @@ class TestSectionRemovedEvent extends AbstractDomainEvent
 
     public function getEventBody() : string
     {
-        return json_encode($this->section_id->toString());
+        return $this->section_id->toString();
     }
 
     protected function restoreEventBody(string $event_body) : void

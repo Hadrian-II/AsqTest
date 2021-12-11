@@ -25,7 +25,7 @@ class RemoveSectionCommandHandler implements CommandHandlerContract
     {
         $repo = new AssessmentTestRepository();
         $test = $repo->getAggregateRootById($command->getId());
-        $test->removeSection($command->getSectionId(), $command->getIssuingUserId());
+        $test->removeSection($command->getSectionId());
         $repo->save($test);
 
         return new Ok(null);

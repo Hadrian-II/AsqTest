@@ -87,6 +87,6 @@ class ResultPage extends AbstractAsqModule implements IPageModule
 
     public function getModuleDefinition(): IModuleDefinition
     {
-        return new CorrectionPageModuleDefinition();
+        return new ResultPageModuleDefinition();
     }
 }

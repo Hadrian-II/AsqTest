@@ -11,17 +11,13 @@ use Fluxlabs\Assessment\Test\Modules\Storage\RunManager\Event\CreateInstanceEven
 use Fluxlabs\Assessment\Tools\DIC\CtrlTrait;
 use Fluxlabs\Assessment\Tools\DIC\KitchenSinkTrait;
 use Fluxlabs\Assessment\Tools\DIC\LanguageTrait;
-use Fluxlabs\Assessment\Tools\Domain\IObjectAccess;
 use Fluxlabs\Assessment\Tools\Domain\Modules\AbstractAsqModule;
 use Fluxlabs\Assessment\Tools\Domain\Modules\IModuleDefinition;
 use Fluxlabs\Assessment\Tools\Domain\Modules\IPageModule;
-use Fluxlabs\Assessment\Tools\Event\IEventQueue;
-use Fluxlabs\Assessment\Tools\Event\Standard\AddTabEvent;
 use Fluxlabs\Assessment\Tools\Event\Standard\ForwardToCommandEvent;
 use Fluxlabs\Assessment\Tools\Event\Standard\RemoveObjectEvent;
 use Fluxlabs\Assessment\Tools\Event\Standard\SetUIEvent;
 use Fluxlabs\Assessment\Tools\Event\Standard\StoreObjectEvent;
-use Fluxlabs\Assessment\Tools\UI\System\TabDefinition;
 use Fluxlabs\Assessment\Tools\UI\System\UIData;
 use Fluxlabs\CQRS\Aggregate\RevisionId;
 use ILIAS\Data\UUID\Uuid;
@@ -325,6 +321,8 @@ class QuestionPage extends AbstractAsqModule implements IPageModule
 
     public function qpInitialzeTest() : void
     {
+        $this->getAvailableModules();
+
         $sections = [];
 
         foreach ($this->selection_objects as $selection_object) {

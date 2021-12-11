@@ -21,9 +21,10 @@ class RemoveSectionCommand extends AbstractCommand
 
     public function __construct(Uuid $id, Uuid $section_id)
     {
+        parent::__construct();
+
         $this->id = $id;
         $this->section_id = $section_id;
-        parent::__construct();
     }
 
     public function getId() : Uuid
