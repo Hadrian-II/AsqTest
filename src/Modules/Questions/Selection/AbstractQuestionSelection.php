@@ -4,13 +4,10 @@ declare(strict_types = 1);
 namespace Fluxlabs\Assessment\Test\Modules\Questions\Selection;
 
 use Fluxlabs\Assessment\Tools\DIC\CtrlTrait;
-use Fluxlabs\Assessment\Tools\Domain\IObjectAccess;
 use Fluxlabs\Assessment\Tools\Domain\Modules\AbstractAsqModule;
 use Fluxlabs\Assessment\Tools\Domain\Objects\IAsqObject;
-use Fluxlabs\Assessment\Tools\Event\IEventQueue;
 use Fluxlabs\Assessment\Tools\Event\Standard\ForwardToCommandEvent;
 use Fluxlabs\Assessment\Tools\Event\Standard\StoreObjectEvent;
-use ILIAS\HTTP\Services;
 use srag\asq\Application\Service\AsqServices;
 use Fluxlabs\Assessment\Test\Application\Test\Module\IQuestionSelectionModule;
 use Fluxlabs\Assessment\Test\Application\Test\Object\ISelectionObject;
