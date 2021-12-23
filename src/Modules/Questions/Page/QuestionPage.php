@@ -285,7 +285,7 @@ class QuestionPage extends AbstractAsqModule implements IPageModule
     {
         return sprintf(
             '<input type="checkbox" name="%s" %s/>',
-            $key . $question->getId(),
+            $key . $question->getId()->toString(),
             $selected ? 'checked="checked"' : ''
         );
     }

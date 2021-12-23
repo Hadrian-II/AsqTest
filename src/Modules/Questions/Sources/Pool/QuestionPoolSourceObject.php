@@ -52,7 +52,7 @@ class QuestionPoolSourceObject extends AbstractQuestionObject implements ISource
 
     public function getKey(): string
     {
-        return 'pool_source_for_pool' . $this->uuid;
+        return 'pool_source_for_pool' . $this->uuid->toString();
     }
 
     public function getConfiguration(): ObjectConfiguration

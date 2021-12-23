@@ -64,7 +64,7 @@ class TaxonomyQuestionPoolSourceObject extends AbstractQuestionObject implements
 
     public function getKey(): string
     {
-        return 'taxonomy_pool_source_for_pool' . $this->configuration->getUuid();
+        return 'taxonomy_pool_source_for_pool' . $this->configuration->getUuid()->toString();
     }
 
     public function getQuestions(): array
