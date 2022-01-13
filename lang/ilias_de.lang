@@ -33,3 +33,6 @@ label_qdc_header#:#Fragetitel
 label_qdc_header_points#:#Fragetitel und Punkte
 label_qdc_nothing#:#Nichts
 test#:#Test
+label_members#:#Mitglieder
+label_staff#:#Helfer
+label_admins#:#Administratoren

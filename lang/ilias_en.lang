@@ -33,3 +33,6 @@ label_qdc_header#:#Show question title
 label_qdc_header_points#:#Show question title with points
 label_qdc_nothing#:#Show nothing
 test#:#Test
+label_members#:#Members
+label_staff#:#Staff
+label_admins#:#Admins
