@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace Fluxlabs\Assessment\Test\Modules\Result;
 
+use Fluxlabs\Assessment\Tools\Domain\Modules\Access\AccessConfiguration;
 use Fluxlabs\Assessment\Tools\Domain\Modules\Definition\CommandDefinition;
 use Fluxlabs\Assessment\Tools\Domain\Modules\Definition\ModuleDefinition;
 use Fluxlabs\Assessment\Tools\Domain\Modules\Definition\TabDefinition;
@@ -23,7 +24,7 @@ class ResultPageModuleDefinition extends ModuleDefinition
             [
                 new CommandDefinition(
                     ResultPage::CMD_SHOW_RESULTS,
-                    CommandDefinition::ACCESS_STAFF,
+                    AccessConfiguration::ACCESS_STAFF,
                     ResultPage::RESULT_TAB
                 )
             ],

@@ -6,6 +6,7 @@ namespace Fluxlabs\Assessment\Test\Modules\Questions\Sources\TaxonomyPool;
 use Fluxlabs\Assessment\Test\Modules\Questions\Page\QuestionPage;
 use Fluxlabs\Assessment\Test\Modules\Questions\Sources\Pool\QuestionPoolSource;
 use Fluxlabs\Assessment\Tools\DIC\CtrlTrait;
+use Fluxlabs\Assessment\Tools\Domain\Modules\Access\AccessConfiguration;
 use Fluxlabs\Assessment\Tools\Domain\Modules\Definition\CommandDefinition;
 use Fluxlabs\Assessment\Tools\Domain\Modules\Definition\ModuleDefinition;
 use Fluxlabs\Assessment\Tools\Domain\Modules\IModuleDefinition;
@@ -88,17 +89,17 @@ class TaxonomyQuestionPoolSource extends QuestionPoolSource
             [
                 new CommandDefinition(
                     self::SHOW_POOL_SELECTION,
-                    CommandDefinition::ACCESS_ADMIN,
+                    AccessConfiguration::ACCESS_ADMIN,
                     QuestionPage::QUESTION_TAB
                 ),
                 new CommandDefinition(
                     self::CREATE_POOL_SOURCE,
-                    CommandDefinition::ACCESS_ADMIN,
+                    AccessConfiguration::ACCESS_ADMIN,
                     QuestionPage::QUESTION_TAB
                 ),
                 new CommandDefinition(
                     self::CMD_TAXONOMY_SELECTION,
-                    CommandDefinition::ACCESS_ADMIN,
+                    AccessConfiguration::ACCESS_ADMIN,
                     QuestionPage::QUESTION_TAB
                 )
             ],

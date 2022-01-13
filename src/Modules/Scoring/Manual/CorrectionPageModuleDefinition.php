@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace Fluxlabs\Assessment\Test\Modules\Scoring\Manual;
 
+use Fluxlabs\Assessment\Tools\Domain\Modules\Access\AccessConfiguration;
 use Fluxlabs\Assessment\Tools\Domain\Modules\Definition\CommandDefinition;
 use Fluxlabs\Assessment\Tools\Domain\Modules\Definition\ModuleDefinition;
 use Fluxlabs\Assessment\Tools\Domain\Modules\Definition\TabDefinition;
@@ -23,17 +24,17 @@ class CorrectionPageModuleDefinition extends ModuleDefinition
             [
                 new CommandDefinition(
                     CorrectionPage::CMD_SHOW_CORRECTIONS,
-                    CommandDefinition::ACCESS_STAFF,
+                    AccessConfiguration::ACCESS_STAFF,
                     CorrectionPage::CORRECTION_TAB
                 ),
                 new CommandDefinition(
                     CorrectionPage::CMD_SET_QUESTION_SCORE,
-                    CommandDefinition::ACCESS_STAFF,
+                    AccessConfiguration::ACCESS_STAFF,
                     CorrectionPage::CORRECTION_TAB
                 ),
                 new CommandDefinition(
                     CorrectionPage::CMD_SUBMIT_CORRECTION,
-                    CommandDefinition::ACCESS_STAFF,
+                    AccessConfiguration::ACCESS_STAFF,
                     CorrectionPage::CORRECTION_TAB
                 )
             ],

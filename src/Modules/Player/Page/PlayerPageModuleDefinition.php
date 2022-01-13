@@ -4,6 +4,7 @@ declare(strict_types = 1);
 namespace Fluxlabs\Assessment\Test\Modules\Player\Page;
 
 use Fluxlabs\Assessment\Test\Modules\Storage\RunManager\RunManager;
+use Fluxlabs\Assessment\Tools\Domain\Modules\Access\AccessConfiguration;
 use Fluxlabs\Assessment\Tools\Domain\Modules\Definition\CommandDefinition;
 use Fluxlabs\Assessment\Tools\Domain\Modules\Definition\ModuleDefinition;
 use Fluxlabs\Assessment\Tools\Domain\Modules\Definition\TabDefinition;
@@ -24,27 +25,27 @@ class PlayerPageModuleDefinition extends ModuleDefinition
             [
                 new CommandDefinition(
                     PlayerPage::CMD_SHOW_TEST,
-                    CommandDefinition::ACCESS_MEMBER,
+                    AccessConfiguration::ACCESS_MEMBER,
                     PlayerPage::PLAYER_TAB
                 ),
                 new CommandDefinition(
                     PlayerPage::CMD_GOTO_QUESTION,
-                    CommandDefinition::ACCESS_MEMBER,
+                    AccessConfiguration::ACCESS_MEMBER,
                     PlayerPage::PLAYER_TAB
                 ),
                 new CommandDefinition(
                     PlayerPage::CMD_STORE_ANSWER,
-                    CommandDefinition::ACCESS_MEMBER,
+                    AccessConfiguration::ACCESS_MEMBER,
                     PlayerPage::PLAYER_TAB
                 ),
                 new CommandDefinition(
                     PlayerPage::CMD_GET_HINT,
-                    CommandDefinition::ACCESS_MEMBER,
+                    AccessConfiguration::ACCESS_MEMBER,
                     PlayerPage::PLAYER_TAB
                 ),
                 new CommandDefinition(
                     PlayerPage::CMD_SUBMIT_TEST,
-                    CommandDefinition::ACCESS_MEMBER,
+                    AccessConfiguration::ACCESS_MEMBER,
                     PlayerPage::PLAYER_TAB
                 )
             ],

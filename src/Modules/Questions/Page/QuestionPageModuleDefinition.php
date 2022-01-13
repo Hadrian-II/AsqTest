@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace Fluxlabs\Assessment\Test\Modules\Questions\Page;
 
+use Fluxlabs\Assessment\Tools\Domain\Modules\Access\AccessConfiguration;
 use Fluxlabs\Assessment\Tools\Domain\Modules\Definition\CommandDefinition;
 use Fluxlabs\Assessment\Tools\Domain\Modules\Definition\ModuleDefinition;
 use Fluxlabs\Assessment\Tools\Domain\Modules\Definition\TabDefinition;
@@ -23,22 +24,22 @@ class QuestionPageModuleDefinition extends ModuleDefinition
             [
                 new CommandDefinition(
                     QuestionPage::CMD_SHOW_QUESTIONS,
-                    CommandDefinition::ACCESS_ADMIN,
+                    AccessConfiguration::ACCESS_ADMIN,
                     QuestionPage::QUESTION_TAB
                 ),
                 new CommandDefinition(
                     QuestionPage::CMD_REMOVE_SOURCE,
-                    CommandDefinition::ACCESS_ADMIN,
+                    AccessConfiguration::ACCESS_ADMIN,
                     QuestionPage::QUESTION_TAB
                 ),
                 new CommandDefinition(
                     QuestionPage::CMD_INITIALIZE_TEST,
-                    CommandDefinition::ACCESS_ADMIN,
+                    AccessConfiguration::ACCESS_ADMIN,
                     QuestionPage::QUESTION_TAB
                 ),
                 new CommandDefinition(
                     QuestionPage::CMD_SELECT_QUESTIONS,
-                    CommandDefinition::ACCESS_ADMIN,
+                    AccessConfiguration::ACCESS_ADMIN,
                     QuestionPage::QUESTION_TAB
                 )
             ],

@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace Fluxlabs\Assessment\Test\Modules\Questions\Selection\Random;
 
+use Fluxlabs\Assessment\Tools\Domain\Modules\Access\AccessConfiguration;
 use Fluxlabs\Assessment\Tools\Domain\Modules\Definition\CommandDefinition;
 use Fluxlabs\Assessment\Tools\Domain\Modules\Definition\ModuleDefinition;
 use Fluxlabs\Assessment\Tools\Domain\Modules\IModuleDefinition;
@@ -77,12 +78,12 @@ class RandomQuestionSelection extends AbstractQuestionSelection
             [
                 new CommandDefinition(
                     self::CMD_INITIALIZE,
-                    CommandDefinition::ACCESS_ADMIN,
+                    AccessConfiguration::ACCESS_ADMIN,
                     QuestionPage::QUESTION_TAB
                 ),
                 new CommandDefinition(
                     self::CMD_SAVE_POINTS,
-                    CommandDefinition::ACCESS_ADMIN,
+                    AccessConfiguration::ACCESS_ADMIN,
                     QuestionPage::QUESTION_TAB
                 )
             ],
