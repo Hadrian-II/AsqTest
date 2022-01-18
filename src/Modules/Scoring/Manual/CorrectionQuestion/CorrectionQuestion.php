@@ -80,7 +80,7 @@ class CorrectionQuestion
         return sprintf(
             '<label>%s</label> <input type="text" name="%s" value="%s" />%s',
             $this->txt('asqt_custom_score') . ':',
-            CorrectionPage::PARAM_QUESTION_SCORE . $this->result->getQuestionId(),
+            CorrectionPage::PARAM_QUESTION_SCORE . $this->result->getQuestionId()->toString(),
             $this->result->getScore() ? $this->result->getScore()->getReachedScore() : '',
             $submit_button
         );
