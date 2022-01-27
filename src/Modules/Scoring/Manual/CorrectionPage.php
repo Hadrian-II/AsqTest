@@ -12,6 +12,7 @@ use Fluxlabs\Assessment\Test\Modules\Storage\RunManager\RunManager;
 use Fluxlabs\Assessment\Tools\DIC\CtrlTrait;
 use Fluxlabs\Assessment\Tools\DIC\KitchenSinkTrait;
 use Fluxlabs\Assessment\Tools\DIC\LanguageTrait;
+use Fluxlabs\Assessment\Tools\DIC\UserTrait;
 use Fluxlabs\Assessment\Tools\Domain\IObjectAccess;
 use Fluxlabs\Assessment\Tools\Domain\Modules\AbstractAsqModule;
 use Fluxlabs\Assessment\Tools\Domain\Modules\IModuleDefinition;
@@ -42,6 +43,7 @@ class CorrectionPage extends AbstractAsqModule implements IPageModule
     use CtrlTrait;
     use KitchenSinkTrait;
     use PostAccess;
+    use UserTrait;
 
     const PARAM_QUESTION_CORRECTION_ID = 'correctionQuestionId';
     const PARAM_RUN_ID = 'correctionRunId';
@@ -115,7 +117,7 @@ class CorrectionPage extends AbstractAsqModule implements IPageModule
             $this->setLinkParameter(self::PARAM_RUN_ID, $state->getAggregateId()->toString());
 
             return $this->getKSFactory()->button()->shy(
-                $state->getUserId() . ' ' . $state->getAggregateId()->toString(),
+                $this->getUsername($state->getUserId()) . ' ' . $state->getAggregateId()->toString(),
                 $this->getCommandLink(self::CMD_SHOW_CORRECTIONS)
             );
         }, $this->manager->getCorrectableRuns());

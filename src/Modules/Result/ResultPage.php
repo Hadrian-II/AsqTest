@@ -7,6 +7,7 @@ use Fluxlabs\Assessment\Test\Domain\Instance\Persistence\Projections\RunState;
 use Fluxlabs\Assessment\Test\Modules\Scoring\Manual\CorrectionPageModuleDefinition;
 use Fluxlabs\Assessment\Test\Modules\Storage\RunManager\RunManager;
 use Fluxlabs\Assessment\Tools\DIC\LanguageTrait;
+use Fluxlabs\Assessment\Tools\DIC\UserTrait;
 use Fluxlabs\Assessment\Tools\Domain\Modules\AbstractAsqModule;
 use Fluxlabs\Assessment\Tools\Domain\Modules\IModuleDefinition;
 use Fluxlabs\Assessment\Tools\Domain\Modules\IPageModule;
@@ -27,6 +28,7 @@ class ResultPage extends AbstractAsqModule implements IPageModule
 {
     use LanguageTrait;
     use PathHelper;
+    use UserTrait;
 
     const CMD_SHOW_RESULTS = 'showResults';
 
@@ -74,7 +76,7 @@ class ResultPage extends AbstractAsqModule implements IPageModule
         $data = array_map(function(RunState $run) {
             return [
                 self::COL_RUN => $run->getAggregateId()->toString(),
-                self::COL_USER => $run->getUserId(),
+                self::COL_USER => $this->getUsername($run->getUserId()),
                 self::COL_POINTS => $run->getPoints(),
                 self::COL_MAX_POINTS => $run->getMaxPoints()
             ];

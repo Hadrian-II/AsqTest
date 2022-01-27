@@ -5,6 +5,7 @@ namespace Fluxlabs\Assessment\Test\Modules\Questions\Sources\Pool;
 
 use Fluxlabs\Assessment\Tools\DIC\CtrlTrait;
 use Fluxlabs\Assessment\Tools\DIC\LanguageTrait;
+use Fluxlabs\Assessment\Tools\DIC\UserTrait;
 use ilTemplate;
 use srag\asq\Infrastructure\Helpers\PathHelper;
 use srag\asq\QuestionPool\Application\QuestionPoolService;
@@ -21,6 +22,7 @@ class QuestionPoolSelection
     use PathHelper;
     use CtrlTrait;
     use LanguageTrait;
+    use UserTrait;
 
     const POOL_TITLE = 'POOL_TITLE';
     const POOL_DESCRIPTION = 'POOL_DESCRIPTION';
@@ -45,7 +47,7 @@ class QuestionPoolSelection
             $tpl->setCurrentBlock('row');
             $tpl->setVariable('VAL_POOL_TITLE', $pool->getTitle());
             $tpl->setVariable('VAL_POOL_DESCRIPTION', $pool->getDescription());
-            $tpl->setVariable('VAL_POOL_CREATOR', $pool->getCreatorId());
+            $tpl->setVariable('VAL_POOL_CREATOR', $this->getUsername($pool->getCreatorId()));
             $tpl->setVariable('VAL_POOL_SELECTION', $this->createSelectButton($pool->getUuid()));
             $tpl->parseCurrentBlock();
         }
