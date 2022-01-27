@@ -92,4 +92,9 @@ class RandomQuestionSelection extends AbstractQuestionSelection
             ]
         );
     }
+
+    public function getTitleKey(): string
+    {
+        return 'asqt_random_selection';
+    }
 }

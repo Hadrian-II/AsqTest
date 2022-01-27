@@ -95,4 +95,9 @@ class QuestionPoolSource extends AbstractQuestionSource
             ]
         );
     }
+
+    public function getTitleKey(): string
+    {
+        return 'asqt_pool_title';
+    }
 }

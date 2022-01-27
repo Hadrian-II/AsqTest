@@ -63,4 +63,9 @@ class SelectAllQuestions extends AbstractQuestionSelection
             ]
         );
     }
+
+    public function getTitleKey(): string
+    {
+        return 'asqt_select_all';
+    }
 }

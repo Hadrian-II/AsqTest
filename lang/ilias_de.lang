@@ -36,3 +36,6 @@ test#:#Test
 label_members#:#Mitglieder
 label_staff#:#Helfer
 label_admins#:#Administratoren
+pool_title#:#Fragepool
+select_all#:#Gewählte Fragen selektieren
+random_selection#:#Zufällige Fragenauswahl

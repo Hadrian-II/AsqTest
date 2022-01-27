@@ -5,6 +5,7 @@ namespace Fluxlabs\Assessment\Test\Modules\Questions\Page;
 
 use Fluxlabs\Assessment\Test\Domain\Result\Model\QuestionDefinition;
 use Fluxlabs\Assessment\Test\Domain\Section\Model\AssessmentSectionData;
+use Fluxlabs\Assessment\Test\Infrastructure\Setup\lang\SetupAsqTestLanguages;
 use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event\SectionDefinition;
 use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event\StoreSectionsEvent;
 use Fluxlabs\Assessment\Test\Modules\Storage\RunManager\Event\CreateInstanceEvent;
@@ -118,7 +119,7 @@ class QuestionPage extends AbstractAsqModule implements IPageModule
 
         $sources = array_map(function (IQuestionSourceModule $module) {
             return $this->getKSFactory()->button()->shy(
-                get_class($module),
+                $this->txt($module->getTitleKey()),
                 $this->getCommandLink($module->getInitializationCommand())
             );
         }, $this->available_sources);
@@ -190,7 +191,7 @@ class QuestionPage extends AbstractAsqModule implements IPageModule
 
         $sources = array_map(function (IQuestionSelectionModule $module) {
             return $this->getKSFactory()->button()->shy(
-                get_class($module),
+                $this->txt($module->getTitleKey()),
                 $this->getCommandLink($module->getInitializationCommand())
             );
         }, $this->available_selections);

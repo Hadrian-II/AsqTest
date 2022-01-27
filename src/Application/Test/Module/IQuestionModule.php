@@ -30,4 +30,11 @@ interface IQuestionModule extends IAsqModule
      * @return string
      */
     public function getQuestionPageActions(IAsqObject $object) : string;
+
+    /**
+     * Get title key of module to provide translation
+     *
+     * @return string
+     */
+    public function getTitleKey() : string;
 }
