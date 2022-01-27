@@ -154,6 +154,6 @@ class TaxonomyQuestionPoolSourceObject extends AbstractQuestionObject implements
 
     public function getSelectionPostKey() : string
     {
-        return self::PARAM_SELECTION . $this->configuration->getUuid();
+        return self::PARAM_SELECTION . $this->configuration->getUuid()->toString();
     }
 }
