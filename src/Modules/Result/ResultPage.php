@@ -49,7 +49,7 @@ class ResultPage extends AbstractAsqModule implements IPageModule
     public function showResults() : void
     {
         $this->raiseEvent(new SetUIEvent($this, new UIData(
-            $this->txt('asqt_results'),
+            $this->access->getStorage()->getTestData()->getTitle(),
             $this->renderContent()
         )));
     }

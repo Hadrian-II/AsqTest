@@ -87,7 +87,7 @@ class PlayerPage extends AbstractAsqModule implements IPageModule
             $this->context->getCurrentQuestion()->getId()->toString());
 
         $this->raiseEvent(new SetUIEvent($this, new UIData(
-            'Test',
+            $this->access->getStorage()->getTestData()->getTitle(),
             $this->renderContent()
         )));
     }

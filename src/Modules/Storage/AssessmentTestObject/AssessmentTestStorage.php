@@ -64,6 +64,11 @@ class AssessmentTestStorage extends AbstractAsqModule implements IStorageModule
         return $this->test_data;
     }
 
+    public function getTestData() : TestData
+    {
+        return $this->currentTestData()->getTestData();
+    }
+
     public function getConfiguration(string $configuration_for): ?AbstractValueObject
     {
         return $this->currentTestData()->getConfiguration($configuration_for);

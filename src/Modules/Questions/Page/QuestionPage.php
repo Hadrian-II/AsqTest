@@ -92,7 +92,7 @@ class QuestionPage extends AbstractAsqModule implements IPageModule
         $this->getAvailableModules();
 
         $this->raiseEvent(new SetUIEvent($this, new UIData(
-            $this->txt('asqt_questions'),
+            $this->access->getStorage()->getTestData()->getTitle(),
             $this->renderContent(),
             null,
             $this->renderToolbar()

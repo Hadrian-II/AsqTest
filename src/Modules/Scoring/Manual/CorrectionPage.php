@@ -74,7 +74,7 @@ class CorrectionPage extends AbstractAsqModule implements IPageModule
         $this->readCurrentRun();
 
         $this->raiseEvent(new SetUIEvent($this, new UIData(
-            $this->txt('asqt_correction'),
+            $this->access->getStorage()->getTestData()->getTitle(),
             $this->renderContent()
         )));
     }
