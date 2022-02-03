@@ -27,6 +27,7 @@ use Fluxlabs\Assessment\Test\Modules\Questions\Selection\Manual\ManualQuestionSe
 use Fluxlabs\Assessment\Test\Modules\Questions\Sources\Fixed\FixedSource;
 use Fluxlabs\Assessment\Test\Modules\Scoring\Automatic\AutomaticScoring;
 use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\AssessmentTestStorage;
+use Fluxlabs\Assessment\Tools\Domain\Modules\IliasOnline\IliasOnlineModule;
 use Fluxlabs\Assessment\Tools\Domain\Modules\Settings\SettingsPage;
 use phpseclib\Crypt\Random;
 use Whoops\Run;
@@ -54,6 +55,7 @@ class LeipzigTest extends AbstractAsqPlugin
         $this->addModule(TaxonomyQuestionPoolSource::class);
         $this->addModule(AssessmentTestStorage::class);
         $this->addModule(RunManager::class);
+        $this->addModule(IliasOnlineModule::class);
 
         $this->addModule(PlayerPage::class);
         $this->addModule(QuestionPage::class);
