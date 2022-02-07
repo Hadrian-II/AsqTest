@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace Fluxlabs\Assessment\Test\Modules\Questions\Selection;
 
+use Fluxlabs\Assessment\Test\Domain\Result\Model\QuestionDefinition;
 use Fluxlabs\Assessment\Test\Modules\Questions\AbstractQuestionObject;
 use Fluxlabs\Assessment\Test\Application\Test\Object\ISelectionObject;
 use ILIAS\Data\UUID\Uuid;
@@ -19,8 +20,8 @@ abstract class AbstractQuestionSelectionObject extends AbstractQuestionObject im
     /**
      * Default returns all questions selected in question page for run
      *
-     * @param Uuid[] $questions
-     * @return Uuid[]
+     * @param QuestionDefinition[] $questions
+     * @return QuestionDefinition[]
      */
     public function selectQuestionsForRun(array $questions): array
     {

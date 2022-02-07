@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace Fluxlabs\Assessment\Test\Modules\Questions\Selection\Random;
 
+use Fluxlabs\Assessment\Test\Domain\Result\Model\QuestionDefinition;
 use Fluxlabs\CQRS\Aggregate\AbstractValueObject;
 use ILIAS\Data\UUID\Uuid;
 
@@ -17,13 +18,13 @@ class RandomSelectionQuestion extends AbstractValueObject
 {
     private float $points;
 
-    private Uuid $question_id;
+    private QuestionDefinition $question_definition;
 
-    public function __construct(float $points, Uuid $question_id)
+    public function __construct(float $points, QuestionDefinition $question_definition)
     {
         $this->points = $points;
 
-        $this->question_id = $question_id;
+        $this->question_definition = $question_definition;
     }
 
     public function getPoints(): float
@@ -31,8 +32,8 @@ class RandomSelectionQuestion extends AbstractValueObject
         return $this->points;
     }
 
-    public function getQuestionId(): Uuid
+    public function getQuestionDefinition(): QuestionDefinition
     {
-        return $this->question_id;
+        return $this->question_definition;
     }
 }

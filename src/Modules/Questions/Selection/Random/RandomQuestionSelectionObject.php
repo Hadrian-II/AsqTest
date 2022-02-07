@@ -41,7 +41,7 @@ class RandomQuestionSelectionObject extends AbstractQuestionSelectionObject
 
     public function getKey() : string
     {
-        return 'select_all_of_' . $this->source->getKey();
+        return 'random_selection_of_' . $this->source->getKey();
     }
 
     public function storePoints() : void
