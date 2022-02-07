@@ -52,7 +52,7 @@ class QuestionDisplay
             $component = $component->withAnswer($this->answer);
         }
 
-        if ($this->config !== null) {
+        if ($this->config !== null && $this->config->getTitleDisplayMode() !== null) {
             $component = $component->withTitleDisplay($this->config->getTitleDisplayMode());
         }
 
