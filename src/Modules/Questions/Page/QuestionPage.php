@@ -248,11 +248,11 @@ class QuestionPage extends AbstractAsqModule implements IPageModule
     {
         return sprintf(
             '<td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td>',
+            $this->renderSelectionCheckbox($question, !is_null($definition), $key),
             $question->getData()->getTitle(),
             $this->renderRevisions($question, $key, $definition ? $definition->getRevisionName() : null),
             $question->getType()->getTitleKey(),
-            $question->isComplete() ? $this->asq->answer()->getMaxScore($question) : 'Incomplete',
-            $this->renderSelectionCheckbox($question, !is_null($definition), $key)
+            $question->isComplete() ? $this->asq->answer()->getMaxScore($question) : 'Incomplete'
         );
     }
 
