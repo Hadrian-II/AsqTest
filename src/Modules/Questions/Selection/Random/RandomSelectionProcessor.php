@@ -100,7 +100,7 @@ class RandomSelectionProcessor extends AbstractValueObject
             }
         }
 
-        throw new AsqException("Question Selection impossible, please use validate() before trying to use Randomselection");
+        throw new AsqException("Question Selection impossible, please use selectionPossible() before trying to use Randomselection");
     }
 
     /**

@@ -40,3 +40,5 @@ pool_title#:#Questionpool
 select_all#:#Select chosen questions
 random_selection#:#Random question selection
 label_online#:#Online
+missing_selection#:#You need to define a selection for all sources
+test_impossible#:#It is impossible to create a test with the current settings

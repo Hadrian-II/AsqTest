@@ -37,4 +37,9 @@ class SelectAllQuestionsObject extends AbstractQuestionSelectionObject
     {
         return new SelectAllQuestionsConfiguration($this->source->getKey());
     }
+
+    public function isValid(): bool
+    {
+        return count($this->source->getQuestions()) > 0;
+    }
 }

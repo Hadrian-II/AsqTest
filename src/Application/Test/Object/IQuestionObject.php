@@ -27,4 +27,11 @@ interface IQuestionObject extends IAsqObject
      * @return bool
      */
     public function hasOverallDisplay() : bool;
+
+    /**
+     * Returns True if current object is valid for test
+     *
+     * @return bool
+     */
+    public function isValid() : bool;
 }

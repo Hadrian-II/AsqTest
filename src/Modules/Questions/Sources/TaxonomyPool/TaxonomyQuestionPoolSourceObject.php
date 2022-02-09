@@ -156,4 +156,9 @@ class TaxonomyQuestionPoolSourceObject extends AbstractQuestionObject implements
     {
         return self::PARAM_SELECTION . $this->configuration->getUuid()->toString();
     }
+
+    public function isValid(): bool
+    {
+        return count($this->getQuestions()) > 0;
+    }
 }

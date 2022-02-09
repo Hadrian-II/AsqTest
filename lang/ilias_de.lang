@@ -40,3 +40,5 @@ pool_title#:#Fragepool
 select_all#:#Gewählte Fragen selektieren
 random_selection#:#Zufällige Fragenauswahl
 label_online#:#Online
+missing_selection#:#Sie müssen für alle Quellen eine Auswahl definieren
+test_impossible#:#Es ist unmöglich mit den aktuellen einstellungen einen Test zu generieren

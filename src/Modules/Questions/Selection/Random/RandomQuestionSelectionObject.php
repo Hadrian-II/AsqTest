@@ -86,4 +86,10 @@ class RandomQuestionSelectionObject extends AbstractQuestionSelectionObject
         $processor = new RandomSelectionProcessor($this->points, $questions);
         return $processor->selectQuestions();
     }
+
+    public function isValid(): bool
+    {
+        $processor = new RandomSelectionProcessor($this->points, $this->source->getQuestions());
+        return $processor->selectionPossible();
+    }
 }

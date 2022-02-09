@@ -16,6 +16,7 @@ use Fluxlabs\Assessment\Tools\DIC\LanguageTrait;
 use Fluxlabs\Assessment\Tools\Domain\Modules\AbstractAsqModule;
 use Fluxlabs\Assessment\Tools\Domain\Modules\IModuleDefinition;
 use Fluxlabs\Assessment\Tools\Domain\Modules\IPageModule;
+use Fluxlabs\Assessment\Tools\Event\Standard\ExecuteCommandEvent;
 use Fluxlabs\Assessment\Tools\Event\Standard\ForwardToCommandEvent;
 use Fluxlabs\Assessment\Tools\Event\Standard\RemoveObjectEvent;
 use Fluxlabs\Assessment\Tools\Event\Standard\SetUIEvent;
@@ -23,7 +24,10 @@ use Fluxlabs\Assessment\Tools\Event\Standard\StoreObjectEvent;
 use Fluxlabs\Assessment\Tools\UI\System\UIData;
 use Fluxlabs\CQRS\Aggregate\RevisionId;
 use ILIAS\Data\UUID\Uuid;
+use ILIAS\DI\Exceptions\Exception;
 use ilTemplate;
+use ilUtil;
+use srag\asq\Application\Exception\AsqException;
 use srag\asq\Application\Service\AsqServices;
 use srag\asq\Domain\QuestionDto;
 use srag\asq\Infrastructure\Helpers\PathHelper;
@@ -326,6 +330,21 @@ class QuestionPage extends AbstractAsqModule implements IPageModule
         $this->getAvailableModules();
 
         $sections = [];
+
+        if (count($this->source_objects) !== count($this->selection_objects)) {
+            ilUtil::sendFailure($this->txt('asqt_missing_selection'));
+            $this->raiseEvent(new ExecuteCommandEvent($this, self::CMD_SHOW_QUESTIONS));
+            return;
+        }
+
+        foreach (array_merge($this->source_objects, $this->selection_objects) as $object)
+        {
+            if (!$object->isValid()) {
+                ilUtil::sendFailure($this->txt('asqt_test_impossible'));
+                $this->raiseEvent(new ExecuteCommandEvent($this,self::CMD_SHOW_QUESTIONS));
+                return;
+            }
+        }
 
         foreach ($this->selection_objects as $selection_object) {
             $section_data = new AssessmentSectionData($selection_object->getKey());
