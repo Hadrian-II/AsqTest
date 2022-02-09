@@ -40,12 +40,15 @@ abstract class AbstractQuestionSelection extends AbstractAsqModule implements IQ
         return $this->access->getObject($source_key);
     }
 
-    protected function storeAndReturn(ISelectionObject $selection)
+    protected function storeAndReturn(ISourceObject $source, ISelectionObject $selection)
     {
-        $this->raiseEvent(new StoreObjectEvent(
-            $this,
-            $selection
-        ));
+        $this->raiseEvent(
+            new SelectionChosenEvent(
+                $this,
+                $source,
+                $selection
+            )
+        );
 
         $this->raiseEvent(new ForwardToCommandEvent(
             $this,

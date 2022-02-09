@@ -39,7 +39,7 @@ class SelectAllQuestions extends AbstractQuestionSelection
 
         $selection = new SelectAllQuestionsObject($source_object);
 
-        $this->storeAndReturn($selection);
+        $this->storeAndReturn($source_object, $selection);
     }
 
     public function getInitializationCommand(): string

@@ -6,8 +6,6 @@ namespace Fluxlabs\Assessment\Test\Modules\Questions\Selection;
 use Fluxlabs\Assessment\Test\Domain\Result\Model\QuestionDefinition;
 use Fluxlabs\Assessment\Test\Modules\Questions\AbstractQuestionObject;
 use Fluxlabs\Assessment\Test\Application\Test\Object\ISelectionObject;
-use ILIAS\Data\UUID\Uuid;
-
 /**
  * Abstract Class AbstractQuestionSelectionObject
  *

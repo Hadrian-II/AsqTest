@@ -43,7 +43,7 @@ class RandomQuestionSelection extends AbstractQuestionSelection
 
         $selection = new RandomQuestionSelectionObject($source_object);
 
-        $this->storeAndReturn($selection);
+        $this->storeAndReturn($source_object, $selection);
     }
 
     public function saveRandomPoints() : void

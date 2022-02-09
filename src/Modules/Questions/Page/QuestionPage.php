@@ -6,6 +6,7 @@ namespace Fluxlabs\Assessment\Test\Modules\Questions\Page;
 use Fluxlabs\Assessment\Test\Domain\Result\Model\QuestionDefinition;
 use Fluxlabs\Assessment\Test\Domain\Section\Model\AssessmentSectionData;
 use Fluxlabs\Assessment\Test\Infrastructure\Setup\lang\SetupAsqTestLanguages;
+use Fluxlabs\Assessment\Test\Modules\Questions\Selection\SelectionChosenEvent;
 use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event\SectionDefinition;
 use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event\StoreSectionsEvent;
 use Fluxlabs\Assessment\Test\Modules\Storage\RunManager\Event\CreateInstanceEvent;
@@ -361,6 +362,49 @@ class QuestionPage extends AbstractAsqModule implements IPageModule
         $this->raiseEvent(new RemoveObjectEvent($this, $this->source_objects[$source_key]));
 
         $this->raiseEvent(new ForwardToCommandEvent($this, self::CMD_SHOW_QUESTIONS));
+    }
+
+    public function processEvent(object $event): void
+    {
+        if (get_class($event) === SelectionChosenEvent::class) {
+            $this->processSelectionChosen($event->getSource(), $event->getSelection());
+        }
+    }
+
+    private function processSelectionChosen(ISourceObject $source, ISelectionObject $selection) : void
+    {
+        $this->getAvailableModules();
+
+        $current_selection = $this->getCurrentSelectionOfSource($source);
+
+        // no action required if already using current selection type
+        if ($current_selection !== null && (get_class($current_selection) === get_class($selection))) {
+            return;
+        }
+
+        // delete current selection to be replaced
+        if ($current_selection !== null && (get_class($current_selection) !== get_class($selection))) {
+            $this->raiseEvent(new RemoveObjectEvent(
+                $this,
+                $selection
+            ));
+        }
+
+        $this->raiseEvent(new StoreObjectEvent(
+            $this,
+            $selection
+        ));
+    }
+
+    private function getCurrentSelectionOfSource(ISourceObject $source) : ?ISelectionObject
+    {
+        foreach($this->selection_objects as $selection) {
+            if ($selection->getSource()->getKey() === $source->getKey()) {
+                return $selection;
+            }
+        }
+
+        return null;
     }
 
     public function getModuleDefinition(): IModuleDefinition
