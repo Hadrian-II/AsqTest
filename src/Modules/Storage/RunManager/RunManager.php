@@ -119,6 +119,10 @@ class RunManager extends AbstractAsqModule
 
     private function createNewRun() : void
     {
+        if ($this->getCurrentInstance() === null) {
+            throw new AsqException("Need to create instance first");
+        }
+
         if(!$this->getCurrentInstance()->canUserStartRun($this->getCurrentUser())) {
             throw new AsqException("User cannot start another run");
         }

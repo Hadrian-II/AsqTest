@@ -25,6 +25,8 @@ use Fluxlabs\Assessment\Tools\UI\System\UIData;
 use ILIAS\Data\UUID\Factory;
 use ILIAS\Data\UUID\Uuid;
 use ilTemplate;
+use ilUtil;
+use srag\asq\Application\Exception\AsqException;
 use srag\asq\Application\Service\AsqServices;
 use srag\asq\Infrastructure\Helpers\PathHelper;
 use srag\asq\UserInterface\Web\Form\Factory\AbstractObjectFactory;
@@ -80,16 +82,24 @@ class PlayerPage extends AbstractAsqModule implements IPageModule
 
     public function renderQuestion(?Uuid $question_id) : void
     {
-        $this->context = $this->access->getModule(RunManager::class)->getPlayerContext($question_id);
+        try {
+            $this->context = $this->access->getModule(RunManager::class)->getPlayerContext($question_id);
 
-        $this->setLinkParameter(
-            PlayerPage::PARAM_CURRENT_QUESTION,
-            $this->context->getCurrentQuestion()->getId()->toString());
+            $this->setLinkParameter(
+                PlayerPage::PARAM_CURRENT_QUESTION,
+                $this->context->getCurrentQuestion()->getId()->toString());
 
-        $this->raiseEvent(new SetUIEvent($this, new UIData(
-            $this->access->getStorage()->getTestData()->getTitle(),
-            $this->renderContent()
-        )));
+            $this->raiseEvent(new SetUIEvent($this, new UIData(
+                $this->access->getStorage()->getTestData()->getTitle(),
+                $this->renderContent()
+            )));
+        }
+        catch (AsqException $ex) {
+            ilUtil::sendFailure($ex->getMessage());
+            $this->raiseEvent(new SetUIEvent($this, new UIData(
+                $this->access->getStorage()->getTestData()->getTitle()
+            )));
+        }
     }
 
     public function renderContent() : string

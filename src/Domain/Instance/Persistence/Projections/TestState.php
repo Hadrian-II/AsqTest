@@ -77,7 +77,7 @@ class TestState extends ActiveRecord
         $this->aggregate_id = $id;
     }
 
-    public function getCurrentInstanceId() : Uuid
+    public function getCurrentInstanceId() : ?Uuid
     {
         return $this->current_instance_id;
     }
