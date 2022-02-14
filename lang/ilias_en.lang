@@ -42,3 +42,9 @@ random_selection#:#Random question selection
 label_online#:#Online
 missing_selection#:#You need to define a selection for all sources
 test_impossible#:#It is impossible to create a test with the current settings
+starttime#:#Starttime
+endtime#:#Endtime
+endtime_elaberation#:#When the endtime has been reached, only the current question can be submitted
+msg_not_started_yet#:#The test has not yet started
+msg_endtime_reached#:#Time is over, your test has been submitted automatically
+msg_over#:#This test has finished

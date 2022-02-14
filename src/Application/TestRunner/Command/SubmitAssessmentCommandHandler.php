@@ -26,7 +26,7 @@ class SubmitAssessmentCommandHandler implements CommandHandlerContract
         $repo = new AssessmentResultRepository();
 
         $assessment_result = $repo->getAggregateRootById($command->getResultUuid());
-        $assessment_result->submitResult($command->getIssuingUserId());
+        $assessment_result->submitResult();
 
         $repo->save($assessment_result);
 

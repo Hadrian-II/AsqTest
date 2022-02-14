@@ -22,6 +22,7 @@ use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\AssessmentTest
 use Fluxlabs\Assessment\Test\Modules\Storage\AssessmentTestObject\Event\SubmitTestEvent;
 use Fluxlabs\Assessment\Test\Modules\Storage\RunManager\Event\CreateInstanceEvent;
 use Fluxlabs\Assessment\Test\Modules\Storage\RunManager\Event\StoreAnswerEvent;
+use Fluxlabs\Assessment\Tools\DIC\LanguageTrait;
 use Fluxlabs\Assessment\Tools\DIC\UserTrait;
 use Fluxlabs\Assessment\Tools\Domain\IObjectAccess;
 use Fluxlabs\Assessment\Tools\Domain\Modules\AbstractAsqModule;
@@ -45,6 +46,7 @@ use srag\asq\Application\Service\AsqServices;
 class RunManager extends AbstractAsqModule
 {
     use UserTrait;
+    use LanguageTrait;
 
     private Factory $factory;
     private TestRunnerService $runner_service;
@@ -103,6 +105,15 @@ class RunManager extends AbstractAsqModule
     {
         if ($this->getCurrentRunState() === null ||
             $this->getCurrentRunState()->getState() !== AssessmentInstanceRun::STATE_OPEN) {
+
+            $now = new DateTimeImmutable();
+            if ($this->getModuleConfiguration()->getStart() > $now) {
+                throw new AsqException($this->txt('asqt_msg_not_started_yet'));
+            }
+            if ($this->getModuleConfiguration()->getEnd() < $now) {
+                throw new AsqException($this->txt('asqt_msg_over'));
+            }
+
             $this->createNewRun();
         }
 
@@ -181,6 +192,12 @@ class RunManager extends AbstractAsqModule
             $question_id,
             $answer
         );
+
+        if ($this->getModuleConfiguration()->getEnd() < new DateTimeImmutable()) {
+            $this->processSubmitTestEvent();
+
+            throw new AsqException($this->txt('msg_endtime_reached'));
+        }
     }
 
     private function processSubmitTestEvent() : void
@@ -352,5 +369,10 @@ class RunManager extends AbstractAsqModule
         }
 
         return $this->current_run_state;
+    }
+
+    public function getModuleDefinition(): IModuleDefinition
+    {
+        return new ModuleDefinition(RunManagerConfigFactory::class);
     }
 }

@@ -154,7 +154,15 @@ class PlayerPage extends AbstractAsqModule implements IPageModule
         $component = $component->withAnswerFromPost();
         $answer = $component->getAnswer();
 
-        $this->raiseEvent(new StoreAnswerEvent($this, $question_id, $answer));
+        try {
+            $this->raiseEvent(new StoreAnswerEvent($this, $question_id, $answer));
+        }
+        catch (AsqException $ex) {
+            ilUtil::sendFailure($ex->getMessage());
+            $this->raiseEvent(new SetUIEvent($this, new UIData(
+                $this->access->getStorage()->getTestData()->getTitle()
+            )));
+        }
     }
 
     public function submitTest() : void
